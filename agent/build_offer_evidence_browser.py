@@ -1469,20 +1469,31 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
       .summary-strip {{ grid-template-columns: repeat(2, 1fr); }}
     }}
     @media (max-width: 640px) {{
-      header {{ padding: 22px; min-height: 300px; }}
+      body {{ font-size: 16px; }}
+      header {{ padding: 16px 12px; min-height: 250px; }}
       .logo-showcase {{ min-height: 118px; border-radius: 14px; }}
       .brand-logo {{ width: min(82%, 204px); min-height: 68px; padding: 12px 14px; }}
       .hero-title {{ padding: 16px; }}
       .hero-title h1 {{ font-size: 28px; }}
-      main {{ padding: 16px; }}
+      .hero-title p {{ font-size: 17px; }}
+      main {{ padding: 10px; }}
+      .action-toolbar {{ align-items: stretch; padding: 12px; }}
+      .action-buttons {{ width: 100%; }}
+      .action-button {{ flex: 1 1 100%; }}
+      input, select {{ font-size: 16px; }}
       .metric-grid {{ grid-template-columns: 1fr 1fr; }}
       .metric strong {{ font-size: 30px; }}
       .facts {{ grid-template-columns: 1fr; }}
       .toolbar, .result-tools, .summary-strip {{ grid-template-columns: 1fr; }}
       .item {{ grid-template-columns: 1fr; }}
       .thumb {{ min-height: 180px; }}
+      .modal-backdrop {{ align-items: stretch; padding: 8px; }}
+      .modal {{ width: 100%; max-height: 96vh; border-radius: 8px; }}
+      .modal-head {{ position: sticky; top: 0; z-index: 2; background: #fff; }}
+      .modal-head h2 {{ font-size: 19px; }}
       .modal-body {{ grid-template-columns: 1fr; }}
-      .modal-image {{ min-height: 220px; }}
+      .modal-image {{ min-height: 210px; max-height: 36vh; }}
+      .modal-info {{ padding: 12px; }}
       th, td {{ padding: 8px 6px; font-size: 14px; }}
     }}
     @media print {{
@@ -2049,6 +2060,8 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
         const image = document.createElement('img');
         image.src = row.imageUrl;
         image.alt = row.area || row.property_type || 'صورة الإعلان';
+        image.referrerPolicy = 'no-referrer';
+        image.decoding = 'async';
         image.onerror = () => {{
           imageBox.textContent = 'بدون صورة';
         }};
@@ -2154,6 +2167,8 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
           image.src = row.imageUrl;
           image.alt = row.area || row.property_type || 'صورة الإعلان';
           image.loading = 'lazy';
+          image.referrerPolicy = 'no-referrer';
+          image.decoding = 'async';
           image.onerror = () => {{
             thumb.textContent = 'بدون صورة';
             thumb.classList.add('no-image');
