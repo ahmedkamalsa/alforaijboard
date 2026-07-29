@@ -1,6 +1,13 @@
 name: Update dashboard site
 
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - "agent/**"
+      - ".github/workflows/update-dashboard.yml"
+      - "netlify.toml"
   workflow_dispatch:
   schedule:
     # GitHub schedules run in UTC. 03:00 UTC = 06:00 Kuwait time.
