@@ -46,12 +46,6 @@ def write_static_metadata() -> None:
         "  Referrer-Policy: no-referrer\n",
         encoding="utf-8",
     )
-    (SITE_DIR / "README.txt").write_text(
-        "لوحة استعراض الأرقام والعروض الفعلية.\n"
-        "افتح index.html بعد النشر. ملف Excel المساند داخل downloads.\n"
-        "الصفحة لا تحتاج قاعدة بيانات في هذه المرحلة؛ البيانات مدمجة داخل HTML عند وقت البناء.\n",
-        encoding="utf-8",
-    )
 
 
 def build_dashboard() -> None:
@@ -79,7 +73,6 @@ def main() -> None:
     SITE_DIR.mkdir(parents=True)
 
     copy_required_file(browser.PROPERTY_HTML_PATH, SITE_DIR / "index.html")
-    copy_required_file(browser.HTML_PATH, SITE_DIR / "dashboard-original.html")
     copy_required_file(browser.XLSX_PATH, SITE_DIR / "downloads" / "offer-evidence.xlsx")
     write_static_metadata()
 

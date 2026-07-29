@@ -29,3 +29,4 @@ Thumbs.db
 # Keep the deployable static site in git.
 !site/
 !site/**
+site/chrome-preview-profile/

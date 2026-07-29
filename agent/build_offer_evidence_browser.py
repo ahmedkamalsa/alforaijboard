@@ -301,6 +301,9 @@ def load_records() -> list[dict]:
             row["features"] = row["detailText"]
         if row.get("detailTitle") or row.get("detailText"):
             row["detailAvailable"] = "نعم"
+    available_records = [row for row in records if row.get("originalAvailable")]
+    if available_records:
+        records = available_records
     records.sort(key=lambda item: (item["publishedDate"], item["code"]), reverse=True)
     return records
 
@@ -553,6 +556,39 @@ def create_excel(records: list[dict], metrics: list[dict], governors: list[dict]
     default = wb.active
     wb.remove(default)
 
+    detail_sheets = [
+        ("كل_الحركة", "movement", "AllMovement"),
+        ("عروض_بيع", "sell", "SaleOffers"),
+        ("طلبات_شراء", "buy", "BuyRequests"),
+        ("بيوت_للبيع", "house", "HouseSale"),
+        ("عروض_إيجار", "rent", "RentOffers"),
+        ("طلبات_إيجار", "rent_request", "RentRequests"),
+    ]
+    headers = [
+        "الكود",
+        "نوع المعاملة",
+        "المحافظة",
+        "المنطقة",
+        "نوع العقار",
+        "التصنيف",
+        "السعر",
+        "حالة السعر",
+        "المساحة",
+        "نوع الإعلان",
+        "وصف مختصر",
+        "ملامح",
+        "تاريخ النشر",
+        "تفاصيل متاحة",
+        "صفحة الإعلان الأصلية",
+        "الأصلية متاحة",
+        "الموقع الأصلي",
+        "رابط الصورة",
+    ]
+    widths = [14, 16, 22, 22, 16, 20, 14, 14, 12, 16, 38, 34, 16, 16, 58, 14, 42, 58]
+    for sheet_name, metric, table_name in detail_sheets:
+        ws = wb.create_sheet(sheet_name)
+        write_table(ws, headers, record_rows(filtered(records, metric)), table_name, widths)
+
     index_rows = [
         [
             row["label"],
@@ -587,39 +623,7 @@ def create_excel(records: list[dict], metrics: list[dict], governors: list[dict]
         [22, 16, 12, 16, 15, 12, 14],
     )
 
-    sheets = [
-        ("كل_الحركة", "movement", "AllMovement"),
-        ("عروض_بيع", "sell", "SaleOffers"),
-        ("طلبات_شراء", "buy", "BuyRequests"),
-        ("بيوت_للبيع", "house", "HouseSale"),
-        ("عروض_إيجار", "rent", "RentOffers"),
-        ("طلبات_إيجار", "rent_request", "RentRequests"),
-    ]
-    headers = [
-        "الكود",
-        "نوع المعاملة",
-        "المحافظة",
-        "المنطقة",
-        "نوع العقار",
-        "التصنيف",
-        "السعر",
-        "حالة السعر",
-        "المساحة",
-        "نوع الإعلان",
-        "وصف مختصر",
-        "ملامح",
-        "تاريخ النشر",
-        "تفاصيل متاحة",
-        "صفحة الإعلان الأصلية",
-        "الأصلية متاحة",
-        "الموقع الأصلي",
-        "رابط الصورة",
-    ]
-    widths = [14, 16, 22, 22, 16, 20, 14, 14, 12, 16, 38, 34, 16, 16, 58, 14, 42, 58]
-    for sheet_name, metric, table_name in sheets:
-        ws = wb.create_sheet(sheet_name)
-        write_table(ws, headers, record_rows(filtered(records, metric)), table_name, widths)
-
+    wb.active = 0
     wb.save(XLSX_PATH)
 
 
@@ -785,7 +789,7 @@ def create_property_type_variant(html: str) -> str:
     )
     variant = variant.replace(
         "يمكن اختيار رقم من الجدول مباشرة لعرض المحافظة والمحور المطلوب.",
-        "اختر نوع العقار من الفلتر أعلى الصفحة، ثم اختر الرقم من جدول المحافظات حسب الحركة المطلوبة.",
+        "اختياراتك من الفلاتر أعلى الصفحة ستظهر هنا، ثم اختر الرقم من جدول المحافظات لعرض السجلات الفعلية.",
     )
     variant = variant.replace('\n                <th data-metric="house">بيوت للبيع</th>', "")
     variant = variant.replace("    renderMetrics();", variant_script + "\n    renderMetrics();")
@@ -857,70 +861,145 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
       max-width: 1180px;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      gap: 28px;
+      grid-template-columns: minmax(0, 1.16fr) minmax(280px, 0.84fr);
+      grid-template-areas: "title logo";
+      gap: 34px;
       align-items: center;
+      min-height: 178px;
+      direction: ltr;
     }}
-    .brand-lockup {{
+    .logo-showcase {{
+      grid-area: logo;
       display: flex;
       align-items: center;
-      gap: 16px;
-      margin-bottom: 28px;
+      justify-content: center;
+      min-height: 168px;
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      border-radius: 18px;
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.08)),
+        rgba(15, 23, 42, 0.18);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.28),
+        0 24px 58px rgba(2, 6, 23, 0.32);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      position: relative;
+      overflow: hidden;
+    }}
+    .logo-showcase::before {{
+      content: "";
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.16);
+      filter: blur(24px);
+      top: -48px;
+      right: -34px;
+    }}
+    .logo-showcase::after {{
+      content: "";
+      position: absolute;
+      inset: 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      pointer-events: none;
     }}
     .brand-logo {{
-      width: 154px;
-      min-height: 58px;
+      width: min(78%, 292px);
+      min-height: 92px;
       object-fit: contain;
-      background: rgba(255, 255, 255, 0.94);
-      border: 1px solid rgba(226, 232, 240, 0.72);
-      border-radius: 8px;
-      padding: 8px 10px;
-      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.24);
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(255, 255, 255, 0.86);
+      border-radius: 12px;
+      padding: 16px 18px;
+      box-shadow:
+        0 18px 40px rgba(2, 6, 23, 0.28),
+        inset 0 1px 0 rgba(255, 255, 255, 0.78);
+      position: relative;
+      z-index: 1;
     }}
-    .brand-name strong {{
-      display: block;
-      font-size: 20px;
-      line-height: 1.35;
-    }}
-    .brand-name span {{
-      display: block;
-      margin-top: 2px;
-      color: #cbd5e1;
-      font-size: 13px;
-      font-weight: 800;
-      direction: ltr;
+    .hero-title {{
+      grid-area: title;
+      max-width: 930px;
+      margin-left: auto;
       text-align: right;
-      letter-spacing: 0;
-    }}
-    .hero-title h1 {{ margin: 0; font-size: 38px; line-height: 1.22; max-width: 820px; }}
-    .hero-title p {{ margin: 12px 0 0; color: #e2e8f0; font-weight: 800; max-width: 780px; }}
-    .hero-meta {{
-      display: grid;
-      gap: 10px;
-      min-width: 230px;
-      background: rgba(15, 23, 42, 0.62);
-      border: 1px solid rgba(226, 232, 240, 0.22);
+      direction: rtl;
+      background: linear-gradient(90deg, rgba(15, 23, 42, 0.02), rgba(15, 23, 42, 0.54));
+      border-right: 5px solid var(--orange);
       border-radius: 8px;
-      padding: 16px;
-      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.24);
+      padding: 18px 24px 20px;
     }}
-    .hero-meta span {{
-      color: #cbd5e1;
-      font-size: 13px;
-      font-weight: 800;
-    }}
-    .hero-meta strong {{
-      display: block;
-      color: #fff;
-      font-size: 20px;
-      margin-top: 2px;
-    }}
+    .hero-title h1 {{ margin: 0; font-size: 40px; line-height: 1.22; max-width: 900px; }}
+    .hero-title p {{ margin: 12px 0 0; color: #e2e8f0; font-weight: 800; max-width: 850px; font-size: 21px; }}
     main {{ max-width: 1360px; margin: 0 auto; padding: 28px; }}
     .toolbar, .panel {{
       background: var(--panel);
       border: 1px solid var(--line);
       border-radius: 8px;
       box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
+    }}
+    .action-toolbar {{
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
+      padding: 14px 16px;
+      margin-bottom: 18px;
+    }}
+    .action-toolbar strong {{
+      color: var(--ink);
+      font-size: 18px;
+      font-weight: 900;
+    }}
+    .action-toolbar span {{
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 800;
+    }}
+    .action-buttons {{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }}
+    .action-button {{
+      min-height: 44px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      padding: 10px 16px;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+      font-size: 15px;
+      font-weight: 900;
+      text-decoration: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }}
+    .action-button.primary {{
+      background: var(--blue);
+      border-color: var(--blue);
+      color: #fff;
+      box-shadow: 0 8px 18px rgba(37, 84, 217, 0.18);
+    }}
+    .action-button:hover {{
+      border-color: var(--blue);
+      color: var(--blue);
+    }}
+    .action-button.primary:hover {{
+      color: #fff;
+      background: #1d4ed8;
     }}
     .toolbar {{
       display: grid;
@@ -1366,6 +1445,13 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
     .modal-actions {{ display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }}
     .empty {{ padding: 22px; color: var(--muted); font-weight: 900; text-align: center; }}
     @media (max-width: 1050px) {{
+      .hero-content {{
+        grid-template-columns: 1fr;
+        grid-template-areas: "logo" "title";
+        gap: 18px;
+      }}
+      .logo-showcase {{ min-height: 138px; }}
+      .brand-logo {{ width: min(72%, 240px); min-height: 78px; }}
       .metric-grid {{ grid-template-columns: repeat(3, 1fr); }}
       .layout {{ grid-template-columns: 1fr; }}
       .toolbar {{ grid-template-columns: 1fr 1fr; }}
@@ -1375,11 +1461,10 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
     }}
     @media (max-width: 640px) {{
       header {{ padding: 22px; min-height: 300px; }}
-      .hero-content {{ grid-template-columns: 1fr; }}
-      .brand-lockup {{ align-items: flex-start; margin-bottom: 20px; }}
-      .brand-logo {{ width: 128px; }}
+      .logo-showcase {{ min-height: 118px; border-radius: 14px; }}
+      .brand-logo {{ width: min(82%, 204px); min-height: 68px; padding: 12px 14px; }}
+      .hero-title {{ padding: 16px; }}
       .hero-title h1 {{ font-size: 28px; }}
-      .hero-meta {{ min-width: 0; }}
       main {{ padding: 16px; }}
       .metric-grid {{ grid-template-columns: 1fr 1fr; }}
       .metric strong {{ font-size: 30px; }}
@@ -1391,31 +1476,41 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
       .modal-image {{ min-height: 220px; }}
       th, td {{ padding: 8px 6px; font-size: 14px; }}
     }}
+    @media print {{
+      body {{ background: #fff; }}
+      header {{ min-height: 0; padding: 20px 24px; }}
+      main {{ padding: 18px; max-width: none; }}
+      .action-toolbar, .toolbar, .modal, .modal-backdrop, .item-actions, .clear-button {{ display: none !important; }}
+      .layout {{ grid-template-columns: 1fr; }}
+      .panel, .metric, .item {{ box-shadow: none; break-inside: avoid; }}
+      .list {{ max-height: none; overflow: visible; }}
+    }}
   </style>
 </head>
 <body>
   <header style="--cover-image: url('{payload["coverDataUri"]}')">
     <div class="hero-content">
-      <div>
-        <div class="brand-lockup">
-          <img class="brand-logo" src="{payload["logoDataUri"]}" alt="شركة عبدالعزيز سعود الفريج العقارية">
-          <div class="brand-name">
-            <strong>شركة عبدالعزيز سعود الفريج العقارية</strong>
-            <span>ABDUL AZIZ SAUD AL-FURAJI REAL ESTATE COMPANY</span>
-          </div>
-        </div>
-        <div class="hero-title">
-          <h1>لوحة الأرقام والعروض الفعلية</h1>
-          <p>استعراض تفاعلي لحركة الدلال، عروض البيع والشراء، البيوت المعروضة، والإيجارات حسب المحافظة والمنطقة ونوع العقار.</p>
-        </div>
+      <div class="hero-title">
+        <h1>لوحة الأرقام والعروض الفعلية</h1>
+        <p>استعراض تفاعلي لحركة الدلال، عروض البيع والشراء، البيوت المعروضة، والإيجارات حسب المحافظة والمنطقة ونوع العقار.</p>
       </div>
-      <div class="hero-meta">
-        <div><span>آخر تحديث للبيانات</span><strong>{payload["generatedLabel"]}</strong></div>
-        <div><span>مصدر البيانات</span><strong>منصة الفريج</strong></div>
+      <div class="logo-showcase" aria-label="شعار شركة عبدالعزيز سعود الفريج العقارية">
+        <img class="brand-logo" src="{payload["logoDataUri"]}" alt="شركة عبدالعزيز سعود الفريج العقارية">
       </div>
     </div>
   </header>
   <main>
+    <section class="action-toolbar" aria-label="أدوات التصدير">
+      <div>
+        <strong>ملف تفاعلي واحد للأرقام والعروض</strong>
+        <span>يمكن استعراض البيانات من الصفحة، أو تحميل الجدول، أو حفظ العرض الحالي كملف PDF.</span>
+      </div>
+      <div class="action-buttons">
+        <a class="action-button primary" href="downloads/offer-evidence.xlsx" download>تحميل Excel التفصيلي</a>
+        <button id="printPdfButton" class="action-button" type="button">طباعة / حفظ PDF</button>
+      </div>
+    </section>
+
     <section class="toolbar" aria-label="أدوات التصفية">
       <div>
         <label for="quickList">قائمة جاهزة حسب الرقم</label>
@@ -2080,7 +2175,6 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
           createFact('المساحة', row.space ? `${{row.space}} م²` : 'غير محدد')
         );
         body.appendChild(facts);
-        body.appendChild(createDetailsBox(row));
         const meta = document.createElement('p');
         meta.className = 'desc';
         meta.textContent = `تاريخ النشر: ${{row.publishedDate || 'غير محدد'}} | تفاصيل متاحة: ${{row.detailAvailable}} | صورة: ${{row.hasImage}}`;
@@ -2112,6 +2206,7 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
     document.getElementById('searchBox').addEventListener('input', renderResults);
     document.getElementById('priceFilter').addEventListener('change', renderResults);
     document.getElementById('clearFilters').addEventListener('click', clearFilters);
+    document.getElementById('printPdfButton').addEventListener('click', () => window.print());
     function handleFilterChange(id) {{
         if (id === 'governorateFilter') {{
           state.governorate = '';
