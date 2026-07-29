@@ -1808,7 +1808,7 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
       const governorate = selectedGovernorate();
       state.label = governorate ? `${{governorate}} - ${{metricLabels[metric]}}` : metricLabels[metric];
       document.querySelectorAll('.metric').forEach(btn => {{
-        btn.classList.toggle('active', btn.dataset.metric === metric && !governorate);
+        btn.classList.toggle('active', btn.dataset.metric === metric);
       }});
     }}
     function transactionForMetric(metric) {{
@@ -1876,7 +1876,7 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
       syncTransactionFromMetric(metric);
       updateAreaOptions(false);
       document.querySelectorAll('.metric').forEach(btn => {{
-        btn.classList.toggle('active', btn.dataset.metric === metric && !governorate);
+        btn.classList.toggle('active', btn.dataset.metric === metric);
       }});
       highlightGovernorate();
       highlightMetricColumn();
