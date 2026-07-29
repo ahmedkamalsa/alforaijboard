@@ -796,14 +796,23 @@ def create_property_type_variant(html: str) -> str:
     return variant
 
 
+def copy_html_assets() -> None:
+    assets_dir = OUTPUT_DIR / "assets"
+    assets_dir.mkdir(parents=True, exist_ok=True)
+    for source in (LOGO_PATH, COVER_PATH):
+        if source.exists():
+            shutil.copy2(source, assets_dir / source.name)
+
+
 def create_html(records: list[dict], metrics: list[dict], governors: list[dict]) -> None:
+    copy_html_assets()
     payload = {
         "records": records,
         "metrics": metrics,
         "governors": governors,
         "generatedLabel": arabic_date_label(date.today()),
-        "logoDataUri": image_data_uri(LOGO_PATH),
-        "coverDataUri": image_data_uri(COVER_PATH),
+        "logoDataUri": "assets/alforaij_logo.png",
+        "coverDataUri": "assets/kuwait_glass_cover.png",
     }
     data_json = json.dumps(payload, ensure_ascii=False)
     html = f"""<!doctype html>
