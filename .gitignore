@@ -1,0 +1,31 @@
+# Python/cache
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Local virtual environments
+.venv/
+venv/
+
+# Generated report/output archives and temporary files
+agent/output/
+*.zip
+*.rar
+~$*
+
+# Prompt/one-off local working files not needed for hosted dashboard
+MASTER_PROMPT_COMPARE_AGENTS_AR.md
+agent/agent.json
+agent/README.md
+agent/run_agent.py
+agent/system_prompt.md
+agent/build_director_actual_request.py
+agent/build_final_delivery_for_manager.py
+
+# Local editor/system files
+.DS_Store
+Thumbs.db
+
+# Keep the deployable static site in git.
+!site/
+!site/**

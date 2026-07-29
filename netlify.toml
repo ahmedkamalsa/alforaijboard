@@ -1,0 +1,13 @@
+[build]
+  command = "python -m pip install -r agent/requirements.txt && python agent/refresh_dashboard_register.py && python agent/build_static_site.py"
+  publish = "site"
+
+[build.environment]
+  PYTHON_VERSION = "3.11"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "no-referrer"
