@@ -727,6 +727,7 @@ def create_property_type_variant(html: str) -> str:
       const area = document.getElementById('areaFilter').value;
       const priceText = document.getElementById('priceFilter').selectedOptions[0].textContent;
       const query = document.getElementById('searchBox').value.trim();
+      if (state.metric) pairs.push(['المحور', metricLabels[state.metric]]);
       if (transaction) pairs.push(['نوع المعاملة', transaction]);
       if (property) pairs.push(['نوع العقار', property]);
       if (area) pairs.push(['المنطقة', area]);
@@ -1810,6 +1811,18 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
         btn.classList.toggle('active', btn.dataset.metric === metric && !governorate);
       }});
     }}
+    function transactionForMetric(metric) {{
+      if (metric === 'sell') return 'للبيع';
+      if (metric === 'buy') return 'مطلوب للشراء';
+      if (metric === 'rent') return 'للإيجار';
+      if (metric === 'rent_request') return 'مطلوب للإيجار';
+      return '';
+    }}
+    function syncTransactionFromMetric(metric) {{
+      const input = document.getElementById('transactionFilter');
+      if (!input) return;
+      input.value = transactionForMetric(metric);
+    }}
     function selectedGovernorate() {{
       return state.governorate || document.getElementById('governorateFilter').value || '';
     }}
@@ -1860,12 +1873,14 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
         label: governorate ? `${{governorate}} - ${{metricLabels[metric]}}` : metricLabels[metric]
       }};
       document.getElementById('governorateFilter').value = governorate || '';
+      syncTransactionFromMetric(metric);
       updateAreaOptions(false);
       document.querySelectorAll('.metric').forEach(btn => {{
         btn.classList.toggle('active', btn.dataset.metric === metric && !governorate);
       }});
       highlightGovernorate();
       highlightMetricColumn();
+      updateGovernorateFilterSummary();
       renderResults();
     }}
     function renderMetrics() {{
