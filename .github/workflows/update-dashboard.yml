@@ -41,3 +41,8 @@ jobs:
             git commit -m "Update dashboard site"
             git push
           fi
+
+      - name: Publish GitHub Pages branch
+        run: |
+          git subtree split --prefix site -b gh-pages-build
+          git push -f origin gh-pages-build:gh-pages
