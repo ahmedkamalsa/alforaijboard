@@ -5,7 +5,9 @@ import json
 import re
 import shutil
 import sys
+from base64 import b64encode
 from concurrent.futures import ThreadPoolExecutor
+from datetime import date
 from pathlib import Path
 from statistics import mean, median
 from urllib.request import Request, urlopen
@@ -17,6 +19,9 @@ from openpyxl.worksheet.table import Table, TableStyleInfo
 
 
 ROOT = Path(__file__).resolve().parent
+ASSETS_DIR = ROOT / "assets"
+LOGO_PATH = ASSETS_DIR / "alforaij_logo.png"
+COVER_PATH = ASSETS_DIR / "kuwait_glass_cover.png"
 PLATFORM_DIR = (
     ROOT
     / "output"
@@ -46,6 +51,33 @@ BRAND = {
     "green": "047857",
     "red": "B91C1C",
 }
+
+ARABIC_MONTHS = {
+    1: "يناير",
+    2: "فبراير",
+    3: "مارس",
+    4: "أبريل",
+    5: "مايو",
+    6: "يونيو",
+    7: "يوليو",
+    8: "أغسطس",
+    9: "سبتمبر",
+    10: "أكتوبر",
+    11: "نوفمبر",
+    12: "ديسمبر",
+}
+
+
+def arabic_date_label(value: date) -> str:
+    return f"حتى {value.day} {ARABIC_MONTHS[value.month]} {value.year}"
+
+
+def image_data_uri(path: Path) -> str:
+    if not path.exists() or path.stat().st_size == 0:
+        return ""
+    suffix = path.suffix.lower()
+    mime = "image/jpeg" if suffix in {".jpg", ".jpeg"} else "image/png"
+    return f"data:{mime};base64,{b64encode(path.read_bytes()).decode('ascii')}"
 
 
 def find_sheet(wb, title: str, fallback_index: int):
@@ -765,7 +797,9 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
         "records": records,
         "metrics": metrics,
         "governors": governors,
-        "generatedLabel": "حتى 29 يوليو 2026",
+        "generatedLabel": arabic_date_label(date.today()),
+        "logoDataUri": image_data_uri(LOGO_PATH),
+        "coverDataUri": image_data_uri(COVER_PATH),
     }
     data_json = json.dumps(payload, ensure_ascii=False)
     html = f"""<!doctype html>
@@ -797,13 +831,90 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
       line-height: 1.55;
     }}
     header {{
-      background: var(--navy);
+      position: relative;
+      min-height: 245px;
       color: #fff;
-      padding: 28px 42px;
+      padding: 32px 42px;
       border-bottom: 5px solid var(--orange);
+      overflow: hidden;
+      background:
+        linear-gradient(90deg, rgba(15, 23, 42, 0.96) 0%, rgba(15, 23, 42, 0.88) 46%, rgba(15, 23, 42, 0.42) 100%),
+        var(--navy);
     }}
-    header h1 {{ margin: 0; font-size: 34px; line-height: 1.2; }}
-    header p {{ margin: 8px 0 0; color: #dbe4ef; font-weight: 700; }}
+    header::before {{
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: var(--cover-image);
+      background-size: cover;
+      background-position: center;
+      opacity: 0.36;
+      transform: scale(1.02);
+    }}
+    .hero-content {{
+      position: relative;
+      z-index: 1;
+      max-width: 1180px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 28px;
+      align-items: center;
+    }}
+    .brand-lockup {{
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 28px;
+    }}
+    .brand-logo {{
+      width: 154px;
+      min-height: 58px;
+      object-fit: contain;
+      background: rgba(255, 255, 255, 0.94);
+      border: 1px solid rgba(226, 232, 240, 0.72);
+      border-radius: 8px;
+      padding: 8px 10px;
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.24);
+    }}
+    .brand-name strong {{
+      display: block;
+      font-size: 20px;
+      line-height: 1.35;
+    }}
+    .brand-name span {{
+      display: block;
+      margin-top: 2px;
+      color: #cbd5e1;
+      font-size: 13px;
+      font-weight: 800;
+      direction: ltr;
+      text-align: right;
+      letter-spacing: 0;
+    }}
+    .hero-title h1 {{ margin: 0; font-size: 38px; line-height: 1.22; max-width: 820px; }}
+    .hero-title p {{ margin: 12px 0 0; color: #e2e8f0; font-weight: 800; max-width: 780px; }}
+    .hero-meta {{
+      display: grid;
+      gap: 10px;
+      min-width: 230px;
+      background: rgba(15, 23, 42, 0.62);
+      border: 1px solid rgba(226, 232, 240, 0.22);
+      border-radius: 8px;
+      padding: 16px;
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.24);
+    }}
+    .hero-meta span {{
+      color: #cbd5e1;
+      font-size: 13px;
+      font-weight: 800;
+    }}
+    .hero-meta strong {{
+      display: block;
+      color: #fff;
+      font-size: 20px;
+      margin-top: 2px;
+    }}
     main {{ max-width: 1360px; margin: 0 auto; padding: 28px; }}
     .toolbar, .panel {{
       background: var(--panel);
@@ -1263,8 +1374,12 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
       .summary-strip {{ grid-template-columns: repeat(2, 1fr); }}
     }}
     @media (max-width: 640px) {{
-      header {{ padding: 22px; }}
-      header h1 {{ font-size: 26px; }}
+      header {{ padding: 22px; min-height: 300px; }}
+      .hero-content {{ grid-template-columns: 1fr; }}
+      .brand-lockup {{ align-items: flex-start; margin-bottom: 20px; }}
+      .brand-logo {{ width: 128px; }}
+      .hero-title h1 {{ font-size: 28px; }}
+      .hero-meta {{ min-width: 0; }}
       main {{ padding: 16px; }}
       .metric-grid {{ grid-template-columns: 1fr 1fr; }}
       .metric strong {{ font-size: 30px; }}
@@ -1279,9 +1394,26 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
   </style>
 </head>
 <body>
-  <header>
-    <h1>استعراض الأرقام والعروض الفعلية</h1>
-    <p>لوحة تفاعلية لفتح قائمة السجلات خلف كل رقم في التقرير، مبنية على البيانات المنظفة {payload["generatedLabel"]}.</p>
+  <header style="--cover-image: url('{payload["coverDataUri"]}')">
+    <div class="hero-content">
+      <div>
+        <div class="brand-lockup">
+          <img class="brand-logo" src="{payload["logoDataUri"]}" alt="شركة عبدالعزيز سعود الفريج العقارية">
+          <div class="brand-name">
+            <strong>شركة عبدالعزيز سعود الفريج العقارية</strong>
+            <span>ABDUL AZIZ SAUD AL-FURAJI REAL ESTATE COMPANY</span>
+          </div>
+        </div>
+        <div class="hero-title">
+          <h1>لوحة الأرقام والعروض الفعلية</h1>
+          <p>استعراض تفاعلي لحركة الدلال، عروض البيع والشراء، البيوت المعروضة، والإيجارات حسب المحافظة والمنطقة ونوع العقار.</p>
+        </div>
+      </div>
+      <div class="hero-meta">
+        <div><span>آخر تحديث للبيانات</span><strong>{payload["generatedLabel"]}</strong></div>
+        <div><span>مصدر البيانات</span><strong>منصة الفريج</strong></div>
+      </div>
+    </div>
   </header>
   <main>
     <section class="toolbar" aria-label="أدوات التصفية">
