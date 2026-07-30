@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import html as html_lib
+import hashlib
 import json
 import re
 import shutil
@@ -8,6 +9,7 @@ import sys
 from base64 import b64encode
 from concurrent.futures import ThreadPoolExecutor
 from datetime import date
+from io import BytesIO
 from pathlib import Path
 from statistics import mean, median
 from urllib.request import Request, urlopen
@@ -16,6 +18,7 @@ from openpyxl import Workbook, load_workbook
 from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.table import Table, TableStyleInfo
+from PIL import Image, ImageOps
 
 
 ROOT = Path(__file__).resolve().parent
@@ -37,6 +40,7 @@ README_PATH = OUTPUT_DIR / "اقرأني_مختصر.txt"
 PUBLIC_DETAIL_BASE = "https://front.alforaij.com/Listing/Detail"
 PUBLIC_SEARCH_URL = "https://search.alforaij.com/"
 IMAGE_BASE = "https://search.alforaij.com"
+IMAGE_CACHE_DIR = ROOT / ".image_cache"
 
 CORE_TYPES = {"للبيع", "للإيجار", "مطلوب للشراء", "مطلوب للإيجار"}
 BRAND = {
@@ -150,6 +154,47 @@ def public_image_url(path: object) -> str:
     if text.startswith("/"):
         return f"{IMAGE_BASE}{text}"
     return f"{IMAGE_BASE}/{text}"
+
+
+def cache_listing_images(records: list[dict], assets_dir: Path) -> None:
+    listing_dir = assets_dir / "listings"
+    listing_dir.mkdir(parents=True, exist_ok=True)
+    IMAGE_CACHE_DIR.mkdir(parents=True, exist_ok=True)
+
+    def cache_one(row: dict) -> tuple[str, str]:
+        source_url = str(row.get("imageUrl") or "").strip()
+        code = str(row.get("code") or "").strip()
+        if not source_url.startswith(("http://", "https://")) or not code:
+            return code, source_url
+        digest = hashlib.sha256(source_url.encode("utf-8")).hexdigest()[:20]
+        cached = IMAGE_CACHE_DIR / f"{digest}.webp"
+        try:
+            if not cached.exists() or cached.stat().st_size == 0:
+                request = Request(
+                    source_url,
+                    headers={
+                        "User-Agent": "Mozilla/5.0",
+                        "Accept": "image/avif,image/webp,image/apng,image/*,*/*;q=0.8",
+                    },
+                )
+                with urlopen(request, timeout=30) as response:
+                    raw = response.read(15 * 1024 * 1024 + 1)
+                if len(raw) > 15 * 1024 * 1024:
+                    raise ValueError("image exceeds the 15 MB safety limit")
+                with Image.open(BytesIO(raw)) as source:
+                    image = ImageOps.exif_transpose(source).convert("RGB")
+                    image.thumbnail((960, 960), Image.Resampling.LANCZOS)
+                    image.save(cached, "WEBP", quality=76, method=6)
+            target_name = f"{re.sub(r'[^A-Za-z0-9_-]', '-', code)}.webp"
+            shutil.copy2(cached, listing_dir / target_name)
+            return code, f"assets/listings/{target_name}"
+        except Exception:
+            return code, source_url
+
+    with ThreadPoolExecutor(max_workers=10) as executor:
+        localized = dict(executor.map(cache_one, records))
+    for row in records:
+        row["imageUrl"] = localized.get(str(row.get("code") or ""), row.get("imageUrl", ""))
 
 
 def clean_detail_text(value: object) -> str:
@@ -784,14 +829,7 @@ def create_property_type_variant(html: str) -> str:
       renderGovernors();
     };
     """
-    variant = html.replace(
-        "<title>استعراض الأرقام والعروض الفعلية</title>",
-        "<title>استعراض الأرقام والعروض الفعلية - نسخة نوع العقار</title>",
-    )
-    variant = variant.replace(
-        "<h1>استعراض الأرقام والعروض الفعلية</h1>",
-        "<h1>استعراض الأرقام والعروض الفعلية - نسخة نوع العقار</h1>",
-    )
+    variant = html
     variant = variant.replace(
         "يمكن اختيار رقم من الجدول مباشرة لعرض المحافظة والمحور المطلوب.",
         "اختياراتك من الفلاتر أعلى الصفحة ستظهر هنا، ثم اختر الرقم من جدول المحافظات لعرض السجلات الفعلية.",
@@ -803,6 +841,8 @@ def create_property_type_variant(html: str) -> str:
 
 def copy_html_assets() -> None:
     assets_dir = OUTPUT_DIR / "assets"
+    if assets_dir.exists():
+        shutil.rmtree(assets_dir)
     assets_dir.mkdir(parents=True, exist_ok=True)
     for source in (LOGO_PATH, COVER_PATH):
         if source.exists():
@@ -811,8 +851,10 @@ def copy_html_assets() -> None:
 
 def create_html(records: list[dict], metrics: list[dict], governors: list[dict]) -> None:
     copy_html_assets()
+    html_records = [dict(row) for row in records]
+    cache_listing_images(html_records, OUTPUT_DIR / "assets")
     payload = {
-        "records": records,
+        "records": html_records,
         "metrics": metrics,
         "governors": governors,
         "generatedLabel": arabic_date_label(date.today()),
@@ -887,6 +929,7 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
       min-height: 178px;
       direction: ltr;
     }}
+    .hero-content > *, .toolbar > *, .action-toolbar > * {{ min-width: 0; }}
     .logo-showcase {{
       grid-area: logo;
       display: flex;
@@ -950,9 +993,9 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
       border-radius: 8px;
       padding: 18px 24px 20px;
     }}
-    .hero-title h1 {{ margin: 0; font-size: 40px; line-height: 1.22; max-width: 900px; }}
-    .hero-title p {{ margin: 12px 0 0; color: #e2e8f0; font-weight: 800; max-width: 850px; font-size: 21px; }}
-    main {{ max-width: 1360px; margin: 0 auto; padding: 28px; }}
+    .hero-title h1 {{ margin: 0; font-size: 40px; line-height: 1.22; max-width: 900px; overflow-wrap: anywhere; }}
+    .hero-title p {{ margin: 12px 0 0; color: #e2e8f0; font-weight: 800; max-width: 850px; font-size: 21px; overflow-wrap: anywhere; }}
+    main {{ width: 100%; max-width: 1360px; margin: 0 auto; padding: 28px; }}
     .toolbar, .panel {{
       background: var(--panel);
       border: 1px solid var(--line);
@@ -1034,6 +1077,7 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
     label {{ display: block; color: var(--muted); font-size: 13px; font-weight: 800; margin-bottom: 6px; }}
     input, select {{
       width: 100%;
+      min-width: 0;
       border: 1px solid var(--line);
       border-radius: 6px;
       min-height: 48px;
@@ -1307,6 +1351,7 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
       border: 1px solid var(--blue);
       border-radius: 6px;
       background: #fff;
+      text-align: right;
       color: var(--blue);
       padding: 8px 18px;
       font: inherit;
@@ -1533,11 +1578,12 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
       .logo-showcase {{ min-height: 118px; border-radius: 14px; }}
       .brand-logo {{ width: min(82%, 204px); min-height: 68px; padding: 12px 14px; }}
       .hero-title {{ padding: 16px; }}
-      .hero-title h1 {{ font-size: 28px; }}
+      .hero-content, .hero-title {{ width: 100%; min-width: 0; margin: 0; }}
+      .hero-title h1 {{ font-size: 27px; }}
       .hero-title p {{ font-size: 17px; }}
       main {{ padding: 10px; }}
       .action-toolbar {{ align-items: stretch; padding: 12px; }}
-      .action-buttons {{ width: 100%; }}
+      .action-toolbar > div, .action-buttons {{ width: 100%; min-width: 0; }}
       .action-button {{ flex: 1 1 100%; }}
       input, select {{ font-size: 16px; }}
       .metric-grid {{ grid-template-columns: 1fr 1fr; }}
@@ -2426,7 +2472,7 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
         columns.map(([label]) => csvCell(label)).join(','),
         ...rows.map(row => columns.map(([, key]) => csvCell(row[key])).join(','))
       ];
-      const blob = new Blob([`\uFEFF${{lines.join('\r\n')}}`], {{ type: 'text/csv;charset=utf-8' }});
+      const blob = new Blob(['\\uFEFF' + lines.join('\\r\\n')], {{ type: 'text/csv;charset=utf-8' }});
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;

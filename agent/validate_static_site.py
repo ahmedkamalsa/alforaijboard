@@ -57,6 +57,14 @@ def main() -> None:
         )
     if sum(row.get("movement", 0) for row in governors) != len(records):
         raise AssertionError("Governorate totals do not match the record count")
+    localized_images = sum(
+        str(row.get("imageUrl") or "").startswith("assets/listings/")
+        for row in records
+    )
+    if localized_images < int(len(records) * 0.9):
+        raise AssertionError(
+            f"Too few optimized local listing images: {localized_images}/{len(records)}"
+        )
 
     for row in records:
         original_url = str(row.get("originalUrl") or "")
@@ -90,6 +98,7 @@ def main() -> None:
                 "records": len(records),
                 "metrics": metrics,
                 "governorates": len(governors),
+                "localized_images": localized_images,
                 "status": "ok",
             },
             ensure_ascii=False,

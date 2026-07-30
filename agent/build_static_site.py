@@ -99,8 +99,10 @@ def main() -> None:
 
     copy_required_file(browser.PROPERTY_HTML_PATH, SITE_DIR / "index.html")
     copy_required_file(browser.XLSX_PATH, SITE_DIR / "downloads" / "offer-evidence.xlsx")
-    if browser.ASSETS_DIR.exists():
-        shutil.copytree(browser.ASSETS_DIR, SITE_DIR / "assets")
+    generated_assets = browser.OUTPUT_DIR / "assets"
+    if not generated_assets.exists():
+        raise FileNotFoundError(f"Missing generated assets: {generated_assets}")
+    shutil.copytree(generated_assets, SITE_DIR / "assets")
     write_static_metadata()
 
     print(

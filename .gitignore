@@ -2,6 +2,7 @@
 __pycache__/
 *.py[cod]
 .pytest_cache/
+agent/.image_cache/
 
 # Local virtual environments
 .venv/

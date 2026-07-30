@@ -40,6 +40,14 @@ jobs:
       - name: Install dependencies
         run: python -m pip install --disable-pip-version-check -r agent/requirements.txt
 
+      - name: Restore optimized listing image cache
+        uses: actions/cache@v4
+        with:
+          path: agent/.image_cache
+          key: ${{ runner.os }}-listing-images-${{ github.run_id }}
+          restore-keys: |
+            ${{ runner.os }}-listing-images-
+
       - name: Refresh data register
         shell: bash
         run: |
