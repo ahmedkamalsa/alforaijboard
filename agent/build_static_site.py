@@ -25,10 +25,18 @@ def copy_required_file(source: Path, target: Path) -> None:
 
 
 def write_static_metadata() -> None:
+    payload_text = browser.PROPERTY_HTML_PATH.read_text(encoding="utf-8")
+    payload_start = payload_text.find('<script id="payload" type="application/json">')
+    payload_end = payload_text.find("</script>", payload_start)
+    record_count = None
+    if payload_start >= 0 and payload_end > payload_start:
+        payload_start = payload_text.find(">", payload_start) + 1
+        record_count = len(json.loads(payload_text[payload_start:payload_end]).get("records", []))
     metadata = {
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "entrypoint": "index.html",
         "dashboard_variant": "property-type-filter",
+        "record_count": record_count,
         "downloads": ["downloads/offer-evidence.xlsx"],
     }
     (SITE_DIR / "last-updated.json").write_text(
@@ -43,7 +51,24 @@ def write_static_metadata() -> None:
         "/*\n"
         "  X-Robots-Tag: noindex, nofollow\n"
         "  X-Content-Type-Options: nosniff\n"
-        "  Referrer-Policy: no-referrer\n",
+        "  Referrer-Policy: strict-origin-when-cross-origin\n"
+        "  X-Frame-Options: DENY\n"
+        "  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self' data: https:; connect-src 'self'; upgrade-insecure-requests\n"
+        "  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()\n"
+        "  Strict-Transport-Security: max-age=31536000; includeSubDomains\n"
+        "  Cache-Control: public, max-age=0, must-revalidate\n"
+        "\n"
+        "/index.html\n"
+        "  Cache-Control: public, max-age=0, must-revalidate\n"
+        "\n"
+        "/last-updated.json\n"
+        "  Cache-Control: no-store\n"
+        "\n"
+        "/downloads/*\n"
+        "  Cache-Control: public, max-age=3600, must-revalidate\n"
+        "\n"
+        "/assets/*\n"
+        "  Cache-Control: public, max-age=86400, stale-while-revalidate=604800\n",
         encoding="utf-8",
     )
 

@@ -16,26 +16,60 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: dashboard-publish-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+          cache: pip
+          cache-dependency-path: agent/requirements.txt
 
       - name: Install dependencies
-        run: python -m pip install -r agent/requirements.txt
+        run: python -m pip install --disable-pip-version-check -r agent/requirements.txt
 
       - name: Refresh data register
-        run: python agent/refresh_dashboard_register.py
+        shell: bash
+        run: |
+          set -euo pipefail
+          for attempt in 1 2 3; do
+            if python agent/refresh_dashboard_register.py; then
+              exit 0
+            fi
+            if [ "$attempt" -eq 3 ]; then
+              exit 1
+            fi
+            sleep $((attempt * 20))
+          done
 
       - name: Build static site
-        run: python agent/build_static_site.py
+        shell: bash
+        run: |
+          set -euo pipefail
+          for attempt in 1 2 3; do
+            if python agent/build_static_site.py; then
+              exit 0
+            fi
+            if [ "$attempt" -eq 3 ]; then
+              exit 1
+            fi
+            sleep $((attempt * 20))
+          done
+
+      - name: Validate deployment artifact
+        run: python agent/validate_static_site.py
 
       - name: Commit updated site
         run: |

@@ -21,7 +21,7 @@ from openpyxl.worksheet.table import Table, TableStyleInfo
 ROOT = Path(__file__).resolve().parent
 ASSETS_DIR = ROOT / "assets"
 LOGO_PATH = ASSETS_DIR / "alforaij_logo.png"
-COVER_PATH = ASSETS_DIR / "kuwait_glass_cover.png"
+COVER_PATH = ASSETS_DIR / "kuwait_glass_cover.webp"
 PLATFORM_DIR = (
     ROOT
     / "output"
@@ -665,6 +665,7 @@ def create_property_type_variant(html: str) -> str:
     function propertyVariantTableRows(governorate) {
       const transaction = document.getElementById('transactionFilter').value;
       const property = document.getElementById('propertyFilter').value;
+      const listingMode = document.getElementById('listingModeFilter').value;
       const area = document.getElementById('areaFilter').value;
       const priceMode = document.getElementById('priceFilter').value;
       const q = normalizeText(document.getElementById('searchBox').value);
@@ -672,6 +673,7 @@ def create_property_type_variant(html: str) -> str:
         if (governorate && row.governorate !== governorate) return false;
         if (!matchesChoice(row.transaction, transaction)) return false;
         if (!matchesChoice(row.property_type, property)) return false;
+        if (listingMode && listingModeGroup(row.listingMode) !== listingMode) return false;
         if (!matchesChoice(row.area, area)) return false;
         if (priceMode === 'priced' && !row.price) return false;
         if (priceMode === 'unpriced' && row.price) return false;
@@ -724,12 +726,14 @@ def create_property_type_variant(html: str) -> str:
       const pairs = [];
       const transaction = document.getElementById('transactionFilter').value;
       const property = document.getElementById('propertyFilter').value;
+      const listingMode = document.getElementById('listingModeFilter').value;
       const area = document.getElementById('areaFilter').value;
       const priceText = document.getElementById('priceFilter').selectedOptions[0].textContent;
       const query = document.getElementById('searchBox').value.trim();
       if (state.metric) pairs.push(['المحور', metricLabels[state.metric]]);
       if (transaction) pairs.push(['نوع المعاملة', transaction]);
       if (property) pairs.push(['نوع العقار', property]);
+      if (listingMode) pairs.push(['نمط الإدراج', listingModeLabels[listingMode]]);
       if (area) pairs.push(['المنطقة', area]);
       if (priceText !== 'كل الأسعار') pairs.push(['حالة السعر', priceText]);
       if (query) pairs.push(['بحث', query]);
@@ -813,14 +817,19 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
         "governors": governors,
         "generatedLabel": arabic_date_label(date.today()),
         "logoDataUri": "assets/alforaij_logo.png",
-        "coverDataUri": "assets/kuwait_glass_cover.png",
+        "coverDataUri": "assets/kuwait_glass_cover.webp",
     }
-    data_json = json.dumps(payload, ensure_ascii=False)
+    # Keep embedded JSON from accidentally terminating its script element.
+    data_json = json.dumps(payload, ensure_ascii=False).replace("<", "\\u003c")
     html = f"""<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="لوحة تفاعلية لاستعراض حركة العروض والطلبات العقارية حسب المحافظة والمنطقة ونوع العقار.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https://search.alforaij.com data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <link rel="icon" type="image/png" href="assets/alforaij_logo.png">
   <title>استعراض الأرقام والعروض الفعلية</title>
   <style>
     :root {{
@@ -1013,23 +1022,24 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
     }}
     .toolbar {{
       display: grid;
-      grid-template-columns: 1.4fr repeat(5, minmax(150px, 1fr));
-      gap: 14px;
-      padding: 16px;
+      grid-template-columns: minmax(190px, 1.35fr) repeat(6, minmax(118px, 1fr));
+      gap: 10px;
+      padding: 14px;
       margin-bottom: 18px;
     }}
     .search-toolbar {{
       grid-template-columns: minmax(320px, 1.6fr) 220px 180px;
       align-items: end;
     }}
-    label {{ display: block; color: var(--muted); font-size: 14px; font-weight: 800; margin-bottom: 6px; }}
+    label {{ display: block; color: var(--muted); font-size: 13px; font-weight: 800; margin-bottom: 6px; }}
     input, select {{
       width: 100%;
       border: 1px solid var(--line);
       border-radius: 6px;
-      padding: 11px 12px;
+      min-height: 48px;
+      padding: 10px;
       font: inherit;
-      font-size: 17px;
+      font-size: 16px;
       color: var(--ink);
       background: #fff;
     }}
@@ -1091,7 +1101,7 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
     .metric.active {{ outline: 3px solid rgba(37, 84, 217, 0.18); border-color: var(--blue); }}
     .metric span {{ display: block; color: var(--muted); font-size: 15px; font-weight: 800; }}
     .metric strong {{ display: block; font-size: 34px; margin-top: 6px; line-height: 1; }}
-    .metric small {{ display: block; margin-top: 10px; color: var(--muted); font-weight: 700; }}
+    .metric small {{ display: block; margin-top: 10px; color: var(--muted); font-size: 13px; font-weight: 700; }}
     .metric em {{
       display: inline-flex;
       margin-top: 9px;
@@ -1119,6 +1129,7 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
       gap: 18px;
       align-items: start;
     }}
+    .layout > *, .panel {{ min-width: 0; }}
     .panel {{ padding: 18px; }}
     .panel h2 {{ margin: 0 0 14px; font-size: 24px; }}
     .panel-title-row {{
@@ -1150,6 +1161,12 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
       font-weight: 800;
     }}
     table {{ width: 100%; border-collapse: collapse; }}
+    .table-scroll {{
+      width: 100%;
+      max-width: 100%;
+      overflow: auto;
+      overscroll-behavior-inline: contain;
+    }}
     th, td {{ border-bottom: 1px solid var(--line); padding: 10px; text-align: center; }}
     th {{ background: var(--navy); color: #fff; font-size: 15px; }}
     td:first-child, th:first-child {{ text-align: right; }}
@@ -1275,6 +1292,28 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
       overflow: auto;
       padding-left: 4px;
     }}
+    .result-progress {{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding-top: 14px;
+      color: var(--muted);
+      font-weight: 800;
+    }}
+    .load-more {{
+      min-height: 42px;
+      border: 1px solid var(--blue);
+      border-radius: 6px;
+      background: #fff;
+      color: var(--blue);
+      padding: 8px 18px;
+      font: inherit;
+      font-weight: 900;
+      cursor: pointer;
+    }}
+    .load-more:hover {{ background: #eff6ff; }}
     .item {{
       border: 1px solid var(--line);
       border-radius: 8px;
@@ -1319,6 +1358,23 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
       font-size: 14px;
       white-space: nowrap;
     }}
+    .item-badges {{ display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end; }}
+    .mode-badge {{
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      border: 1px solid #cbd5e1;
+      border-radius: 999px;
+      padding: 4px 10px;
+      background: #f8fafc;
+      color: #334155;
+      font-size: 13px;
+      font-weight: 900;
+      white-space: nowrap;
+    }}
+    .mode-direct {{ border-color: #93c5fd; background: #eff6ff; color: #1d4ed8; }}
+    .mode-office {{ border-color: #a7f3d0; background: #ecfdf5; color: #047857; }}
+    .mode-both {{ border-color: #fed7aa; background: #fff7ed; color: #9a3412; }}
     .facts {{
       display: grid;
       grid-template-columns: repeat(4, minmax(120px, 1fr));
@@ -1407,6 +1463,7 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
       z-index: 50;
     }}
     .modal-backdrop.show {{ display: flex; }}
+    body.modal-open {{ overflow: hidden; }}
     .modal {{
       width: min(980px, 100%);
       max-height: 92vh;
@@ -1425,7 +1482,7 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
       border-bottom: 1px solid var(--line);
       background: #f8fafc;
     }}
-    .modal-head h2 {{ margin: 0; font-size: 22px; }}
+    .modal-head h2 {{ margin: 0; min-width: 0; font-size: 22px; overflow-wrap: anywhere; }}
     .modal-close {{
       border: 1px solid var(--line);
       background: #fff;
@@ -1451,7 +1508,7 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
       text-align: center;
     }}
     .modal-image img {{ width: 100%; height: 100%; object-fit: cover; display: block; }}
-    .modal-info {{ padding: 18px; }}
+    .modal-info {{ min-width: 0; padding: 18px; }}
     .modal-actions {{ display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }}
     .empty {{ padding: 22px; color: var(--muted); font-weight: 900; text-align: center; }}
     @media (max-width: 1050px) {{
@@ -1470,6 +1527,7 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
       .summary-strip {{ grid-template-columns: repeat(2, 1fr); }}
     }}
     @media (max-width: 640px) {{
+      html, body {{ max-width: 100%; overflow-x: hidden; }}
       body {{ font-size: 16px; }}
       header {{ padding: 16px 12px; min-height: 250px; }}
       .logo-showcase {{ min-height: 118px; border-radius: 14px; }}
@@ -1486,15 +1544,22 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
       .metric strong {{ font-size: 30px; }}
       .facts {{ grid-template-columns: 1fr; }}
       .toolbar, .result-tools, .summary-strip {{ grid-template-columns: 1fr; }}
+      .layout {{ display: block; }}
+      .panel {{ padding: 12px; overflow: hidden; }}
+      .table-scroll {{ overflow-x: auto; }}
+      #govTable {{ min-width: 620px; }}
+      .list {{ max-height: none; overflow: visible; padding-left: 0; }}
       .item {{ grid-template-columns: 1fr; }}
       .thumb {{ min-height: 180px; }}
       .modal-backdrop {{ align-items: stretch; padding: 8px; }}
       .modal {{ width: 100%; max-height: 96vh; border-radius: 8px; }}
       .modal-head {{ position: sticky; top: 0; z-index: 2; background: #fff; }}
       .modal-head h2 {{ font-size: 19px; }}
-      .modal-body {{ grid-template-columns: 1fr; }}
-      .modal-image {{ min-height: 210px; max-height: 36vh; }}
+      .modal-body {{ display: flex; flex-direction: column; min-width: 0; }}
+      .modal-image {{ height: 220px; min-height: 220px; max-height: 220px; }}
       .modal-info {{ padding: 12px; }}
+      .facts, .item-body {{ min-width: 0; }}
+      .item-top {{ flex-wrap: wrap; }}
       th, td {{ padding: 8px 6px; font-size: 14px; }}
     }}
     @media print {{
@@ -1528,13 +1593,14 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
       </div>
       <div class="action-buttons">
         <a class="action-button primary" href="downloads/offer-evidence.xlsx" download>تحميل Excel التفصيلي</a>
+        <button id="downloadCsvButton" class="action-button" type="button">تحميل نتائج الاختيار CSV</button>
         <button id="printPdfButton" class="action-button" type="button">طباعة / حفظ PDF</button>
       </div>
     </section>
 
     <section class="toolbar" aria-label="أدوات التصفية">
       <div>
-        <label for="quickList">قائمة جاهزة حسب الرقم</label>
+        <label for="quickList">قائمة جاهزة شاملة حسب الرقم</label>
         <select id="quickList"></select>
       </div>
       <div>
@@ -1557,6 +1623,16 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
           <input id="propertyFilter" placeholder="كل أنواع العقار" autocomplete="off">
           <div id="propertyFilterSuggest" class="suggestions" role="listbox"></div>
         </div>
+      </div>
+      <div>
+        <label for="listingModeFilter">نمط الإدراج</label>
+        <select id="listingModeFilter">
+          <option value="">كل الأنماط</option>
+          <option value="direct">مباشر</option>
+          <option value="office">مكتب</option>
+          <option value="both">مباشر ومكتب</option>
+          <option value="unknown">غير محدد</option>
+        </select>
       </div>
       <div>
         <label for="areaFilter">المنطقة - اكتب أو اختر</label>
@@ -1604,7 +1680,7 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
           <span id="govFilterSummary" class="filter-summary">كل السجلات</span>
         </div>
         <p class="panel-hint">يمكن اختيار رقم من الجدول مباشرة لعرض المحافظة والمحور المطلوب.</p>
-        <div style="overflow:auto">
+        <div class="table-scroll">
           <table id="govTable">
             <thead>
               <tr>
@@ -1632,12 +1708,16 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
         <div id="selectionChips" class="selection-chips"></div>
         <div id="resultStats" class="summary-strip"></div>
         <div id="resultList" class="list"></div>
+        <div class="result-progress">
+          <span id="resultProgress"></span>
+          <button id="loadMoreButton" class="load-more" type="button">عرض المزيد</button>
+        </div>
       </div>
     </section>
   </main>
 
-  <div id="detailsModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-    <div class="modal">
+  <div id="detailsModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modalTitle">
+    <div class="modal" tabindex="-1">
       <div class="modal-head">
         <h2 id="modalTitle">تفاصيل الإعلان</h2>
         <button id="modalClose" class="modal-close" type="button" aria-label="إغلاق">×</button>
@@ -1658,6 +1738,12 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
       rent: 'عروض الإيجار',
       rent_request: 'طلبات الإيجار'
     }};
+    const listingModeLabels = {{
+      direct: 'مباشر',
+      office: 'مكتب',
+      both: 'مباشر ومكتب',
+      unknown: 'غير محدد'
+    }};
     const areaGovernorateMap = records.reduce((map, row) => {{
       if (row.area && row.governorate && !map[row.area]) map[row.area] = row.governorate;
       return map;
@@ -1665,6 +1751,10 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
     const searchableFilterIds = ['governorateFilter', 'transactionFilter', 'propertyFilter', 'areaFilter'];
     const choiceOptions = {{}};
     let state = {{ metric: 'movement', governorate: '', label: 'حركة الدلال' }};
+    const RESULT_PAGE_SIZE = 24;
+    let visibleResultLimit = RESULT_PAGE_SIZE;
+    let lastResultKey = '';
+    let lastFocusedElement = null;
 
     function formatNumber(value) {{
       return new Intl.NumberFormat('ar-KW').format(value || 0);
@@ -1698,6 +1788,18 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
       if (!typed) return true;
       const value = normalizeText(rowValue);
       return value === typed || value.includes(typed);
+    }}
+    function listingModeGroup(value) {{
+      const text = normalizeText(value);
+      const direct = text.includes('مباشر');
+      const office = text.includes('مكتب');
+      if (direct && office) return 'both';
+      if (direct) return 'direct';
+      if (office) return 'office';
+      return 'unknown';
+    }}
+    function listingModeClass(value) {{
+      return `mode-${{listingModeGroup(value)}}`;
     }}
     function matchingChoices(id) {{
       const input = document.getElementById(id);
@@ -1836,8 +1938,9 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
       return true;
     }}
     function currentRows() {{
-      const q = document.getElementById('searchBox').value.trim().toLowerCase();
+      const q = normalizeText(document.getElementById('searchBox').value);
       const priceMode = document.getElementById('priceFilter').value;
+      const listingMode = document.getElementById('listingModeFilter').value;
       const transaction = document.getElementById('transactionFilter').value;
       const governorate = selectedGovernorate();
       const property = document.getElementById('propertyFilter').value;
@@ -1849,14 +1952,16 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
         if (!matchesChoice(row.transaction, transaction)) return false;
         if (!matchesChoice(row.property_type, property)) return false;
         if (!matchesChoice(row.area, area)) return false;
+        if (listingMode && listingModeGroup(row.listingMode) !== listingMode) return false;
         if (priceMode === 'priced' && !row.price) return false;
         if (priceMode === 'unpriced' && row.price) return false;
         if (!q) return true;
         return [
           row.code, row.transaction, row.property_type, row.detail_class,
           row.governorate, row.area, row.priceText, row.listingMode,
-          row.summary, row.features, row.publishedDate
-        ].join(' ').toLowerCase().includes(q);
+          row.summary, row.features, row.publishedDate,
+          row.detailText
+        ].map(normalizeText).join(' ').includes(q);
       }});
       rows.sort((a, b) => {{
         if (sortMode === 'price_desc') return (b.price || -1) - (a.price || -1);
@@ -1867,13 +1972,17 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
       return rows;
     }}
     function applyFilter(metric, governorate = '') {{
+      const transactionInput = document.getElementById('transactionFilter');
+      const transactionMetric = metricFromTransactionValue(transactionInput.value);
+      if (metric !== 'movement' && transactionMetric && transactionMetric !== metric) {{
+        transactionInput.value = '';
+      }}
       state = {{
         metric,
         governorate,
         label: governorate ? `${{governorate}} - ${{metricLabels[metric]}}` : metricLabels[metric]
       }};
       document.getElementById('governorateFilter').value = governorate || '';
-      syncTransactionFromMetric(metric);
       updateAreaOptions(false);
       document.querySelectorAll('.metric').forEach(btn => {{
         btn.classList.toggle('active', btn.dataset.metric === metric);
@@ -2006,11 +2115,20 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
     function renderResultStats(rows) {{
       const priced = rows.filter(row => row.price);
       const avg = priced.length ? priced.reduce((sum, row) => sum + row.price, 0) / priced.length : 0;
+      const modeCounts = rows.reduce((counts, row) => {{
+        const key = listingModeGroup(row.listingMode);
+        counts[key] = (counts[key] || 0) + 1;
+        return counts;
+      }}, {{}});
       const stats = [
         ['النتائج', formatNumber(rows.length)],
         ['أسعار معلنة', formatNumber(priced.length)],
         ['متوسط السعر', avg ? formatPrice(avg) : 'غير متاح'],
-        ['بها صورة', formatNumber(rows.filter(row => row.imageUrl).length)]
+        ['بها صورة', formatNumber(rows.filter(row => row.imageUrl).length)],
+        ['مباشر', formatNumber(modeCounts.direct)],
+        ['مكتب', formatNumber(modeCounts.office)],
+        ['مباشر ومكتب', formatNumber(modeCounts.both)],
+        ['نمط غير محدد', formatNumber(modeCounts.unknown)]
       ];
       const container = document.getElementById('resultStats');
       container.innerHTML = '';
@@ -2027,6 +2145,7 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
         ['المنطقة', document.getElementById('areaFilter').value],
         ['نوع المعاملة', document.getElementById('transactionFilter').value],
         ['نوع العقار', document.getElementById('propertyFilter').value],
+        ['نمط الإدراج', listingModeLabels[document.getElementById('listingModeFilter').value]],
       ];
       const priceText = document.getElementById('priceFilter').selectedOptions[0].textContent;
       if (priceText !== 'كل الأسعار') chips.push(['حالة السعر', priceText]);
@@ -2048,7 +2167,8 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
       pairs.push(
         ['نوع المعاملة', document.getElementById('transactionFilter').value],
         ['نوع العقار', document.getElementById('propertyFilter').value],
-        ['المنطقة', document.getElementById('areaFilter').value]
+        ['المنطقة', document.getElementById('areaFilter').value],
+        ['نمط الإدراج', listingModeLabels[document.getElementById('listingModeFilter').value]]
       );
       const priceText = document.getElementById('priceFilter').selectedOptions[0].textContent;
       if (priceText !== 'كل الأسعار') pairs.push(['حالة السعر', priceText]);
@@ -2089,6 +2209,9 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
       const badge = document.createElement('span');
       badge.className = 'badge';
       badge.textContent = row.transaction;
+      const modeBadge = document.createElement('span');
+      modeBadge.className = `mode-badge ${{listingModeClass(row.listingMode)}}`;
+      modeBadge.textContent = `نمط الإدراج: ${{listingModeLabels[listingModeGroup(row.listingMode)]}}`;
       const facts = document.createElement('div');
       facts.className = 'facts';
       facts.append(
@@ -2102,7 +2225,7 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
         createFact('نوع الإعلان', row.listingMode),
         createFact('تاريخ النشر', row.publishedDate || 'غير محدد')
       );
-      info.append(badge, facts);
+      info.append(badge, modeBadge, facts);
       info.appendChild(createDetailsBox(row));
       const actions = document.createElement('div');
       actions.className = 'modal-actions';
@@ -2122,14 +2245,23 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
       }}
       info.appendChild(actions);
       body.append(imageBox, info);
+      lastFocusedElement = document.activeElement;
       modal.classList.add('show');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('modal-open');
+      document.getElementById('modalClose').focus();
     }}
     function closeDetailsModal() {{
-      document.getElementById('detailsModal').classList.remove('show');
+      const modal = document.getElementById('detailsModal');
+      if (!modal.classList.contains('show')) return;
+      modal.classList.remove('show');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('modal-open');
+      if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') lastFocusedElement.focus();
     }}
     function clearFilters() {{
       state = {{ metric: 'movement', governorate: '', label: metricLabels.movement }};
-      ['governorateFilter', 'transactionFilter', 'propertyFilter', 'areaFilter', 'priceFilter', 'sortFilter', 'quickList'].forEach(id => {{
+      ['governorateFilter', 'transactionFilter', 'propertyFilter', 'listingModeFilter', 'areaFilter', 'priceFilter', 'sortFilter', 'quickList'].forEach(id => {{
         const el = document.getElementById(id);
         if (!el) return;
         if ('selectedIndex' in el) el.selectedIndex = 0;
@@ -2145,14 +2277,34 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
       highlightMetricColumn();
       renderResults();
     }}
+    function resultStateKey() {{
+      return JSON.stringify({{
+        metric: state.metric,
+        governorate: selectedGovernorate(),
+        transaction: document.getElementById('transactionFilter').value,
+        property: document.getElementById('propertyFilter').value,
+        listingMode: document.getElementById('listingModeFilter').value,
+        area: document.getElementById('areaFilter').value,
+        price: document.getElementById('priceFilter').value,
+        sort: document.getElementById('sortFilter').value,
+        query: normalizeText(document.getElementById('searchBox').value)
+      }});
+    }}
     function renderResults() {{
       const rows = currentRows();
+      const resultKey = resultStateKey();
+      if (resultKey !== lastResultKey) {{
+        visibleResultLimit = RESULT_PAGE_SIZE;
+        lastResultKey = resultKey;
+      }}
+      const visibleRows = rows.slice(0, visibleResultLimit);
       document.getElementById('resultTitle').textContent = state.label;
       const governorate = selectedGovernorate();
       const activeFilters = [
         governorate,
         document.getElementById('transactionFilter').value,
         document.getElementById('propertyFilter').value,
+        listingModeLabels[document.getElementById('listingModeFilter').value],
         document.getElementById('areaFilter').value,
         document.getElementById('priceFilter').selectedOptions[0].textContent !== 'كل الأسعار' ? document.getElementById('priceFilter').selectedOptions[0].textContent : ''
       ].filter(Boolean);
@@ -2165,6 +2317,10 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
       highlightMetricColumn();
       const list = document.getElementById('resultList');
       list.innerHTML = '';
+      const progress = document.getElementById('resultProgress');
+      const loadMore = document.getElementById('loadMoreButton');
+      progress.textContent = rows.length ? `عرض ${{formatNumber(visibleRows.length)}} من ${{formatNumber(rows.length)}}` : '';
+      loadMore.hidden = visibleRows.length >= rows.length;
       if (!rows.length) {{
         const empty = document.createElement('div');
         empty.className = 'empty';
@@ -2172,7 +2328,7 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
         list.appendChild(empty);
         return;
       }}
-      rows.forEach(row => {{
+      visibleRows.forEach(row => {{
         const item = document.createElement('article');
         item.className = 'item';
         const thumb = document.createElement('div');
@@ -2198,10 +2354,16 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
         top.className = 'item-top';
         const title = document.createElement('h3');
         title.textContent = `${{row.code}} - ${{row.area}}`;
+        const badges = document.createElement('div');
+        badges.className = 'item-badges';
         const badge = document.createElement('span');
         badge.className = 'badge';
         badge.textContent = row.transaction;
-        top.append(title, badge);
+        const modeBadge = document.createElement('span');
+        modeBadge.className = `mode-badge ${{listingModeClass(row.listingMode)}}`;
+        modeBadge.textContent = listingModeLabels[listingModeGroup(row.listingMode)];
+        badges.append(badge, modeBadge);
+        top.append(title, badges);
         body.appendChild(top);
         const facts = document.createElement('div');
         facts.className = 'facts';
@@ -2216,7 +2378,7 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
         body.appendChild(facts);
         const meta = document.createElement('p');
         meta.className = 'desc';
-        meta.textContent = `تاريخ النشر: ${{row.publishedDate || 'غير محدد'}} | تفاصيل متاحة: ${{row.detailAvailable}} | صورة: ${{row.hasImage}}`;
+        meta.textContent = `تاريخ النشر: ${{row.publishedDate || 'غير محدد'}} | تفاصيل متاحة: ${{row.detailAvailable}} | صورة: ${{row.imageUrl ? 'نعم' : 'لا'}}`;
         body.appendChild(meta);
         const detailButton = document.createElement('button');
         detailButton.className = 'source';
@@ -2242,10 +2404,47 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
         list.appendChild(item);
       }});
     }}
+    function csvCell(value) {{
+      return `"${{String(value ?? '').replace(/"/g, '""')}}"`;
+    }}
+    function downloadFilteredCsv() {{
+      const columns = [
+        ['كود الإعلان', 'code'],
+        ['نوع المعاملة', 'transaction'],
+        ['المحافظة', 'governorate'],
+        ['المنطقة', 'area'],
+        ['نوع العقار', 'property_type'],
+        ['التصنيف', 'detail_class'],
+        ['السعر', 'priceText'],
+        ['المساحة', 'space'],
+        ['نمط الإدراج', 'listingMode'],
+        ['تاريخ النشر', 'publishedDate'],
+        ['رابط الإعلان الأصلي', 'originalUrl']
+      ];
+      const rows = currentRows();
+      const lines = [
+        columns.map(([label]) => csvCell(label)).join(','),
+        ...rows.map(row => columns.map(([, key]) => csvCell(row[key])).join(','))
+      ];
+      const blob = new Blob([`\uFEFF${{lines.join('\r\n')}}`], {{ type: 'text/csv;charset=utf-8' }});
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `alforaij-results-${{new Date().toISOString().slice(0, 10)}}.csv`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    }}
     document.getElementById('searchBox').addEventListener('input', renderResults);
     document.getElementById('priceFilter').addEventListener('change', renderResults);
     document.getElementById('clearFilters').addEventListener('click', clearFilters);
+    document.getElementById('loadMoreButton').addEventListener('click', () => {{
+      visibleResultLimit += RESULT_PAGE_SIZE;
+      renderResults();
+    }});
     document.getElementById('printPdfButton').addEventListener('click', () => window.print());
+    document.getElementById('downloadCsvButton').addEventListener('click', downloadFilteredCsv);
     function handleFilterChange(id) {{
         if (id === 'governorateFilter') {{
           state.governorate = '';
@@ -2263,7 +2462,7 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
         highlightMetricColumn();
         renderResults();
     }}
-    ['governorateFilter', 'transactionFilter', 'propertyFilter', 'areaFilter', 'sortFilter'].forEach(id => {{
+    ['governorateFilter', 'transactionFilter', 'propertyFilter', 'listingModeFilter', 'areaFilter', 'sortFilter'].forEach(id => {{
       const el = document.getElementById(id);
       el.addEventListener('change', () => handleFilterChange(id));
       if (searchableFilterIds.includes(id)) {{
