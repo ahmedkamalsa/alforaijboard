@@ -35,6 +35,10 @@ def main() -> None:
         SITE / "_headers",
         SITE / "assets" / "alforaij_logo.png",
         SITE / "assets" / "kuwait_glass_cover.webp",
+        SITE / "assets" / "alforaij-favicon-32.png",
+        SITE / "assets" / "alforaij-favicon-v2.png",
+        SITE / "assets" / "apple-touch-icon.png",
+        SITE / "assets" / "favicon.ico",
     ):
         require_file(path)
 

@@ -6,6 +6,7 @@ import json
 import re
 import shutil
 import sys
+import time
 from base64 import b64encode
 from concurrent.futures import ThreadPoolExecutor
 from datetime import date
@@ -13,6 +14,7 @@ from io import BytesIO
 from pathlib import Path
 from statistics import mean, median
 from urllib.request import Request, urlopen
+from urllib.error import HTTPError
 
 from openpyxl import Workbook, load_workbook
 from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
@@ -25,6 +27,13 @@ ROOT = Path(__file__).resolve().parent
 ASSETS_DIR = ROOT / "assets"
 LOGO_PATH = ASSETS_DIR / "alforaij_logo.png"
 COVER_PATH = ASSETS_DIR / "kuwait_glass_cover.webp"
+FAVICON_PATHS = (
+    ASSETS_DIR / "alforaij-favicon-v2.png",
+    ASSETS_DIR / "alforaij-favicon-32.png",
+    ASSETS_DIR / "alforaij-icon-192.png",
+    ASSETS_DIR / "apple-touch-icon.png",
+    ASSETS_DIR / "favicon.ico",
+)
 PLATFORM_DIR = (
     ROOT
     / "output"
@@ -247,20 +256,41 @@ def fetch_listing_visuals(codes: list[str]) -> dict[str, dict[str, str]]:
 def check_front_detail(code: str) -> tuple[str, dict[str, object]]:
     url = public_detail_url(code)
     if not url:
-        return code, {"originalUrl": "", "originalAvailable": False}
-    try:
-        req = Request(url, method="HEAD", headers={"User-Agent": "Mozilla/5.0"})
-        with urlopen(req, timeout=10) as response:
-            available = 200 <= response.status < 400
-        return code, {"originalUrl": url, "originalAvailable": available}
-    except Exception:
+        return code, {
+            "originalUrl": "",
+            "originalAvailable": False,
+            "originalCheckStatus": "unavailable",
+        }
+    methods = ("HEAD", "HEAD", "GET")
+    for attempt, method in enumerate(methods, start=1):
         try:
-            req = Request(url, headers={"User-Agent": "Mozilla/5.0", "Range": "bytes=0-256"})
-            with urlopen(req, timeout=10) as response:
+            headers = {"User-Agent": "Mozilla/5.0"}
+            if method == "GET":
+                headers["Range"] = "bytes=0-512"
+            req = Request(url, method=method, headers=headers)
+            with urlopen(req, timeout=8) as response:
                 available = 200 <= response.status < 400
-            return code, {"originalUrl": url, "originalAvailable": available}
+            return code, {
+                "originalUrl": url,
+                "originalAvailable": available,
+                "originalCheckStatus": "available" if available else "unavailable",
+            }
+        except HTTPError as exc:
+            if exc.code == 404 or (400 <= exc.code < 500 and exc.code not in {405, 429}):
+                return code, {
+                    "originalUrl": url,
+                    "originalAvailable": False,
+                    "originalCheckStatus": "unavailable",
+                }
         except Exception:
-            return code, {"originalUrl": url, "originalAvailable": False}
+            pass
+        if attempt < len(methods):
+            time.sleep(attempt * 0.6)
+    return code, {
+        "originalUrl": url,
+        "originalAvailable": False,
+        "originalCheckStatus": "error",
+    }
 
 
 def check_front_details(codes: list[str]) -> dict[str, dict[str, object]]:
@@ -328,6 +358,7 @@ def load_records() -> list[dict]:
                 "searchUrl": original_search_url(code),
                 "originalUrl": public_detail_url(code),
                 "originalAvailable": False,
+                "originalCheckStatus": "pending",
                 "imageUrl": "",
                 "detailTitle": "",
                 "detailText": "",
@@ -335,20 +366,33 @@ def load_records() -> list[dict]:
             }
         )
 
-    visuals = fetch_listing_visuals(visible_codes)
     front_details = check_front_details(visible_codes)
     for row in records:
-        row.update(visuals.get(row["code"], {}))
         row.update(front_details.get(row["code"], {}))
+    check_errors = [row["code"] for row in records if row.get("originalCheckStatus") == "error"]
+    max_check_errors = max(5, round(len(records) * 0.02))
+    if len(check_errors) > max_check_errors:
+        raise RuntimeError(
+            "Public listing verification was inconclusive for "
+            f"{len(check_errors)}/{len(records)} records; refusing to publish partial data."
+        )
+    available_records = [row for row in records if row.get("originalAvailable")]
+    minimum_expected = round(len(records) * 0.45)
+    if len(available_records) < minimum_expected:
+        raise RuntimeError(
+            "Public listing verification returned an implausibly small result: "
+            f"{len(available_records)}/{len(records)}; refusing to overwrite the last good site."
+        )
+    visuals = fetch_listing_visuals([row["code"] for row in available_records])
+    for row in available_records:
+        row.update(visuals.get(row["code"], {}))
         if row.get("detailTitle") and not row.get("summary"):
             row["summary"] = row["detailTitle"]
         if row.get("detailText") and not row.get("features"):
             row["features"] = row["detailText"]
         if row.get("detailTitle") or row.get("detailText"):
             row["detailAvailable"] = "نعم"
-    available_records = [row for row in records if row.get("originalAvailable")]
-    if available_records:
-        records = available_records
+    records = available_records
     records.sort(key=lambda item: (item["publishedDate"], item["code"]), reverse=True)
     return records
 
@@ -844,7 +888,7 @@ def copy_html_assets() -> None:
     if assets_dir.exists():
         shutil.rmtree(assets_dir)
     assets_dir.mkdir(parents=True, exist_ok=True)
-    for source in (LOGO_PATH, COVER_PATH):
+    for source in (LOGO_PATH, COVER_PATH, *FAVICON_PATHS):
         if source.exists():
             shutil.copy2(source, assets_dir / source.name)
 
@@ -871,7 +915,11 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
   <meta name="description" content="لوحة تفاعلية لاستعراض حركة العروض والطلبات العقارية حسب المحافظة والمنطقة ونوع العقار.">
   <meta name="robots" content="noindex, nofollow">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https://search.alforaij.com data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
-  <link rel="icon" type="image/png" href="assets/alforaij_logo.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/alforaij-favicon-32.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="assets/alforaij-favicon-v2.png">
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+  <meta name="theme-color" content="#0F172A">
   <title>استعراض الأرقام والعروض الفعلية</title>
   <style>
     :root {{
