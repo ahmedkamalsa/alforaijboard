@@ -1389,8 +1389,8 @@ PREVIEW_JS = r"""
 
     function toEnglishDigits(value) {
       return String(value)
-        .replace(/[٠-٩]/g, digit => "٠١٢٣٤٥٦٧٨٩".indexOf(digit))
-        .replace(/[۰-۹]/g, digit => "۰۱۲۳۴۵۶۷۸۹".indexOf(digit));
+        .replace(/[\u0660-\u0669]/g, digit => String(digit.charCodeAt(0) - 0x0660))
+        .replace(/[\u06F0-\u06F9]/g, digit => String(digit.charCodeAt(0) - 0x06F0));
     }
 
     function convertVisibleDigits(root = document.body) {
@@ -1495,8 +1495,8 @@ def build_preview() -> Path:
     html_path = PREVIEW_SITE / "index.html"
     html = html_path.read_text(encoding="utf-8")
     html = html.replace(
-        "<meta http-equiv=\"Cache-Control\" content=\"no-store, no-cache, must-revalidate, max-age=0\">\n  <meta http-equiv=\"Pragma\" content=\"no-cache\">\n  <meta http-equiv=\"Expires\" content=\"0\">\n  <title>استعراض الأرقام والعروض الفعلية</title>",
-        "<title>لوحة الفريج العقارية | الأرقام والعروض</title>",
+        "<title>استعراض الأرقام والعروض الفعلية</title>",
+        "<meta http-equiv=\"Cache-Control\" content=\"no-store, no-cache, must-revalidate, max-age=0\">\n  <meta http-equiv=\"Pragma\" content=\"no-cache\">\n  <meta http-equiv=\"Expires\" content=\"0\">\n  <title>لوحة الفريج العقارية | الأرقام والعروض</title>",
     )
     html = html.replace(
         'href="assets/alforaij-favicon-32.png"',
