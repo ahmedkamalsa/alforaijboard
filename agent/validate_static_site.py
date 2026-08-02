@@ -82,9 +82,10 @@ def main() -> None:
     required_markers = (
         'id="listingModeFilter"',
         'id="loadMoreButton"',
+        'id="showAllButton"',
         'id="downloadCsvButton"',
         'class="table-scroll"',
-        "RESULT_PAGE_SIZE = 24",
+        "RESULT_PAGE_SIZE = 7",
     )
     missing = [marker for marker in required_markers if marker not in html_text]
     if missing:

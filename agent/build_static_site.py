@@ -15,6 +15,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 import build_offer_evidence_browser as browser  # noqa: E402
+import build_dashboard_preview_v2 as dashboard_v2  # noqa: E402
 
 
 def copy_required_file(source: Path, target: Path) -> None:
@@ -104,6 +105,12 @@ def main() -> None:
         raise FileNotFoundError(f"Missing generated assets: {generated_assets}")
     shutil.copytree(generated_assets, SITE_DIR / "assets")
     write_static_metadata()
+
+    preview_html = dashboard_v2.build_preview()
+    preview_dir = preview_html.parent
+    if SITE_DIR.exists():
+        shutil.rmtree(SITE_DIR)
+    shutil.copytree(preview_dir, SITE_DIR)
 
     print(
         json.dumps(
