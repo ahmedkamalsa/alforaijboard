@@ -1495,7 +1495,7 @@ def build_preview() -> Path:
     html_path = PREVIEW_SITE / "index.html"
     html = html_path.read_text(encoding="utf-8")
     html = html.replace(
-        "<title>استعراض الأرقام والعروض الفعلية</title>",
+        "<meta http-equiv=\"Cache-Control\" content=\"no-store, no-cache, must-revalidate, max-age=0\">\n  <meta http-equiv=\"Pragma\" content=\"no-cache\">\n  <meta http-equiv=\"Expires\" content=\"0\">\n  <title>استعراض الأرقام والعروض الفعلية</title>",
         "<title>لوحة الفريج العقارية | الأرقام والعروض</title>",
     )
     html = html.replace(
