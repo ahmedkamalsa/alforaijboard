@@ -761,6 +761,7 @@
     }
   </style>
 
+
   <style id="professional-preview-v2">
     :root {
       --ink: #071426;
@@ -890,6 +891,173 @@
       line-height: 1.65;
     }
     .evidence-line b { color: #0b3c8c; }
+    .table-scroll {
+      overflow-x: hidden !important;
+    }
+    #govTable {
+      table-layout: fixed;
+      width: 100%;
+      min-width: 0 !important;
+    }
+    #govTable th,
+    #govTable td {
+      padding: 7px 6px;
+    }
+    #govTable th {
+      font-size: 13px;
+      line-height: 1.25;
+    }
+    .governor-name-cell {
+      width: 30%;
+      min-width: 0;
+    }
+    .governor-name-wrap {
+      display: grid;
+      gap: 6px;
+      justify-items: stretch;
+      align-items: center;
+    }
+    .governor-name-text {
+      font-size: 16px;
+      font-weight: 900;
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+    }
+    .governor-toggle {
+      width: auto;
+      max-width: 86px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 5px 9px;
+      border: 1px solid #b9c8db;
+      border-radius: 6px;
+      background: #fff;
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 900;
+      cursor: pointer;
+      text-align: center;
+    }
+    .governor-toggle:hover {
+      border-color: #2554d9;
+      background: #edf4ff;
+    }
+    .governor-toggle[aria-expanded="true"] {
+      border-color: #2554d9;
+      background: #edf4ff;
+      color: #123b7a;
+    }
+    .governor-toggle-icon {
+      display: none;
+    }
+    .area-detail-row td {
+      padding: 0;
+      background: #f8fbff;
+      border-top: 0;
+    }
+    .area-breakdown {
+      padding: 10px;
+      border-right: 4px solid #2554d9;
+    }
+    .area-breakdown-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 8px;
+      color: #24364d;
+      font-size: 12px;
+      font-weight: 900;
+    }
+    .area-breakdown-grid {
+      display: grid;
+      gap: 7px;
+    }
+    .area-breakdown-row {
+      display: grid;
+      grid-template-columns: minmax(92px, 1.18fr) repeat(5, minmax(34px, .64fr));
+      gap: 5px;
+      align-items: center;
+    }
+    .area-breakdown-row.area-active {
+      padding: 4px;
+      border: 1px solid #9fc2f4;
+      border-radius: 7px;
+      background: #eef6ff;
+    }
+    .area-breakdown-row.metric-active-row {
+      padding: 4px;
+      border-radius: 7px;
+      background: #f7fbff;
+    }
+    .area-name {
+      min-height: 32px;
+      padding: 5px 6px;
+      border: 1px solid #c9d6e8;
+      border-radius: 6px;
+      background: #fff;
+      font-size: 11px;
+      font-weight: 900;
+      line-height: 1.35;
+    }
+    .area-breakdown-row.area-active .area-name,
+    .area-breakdown-row.metric-active-row .area-name {
+      border-color: #2554d9;
+      background: #fff;
+      color: #123b7a;
+    }
+    .area-count-button {
+      min-height: 30px;
+      padding: 3px 4px;
+      border: 1px solid #c9d6e8;
+      border-radius: 6px;
+      background: #fff;
+      color: #0b1729;
+      font-size: 12px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+    .area-count-button:disabled {
+      color: #8a98aa;
+      cursor: default;
+      background: #f1f5f9;
+    }
+    .area-count-button.empty-count {
+      color: #94a3b8;
+      background: #f8fafc;
+      border-color: #d7e1ef;
+    }
+    .area-count-button:not(:disabled):hover {
+      border-color: #2554d9;
+      background: #edf4ff;
+      color: #123b7a;
+    }
+    .area-count-button.metric-active:not(.empty-count) {
+      border-color: #2554d9;
+      background: #eef4ff;
+      color: #0f4bd8;
+      box-shadow: inset 0 -3px 0 #f6c431;
+    }
+    .area-breakdown-row.area-active .area-count-button.metric-active:not(.empty-count) {
+      background: #e4efff;
+      box-shadow: inset 0 0 0 2px rgba(37,84,217,.22), inset 0 -3px 0 #f6c431;
+    }
+    .area-breakdown-labels {
+      display: grid;
+      grid-template-columns: minmax(92px, 1.18fr) repeat(5, minmax(34px, .64fr));
+      gap: 5px;
+      margin-bottom: 6px;
+      color: #304158;
+      font-size: 10px;
+      font-weight: 900;
+      text-align: center;
+    }
+    .area-breakdown-labels span {
+      padding: 3px 2px;
+      border-radius: 4px;
+      background: #eef4fb;
+    }
     .match-method {
       margin: -4px 0 14px;
       padding: 11px 13px;
@@ -2346,6 +2514,7 @@
     applyFilter('movement');
   </script>
 
+
   <script id="professional-preview-v2-script">
     const governorateNameMap = {
       "Ahmadi": "محافظة الاحمدي",
@@ -2441,25 +2610,169 @@
       ].map(normalizeText).join(" ").includes(q);
     }
 
+    function rowMatchesReferenceFilters(row, includeGovernorate = false, includeTransaction = true) {
+      const q = normalizeText(document.getElementById("searchBox").value);
+      const priceMode = document.getElementById("priceFilter").value;
+      const listingMode = document.getElementById("listingModeFilter").value;
+      const transaction = document.getElementById("transactionFilter").value;
+      const property = document.getElementById("propertyFilter").value;
+      if (includeGovernorate && !matchesChoice(row.governorate, selectedGovernorate())) return false;
+      if (includeTransaction && !matchesChoice(row.transaction, transaction)) return false;
+      if (!matchesChoice(row.property_type, property)) return false;
+      if (listingMode && listingModeGroup(row.listingMode) !== listingMode) return false;
+      if (priceMode === "priced" && !row.price) return false;
+      if (priceMode === "unpriced" && row.price) return false;
+      if (!q) return true;
+      return [
+        row.code, row.transaction, row.property_type, row.detail_class,
+        row.governorate, row.area, row.priceText, row.listingMode,
+        row.summary, row.features, row.publishedDate, row.detailText
+      ].map(normalizeText).join(" ").includes(q);
+    }
+
     function governorateMetricCount(governorate, metric) {
       return records.filter(row =>
         row.governorate === governorate &&
-        rowMatchesSharedFilters(row, false, true) &&
+        rowMatchesReferenceFilters(row, false, true) &&
         matchesMetric(row, metric)
       ).length;
+    }
+
+    const expandedGovernorates = new Set();
+
+    function areaMetricCount(governorate, area, metric) {
+      return records.filter(row =>
+        row.governorate === governorate &&
+        row.area === area &&
+        rowMatchesReferenceFilters(row, false, true) &&
+        matchesMetric(row, metric)
+      ).length;
+    }
+
+    function governorateAreas(governorate) {
+      const areaTotals = new Map();
+      records.forEach(row => {
+        if (row.governorate !== governorate) return;
+        if (!rowMatchesReferenceFilters(row, false, true)) return;
+        const area = row.area || "غير محدد";
+        const total = areaTotals.get(area) || 0;
+        areaTotals.set(area, total + (matchesMetric(row, "movement") ? 1 : 0));
+      });
+      return Array.from(areaTotals.entries())
+        .filter(([, total]) => total > 0)
+        .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], "ar"));
+    }
+
+    function renderAreaBreakdownRow(governorate) {
+      const detailRow = document.createElement("tr");
+      detailRow.className = "area-detail-row";
+      detailRow.dataset.governorate = governorate;
+      const detailCell = document.createElement("td");
+      detailCell.colSpan = comparisonMetrics.length + 1;
+
+      const wrapper = document.createElement("div");
+      wrapper.className = "area-breakdown";
+      const title = document.createElement("div");
+      title.className = "area-breakdown-title";
+      const label = document.createElement("span");
+      label.textContent = `تفصيل مناطق ${governorate}`;
+      const hint = document.createElement("small");
+      hint.textContent = "اضغط على أي رقم لاختيار المنطقة والمحور";
+      title.append(label, hint);
+      wrapper.appendChild(title);
+
+      const grid = document.createElement("div");
+      grid.className = "area-breakdown-grid";
+      const areas = governorateAreas(governorate);
+      if (!areas.length) {
+        const empty = document.createElement("div");
+        empty.className = "area-name";
+        empty.textContent = "لا توجد مناطق مطابقة للفلاتر الحالية.";
+        grid.appendChild(empty);
+      } else {
+        const labels = document.createElement("div");
+        labels.className = "area-breakdown-labels";
+        ["المنطقة", ...comparisonMetrics.map(metric => metricLabels[metric])].forEach(text => {
+          const labelCell = document.createElement("span");
+          labelCell.textContent = text;
+          labels.appendChild(labelCell);
+        });
+        grid.appendChild(labels);
+        const selectedAreaValue = document.getElementById("areaFilter").value;
+        const activeMetric = state.metric || "movement";
+        areas.forEach(([area]) => {
+          const row = document.createElement("div");
+          row.className = "area-breakdown-row";
+          row.dataset.area = area;
+          const activeMetricCount = areaMetricCount(governorate, area, activeMetric);
+          const isSelectedArea = Boolean(selectedAreaValue && area === selectedAreaValue);
+          row.classList.toggle("area-active", isSelectedArea);
+          row.classList.toggle("metric-active-row", !selectedAreaValue && activeMetricCount > 0);
+          const name = document.createElement("div");
+          name.className = "area-name";
+          name.textContent = area;
+          row.appendChild(name);
+          comparisonMetrics.forEach(metric => {
+            const count = areaMetricCount(governorate, area, metric);
+            const button = document.createElement("button");
+            button.className = "area-count-button";
+            button.type = "button";
+            button.textContent = count ? formatNumber(count) : "-";
+            button.disabled = !count;
+            button.classList.toggle("empty-count", !count);
+            const shouldHighlightMetric = metric === activeMetric && count > 0 && (!selectedAreaValue || isSelectedArea);
+            button.classList.toggle("metric-active", shouldHighlightMetric);
+            button.title = `${governorate} - ${area} - ${metricLabels[metric]}: ${formatNumber(count)}`;
+            button.addEventListener("click", () => {
+              applyFilter(metric, governorate);
+              document.getElementById("areaFilter").value = area;
+              expandedGovernorates.clear();
+              expandedGovernorates.add(governorate);
+              renderResults();
+            });
+            row.appendChild(button);
+          });
+          grid.appendChild(row);
+        });
+      }
+      wrapper.appendChild(grid);
+      detailCell.appendChild(wrapper);
+      detailRow.appendChild(detailCell);
+      return detailRow;
     }
 
     function renderProfessionalGovernorTable() {
       const tbody = document.querySelector("#govTable tbody");
       tbody.innerHTML = "";
       Object.values(governorateNameMap).forEach(governorate => {
+        const counts = comparisonMetrics.map(metric => governorateMetricCount(governorate, metric));
         const tr = document.createElement("tr");
         tr.dataset.governorate = governorate;
         const nameCell = document.createElement("td");
-        nameCell.textContent = governorate;
+        nameCell.className = "governor-name-cell";
+        const nameWrap = document.createElement("div");
+        nameWrap.className = "governor-name-wrap";
+        const nameText = document.createElement("strong");
+        nameText.className = "governor-name-text";
+        nameText.textContent = governorate;
+        const toggle = document.createElement("button");
+        toggle.className = "governor-toggle";
+        toggle.type = "button";
+        toggle.setAttribute("aria-expanded", expandedGovernorates.has(governorate) ? "true" : "false");
+        toggle.textContent = "المناطق";
+        toggle.addEventListener("click", () => {
+          if (expandedGovernorates.has(governorate)) {
+            expandedGovernorates.delete(governorate);
+          } else {
+            expandedGovernorates.add(governorate);
+          }
+          renderProfessionalGovernorTable();
+        });
+        nameWrap.append(nameText, toggle);
+        nameCell.appendChild(nameWrap);
         tr.appendChild(nameCell);
-        comparisonMetrics.forEach(metric => {
-          const count = governorateMetricCount(governorate, metric);
+        comparisonMetrics.forEach((metric, index) => {
+          const count = counts[index];
           const td = document.createElement("td");
           td.dataset.metric = metric;
           const button = document.createElement("button");
@@ -2472,6 +2785,9 @@
           tr.appendChild(td);
         });
         tbody.appendChild(tr);
+        if (expandedGovernorates.has(governorate)) {
+          tbody.appendChild(renderAreaBreakdownRow(governorate));
+        }
       });
       highlightGovernorate();
       highlightMetricColumn();
@@ -2925,6 +3241,77 @@
       container.appendChild(link);
     }
 
+    function resolveTypedArea(value) {
+      const typed = normalizeText(value);
+      if (!typed) return null;
+      const areas = Object.keys(areaGovernorateMap);
+      const exact = areas.find(area => normalizeText(area) === typed);
+      if (exact) return { area: exact, governorate: areaGovernorateMap[exact] };
+      if (typed.length < 2) return null;
+      const partial = areas.filter(area => normalizeText(area).includes(typed));
+      if (partial.length !== 1) return null;
+      return { area: partial[0], governorate: areaGovernorateMap[partial[0]] };
+    }
+
+    function syncAreaGovernorateExpansion() {
+      const areaInput = document.getElementById("areaFilter");
+      const governorateInput = document.getElementById("governorateFilter");
+      if (!areaInput || !governorateInput) return null;
+      const resolved = resolveTypedArea(areaInput.value);
+      if (!resolved) return null;
+      areaInput.value = resolved.area;
+      state.governorate = "";
+      governorateInput.value = resolved.governorate;
+      expandedGovernorates.clear();
+      expandedGovernorates.add(resolved.governorate);
+      return resolved;
+    }
+
+    const basePreviewRenderSuggestions = renderSuggestions;
+    renderSuggestions = function(id) {
+      const input = document.getElementById(id);
+      const box = document.getElementById(`${id}Suggest`);
+      if (!input || !box) return;
+      const typed = normalizeText(input.value);
+      const exactChoice = (choiceOptions[id] || []).some(option => normalizeText(option) === typed);
+      if (typed && exactChoice) {
+        box.innerHTML = "";
+        box.classList.remove("show");
+        return;
+      }
+      basePreviewRenderSuggestions(id);
+    };
+
+    const basePreviewChooseSuggestion = chooseSuggestion;
+    chooseSuggestion = function(id, value) {
+      basePreviewChooseSuggestion(id, value);
+      hideSuggestions(id);
+      const input = document.getElementById(id);
+      if (input) input.blur();
+    };
+
+    const basePreviewHandleFilterChange = handleFilterChange;
+    handleFilterChange = function(id) {
+      if (id === "areaFilter") {
+        const areaInput = document.getElementById("areaFilter");
+        const hasTypedArea = Boolean(areaInput && areaInput.value.trim());
+        const resolvedBeforeBase = syncAreaGovernorateExpansion();
+        if (hasTypedArea && !resolvedBeforeBase) {
+          renderResults();
+          return;
+        }
+      }
+      basePreviewHandleFilterChange(id);
+      if (id === "areaFilter") {
+        syncAreaGovernorateExpansion();
+      } else if (id === "governorateFilter") {
+        expandedGovernorates.clear();
+        const governorate = selectedGovernorate();
+        if (governorate) expandedGovernorates.add(governorate);
+      }
+      renderResults();
+    };
+
     function groupMatchesByRequest(matches) {
       const grouped = new Map();
       matches.forEach(match => {
@@ -3092,6 +3479,55 @@
         .replace(/'/g, "&#039;");
     }
 
+    function printableDetail(row) {
+      return row.detailText || row.summary || row.features || "لا توجد تفاصيل نصية مسجلة.";
+    }
+
+    function selectedFiltersForPrint() {
+      return [
+        ["المحور", metricLabels[state.metric] || state.label || "كل السجلات"],
+        ["المحافظة", selectedGovernorate() || "كل المحافظات"],
+        ["المنطقة", document.getElementById("areaFilter").value || "كل المناطق"],
+        ["نوع المعاملة", document.getElementById("transactionFilter").value || "كل المعاملات"],
+        ["نوع العقار", document.getElementById("propertyFilter").value || "كل أنواع العقار"],
+        ["نمط الإدراج", document.getElementById("listingModeFilter").value || "كل الأنماط"],
+        ["حالة السعر", document.getElementById("priceFilter").selectedOptions[0]?.textContent || "كل الأسعار"],
+        ["البحث", document.getElementById("searchBox").value || "بدون بحث نصي"]
+      ];
+    }
+
+    function printFilterSummary() {
+      return `<div class="print-filters">${
+        selectedFiltersForPrint().map(([label, value]) =>
+          `<span><b>${escapeHtml(label)}</b>${escapeHtml(value)}</span>`
+        ).join("")
+      }</div>`;
+    }
+
+    function printListingCards(rows) {
+      return rows.map(row => `
+        <article class="listing-print-card">
+          <div class="listing-print-head">
+            <h3>${escapeHtml(row.code)} - ${escapeHtml(row.area || "منطقة غير محددة")}</h3>
+            <span>${escapeHtml(row.transaction || "غير محدد")}</span>
+          </div>
+          <div class="listing-print-facts">
+            <span><b>المحافظة</b>${escapeHtml(row.governorate || "غير محدد")}</span>
+            <span><b>نوع العقار</b>${escapeHtml(row.property_type || "غير محدد")}</span>
+            <span><b>التصنيف</b>${escapeHtml(row.detail_class || "غير محدد")}</span>
+            <span><b>السعر</b>${escapeHtml(row.priceText || "غير معلن")}</span>
+            <span><b>المساحة</b>${escapeHtml(row.space ? `${formatNumber(row.space)} م²` : "غير محدد")}</span>
+            <span><b>نمط الإدراج</b>${escapeHtml(listingModeLabels[listingModeGroup(row.listingMode)])}</span>
+            <span><b>تاريخ النشر</b>${escapeHtml(row.publishedDate || "غير محدد")}</span>
+            <span><b>رابط الإعلان</b>${escapeHtml(row.originalUrl || "غير متاح")}</span>
+          </div>
+          <div class="listing-print-details">
+            <b>تفاصيل الإعلان</b>
+            <p>${escapeHtml(printableDetail(row))}</p>
+          </div>
+        </article>`).join("");
+    }
+
     function printRowsTable(title, rows) {
       const body = rows.map(row => `
         <tr>
@@ -3102,15 +3538,46 @@
           <td>${escapeHtml(row.priceText || "غير معلن")}</td>
           <td>${escapeHtml(row.publishedDate || "غير محدد")}</td>
           <td>${escapeHtml(listingModeLabels[listingModeGroup(row.listingMode)])}</td>
+          <td class="detail-cell">${escapeHtml(printableDetail(row))}</td>
         </tr>`).join("");
       return `
         <section>
           <h2>${escapeHtml(title)} <small>(${formatNumber(rows.length)})</small></h2>
           <table>
-            <thead><tr><th>الكود</th><th>المحافظة</th><th>المنطقة</th><th>نوع العقار</th><th>السعر</th><th>التاريخ</th><th>النمط</th></tr></thead>
-            <tbody>${body || '<tr><td colspan="7">لا توجد سجلات مطابقة.</td></tr>'}</tbody>
+            <thead><tr><th>الكود</th><th>المحافظة</th><th>المنطقة</th><th>نوع العقار</th><th>السعر</th><th>التاريخ</th><th>النمط</th><th>تفاصيل الإعلان</th></tr></thead>
+            <tbody>${body || '<tr><td colspan="8">لا توجد سجلات مطابقة.</td></tr>'}</tbody>
           </table>
         </section>`;
+    }
+
+    function printCurrentFilteredReport() {
+      const rows = currentRows();
+      const printWindow = window.open("", "_blank");
+      if (!printWindow) {
+        window.alert("اسمح بالنوافذ المنبثقة حتى تتمكن من طباعة التقرير.");
+        return;
+      }
+      printWindow.document.write(`<!doctype html>
+        <html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>تقرير الإعلانات المطابقة</title>
+        <style>
+          body{font-family:Tahoma,Arial,sans-serif;color:#071426;margin:22px;direction:rtl;background:#fff}
+          header{border-bottom:4px solid #bd5700;padding-bottom:12px;margin-bottom:16px}
+          h1{margin:0;font-size:24px} h2{margin:18px 0 8px;font-size:18px}
+          .print-filters{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:12px 0}
+          .print-filters span,.listing-print-facts span{border:1px solid #b9c8db;background:#f7faff;padding:7px;border-radius:5px;font-size:11px}
+          .print-filters b,.listing-print-facts b{display:block;color:#304158;font-size:10px;margin-bottom:3px}
+          .listing-print-card{break-inside:avoid;border:1px solid #aebfd4;border-radius:7px;margin:0 0 10px;background:#fff}
+          .listing-print-head{display:flex;justify-content:space-between;gap:10px;background:#0f1a2d;color:#fff;padding:9px 11px}
+          .listing-print-head h3{margin:0;font-size:16px}.listing-print-head span{font-weight:900}
+          .listing-print-facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding:9px}
+          .listing-print-details{padding:0 10px 10px}.listing-print-details b{display:block;margin-bottom:4px;color:#0f1a2d}
+          .listing-print-details p{white-space:pre-wrap;margin:0;border-right:3px solid #2554d9;background:#f8fbff;padding:8px;line-height:1.65;font-size:11px}
+          @page{size:A4 landscape;margin:10mm}
+        </style></head><body>
+        <header><h1>تقرير الإعلانات المطابقة</h1><p>عدد الإعلانات: ${formatNumber(rows.length)}</p>${printFilterSummary()}</header>
+        ${rows.length ? printListingCards(rows) : "<p>لا توجد إعلانات مطابقة للاختيارات الحالية.</p>"}
+        <script>window.onload=()=>window.print();<\/script></body></html>`);
+      printWindow.document.close();
     }
 
     function printSectorReport(sector) {
@@ -3141,6 +3608,7 @@
           h1{margin:0;font-size:24px} h2{margin:24px 0 8px;font-size:19px}
           small{color:#304158} table{width:100%;border-collapse:collapse;font-size:11px}
           th{background:#0f1a2d;color:#fff} th,td{border:1px solid #aebfd4;padding:6px;text-align:right}
+          .detail-cell{white-space:pre-wrap;line-height:1.55;min-width:280px}
           section{break-inside:avoid;margin-bottom:18px}
           @page{size:A4 landscape;margin:12mm}
         </style></head><body>
@@ -3215,6 +3683,12 @@
 
     initializeDashboardTabs();
 
+    const originalPrintButton = document.getElementById("printPdfButton");
+    if (originalPrintButton) {
+      const printButton = originalPrintButton.cloneNode(true);
+      originalPrintButton.replaceWith(printButton);
+      printButton.addEventListener("click", printCurrentFilteredReport);
+    }
     document.getElementById("searchBox").addEventListener("input", () => renderResults());
     document.getElementById("priceFilter").addEventListener("change", () => renderResults());
     document.getElementById("showAllButton").addEventListener("click", () => {
