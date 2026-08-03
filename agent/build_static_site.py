@@ -39,6 +39,7 @@ def write_static_metadata() -> None:
         "dashboard_variant": "property-type-filter",
         "record_count": record_count,
         "downloads": ["downloads/offer-evidence.xlsx"],
+        "quality_report": "qa.html",
     }
     (SITE_DIR / "last-updated.json").write_text(
         json.dumps(metadata, ensure_ascii=False, indent=2),
@@ -99,6 +100,7 @@ def main() -> None:
     SITE_DIR.mkdir(parents=True)
 
     copy_required_file(browser.PROPERTY_HTML_PATH, SITE_DIR / "index.html")
+    copy_required_file(browser.QUALITY_HTML_PATH, SITE_DIR / "qa.html")
     copy_required_file(browser.XLSX_PATH, SITE_DIR / "downloads" / "offer-evidence.xlsx")
     generated_assets = browser.OUTPUT_DIR / "assets"
     if not generated_assets.exists():

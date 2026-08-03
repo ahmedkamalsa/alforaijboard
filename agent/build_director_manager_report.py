@@ -281,13 +281,30 @@ def normalize_listing(item: dict, type_id: int) -> dict:
     title = strip_contact_phrases(title_raw)
     description = strip_contact_phrases(description_raw)
     price = parse_price(get_field(item, "price", default=0))
-    area = parse_price(get_field(item, "square_meters", "squareMeters", "area", default=0))
-    extracted_area = area if area > 0 else extract_area_from_text(detail_text_raw)
+    api_area = parse_price(get_field(item, "square_meters", "squareMeters", "area", default=0))
+    text_area = extract_area_from_text(detail_text_raw) if api_area <= 0 else None
+    if api_area > 0:
+        extracted_area = api_area
+        area_source = "حقل المساحة في API"
+    elif text_area and text_area > 0:
+        extracted_area = text_area
+        area_source = "مذكورة صراحة في نص الإعلان"
+    else:
+        extracted_area = None
+        area_source = "غير مذكورة"
+    price_source = "حقل السعر في API" if price > 0 else "غير معلن في API"
     property_type_name = clean_text(get_field(item, "property_type_name", "propertyTypeName", default="غير محدد"))
     detail_class = classify_detail(detail_text_raw, property_type_name, type_id)
     features = extract_features(detail_text_raw)
     condition = strip_contact_phrases(extract_after_label(detail_text_raw, ("الحالة", "المواصفات", "الوصف", "الموقع والمميزات"), 90))
     listing_mode = extract_listing_mode(detail_text_raw)
+    quality_notes = []
+    if not extracted_area:
+        quality_notes.append("المساحة غير مذكورة")
+    if "ارتداد" in detail_text_raw and re.search(r"ارتداد\s*[0-9٠-٩,\.]+\s*(?:متر|م²|متر مربع)", detail_text_raw):
+        quality_notes.append("رقم ارتداد بالمتر لم يتم اعتباره مساحة")
+    if price <= 0:
+        quality_notes.append("السعر غير معلن")
 
     item_id = int(get_field(item, "id", default=0) or 0)
     detail_loaded = bool(get_field(item, "_detail_loaded", default=False))
@@ -306,7 +323,9 @@ def normalize_listing(item: dict, type_id: int) -> dict:
         "city_name": clean_text(get_field(item, "city_name", "cityName", default="غير محدد")),
         "price": price,
         "is_priced": price > 0,
+        "price_source": price_source,
         "area": extracted_area if extracted_area and extracted_area > 0 else None,
+        "area_source": area_source,
         "published_date": published_date,
         "published_at": published_dt.isoformat() if published_dt else "",
         "days_since": days_since,
@@ -317,6 +336,7 @@ def normalize_listing(item: dict, type_id: int) -> dict:
         "detail_loaded": detail_loaded,
         "title_clean": title[:160],
         "description_clean": description[:200],
+        "quality_warnings": " | ".join(quality_notes),
         "detail_url": detail_url,
         "source_url": public_detail_url if item_id else search_url,
     }
@@ -1375,10 +1395,13 @@ def listing_rows(rows: list[dict]) -> list[list[object]]:
                 row["city_name"],
                 row["price"] if row["is_priced"] else "",
                 "نعم" if row["is_priced"] else "غير معلن",
+                row.get("price_source", ""),
                 row["area"] or "",
+                row.get("area_source", ""),
                 row["listing_mode"],
                 row["condition"],
                 row["features"],
+                row.get("quality_warnings", ""),
                 "نعم" if row["has_image"] else "لا",
                 row["published_date"].isoformat() if row.get("published_date") else "",
                 row["days_since"] if row.get("days_since") is not None else "",
@@ -1504,25 +1527,25 @@ def create_excel(metrics: dict) -> None:
     ws_houses = wb.create_sheet("البيوت_للبيع")
     write_sheet(
         ws_houses,
-        ["الكود", "نوع المعاملة", "نوع العقار", "التصنيف التفصيلي", "المحافظة", "المنطقة", "السعر", "حالة السعر", "المساحة", "نوع الإعلان", "وصف/حالة مختصرة", "ملامح مستخرجة", "صورة", "تاريخ النشر", "أيام منذ النشر", "تفاصيل متاحة", "صفحة الإعلان"],
+        ["الكود", "نوع المعاملة", "نوع العقار", "التصنيف التفصيلي", "المحافظة", "المنطقة", "السعر", "حالة السعر", "مصدر السعر", "المساحة", "مصدر المساحة", "نوع الإعلان", "وصف/حالة مختصرة", "ملامح مستخرجة", "ملاحظات جودة البيانات", "صورة", "تاريخ النشر", "أيام منذ النشر", "تفاصيل متاحة", "صفحة الإعلان"],
         listing_rows(metrics["house_sale_rows"]),
-        [14, 16, 18, 20, 22, 20, 16, 16, 12, 16, 28, 28, 10, 16, 16, 16, 60],
+        [14, 16, 18, 20, 22, 20, 16, 16, 20, 12, 24, 16, 28, 28, 30, 10, 16, 16, 16, 60],
     )
 
     ws_rents = wb.create_sheet("الإيجارات")
     write_sheet(
         ws_rents,
-        ["الكود", "نوع المعاملة", "نوع العقار", "التصنيف التفصيلي", "المحافظة", "المنطقة", "السعر", "حالة السعر", "المساحة", "نوع الإعلان", "وصف/حالة مختصرة", "ملامح مستخرجة", "صورة", "تاريخ النشر", "أيام منذ النشر", "تفاصيل متاحة", "صفحة الإعلان"],
+        ["الكود", "نوع المعاملة", "نوع العقار", "التصنيف التفصيلي", "المحافظة", "المنطقة", "السعر", "حالة السعر", "مصدر السعر", "المساحة", "مصدر المساحة", "نوع الإعلان", "وصف/حالة مختصرة", "ملامح مستخرجة", "ملاحظات جودة البيانات", "صورة", "تاريخ النشر", "أيام منذ النشر", "تفاصيل متاحة", "صفحة الإعلان"],
         listing_rows(metrics["rent_rows"] + metrics["rent_request_rows"]),
-        [14, 16, 18, 20, 22, 20, 16, 16, 12, 16, 28, 28, 10, 16, 16, 16, 60],
+        [14, 16, 18, 20, 22, 20, 16, 16, 20, 12, 24, 16, 28, 28, 30, 10, 16, 16, 16, 60],
     )
 
     ws_clean = wb.create_sheet("سجل_منظف")
     write_sheet(
         ws_clean,
-        ["الكود", "نوع المعاملة", "نوع العقار", "التصنيف التفصيلي", "المحافظة", "المنطقة", "السعر", "حالة السعر", "المساحة", "نوع الإعلان", "وصف/حالة مختصرة", "ملامح مستخرجة", "صورة", "تاريخ النشر", "أيام منذ النشر", "تفاصيل متاحة", "صفحة الإعلان"],
+        ["الكود", "نوع المعاملة", "نوع العقار", "التصنيف التفصيلي", "المحافظة", "المنطقة", "السعر", "حالة السعر", "مصدر السعر", "المساحة", "مصدر المساحة", "نوع الإعلان", "وصف/حالة مختصرة", "ملامح مستخرجة", "ملاحظات جودة البيانات", "صورة", "تاريخ النشر", "أيام منذ النشر", "تفاصيل متاحة", "صفحة الإعلان"],
         listing_rows(metrics["core_rows"]),
-        [14, 16, 18, 20, 22, 20, 16, 16, 12, 16, 28, 28, 10, 16, 16, 16, 60],
+        [14, 16, 18, 20, 22, 20, 16, 16, 20, 12, 24, 16, 28, 28, 30, 10, 16, 16, 16, 60],
     )
 
     ws_sources = wb.create_sheet("المصادر_والمنهجية")
