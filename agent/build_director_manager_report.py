@@ -208,8 +208,7 @@ def parse_price(value: object) -> float:
 
 def extract_area_from_text(text: str) -> float | None:
     patterns = [
-        r"المساحة\s*[:：]?\s*([0-9٠-٩,\.]+)",
-        r"([0-9٠-٩,\.]+)\s*(?:متر مربع|م²|متر|مترمربع)",
+        r"(?:المساحة|مساحة|مساحه|مساحة العقار|مساحة البيت|مساحته|مساحتها)\s*[:：]?\s*([0-9٠-٩,\.]+)\s*(?:متر مربع|م²|متر|مترمربع)?",
     ]
     translation = str.maketrans("٠١٢٣٤٥٦٧٨٩", "0123456789")
     for pattern in patterns:
