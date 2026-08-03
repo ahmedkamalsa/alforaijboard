@@ -957,6 +957,7 @@ PREVIEW_JS = r"""
             button.addEventListener("click", () => {
               applyFilter(metric, governorate);
               document.getElementById("areaFilter").value = area;
+              if (typeof rememberRecentArea === "function") rememberRecentArea(area);
               expandedGovernorates.clear();
               expandedGovernorates.add(governorate);
               renderResults();
@@ -1484,12 +1485,68 @@ PREVIEW_JS = r"""
       return { area: partial[0], governorate: areaGovernorateMap[partial[0]] };
     }
 
+    const recentAreasStorageKey = "alforaij_recent_areas_v1";
+
+    function allKnownAreas() {
+      return Object.keys(areaGovernorateMap)
+        .sort((a, b) => String(a).localeCompare(String(b), "ar"));
+    }
+
+    function readRecentAreas() {
+      try {
+        const parsed = JSON.parse(localStorage.getItem(recentAreasStorageKey) || "[]");
+        return Array.isArray(parsed) ? parsed.filter(Boolean) : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function writeRecentAreas(values) {
+      try {
+        localStorage.setItem(recentAreasStorageKey, JSON.stringify(values.slice(0, 8)));
+      } catch {
+        // Storage can be unavailable in restrictive browser modes; suggestions still work without it.
+      }
+    }
+
+    function rememberRecentArea(value) {
+      const resolved = resolveTypedArea(value);
+      if (!resolved) return null;
+      const recent = readRecentAreas().filter(area => normalizeText(area) !== normalizeText(resolved.area));
+      recent.unshift(resolved.area);
+      writeRecentAreas(recent);
+      return resolved;
+    }
+
+    const basePreviewMatchingChoices = matchingChoices;
+    matchingChoices = function(id) {
+      if (id !== "areaFilter") return basePreviewMatchingChoices(id);
+      const input = document.getElementById(id);
+      const typed = normalizeText(input?.value);
+      const currentValues = choiceOptions[id] || [];
+      const merged = [];
+      [...readRecentAreas(), ...currentValues, ...allKnownAreas()].forEach(value => {
+        if (!value || merged.some(item => normalizeText(item) === normalizeText(value))) return;
+        merged.push(value);
+      });
+      if (!typed) return merged.slice(0, 12);
+      return merged
+        .filter(value => normalizeText(value).includes(typed))
+        .sort((a, b) => {
+          const aExact = normalizeText(a) === typed ? 0 : 1;
+          const bExact = normalizeText(b) === typed ? 0 : 1;
+          return aExact - bExact || String(a).localeCompare(String(b), "ar");
+        })
+        .slice(0, 18);
+    };
+
     function syncAreaGovernorateExpansion() {
       const areaInput = document.getElementById("areaFilter");
       const governorateInput = document.getElementById("governorateFilter");
       if (!areaInput || !governorateInput) return null;
       const resolved = resolveTypedArea(areaInput.value);
       if (!resolved) return null;
+      rememberRecentArea(resolved.area);
       areaInput.value = resolved.area;
       state.governorate = "";
       governorateInput.value = resolved.governorate;
@@ -1497,6 +1554,53 @@ PREVIEW_JS = r"""
       expandedGovernorates.add(resolved.governorate);
       return resolved;
     }
+
+    const basePreviewApplyFilter = applyFilter;
+    applyFilter = function(metric, governorate = "") {
+      const governorateInput = document.getElementById("governorateFilter");
+      const areaInput = document.getElementById("areaFilter");
+      const transactionInput = document.getElementById("transactionFilter");
+      const currentArea = areaInput?.value || "";
+      const resolvedArea = resolveTypedArea(currentArea);
+      const currentGovernorate = governorateInput?.value || state.governorate || resolvedArea?.governorate || "";
+      const targetGovernorate = governorate || currentGovernorate || "";
+      let areaToKeep = currentArea;
+      if (governorate && resolvedArea && resolvedArea.governorate !== governorate) {
+        areaToKeep = "";
+      }
+      if (metric !== "movement" && transactionInput) {
+        const transactionMetric = metricFromTransactionValue(transactionInput.value);
+        if (transactionMetric && transactionMetric !== metric) transactionInput.value = "";
+      }
+      state = {
+        metric,
+        governorate: governorate || "",
+        label: targetGovernorate ? `${targetGovernorate} - ${metricLabels[metric]}` : metricLabels[metric]
+      };
+      if (governorateInput) governorateInput.value = targetGovernorate;
+      updateAreaOptions(true);
+      if (areaInput) {
+        if (areaToKeep) {
+          const kept = rememberRecentArea(areaToKeep);
+          areaInput.value = kept ? kept.area : areaToKeep;
+        } else {
+          areaInput.value = "";
+        }
+      }
+      if (targetGovernorate) {
+        expandedGovernorates.clear();
+        expandedGovernorates.add(targetGovernorate);
+      }
+      const finalArea = areaInput?.value || "";
+      state.label = [targetGovernorate, finalArea, metricLabels[metric]].filter(Boolean).join(" - ");
+      document.querySelectorAll(".metric").forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.metric === metric);
+      });
+      highlightGovernorate();
+      highlightMetricColumn();
+      updateGovernorateFilterSummary();
+      renderResults();
+    };
 
     const basePreviewRenderSuggestions = renderSuggestions;
     renderSuggestions = function(id) {
@@ -1515,6 +1619,7 @@ PREVIEW_JS = r"""
 
     const basePreviewChooseSuggestion = chooseSuggestion;
     chooseSuggestion = function(id, value) {
+      if (id === "areaFilter") rememberRecentArea(value);
       basePreviewChooseSuggestion(id, value);
       hideSuggestions(id);
       const input = document.getElementById(id);
