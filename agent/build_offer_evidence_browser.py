@@ -46,7 +46,6 @@ HTML_PATH = OUTPUT_DIR / "01_لوحة_تفاعلية_للأرقام_والعرو
 PROPERTY_HTML_PATH = OUTPUT_DIR / "01_لوحة_تفاعلية_للأرقام_والعروض_نسخة_نوع_العقار.html"
 XLSX_PATH = OUTPUT_DIR / "02_قوائم_العروض_الفعلية_حسب_الأرقام.xlsx"
 README_PATH = OUTPUT_DIR / "اقرأني_مختصر.txt"
-QUALITY_HTML_PATH = OUTPUT_DIR / "04_data_quality_review.html"
 PUBLIC_DETAIL_BASE = "https://front.alforaij.com/Listing/Detail"
 PUBLIC_SEARCH_URL = "https://search.alforaij.com/"
 IMAGE_BASE = "https://search.alforaij.com"
@@ -157,15 +156,6 @@ def merged_data_warnings(row: dict) -> str:
             deduped.append(note)
     return " | ".join(deduped)
 
-
-def quality_summary(records: list[dict]) -> dict:
-    return {
-        "records": len(records),
-        "missing_space": sum(1 for row in records if not row.get("space")),
-        "missing_price": sum(1 for row in records if not row.get("price")),
-        "warnings": sum(1 for row in records if row.get("dataWarnings")),
-        "setback_notes": sum(1 for row in records if "ارتداد" in str(row.get("dataWarnings") or "")),
-    }
 
 def safe_slug(text: str) -> str:
     slug = re.sub(r"[^A-Za-z0-9]+", "_", text)
@@ -948,7 +938,6 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
         "records": html_records,
         "metrics": metrics,
         "governors": governors,
-        "quality": quality_summary(records),
         "generatedLabel": arabic_date_label(date.today()),
         "logoDataUri": "assets/alforaij_logo.png",
         "coverDataUri": "assets/kuwait_glass_cover.webp",
@@ -1735,7 +1724,6 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
       </div>
       <div class="action-buttons">
         <a class="action-button primary" href="downloads/offer-evidence.xlsx" download>تحميل Excel التفصيلي</a>
-        <a class="action-button" href="qa.html">تقرير جودة البيانات</a>
         <button id="downloadCsvButton" class="action-button" type="button">تحميل نتائج الاختيار CSV</button>
         <button id="printPdfButton" class="action-button" type="button">طباعة / حفظ PDF</button>
       </div>
@@ -2364,10 +2352,7 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
         createFact('نوع العقار', row.property_type),
         createFact('التصنيف', row.detail_class),
         createFact('السعر', row.priceText),
-        createFact('مصدر السعر', row.priceSource || 'غير محدد'),
         createFact('المساحة', row.space ? `${{row.space}} م²` : 'غير محدد'),
-        createFact('مصدر المساحة', row.spaceSource || 'غير محدد'),
-        createFact('ملاحظات الجودة', row.dataWarnings || 'لا توجد'),
         createFact('نوع الإعلان', row.listingMode),
         createFact('تاريخ النشر', row.publishedDate || 'غير محدد')
       );
@@ -2522,10 +2507,6 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
           createFact('المساحة', row.space ? `${{row.space}} م²` : 'غير محدد')
         );
         body.appendChild(facts);
-        const sourceNote = document.createElement('p');
-        sourceNote.className = 'desc';
-        sourceNote.textContent = `مصدر المساحة: ${{row.spaceSource || 'غير محدد'}}${{row.dataWarnings ? ` | ملاحظات: ${{row.dataWarnings}}` : ''}}`;
-        body.appendChild(sourceNote);
         const meta = document.createElement('p');
         meta.className = 'desc';
         meta.textContent = `تاريخ النشر: ${{row.publishedDate || 'غير محدد'}} | تفاصيل متاحة: ${{row.detailAvailable}} | صورة: ${{row.imageUrl ? 'نعم' : 'لا'}}`;
@@ -2566,10 +2547,7 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
         ['نوع العقار', 'property_type'],
         ['التصنيف', 'detail_class'],
         ['السعر', 'priceText'],
-        ['مصدر السعر', 'priceSource'],
         ['المساحة', 'space'],
-        ['مصدر المساحة', 'spaceSource'],
-        ['ملاحظات الجودة', 'dataWarnings'],
         ['نمط الإدراج', 'listingMode'],
         ['تاريخ النشر', 'publishedDate'],
         ['رابط الإعلان الأصلي', 'originalUrl']
@@ -2661,81 +2639,6 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
 
 
 
-def create_quality_report(records: list[dict]) -> None:
-    def esc(value: object) -> str:
-        return html_lib.escape(str(value or ""))
-
-    issue_rows = [row for row in records if row.get("dataWarnings") or not row.get("space") or not row.get("price")]
-    summary = quality_summary(records)
-    table_rows = "".join(
-        f"""
-        <tr>
-          <td>{esc(row.get('code'))}</td>
-          <td>{esc(row.get('transaction'))}</td>
-          <td>{esc(row.get('governorate'))}</td>
-          <td>{esc(row.get('area'))}</td>
-          <td>{esc(row.get('priceText'))}</td>
-          <td>{esc(str(row.get('space')) if row.get('space') else 'غير محدد')}</td>
-          <td>{esc(row.get('priceSource'))}</td>
-          <td>{esc(row.get('spaceSource'))}</td>
-          <td>{esc(row.get('dataWarnings'))}</td>
-          <td class="detail">{esc((row.get('detailText') or row.get('summary') or '')[:220])}</td>
-          <td><a href="{esc(row.get('originalUrl'))}">فتح</a></td>
-        </tr>
-        """
-        for row in issue_rows
-    )
-    html = f"""<!doctype html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="noindex, nofollow">
-  <title>تقرير جودة بيانات الفريج</title>
-  <style>
-    * {{ box-sizing: border-box; }}
-    body {{ margin: 0; background: #f6f8fb; color: #111827; font-family: Arial, Tahoma, sans-serif; font-size: 16px; line-height: 1.6; }}
-    header {{ background: #0f172a; color: white; padding: 22px 28px; border-bottom: 5px solid #d97706; }}
-    h1 {{ margin: 0; font-size: 28px; }}
-    main {{ padding: 18px; max-width: 1280px; margin: 0 auto; }}
-    .cards {{ display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-bottom: 14px; }}
-    .card {{ background: white; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px; }}
-    .card b {{ display: block; color: #475569; font-size: 13px; }}
-    .card span {{ display: block; font-size: 26px; font-weight: 900; margin-top: 3px; }}
-    .table-wrap {{ overflow-x: auto; background: white; border: 1px solid #cbd5e1; border-radius: 8px; }}
-    table {{ width: 100%; min-width: 1120px; border-collapse: collapse; }}
-    th, td {{ border-bottom: 1px solid #e2e8f0; padding: 8px; vertical-align: top; text-align: right; }}
-    th {{ background: #f8fafc; color: #334155; font-size: 13px; }}
-    td {{ font-weight: 700; }}
-    .detail {{ max-width: 280px; white-space: pre-line; color: #334155; }}
-    a {{ color: #1748c7; font-weight: 900; }}
-    @media (max-width: 720px) {{ .cards {{ grid-template-columns: 1fr 1fr; }} main {{ padding: 10px; }} }}
-  </style>
-</head>
-<body>
-  <header><h1>تقرير جودة بيانات العروض</h1></header>
-  <main>
-    <section class="cards">
-      <div class="card"><b>إجمالي السجلات</b><span>{summary['records']}</span></div>
-      <div class="card"><b>مساحة غير مذكورة</b><span>{summary['missing_space']}</span></div>
-      <div class="card"><b>سعر غير معلن</b><span>{summary['missing_price']}</span></div>
-      <div class="card"><b>سجلات بملاحظات</b><span>{summary['warnings']}</span></div>
-    </section>
-    <div class="table-wrap">
-      <table>
-        <thead><tr>
-          <th>الكود</th><th>نوع المعاملة</th><th>المحافظة</th><th>المنطقة</th>
-          <th>السعر</th><th>المساحة</th><th>مصدر السعر</th><th>مصدر المساحة</th><th>ملاحظات</th><th>النص الأصلي</th><th>الرابط</th>
-        </tr></thead>
-        <tbody>{table_rows}</tbody>
-      </table>
-    </div>
-  </main>
-</body>
-</html>
-"""
-    QUALITY_HTML_PATH.write_text(html, encoding="utf-8")
-
 def create_readme(records: list[dict], metrics: list[dict]) -> None:
     lines = [
         "ملحق استعراض الأرقام والعروض الفعلية",
@@ -2768,7 +2671,6 @@ def main() -> None:
     remove_detail_pages()
     create_html(records, metrics, governors)
     create_excel(records, metrics, governors)
-    create_quality_report(records)
     update_parent_register_links(records)
     create_readme(records, metrics)
     print(
@@ -2777,7 +2679,7 @@ def main() -> None:
                 "output": str(OUTPUT_DIR),
                 "records": len(records),
                 "metrics": {row["metric"]: row["count"] for row in metrics},
-                "files": [HTML_PATH.name, PROPERTY_HTML_PATH.name, XLSX_PATH.name, QUALITY_HTML_PATH.name, README_PATH.name],
+                "files": [HTML_PATH.name, PROPERTY_HTML_PATH.name, XLSX_PATH.name, README_PATH.name],
             },
             ensure_ascii=False,
             indent=2,

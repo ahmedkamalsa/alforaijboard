@@ -31,7 +31,6 @@ def main() -> None:
     for path in (
         HTML,
         SITE / "downloads" / "offer-evidence.xlsx",
-        SITE / "qa.html",
         SITE / "last-updated.json",
         SITE / "_headers",
         SITE / "assets" / "alforaij_logo.png",
@@ -100,10 +99,6 @@ def main() -> None:
         raise AssertionError("last-updated.json record count does not match the dashboard")
     if "Content-Security-Policy" not in (SITE / "_headers").read_text(encoding="utf-8"):
         raise AssertionError("Deployment security headers are incomplete")
-    quality_html = (SITE / "qa.html").read_text(encoding="utf-8")
-    if "<table>" not in quality_html or "<tbody>" not in quality_html:
-        raise AssertionError("Quality report page is incomplete")
-
     print(
         json.dumps(
             {
