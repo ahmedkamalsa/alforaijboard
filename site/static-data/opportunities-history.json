@@ -1,0 +1,202 @@
+{
+  "dates": [],
+  "series": [
+    {
+      "area": "حولي",
+      "points": [
+        {
+          "date": "",
+          "value": 2580.6
+        }
+      ],
+      "first": 2580.6,
+      "latest": 2580.6,
+      "changePercent": 0.0,
+      "direction": "مستقر"
+    },
+    {
+      "area": "الخالدية",
+      "points": [
+        {
+          "date": "",
+          "value": 2460.0
+        }
+      ],
+      "first": 2460.0,
+      "latest": 2460.0,
+      "changePercent": 0.0,
+      "direction": "مستقر"
+    },
+    {
+      "area": "غرب عبدالله المبارك",
+      "points": [
+        {
+          "date": "",
+          "value": 1575.0
+        }
+      ],
+      "first": 1575.0,
+      "latest": 1575.0,
+      "changePercent": 0.0,
+      "direction": "مستقر"
+    },
+    {
+      "area": "الفيحاء",
+      "points": [
+        {
+          "date": "",
+          "value": 1300.0
+        }
+      ],
+      "first": 1300.0,
+      "latest": 1300.0,
+      "changePercent": 0.0,
+      "direction": "مستقر"
+    },
+    {
+      "area": "جليب الشيوخ - الحساوي",
+      "points": [
+        {
+          "date": "",
+          "value": 1296.6
+        }
+      ],
+      "first": 1296.6,
+      "latest": 1296.6,
+      "changePercent": 0.0,
+      "direction": "مستقر"
+    },
+    {
+      "area": "السلام",
+      "points": [
+        {
+          "date": "",
+          "value": 1253.3
+        }
+      ],
+      "first": 1253.3,
+      "latest": 1253.3,
+      "changePercent": 0.0,
+      "direction": "مستقر"
+    },
+    {
+      "area": "الروضة",
+      "points": [
+        {
+          "date": "",
+          "value": 1240.0
+        }
+      ],
+      "first": 1240.0,
+      "latest": 1240.0,
+      "changePercent": 0.0,
+      "direction": "مستقر"
+    },
+    {
+      "area": "الدسمة",
+      "points": [
+        {
+          "date": "",
+          "value": 1230.8
+        }
+      ],
+      "first": 1230.8,
+      "latest": 1230.8,
+      "changePercent": 0.0,
+      "direction": "مستقر"
+    },
+    {
+      "area": "الصديق",
+      "points": [
+        {
+          "date": "",
+          "value": 1139.1
+        }
+      ],
+      "first": 1139.1,
+      "latest": 1139.1,
+      "changePercent": 0.0,
+      "direction": "مستقر"
+    },
+    {
+      "area": "اليرموك",
+      "points": [
+        {
+          "date": "",
+          "value": 1100.0
+        }
+      ],
+      "first": 1100.0,
+      "latest": 1100.0,
+      "changePercent": 0.0,
+      "direction": "مستقر"
+    },
+    {
+      "area": "صباح السالم",
+      "points": [
+        {
+          "date": "",
+          "value": 1075.0
+        }
+      ],
+      "first": 1075.0,
+      "latest": 1075.0,
+      "changePercent": 0.0,
+      "direction": "مستقر"
+    },
+    {
+      "area": "الزهراء",
+      "points": [
+        {
+          "date": "",
+          "value": 1068.8
+        }
+      ],
+      "first": 1068.8,
+      "latest": 1068.8,
+      "changePercent": 0.0,
+      "direction": "مستقر"
+    },
+    {
+      "area": "السالمية",
+      "points": [
+        {
+          "date": "",
+          "value": 1050.0
+        }
+      ],
+      "first": 1050.0,
+      "latest": 1050.0,
+      "changePercent": 0.0,
+      "direction": "مستقر"
+    },
+    {
+      "area": "مشرف",
+      "points": [
+        {
+          "date": "",
+          "value": 1000.0
+        }
+      ],
+      "first": 1000.0,
+      "latest": 1000.0,
+      "changePercent": 0.0,
+      "direction": "مستقر"
+    },
+    {
+      "area": "الفنيطيس",
+      "points": [
+        {
+          "date": "",
+          "value": 950.0
+        }
+      ],
+      "first": 950.0,
+      "latest": 950.0,
+      "changePercent": 0.0,
+      "direction": "مستقر"
+    }
+  ],
+  "snapshotCount": 1,
+  "staticSnapshot": true
+}

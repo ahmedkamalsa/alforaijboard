@@ -5,12 +5,13 @@ on:
     branches:
       - main
     paths:
-      - "agent/**"
+      - "site/**"
+      - "agent/validate_static_site.py"
       - ".github/workflows/update-dashboard.yml"
       - "netlify.toml"
   workflow_dispatch:
   schedule:
-    # Four balanced refreshes daily: 00:00, 06:00, 12:00 and 18:00 Kuwait time.
+    # Keep the published branch warm without rebuilding the old dashboard.
     - cron: "0 3,9,15,21 * * *"
 
 permissions:
@@ -21,75 +22,17 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 10
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-          cache: pip
-          cache-dependency-path: agent/requirements.txt
-
-      - name: Install dependencies
-        run: python -m pip install --disable-pip-version-check -r agent/requirements.txt
-
-      - name: Restore optimized listing image cache
-        uses: actions/cache@v4
-        with:
-          path: agent/.image_cache
-          key: ${{ runner.os }}-listing-images-${{ github.run_id }}
-          restore-keys: |
-            ${{ runner.os }}-listing-images-
-
-      - name: Refresh data register
-        shell: bash
-        run: |
-          set -euo pipefail
-          for attempt in 1 2 3; do
-            if python agent/refresh_dashboard_register.py; then
-              exit 0
-            fi
-            if [ "$attempt" -eq 3 ]; then
-              exit 1
-            fi
-            sleep $((attempt * 20))
-          done
-
-      - name: Build static site
-        shell: bash
-        run: |
-          set -euo pipefail
-          for attempt in 1 2 3; do
-            if python agent/build_static_site.py; then
-              exit 0
-            fi
-            if [ "$attempt" -eq 3 ]; then
-              exit 1
-            fi
-            sleep $((attempt * 20))
-          done
-
       - name: Validate deployment artifact
         run: python agent/validate_static_site.py
-
-      - name: Commit updated site
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add site
-          if git diff --cached --quiet; then
-            echo "No site changes to commit."
-          else
-            git commit -m "Update dashboard site"
-            git push
-          fi
 
       - name: Publish GitHub Pages branch
         run: |

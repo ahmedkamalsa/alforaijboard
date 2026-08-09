@@ -1,13 +1,17 @@
 from __future__ import annotations
 
 import json
-import re
+import sys
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parent.parent
 SITE = ROOT / "site"
 HTML = SITE / "index.html"
+STATIC = SITE / "static-data"
+
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
 
 
 def require_file(path: Path) -> None:
@@ -15,21 +19,17 @@ def require_file(path: Path) -> None:
         raise AssertionError(f"Missing or empty deployment file: {path}")
 
 
-def embedded_payload() -> dict:
-    text = HTML.read_text(encoding="utf-8")
-    match = re.search(
-        r'<script id="payload" type="application/json">(.*?)</script>',
-        text,
-        flags=re.DOTALL,
-    )
-    if not match:
-        raise AssertionError("Embedded dashboard payload was not found")
-    return json.loads(match.group(1))
+def read_json(path: Path) -> dict:
+    require_file(path)
+    return json.loads(path.read_text(encoding="utf-8"))
 
 
 def main() -> None:
     for path in (
         HTML,
+        SITE / "app.js",
+        SITE / "styles.css",
+        SITE / "config.js",
         SITE / "downloads" / "offer-evidence.xlsx",
         SITE / "last-updated.json",
         SITE / "_headers",
@@ -39,79 +39,65 @@ def main() -> None:
         SITE / "assets" / "alforaij-favicon-v2.png",
         SITE / "assets" / "apple-touch-icon.png",
         SITE / "assets" / "favicon.ico",
+        STATIC / "dashboard-summary.json",
+        STATIC / "opportunities.json",
+        STATIC / "market-matching.json",
+        STATIC / "sources.json",
+        STATIC / "health.json",
     ):
         require_file(path)
 
-    payload = embedded_payload()
-    records = payload.get("records") or []
-    metrics = {item["metric"]: item["count"] for item in payload.get("metrics") or []}
-    governors = payload.get("governors") or []
+    dashboard = read_json(STATIC / "dashboard-summary.json")
+    opportunities = read_json(STATIC / "opportunities.json")
+    matching = read_json(STATIC / "market-matching.json")
+    health = read_json(STATIC / "health.json")
 
-    if not records:
-        raise AssertionError("Dashboard payload contains no records")
-    codes = [row.get("code") for row in records]
-    if len(codes) != len(set(codes)):
-        raise AssertionError("Dashboard payload contains duplicate advertisement codes")
-
-    transaction_total = sum(metrics.get(key, 0) for key in ("sell", "buy", "rent", "rent_request"))
-    if transaction_total != metrics.get("movement") or transaction_total != len(records):
-        raise AssertionError(
-            f"Metric mismatch: movement={metrics.get('movement')} "
-            f"transactions={transaction_total} records={len(records)}"
-        )
-    if sum(row.get("movement", 0) for row in governors) != len(records):
-        raise AssertionError("Governorate totals do not match the record count")
-    localized_images = sum(
-        str(row.get("imageUrl") or "").startswith("assets/listings/")
-        for row in records
-    )
-    if localized_images < int(len(records) * 0.9):
-        raise AssertionError(
-            f"Too few optimized local listing images: {localized_images}/{len(records)}"
-        )
-
-    for row in records:
-        for field in ("priceSource", "spaceSource", "dataWarnings"):
-            if field not in row:
-                raise AssertionError(f"Missing data provenance field {field} for {row.get('code')}")
-        original_url = str(row.get("originalUrl") or "")
-        if row.get("originalAvailable") and not re.fullmatch(
-            r"https://front\.alforaij\.com/Listing/Detail/\d+",
-            original_url,
-        ):
-            raise AssertionError(f"Invalid public advertisement URL for {row.get('code')}: {original_url}")
+    records = dashboard.get("records") or []
+    if len(records) < 180:
+        raise AssertionError(f"Dashboard snapshot is too small: {len(records)} records")
+    if not dashboard.get("platforms"):
+        raise AssertionError("Dashboard snapshot has no platform list")
+    if not (dashboard.get("opportunities") or {}).get("items"):
+        raise AssertionError("Dashboard snapshot has no opportunity items")
+    if opportunities.get("totalScored", 0) <= 0:
+        raise AssertionError("Opportunities snapshot has no scored records")
+    if not opportunities.get("contributingSources"):
+        raise AssertionError("Opportunities snapshot has no contributing sources")
+    if not matching.get("requests"):
+        raise AssertionError("Market matching snapshot has no requests")
+    if health.get("records", 0) <= 0:
+        raise AssertionError("Health snapshot has no record count")
 
     html_text = HTML.read_text(encoding="utf-8")
     required_markers = (
-        'id="listingModeFilter"',
-        'id="loadMoreButton"',
-        'id="showAllButton"',
-        'id="downloadCsvButton"',
-        'class="table-scroll"',
-        "RESULT_PAGE_SIZE = 7",
+        'id="boardMetricFilter"',
+        'id="boardPlatformFilter"',
+        'id="chatInput"',
+        'id="oppList"',
+        'static-data/',
+        'app.js',
+        'styles.css',
     )
-    missing = [marker for marker in required_markers if marker not in html_text]
+    missing = [marker for marker in required_markers if marker not in html_text and marker not in (SITE / "app.js").read_text(encoding="utf-8")]
     if missing:
-        raise AssertionError(f"Missing dashboard features: {missing}")
+        raise AssertionError(f"Missing platform features: {missing}")
 
-    metadata = json.loads((SITE / "last-updated.json").read_text(encoding="utf-8"))
+    headers = (SITE / "_headers").read_text(encoding="utf-8")
+    if "Content-Security-Policy" not in headers or "connect-src 'self'" not in headers:
+        raise AssertionError("Deployment security headers must allow reading same-origin static-data")
+
+    metadata = read_json(SITE / "last-updated.json")
     if metadata.get("record_count") != len(records):
-        raise AssertionError("last-updated.json record count does not match the dashboard")
-    if "Content-Security-Policy" not in (SITE / "_headers").read_text(encoding="utf-8"):
-        raise AssertionError("Deployment security headers are incomplete")
-    print(
-        json.dumps(
-            {
-                "records": len(records),
-                "metrics": metrics,
-                "governorates": len(governors),
-                "localized_images": localized_images,
-                "status": "ok",
-            },
-            ensure_ascii=False,
-            indent=2,
-        )
-    )
+        raise AssertionError("last-updated.json record count does not match dashboard-summary.json")
+
+    print(json.dumps({
+        "records": len(records),
+        "opportunities_scored": opportunities.get("totalScored"),
+        "opportunities_visible": len((dashboard.get("opportunities") or {}).get("items") or []),
+        "market_requests": len(matching.get("requests") or []),
+        "platforms": dashboard.get("platforms"),
+        "status": "ok",
+    }, ensure_ascii=False, indent=2))
 
 
 if __name__ == "__main__":

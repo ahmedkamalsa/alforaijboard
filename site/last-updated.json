@@ -1,8 +1,18 @@
 {
-  "generated_at": "2026-08-09T15:35:04.599490+00:00",
+  "generated_at": "2026-08-09T18:41:01+03:00",
   "entrypoint": "index.html",
-  "dashboard_variant": "property-type-filter",
-  "record_count": 182,
+  "dashboard_variant": "evidence-opportunity-platform",
+  "record_count": 230,
+  "opportunities_scored": 181,
+  "opportunities_visible": 58,
+  "market_matching_requests": 36,
+  "platforms": [
+    "الفريج",
+    "OpenSooq",
+    "Mourjan",
+    "بوشملان",
+    "الحسبة"
+  ],
   "downloads": [
     "downloads/offer-evidence.xlsx"
   ]

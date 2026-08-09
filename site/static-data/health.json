@@ -1,0 +1,13 @@
+{
+  "staticSnapshot": true,
+  "status": "static",
+  "records": 182,
+  "recordsMeaning": "Static GitHub Pages snapshot generated from the backend data pipeline.",
+  "supabase": false,
+  "aiAnalysis": false,
+  "dataSummary": {
+    "listings": 182,
+    "opportunities": 181,
+    "sources": 19
+  }
+}

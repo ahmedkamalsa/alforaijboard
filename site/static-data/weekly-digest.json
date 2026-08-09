@@ -1,0 +1,1531 @@
+{
+  "generatedAt": "2026-08-09T18:41:02",
+  "count": 2,
+  "note": "موجز أسبوعي تلقائي: أفضل 10 فرص بيع لكل عميل محتمل حسب منطقه ونوع عقاره وميزانيته، بدرجة مطابقة حتمية ومصادر أدلة لكل فرصة — استبدل [اسمك] قبل الإرسال.",
+  "digests": [
+    {
+      "client": {
+        "area": "النهضة",
+        "type": "بيت",
+        "price": "350000"
+      },
+      "phones": [
+        "+96555559950",
+        "+96555559950",
+        "+96541060118"
+      ],
+      "opportunities": [
+        {
+          "code": "AF-307",
+          "source": "الفريج",
+          "listingType": "مباشر",
+          "governorate": "محافظة العاصمة",
+          "area": "النهضة",
+          "propertyType": "بيت",
+          "transaction": "للبيع",
+          "rental": false,
+          "price": 350000.0,
+          "priceText": "350 ألف د.ك",
+          "space": 400.0,
+          "publishedDate": "2026-07-26",
+          "daysAgo": 14,
+          "url": "https://front.alforaij.com/Listing/Detail/307",
+          "summary": "زاوية.",
+          "dealScore": 100,
+          "confidence": 0.83,
+          "valuationLabel": "لقطة ممتازة",
+          "valuationReason": "السعر أقل من وسيط المقارنات بنسبة كبيرة: 350,000 د.ك مقابل وسيط 520,000 د.ك. المقارنة تمت داخل نفس المنطقة + توسعة محدودة على السعر الإجمالي للعروض المشابهة، وسعر المتر للمطلوب 875 د.ك/م² مقابل وسيط 1,300 د.ك/م².",
+          "marketMedian": 520000.0,
+          "pricePerSqm": 875.0,
+          "officialValue": null,
+          "officialSourceKind": "missing",
+          "comparablesCount": 3,
+          "comparableScope": "نفس المنطقة + توسعة محدودة",
+          "score": 94.0,
+          "evidence": [
+            {
+              "code": "AF-214",
+              "area": "الفيحاء",
+              "price": 520000.0,
+              "priceText": "520 ألف د.ك",
+              "source": "الفريج",
+              "url": "https://front.alforaij.com/Listing/Detail/214"
+            },
+            {
+              "code": "AF-203",
+              "area": "الدسمة",
+              "price": 400000.0,
+              "priceText": "400 ألف د.ك",
+              "source": "الفريج",
+              "url": "https://front.alforaij.com/Listing/Detail/203"
+            },
+            {
+              "code": "AF-189",
+              "area": "الخالدية",
+              "price": 1230000.0,
+              "priceText": "1,230 ألف د.ك",
+              "source": "الفريج",
+              "url": "https://front.alforaij.com/Listing/Detail/189"
+            }
+          ],
+          "clients": [
+            {
+              "area": "النهضة",
+              "type": "بيت",
+              "price": "350000",
+              "phones": "55559950|+96555559950|+96541060118",
+              "message": "السلام عليكم، معك [اسمك]. عندي بيت للبيع في النهضة — زاوية على ثلاث شوارع، شارع رئيسي داخلي، 400م، 3 أدوار وربع، بناء جديد وجاهز للسكن. السعر مراجع 450,000 د.ك. هل عندك مشترين مهتمين بهذه المواصفات؟ أرسل صور/مواعيد معاينة عند الطلب. شكراً.",
+              "source": "csv",
+              "matchScore": 100.0,
+              "reasons": [
+                "نفس المنطقة",
+                "نفس نوع العقار",
+                "السعر ضمن نطاق العميل"
+              ],
+              "clientBudget": 350000.0,
+              "potentialProfitKwd": 0,
+              "profitReason": "سعر الإعلان ليس أقل من ميزانية العميل، لذلك لا يوجد هامش شراء مباشر."
+            }
+          ]
+        },
+        {
+          "code": "AF-303",
+          "source": "الفريج",
+          "listingType": "مباشر",
+          "governorate": "محافظة الجهراء",
+          "area": "المطلاع",
+          "propertyType": "بيت",
+          "transaction": "للبيع",
+          "rental": false,
+          "price": 310000.0,
+          "priceText": "310 ألف د.ك",
+          "space": null,
+          "publishedDate": "2026-07-21",
+          "daysAgo": 19,
+          "url": "https://front.alforaij.com/Listing/Detail/303",
+          "summary": "بيت دورين، زاوية، يتميز بارتداد 40 متر.",
+          "dealScore": 100,
+          "confidence": 0.95,
+          "valuationLabel": "لقطة ممتازة",
+          "valuationReason": "السعر أقل من وسيط المقارنات بنسبة كبيرة: 310,000 د.ك مقابل وسيط 400,000 د.ك. المقارنة تمت داخل نفس المنطقة على السعر الإجمالي للعروض المشابهة، لأن مساحة هذا الإعلان غير مذكورة لم يُحسب سعر المتر.",
+          "marketMedian": 400000.0,
+          "pricePerSqm": null,
+          "officialValue": null,
+          "officialSourceKind": "missing",
+          "comparablesCount": 8,
+          "comparableScope": "نفس المنطقة",
+          "score": 98.2,
+          "evidence": [
+            {
+              "code": "AF-287",
+              "area": "المطلاع",
+              "price": 400000.0,
+              "priceText": "400 ألف د.ك",
+              "source": "الفريج",
+              "url": "https://front.alforaij.com/Listing/Detail/287"
+            },
+            {
+              "code": "AF-225",
+              "area": "المطلاع",
+              "price": 430000.0,
+              "priceText": "430 ألف د.ك",
+              "source": "الفريج",
+              "url": "https://front.alforaij.com/Listing/Detail/225"
+            },
+            {
+              "code": "AF-213",
+              "area": "المطلاع",
+              "price": 470000.0,
+              "priceText": "470 ألف د.ك",
+              "source": "الفريج",
+              "url": "https://front.alforaij.com/Listing/Detail/213"
+            },
+            {
+              "code": "AF-142",
+              "area": "المطلاع",
+              "price": 260000.0,
+              "priceText": "260 ألف د.ك",
+              "source": "الفريج",
+              "url": "https://front.alforaij.com/Listing/Detail/142"
+            }
+          ],
+          "clients": [
+            {
+              "area": "المطلاع",
+              "type": "بيت",
+              "price": "310000",
+              "phones": "55559950|+96555559950|+96541060118",
+              "message": "السلام عليكم، معك [اسمك]. لدي بيت دورين في المطلاع، السعر 310,000 د.ك. هل لديكم مشترين مهتمين؟",
+              "source": "csv",
+              "matchScore": 100.0,
+              "reasons": [
+                "نفس المنطقة",
+                "نفس نوع العقار",
+                "السعر ضمن نطاق العميل"
+              ],
+              "clientBudget": 310000.0,
+              "potentialProfitKwd": 0,
+              "profitReason": "سعر الإعلان ليس أقل من ميزانية العميل، لذلك لا يوجد هامش شراء مباشر."
+            },
+            {
+              "area": "المطلاع",
+              "type": "بيت",
+              "price": "",
+              "phones": "55559950|41060118",
+              "message": "📍 مطلوب للشراء بيت في منطقة المطلاع\n🗺️ الموقع المطلوبة: شارع ما قدامه بيوت.\n📞 للاستفسار والتواصل:\n📱 55559950 | 📱 41060118\n🌐 alforaij.com شارع ",
+              "source": "الفريج",
+              "matchScore": 70.0,
+              "reasons": [
+                "نفس المنطقة",
+                "نفس نوع العقار"
+              ],
+              "clientBudget": null,
+              "potentialProfitKwd": null,
+              "profitReason": "لا يمكن حساب المكسب لأن ميزانية العميل أو سعر الإعلان غير مكتمل."
+            }
+          ]
+        },
+        {
+          "code": "AF-278",
+          "source": "الفريج",
+          "listingType": "مباشر",
+          "governorate": "محافظة حولي",
+          "area": "بيان",
+          "propertyType": "بيت",
+          "transaction": "للبيع",
+          "rental": false,
+          "price": 270000.0,
+          "priceText": "270 ألف د.ك",
+          "space": 300.0,
+          "publishedDate": "2026-06-28",
+          "daysAgo": 42,
+          "url": "https://front.alforaij.com/Listing/Detail/278",
+          "summary": "أول ملك (سكن المالك)، البيت نظيف جداً، خالي من المخالفات.",
+          "dealScore": 100,
+          "confidence": 0.95,
+          "valuationLabel": "لقطة ممتازة",
+          "valuationReason": "السعر أقل من وسيط المقارنات بنسبة كبيرة: 270,000 د.ك مقابل وسيط 535,000 د.ك. المقارنة تمت داخل نفس المنطقة + توسعة محدودة على السعر الإجمالي للعروض المشابهة، وسعر المتر للمطلوب 900 د.ك/م² مقابل وسيط 900 د.ك/م².",
+          "marketMedian": 535000.0,
+          "pricePerSqm": 900.0,
+          "officialValue": 510000.0,
+          "officialSourceKind": "official",
+          "comparablesCount": 8,
+          "comparableScope": "نفس المنطقة + توسعة محدودة",
+          "score": 98.2,
+          "evidence": [
+            {
+              "code": "AD-278",
+              "area": "بيان",
+              "price": 270000.0,
+              "priceText": "270,000 د.ك",
+              "source": "السوق المباشر (alforaij)",
+              "url": "https://front.alforaij.com/Listing/Detail/278"
+            },
+            {
+              "code": "MJ-29992196",
+              "area": "بيان",
+              "price": 280000.0,
+              "priceText": "280,000 د.ك",
+              "source": "Mourjan",
+              "url": "https://www.mourjan.com/kw/kuwait/villas-and-houses/for-sale/29992196/"
+            },
+            {
+              "code": "AF-260",
+              "area": "السلام",
+              "price": 720000.0,
+              "priceText": "720 ألف د.ك",
+              "source": "الفريج",
+              "url": "https://front.alforaij.com/Listing/Detail/260"
+            },
+            {
+              "code": "AF-219",
+              "area": "سلوى",
+              "price": 450000.0,
+              "priceText": "450 ألف د.ك",
+              "source": "الفريج",
+              "url": "https://front.alforaij.com/Listing/Detail/219"
+            }
+          ],
+          "clients": []
+        },
+        {
+          "code": "AF-218",
+          "source": "الفريج",
+          "listingType": "مباشر",
+          "governorate": "محافظة حولي",
+          "area": "سلوى",
+          "propertyType": "بيت",
+          "transaction": "للبيع",
+          "rental": false,
+          "price": 420000.0,
+          "priceText": "420 ألف د.ك",
+          "space": 484.0,
+          "publishedDate": "2026-05-21",
+          "daysAgo": 80,
+          "url": "https://front.alforaij.com/Listing/Detail/218",
+          "summary": "3 أدوار وملحق - البيت مؤجر بالكامل - نظيف جداً - يوجد مصعد - تكييف سنترال - مواقف لسيارتين",
+          "dealScore": 100,
+          "confidence": 0.95,
+          "valuationLabel": "لقطة ممتازة",
+          "valuationReason": "السعر أقل من وسيط المقارنات بنسبة كبيرة: 420,000 د.ك مقابل وسيط 635,000 د.ك. المقارنة تمت داخل نفس المنطقة + توسعة محدودة على السعر الإجمالي للعروض المشابهة، وسعر المتر للمطلوب 868 د.ك/م² مقابل وسيط 900 د.ك/م².",
+          "marketMedian": 635000.0,
+          "pricePerSqm": 867.8,
+          "officialValue": 415272.0,
+          "officialSourceKind": "official",
+          "comparablesCount": 8,
+          "comparableScope": "نفس المنطقة + توسعة محدودة",
+          "score": 98.2,
+          "evidence": [
+            {
+              "code": "AF-219",
+              "area": "سلوى",
+              "price": 450000.0,
+              "priceText": "450 ألف د.ك",
+              "source": "الفريج",
+              "url": "https://front.alforaij.com/Listing/Detail/219"
+            },
+            {
+              "code": "MJ-29922537",
+              "area": "سلوى",
+              "price": 400000.0,
+              "priceText": "400,000 د.ك",
+              "source": "Mourjan",
+              "url": "https://www.mourjan.com/kw/kuwait/villas-and-houses/for-sale/29922537/"
+            },
+            {
+              "code": "AF-278",
+              "area": "بيان",
+              "price": 270000.0,
+              "priceText": "270 ألف د.ك",
+              "source": "الفريج",
+              "url": "https://front.alforaij.com/Listing/Detail/278"
+            },
+            {
+              "code": "AF-260",
+              "area": "السلام",
+              "price": 720000.0,
+              "priceText": "720 ألف د.ك",
+              "source": "الفريج",
+              "url": "https://front.alforaij.com/Listing/Detail/260"
+            }
+          ],
+          "clients": []
+        },
+        {
+          "code": "AF-203",
+          "source": "الفريج",
+          "listingType": "غير محدد",
+          "governorate": "محافظة العاصمة",
+          "area": "الدسمة",
+          "propertyType": "بيت",
+          "transaction": "للبيع",
+          "rental": false,
+          "price": 400000.0,
+          "priceText": "400 ألف د.ك",
+          "space": 325.0,
+          "publishedDate": "2026-05-14",
+          "daysAgo": 87,
+          "url": "https://front.alforaij.com/Listing/Detail/203",
+          "summary": "دورين | تكييف وحد",
+          "dealScore": 100,
+          "confidence": 0.87,
+          "valuationLabel": "لقطة ممتازة",
+          "valuationReason": "السعر أقل من وسيط المقارنات بنسبة كبيرة: 400,000 د.ك مقابل وسيط 685,000 د.ك. المقارنة تمت داخل نفس المنطقة + توسعة محدودة على السعر الإجمالي للعروض المشابهة، وسعر المتر للمطلوب 1,231 د.ك/م² مقابل وسيط 1,217 د.ك/م².",
+          "marketMedian": 685000.0,
+          "pricePerSqm": 1230.8,
+          "officialValue": null,
+          "officialSourceKind": "missing",
+          "comparablesCount": 4,
+          "comparableScope": "نفس المنطقة + توسعة محدودة",
+          "score": 95.5,
+          "evidence": [
+            {
+              "code": "AF-307",
+              "area": "النهضة",
+              "price": 350000.0,
+              "priceText": "350 ألف د.ك",
+              "source": "الفريج",
+              "url": "https://front.alforaij.com/Listing/Detail/307"
+            },
+            {
+              "code": "AF-281",
+              "area": "اليرموك",
+              "price": 850000.0,
+              "priceText": "850 ألف د.ك",
+              "source": "الفريج",
+              "url": "https://front.alforaij.com/Listing/Detail/281"
+            },
+            {
+              "code": "AF-214",
+              "area": "الفيحاء",
+              "price": 520000.0,
+              "priceText": "520 ألف د.ك",
+              "source": "الفريج",
+              "url": "https://front.alforaij.com/Listing/Detail/214"
+            },
+            {
+              "code": "AF-189",
+              "area": "الخالدية",
+              "price": 1230000.0,
+              "priceText": "1,230 ألف د.ك",
+              "source": "الفريج",
+              "url": "https://front.alforaij.com/Listing/Detail/189"
+            }
+          ],
+          "clients": []
+        },
+        {
+          "code": "AF-106",
+          "source": "الفريج",
+          "listingType": "غير محدد",
+          "governorate": "محافظة الجهراء",
+          "area": "سعد العبدالله",
+          "propertyType": "بيت",
+          "transaction": "للبيع",
+          "rental": false,
+          "price": 330000.0,
+          "priceText": "330 ألف د.ك",
+          "space": null,
+          "publishedDate": "2026-01-03",
+          "daysAgo": 218,
+          "url": "https://front.alforaij.com/Listing/Detail/106",
+          "summary": "للبيع قسيمة – سعد العبدالله\n\n3 أدوار ونص، فاضية تسليم فوري.\nأرضي + أول + شقتين + سطح (4 غرف وحمامين).\nدرجين، مدخل مؤجرين، مجددة بالكامل، سنترال، مصعد.",
+          "dealScore": 100,
+          "confidence": 0.87,
+          "valuationLabel": "لقطة ممتازة",
+          "valuationReason": "السعر أقل من وسيط المقارنات بنسبة كبيرة: 330,000 د.ك مقابل وسيط 415,000 د.ك. المقارنة تمت داخل نفس المنطقة + توسعة محدودة على السعر الإجمالي للعروض المشابهة، لأن مساحة هذا الإعلان غير مذكورة لم يُحسب سعر المتر.",
+          "marketMedian": 415000.0,
+          "pricePerSqm": null,
+          "officialValue": null,
+          "officialSourceKind": "missing",
+          "comparablesCount": 4,
+          "comparableScope": "نفس المنطقة + توسعة محدودة",
+          "score": 95.5,
+          "evidence": [
+            {
+              "code": "AF-303",
+              "area": "المطلاع",
+              "price": 310000.0,
+              "priceText": "310 ألف د.ك",
+              "source": "الفريج",
+              "url": "https://front.alforaij.com/Listing/Detail/303"
+            },
+            {
+              "code": "AF-287",
+              "area": "المطلاع",
+              "price": 400000.0,
+              "priceText": "400 ألف د.ك",
+              "source": "الفريج",
+              "url": "https://front.alforaij.com/Listing/Detail/287"
+            },
+            {
+              "code": "AF-225",
+              "area": "المطلاع",
+              "price": 430000.0,
+              "priceText": "430 ألف د.ك",
+              "source": "الفريج",
+              "url": "https://front.alforaij.com/Listing/Detail/225"
+            },
+            {
+              "code": "AF-213",
+              "area": "المطلاع",
+              "price": 470000.0,
+              "priceText": "470 ألف د.ك",
+              "source": "الفريج",
+              "url": "https://front.alforaij.com/Listing/Detail/213"
+            }
+          ],
+          "clients": []
+        },
+        {
+          "code": "AD-303",
+          "source": "السوق المباشر (alforaij)",
+          "listingType": "غير محدد",
+          "governorate": "",
+          "area": "المطلاع",
+          "propertyType": "بيت",
+          "transaction": "للبيع",
+          "rental": false,
+          "price": 310000.0,
+          "priceText": "310,000 د.ك",
+          "space": 40.0,
+          "publishedDate": "2026-07-21",
+          "daysAgo": 19,
+          "url": "https://front.alforaij.com/Listing/Detail/303",
+          "summary": "📍 للبيع بيت في منطقة المطلاع (N11)\r\n🏗️ الوصف: بيت دورين، زاوية، يتميز بارتداد 40 متر.\r\n💰 السعر: 310,000 د.ك (واصل).\r\n📞 للاستفسار والتواصل:\r\n📱 5555995",
+          "dealScore": 100,
+          "confidence": 0.84,
+          "valuationLabel": "لقطة ممتازة",
+          "valuationReason": "السعر أقل من وسيط المقارنات بنسبة كبيرة: 310,000 د.ك مقابل وسيط 400,000 د.ك. المقارنة تمت داخل نفس المنطقة على السعر الإجمالي للعروض المشابهة، وسعر المتر للمطلوب 7,750 د.ك/م² مقابل وسيط 5,000 د.ك/م².",
+          "marketMedian": 400000.0,
+          "pricePerSqm": 7750.0,
+          "officialValue": 13600.0,
+          "officialSourceKind": "official",
+          "comparablesCount": 7,
+          "comparableScope": "نفس المنطقة",
+          "score": 94.4,
+          "evidence": [
+            {
+              "code": "AD-278709",
+              "area": "المطلاع",
+              "price": 2000000.0,
+              "priceText": "2,000,000 د.ك",
+              "source": "السوق المباشر (بوشملان)",
+              "url": "https://www.boshamlan.com//sale/houses/al-jahra-governorate/mutlaa/278709"
+            },
+            {
+              "code": "AD-287",
+              "area": "المطلاع",
+              "price": 400000.0,
+              "priceText": "400,000 د.ك",
+              "source": "السوق المباشر (alforaij)",
+              "url": "https://front.alforaij.com/Listing/Detail/287"
+            },
+            {
+              "code": "OS-285301696",
+              "area": "المطلاع",
+              "price": 310000.0,
+              "priceText": "310,000 د.ك",
+              "source": "OpenSooq",
+              "url": "https://kw.opensooq.com/search/285301696"
+            },
+            {
+              "code": "AF-303",
+              "area": "المطلاع",
+              "price": 310000.0,
+              "priceText": "310 ألف د.ك",
+              "source": "الفريج",
+              "url": "https://front.alforaij.com/Listing/Detail/303"
+            }
+          ],
+          "clients": [
+            {
+              "area": "المطلاع",
+              "type": "بيت",
+              "price": "310000",
+              "phones": "55559950|+96555559950|+96541060118",
+              "message": "السلام عليكم، معك [اسمك]. لدي بيت دورين في المطلاع، السعر 310,000 د.ك. هل لديكم مشترين مهتمين؟",
+              "source": "csv",
+              "matchScore": 100.0,
+              "reasons": [
+                "نفس المنطقة",
+                "نفس نوع العقار",
+                "السعر ضمن نطاق العميل"
+              ],
+              "clientBudget": 310000.0,
+              "potentialProfitKwd": 0,
+              "profitReason": "سعر الإعلان ليس أقل من ميزانية العميل، لذلك لا يوجد هامش شراء مباشر."
+            },
+            {
+              "area": "المطلاع",
+              "type": "بيت",
+              "price": "",
+              "phones": "55559950|41060118",
+              "message": "📍 مطلوب للشراء بيت في منطقة المطلاع\n🗺️ الموقع المطلوبة: شارع ما قدامه بيوت.\n📞 للاستفسار والتواصل:\n📱 55559950 | 📱 41060118\n🌐 alforaij.com شارع ",
+              "source": "الفريج",
+              "matchScore": 70.0,
+              "reasons": [
+                "نفس المنطقة",
+                "نفس نوع العقار"
+              ],
+              "clientBudget": null,
+              "potentialProfitKwd": null,
+              "profitReason": "لا يمكن حساب المكسب لأن ميزانية العميل أو سعر الإعلان غير مكتمل."
+            }
+          ]
+        },
+        {
+          "code": "AD-304",
+          "source": "السوق المباشر (alforaij)",
+          "listingType": "غير محدد",
+          "governorate": "",
+          "area": "Sabah Al-Ahmad",
+          "propertyType": "بيت",
+          "transaction": "للبيع",
+          "rental": false,
+          "price": 259999.89800000002,
+          "priceText": "260,000 د.ك",
+          "space": 454.0,
+          "publishedDate": "2026-07-21",
+          "daysAgo": 19,
+          "url": "https://front.alforaij.com/Listing/Detail/304",
+          "summary": "📍 للبيع شاليه في مدينة صباح الأحمد البحرية (المرحلة الثالثة)\r\n📐 المساحة: 454 متر مربع.\r\n🗺️ الموقع: صف ثاني، بطن وظهر، ارتداد فوق 100 متر، قريب من مول",
+          "dealScore": 100,
+          "confidence": 0.84,
+          "valuationLabel": "لقطة ممتازة",
+          "valuationReason": "السعر أقل من وسيط المقارنات بنسبة كبيرة: 260,000 د.ك مقابل وسيط 510,000 د.ك. المقارنة تمت داخل نفس المنطقة + توسعة محدودة على السعر الإجمالي للعروض المشابهة، وسعر المتر للمطلوب 573 د.ك/م² مقابل وسيط 1,983 د.ك/م².",
+          "marketMedian": 509999.75,
+          "pricePerSqm": 572.7,
+          "officialValue": 190680.0,
+          "officialSourceKind": "official",
+          "comparablesCount": 8,
+          "comparableScope": "نفس المنطقة + توسعة محدودة",
+          "score": 94.4,
+          "evidence": [
+            {
+              "code": "AD-303",
+              "area": "المطلاع",
+              "price": 310000.0,
+              "priceText": "310,000 د.ك",
+              "source": "السوق المباشر (alforaij)",
+              "url": "https://front.alforaij.com/Listing/Detail/303"
+            },
+            {
+              "code": "AD-283226",
+              "area": "خيطان",
+              "price": 2000000.25,
+              "priceText": "2,000,000 د.ك",
+              "source": "السوق المباشر (بوشملان)",
+              "url": "https://www.boshamlan.com//sale/buildings/al-farwaniya-governorate/khaitan/283226"
+            },
+            {
+              "code": "AD-183123",
+              "area": "الأحمدي",
+              "price": 499999.5,
+              "priceText": "500,000 د.ك",
+              "source": "السوق المباشر (بوشملان)",
+              "url": "https://www.boshamlan.com//sale/lands/al-ahmadi-governorate/sabah-al-ahmad-sea-city-khiran/183123"
+            },
+            {
+              "code": "AD-274420",
+              "area": "السالمية",
+              "price": 1850000.1190000002,
+              "priceText": "1,850,000 د.ك",
+              "source": "السوق المباشر (بوشملان)",
+              "url": "https://www.boshamlan.com//sale/buildings/hawally-governorate/salmiya/274420"
+            }
+          ],
+          "clients": []
+        },
+        {
+          "code": "AD-280001",
+          "source": "السوق المباشر (بوشملان)",
+          "listingType": "غير محدد",
+          "governorate": "",
+          "area": "حولي",
+          "propertyType": "بيت",
+          "transaction": "للبيع",
+          "rental": false,
+          "price": 300000.0,
+          "priceText": "300,000 د.ك",
+          "space": 30.0,
+          "publishedDate": "2026-07-21",
+          "daysAgo": 19,
+          "url": "https://www.boshamlan.com//rent/offices/hawally-governorate/hawally/280001",
+          "summary": "مكتب للايجار في حولي",
+          "dealScore": 100,
+          "confidence": 0.84,
+          "valuationLabel": "لقطة ممتازة",
+          "valuationReason": "السعر أقل من وسيط المقارنات بنسبة كبيرة: 300,000 د.ك مقابل وسيط 545,000 د.ك. المقارنة تمت داخل نفس المنطقة على السعر الإجمالي للعروض المشابهة، وسعر المتر للمطلوب 10,000 د.ك/م² مقابل وسيط 1,829 د.ك/م².",
+          "marketMedian": 545000.0,
+          "pricePerSqm": 10000.0,
+          "officialValue": 75000.0,
+          "officialSourceKind": "official",
+          "comparablesCount": 8,
+          "comparableScope": "نفس المنطقة",
+          "score": 94.4,
+          "evidence": [
+            {
+              "code": "AD-274421",
+              "area": "حولي",
+              "price": 2100000.264,
+              "priceText": "2,100,000 د.ك",
+              "source": "السوق المباشر (بوشملان)",
+              "url": "https://www.boshamlan.com//sale/buildings/hawally-governorate/hawally/274421"
+            },
+            {
+              "code": "AD-214637",
+              "area": "حولي",
+              "price": 520000.0,
+              "priceText": "520,000 د.ك",
+              "source": "السوق المباشر (بوشملان)",
+              "url": "https://www.boshamlan.com//sale/houses/hawally-governorate/salam/214637"
+            },
+            {
+              "code": "AD-283314",
+              "area": "حولي",
+              "price": 2100000.24,
+              "priceText": "2,100,000 د.ك",
+              "source": "السوق المباشر (بوشملان)",
+              "url": "https://www.boshamlan.com//sale/buildings/hawally-governorate/maidan-hawally/283314"
+            },
+            {
+              "code": "AD-280",
+              "area": "حولي",
+              "price": 74999.97399999999,
+              "priceText": "75,000 د.ك",
+              "source": "السوق المباشر (alforaij)",
+              "url": "https://front.alforaij.com/Listing/Detail/280"
+            }
+          ],
+          "clients": []
+        },
+        {
+          "code": "OS-285301696",
+          "source": "OpenSooq",
+          "listingType": "مباشر",
+          "governorate": "",
+          "area": "المطلاع",
+          "propertyType": "بيت",
+          "transaction": "للبيع",
+          "rental": false,
+          "price": 310000.0,
+          "priceText": "310,000 د.ك",
+          "space": null,
+          "publishedDate": "",
+          "daysAgo": 0,
+          "url": "https://kw.opensooq.com/search/285301696",
+          "summary": "للبيع فيلا في مدينة المطلاع، الموقع بطن وظهر، ارتداد، تتكون من دور وسرداب، حمام سباحة، تجربة سكن فريدة، تشطيب سوبر ديلوكس، السعر… Matla' Matla' Al Jahra",
+          "dealScore": 100,
+          "confidence": 0.79,
+          "valuationLabel": "لقطة ممتازة",
+          "valuationReason": "السعر أقل من وسيط المقارنات بنسبة كبيرة: 310,000 د.ك مقابل وسيط 400,000 د.ك. المقارنة تمت داخل نفس المنطقة على السعر الإجمالي للعروض المشابهة، لأن مساحة هذا الإعلان غير مذكورة لم يُحسب سعر المتر.",
+          "marketMedian": 400000.0,
+          "pricePerSqm": null,
+          "officialValue": null,
+          "officialSourceKind": "missing",
+          "comparablesCount": 7,
+          "comparableScope": "نفس المنطقة",
+          "score": 92.7,
+          "evidence": [
+            {
+              "code": "AD-303",
+              "area": "المطلاع",
+              "price": 310000.0,
+              "priceText": "310,000 د.ك",
+              "source": "السوق المباشر (alforaij)",
+              "url": "https://front.alforaij.com/Listing/Detail/303"
+            },
+            {
+              "code": "AD-278709",
+              "area": "المطلاع",
+              "price": 2000000.0,
+              "priceText": "2,000,000 د.ك",
+              "source": "السوق المباشر (بوشملان)",
+              "url": "https://www.boshamlan.com//sale/houses/al-jahra-governorate/mutlaa/278709"
+            },
+            {
+              "code": "AD-287",
+              "area": "المطلاع",
+              "price": 400000.0,
+              "priceText": "400,000 د.ك",
+              "source": "السوق المباشر (alforaij)",
+              "url": "https://front.alforaij.com/Listing/Detail/287"
+            },
+            {
+              "code": "AF-303",
+              "area": "المطلاع",
+              "price": 310000.0,
+              "priceText": "310 ألف د.ك",
+              "source": "الفريج",
+              "url": "https://front.alforaij.com/Listing/Detail/303"
+            }
+          ],
+          "clients": [
+            {
+              "area": "المطلاع",
+              "type": "بيت",
+              "price": "310000",
+              "phones": "55559950|+96555559950|+96541060118",
+              "message": "السلام عليكم، معك [اسمك]. لدي بيت دورين في المطلاع، السعر 310,000 د.ك. هل لديكم مشترين مهتمين؟",
+              "source": "csv",
+              "matchScore": 100.0,
+              "reasons": [
+                "نفس المنطقة",
+                "نفس نوع العقار",
+                "السعر ضمن نطاق العميل"
+              ],
+              "clientBudget": 310000.0,
+              "potentialProfitKwd": 0,
+              "profitReason": "سعر الإعلان ليس أقل من ميزانية العميل، لذلك لا يوجد هامش شراء مباشر."
+            },
+            {
+              "area": "المطلاع",
+              "type": "بيت",
+              "price": "",
+              "phones": "55559950|41060118",
+              "message": "📍 مطلوب للشراء بيت في منطقة المطلاع\n🗺️ الموقع المطلوبة: شارع ما قدامه بيوت.\n📞 للاستفسار والتواصل:\n📱 55559950 | 📱 41060118\n🌐 alforaij.com شارع ",
+              "source": "الفريج",
+              "matchScore": 70.0,
+              "reasons": [
+                "نفس المنطقة",
+                "نفس نوع العقار"
+              ],
+              "clientBudget": null,
+              "potentialProfitKwd": null,
+              "profitReason": "لا يمكن حساب المكسب لأن ميزانية العميل أو سعر الإعلان غير مكتمل."
+            }
+          ]
+        }
+      ],
+      "message": "السلام عليكم، معك [اسمك]. هذه أفضل 10 فرص هذا الأسبوع تناسب طلبكم: النهضة - بيت (ميزانية 350000 د.ك):\n1. AF-307 — النهضة — 350 ألف د.ك — لقطة ممتازة — المصادر: الفريج\n   🔗 https://front.alforaij.com/Listing/Detail/307\n2. AF-303 — المطلاع — 310 ألف د.ك — لقطة ممتازة — المصادر: الفريج\n   🔗 https://front.alforaij.com/Listing/Detail/303\n3. AF-278 — بيان — 270 ألف د.ك — لقطة ممتازة — المصادر: السوق المباشر (alforaij), Mourjan, الفريج\n   🔗 https://front.alforaij.com/Listing/Detail/278\n4. AF-218 — سلوى — 420 ألف د.ك — لقطة ممتازة — المصادر: الفريج, Mourjan\n   🔗 https://front.alforaij.com/Listing/Detail/218\n5. AF-203 — الدسمة — 400 ألف د.ك — لقطة ممتازة — المصادر: الفريج\n   🔗 https://front.alforaij.com/Listing/Detail/203\n6. AF-106 — سعد العبدالله — 330 ألف د.ك — لقطة ممتازة — المصادر: الفريج\n   🔗 https://front.alforaij.com/Listing/Detail/106\n7. AD-303 — المطلاع — 310,000 د.ك — لقطة ممتازة — المصادر: السوق المباشر (بوشملان), السوق المباشر (alforaij), OpenSooq, الفريج\n   🔗 https://front.alforaij.com/Listing/Detail/303\n8. AD-304 — Sabah Al-Ahmad — 260,000 د.ك — لقطة ممتازة — المصادر: السوق المباشر (alforaij), السوق المباشر (بوشملان)\n   🔗 https://front.alforaij.com/Listing/Detail/304\n9. AD-280001 — حولي — 300,000 د.ك — لقطة ممتازة — المصادر: السوق المباشر (بوشملان), السوق المباشر (alforaij)\n   🔗 https://www.boshamlan.com//rent/offices/hawally-governorate/hawally/280001\n10. OS-285301696 — المطلاع — 310,000 د.ك — لقطة ممتازة — المصادر: السوق المباشر (alforaij), السوق المباشر (بوشملان), الفريج\n   🔗 https://kw.opensooq.com/search/285301696\n\nهل ترغب بمتابعة التفاصيل أو حجز موعد معاينة؟ شكرًا.",
+      "matchCount": 10
+    },
+    {
+      "client": {
+        "area": "المطلاع",
+        "type": "بيت",
+        "price": "310000"
+      },
+      "phones": [
+        "+96555559950",
+        "+96555559950",
+        "+96541060118"
+      ],
+      "opportunities": [
+        {
+          "code": "AF-303",
+          "source": "الفريج",
+          "listingType": "مباشر",
+          "governorate": "محافظة الجهراء",
+          "area": "المطلاع",
+          "propertyType": "بيت",
+          "transaction": "للبيع",
+          "rental": false,
+          "price": 310000.0,
+          "priceText": "310 ألف د.ك",
+          "space": null,
+          "publishedDate": "2026-07-21",
+          "daysAgo": 19,
+          "url": "https://front.alforaij.com/Listing/Detail/303",
+          "summary": "بيت دورين، زاوية، يتميز بارتداد 40 متر.",
+          "dealScore": 100,
+          "confidence": 0.95,
+          "valuationLabel": "لقطة ممتازة",
+          "valuationReason": "السعر أقل من وسيط المقارنات بنسبة كبيرة: 310,000 د.ك مقابل وسيط 400,000 د.ك. المقارنة تمت داخل نفس المنطقة على السعر الإجمالي للعروض المشابهة، لأن مساحة هذا الإعلان غير مذكورة لم يُحسب سعر المتر.",
+          "marketMedian": 400000.0,
+          "pricePerSqm": null,
+          "officialValue": null,
+          "officialSourceKind": "missing",
+          "comparablesCount": 8,
+          "comparableScope": "نفس المنطقة",
+          "score": 98.2,
+          "evidence": [
+            {
+              "code": "AF-287",
+              "area": "المطلاع",
+              "price": 400000.0,
+              "priceText": "400 ألف د.ك",
+              "source": "الفريج",
+              "url": "https://front.alforaij.com/Listing/Detail/287"
+            },
+            {
+              "code": "AF-225",
+              "area": "المطلاع",
+              "price": 430000.0,
+              "priceText": "430 ألف د.ك",
+              "source": "الفريج",
+              "url": "https://front.alforaij.com/Listing/Detail/225"
+            },
+            {
+              "code": "AF-213",
+              "area": "المطلاع",
+              "price": 470000.0,
+              "priceText": "470 ألف د.ك",
+              "source": "الفريج",
+              "url": "https://front.alforaij.com/Listing/Detail/213"
+            },
+            {
+              "code": "AF-142",
+              "area": "المطلاع",
+              "price": 260000.0,
+              "priceText": "260 ألف د.ك",
+              "source": "الفريج",
+              "url": "https://front.alforaij.com/Listing/Detail/142"
+            }
+          ],
+          "clients": [
+            {
+              "area": "المطلاع",
+              "type": "بيت",
+              "price": "310000",
+              "phones": "55559950|+96555559950|+96541060118",
+              "message": "السلام عليكم، معك [اسمك]. لدي بيت دورين في المطلاع، السعر 310,000 د.ك. هل لديكم مشترين مهتمين؟",
+              "source": "csv",
+              "matchScore": 100.0,
+              "reasons": [
+                "نفس المنطقة",
+                "نفس نوع العقار",
+                "السعر ضمن نطاق العميل"
+              ],
+              "clientBudget": 310000.0,
+              "potentialProfitKwd": 0,
+              "profitReason": "سعر الإعلان ليس أقل من ميزانية العميل، لذلك لا يوجد هامش شراء مباشر."
+            },
+            {
+              "area": "المطلاع",
+              "type": "بيت",
+              "price": "",
+              "phones": "55559950|41060118",
+              "message": "📍 مطلوب للشراء بيت في منطقة المطلاع\n🗺️ الموقع المطلوبة: شارع ما قدامه بيوت.\n📞 للاستفسار والتواصل:\n📱 55559950 | 📱 41060118\n🌐 alforaij.com شارع ",
+              "source": "الفريج",
+              "matchScore": 70.0,
+              "reasons": [
+                "نفس المنطقة",
+                "نفس نوع العقار"
+              ],
+              "clientBudget": null,
+              "potentialProfitKwd": null,
+              "profitReason": "لا يمكن حساب المكسب لأن ميزانية العميل أو سعر الإعلان غير مكتمل."
+            }
+          ]
+        },
+        {
+          "code": "AD-303",
+          "source": "السوق المباشر (alforaij)",
+          "listingType": "غير محدد",
+          "governorate": "",
+          "area": "المطلاع",
+          "propertyType": "بيت",
+          "transaction": "للبيع",
+          "rental": false,
+          "price": 310000.0,
+          "priceText": "310,000 د.ك",
+          "space": 40.0,
+          "publishedDate": "2026-07-21",
+          "daysAgo": 19,
+          "url": "https://front.alforaij.com/Listing/Detail/303",
+          "summary": "📍 للبيع بيت في منطقة المطلاع (N11)\r\n🏗️ الوصف: بيت دورين، زاوية، يتميز بارتداد 40 متر.\r\n💰 السعر: 310,000 د.ك (واصل).\r\n📞 للاستفسار والتواصل:\r\n📱 5555995",
+          "dealScore": 100,
+          "confidence": 0.84,
+          "valuationLabel": "لقطة ممتازة",
+          "valuationReason": "السعر أقل من وسيط المقارنات بنسبة كبيرة: 310,000 د.ك مقابل وسيط 400,000 د.ك. المقارنة تمت داخل نفس المنطقة على السعر الإجمالي للعروض المشابهة، وسعر المتر للمطلوب 7,750 د.ك/م² مقابل وسيط 5,000 د.ك/م².",
+          "marketMedian": 400000.0,
+          "pricePerSqm": 7750.0,
+          "officialValue": 13600.0,
+          "officialSourceKind": "official",
+          "comparablesCount": 7,
+          "comparableScope": "نفس المنطقة",
+          "score": 94.4,
+          "evidence": [
+            {
+              "code": "AD-278709",
+              "area": "المطلاع",
+              "price": 2000000.0,
+              "priceText": "2,000,000 د.ك",
+              "source": "السوق المباشر (بوشملان)",
+              "url": "https://www.boshamlan.com//sale/houses/al-jahra-governorate/mutlaa/278709"
+            },
+            {
+              "code": "AD-287",
+              "area": "المطلاع",
+              "price": 400000.0,
+              "priceText": "400,000 د.ك",
+              "source": "السوق المباشر (alforaij)",
+              "url": "https://front.alforaij.com/Listing/Detail/287"
+            },
+            {
+              "code": "OS-285301696",
+              "area": "المطلاع",
+              "price": 310000.0,
+              "priceText": "310,000 د.ك",
+              "source": "OpenSooq",
+              "url": "https://kw.opensooq.com/search/285301696"
+            },
+            {
+              "code": "AF-303",
+              "area": "المطلاع",
+              "price": 310000.0,
+              "priceText": "310 ألف د.ك",
+              "source": "الفريج",
+              "url": "https://front.alforaij.com/Listing/Detail/303"
+            }
+          ],
+          "clients": [
+            {
+              "area": "المطلاع",
+              "type": "بيت",
+              "price": "310000",
+              "phones": "55559950|+96555559950|+96541060118",
+              "message": "السلام عليكم، معك [اسمك]. لدي بيت دورين في المطلاع، السعر 310,000 د.ك. هل لديكم مشترين مهتمين؟",
+              "source": "csv",
+              "matchScore": 100.0,
+              "reasons": [
+                "نفس المنطقة",
+                "نفس نوع العقار",
+                "السعر ضمن نطاق العميل"
+              ],
+              "clientBudget": 310000.0,
+              "potentialProfitKwd": 0,
+              "profitReason": "سعر الإعلان ليس أقل من ميزانية العميل، لذلك لا يوجد هامش شراء مباشر."
+            },
+            {
+              "area": "المطلاع",
+              "type": "بيت",
+              "price": "",
+              "phones": "55559950|41060118",
+              "message": "📍 مطلوب للشراء بيت في منطقة المطلاع\n🗺️ الموقع المطلوبة: شارع ما قدامه بيوت.\n📞 للاستفسار والتواصل:\n📱 55559950 | 📱 41060118\n🌐 alforaij.com شارع ",
+              "source": "الفريج",
+              "matchScore": 70.0,
+              "reasons": [
+                "نفس المنطقة",
+                "نفس نوع العقار"
+              ],
+              "clientBudget": null,
+              "potentialProfitKwd": null,
+              "profitReason": "لا يمكن حساب المكسب لأن ميزانية العميل أو سعر الإعلان غير مكتمل."
+            }
+          ]
+        },
+        {
+          "code": "OS-285301696",
+          "source": "OpenSooq",
+          "listingType": "مباشر",
+          "governorate": "",
+          "area": "المطلاع",
+          "propertyType": "بيت",
+          "transaction": "للبيع",
+          "rental": false,
+          "price": 310000.0,
+          "priceText": "310,000 د.ك",
+          "space": null,
+          "publishedDate": "",
+          "daysAgo": 0,
+          "url": "https://kw.opensooq.com/search/285301696",
+          "summary": "للبيع فيلا في مدينة المطلاع، الموقع بطن وظهر، ارتداد، تتكون من دور وسرداب، حمام سباحة، تجربة سكن فريدة، تشطيب سوبر ديلوكس، السعر… Matla' Matla' Al Jahra",
+          "dealScore": 100,
+          "confidence": 0.79,
+          "valuationLabel": "لقطة ممتازة",
+          "valuationReason": "السعر أقل من وسيط المقارنات بنسبة كبيرة: 310,000 د.ك مقابل وسيط 400,000 د.ك. المقارنة تمت داخل نفس المنطقة على السعر الإجمالي للعروض المشابهة، لأن مساحة هذا الإعلان غير مذكورة لم يُحسب سعر المتر.",
+          "marketMedian": 400000.0,
+          "pricePerSqm": null,
+          "officialValue": null,
+          "officialSourceKind": "missing",
+          "comparablesCount": 7,
+          "comparableScope": "نفس المنطقة",
+          "score": 92.7,
+          "evidence": [
+            {
+              "code": "AD-303",
+              "area": "المطلاع",
+              "price": 310000.0,
+              "priceText": "310,000 د.ك",
+              "source": "السوق المباشر (alforaij)",
+              "url": "https://front.alforaij.com/Listing/Detail/303"
+            },
+            {
+              "code": "AD-278709",
+              "area": "المطلاع",
+              "price": 2000000.0,
+              "priceText": "2,000,000 د.ك",
+              "source": "السوق المباشر (بوشملان)",
+              "url": "https://www.boshamlan.com//sale/houses/al-jahra-governorate/mutlaa/278709"
+            },
+            {
+              "code": "AD-287",
+              "area": "المطلاع",
+              "price": 400000.0,
+              "priceText": "400,000 د.ك",
+              "source": "السوق المباشر (alforaij)",
+              "url": "https://front.alforaij.com/Listing/Detail/287"
+            },
+            {
+              "code": "AF-303",
+              "area": "المطلاع",
+              "price": 310000.0,
+              "priceText": "310 ألف د.ك",
+              "source": "الفريج",
+              "url": "https://front.alforaij.com/Listing/Detail/303"
+            }
+          ],
+          "clients": [
+            {
+              "area": "المطلاع",
+              "type": "بيت",
+              "price": "310000",
+              "phones": "55559950|+96555559950|+96541060118",
+              "message": "السلام عليكم، معك [اسمك]. لدي بيت دورين في المطلاع، السعر 310,000 د.ك. هل لديكم مشترين مهتمين؟",
+              "source": "csv",
+              "matchScore": 100.0,
+              "reasons": [
+                "نفس المنطقة",
+                "نفس نوع العقار",
+                "السعر ضمن نطاق العميل"
+              ],
+              "clientBudget": 310000.0,
+              "potentialProfitKwd": 0,
+              "profitReason": "سعر الإعلان ليس أقل من ميزانية العميل، لذلك لا يوجد هامش شراء مباشر."
+            },
+            {
+              "area": "المطلاع",
+              "type": "بيت",
+              "price": "",
+              "phones": "55559950|41060118",
+              "message": "📍 مطلوب للشراء بيت في منطقة المطلاع\n🗺️ الموقع المطلوبة: شارع ما قدامه بيوت.\n📞 للاستفسار والتواصل:\n📱 55559950 | 📱 41060118\n🌐 alforaij.com شارع ",
+              "source": "الفريج",
+              "matchScore": 70.0,
+              "reasons": [
+                "نفس المنطقة",
+                "نفس نوع العقار"
+              ],
+              "clientBudget": null,
+              "potentialProfitKwd": null,
+              "profitReason": "لا يمكن حساب المكسب لأن ميزانية العميل أو سعر الإعلان غير مكتمل."
+            }
+          ]
+        },
+        {
+          "code": "AF-278",
+          "source": "الفريج",
+          "listingType": "مباشر",
+          "governorate": "محافظة حولي",
+          "area": "بيان",
+          "propertyType": "بيت",
+          "transaction": "للبيع",
+          "rental": false,
+          "price": 270000.0,
+          "priceText": "270 ألف د.ك",
+          "space": 300.0,
+          "publishedDate": "2026-06-28",
+          "daysAgo": 42,
+          "url": "https://front.alforaij.com/Listing/Detail/278",
+          "summary": "أول ملك (سكن المالك)، البيت نظيف جداً، خالي من المخالفات.",
+          "dealScore": 100,
+          "confidence": 0.95,
+          "valuationLabel": "لقطة ممتازة",
+          "valuationReason": "السعر أقل من وسيط المقارنات بنسبة كبيرة: 270,000 د.ك مقابل وسيط 535,000 د.ك. المقارنة تمت داخل نفس المنطقة + توسعة محدودة على السعر الإجمالي للعروض المشابهة، وسعر المتر للمطلوب 900 د.ك/م² مقابل وسيط 900 د.ك/م².",
+          "marketMedian": 535000.0,
+          "pricePerSqm": 900.0,
+          "officialValue": 510000.0,
+          "officialSourceKind": "official",
+          "comparablesCount": 8,
+          "comparableScope": "نفس المنطقة + توسعة محدودة",
+          "score": 98.2,
+          "evidence": [
+            {
+              "code": "AD-278",
+              "area": "بيان",
+              "price": 270000.0,
+              "priceText": "270,000 د.ك",
+              "source": "السوق المباشر (alforaij)",
+              "url": "https://front.alforaij.com/Listing/Detail/278"
+            },
+            {
+              "code": "MJ-29992196",
+              "area": "بيان",
+              "price": 280000.0,
+              "priceText": "280,000 د.ك",
+              "source": "Mourjan",
+              "url": "https://www.mourjan.com/kw/kuwait/villas-and-houses/for-sale/29992196/"
+            },
+            {
+              "code": "AF-260",
+              "area": "السلام",
+              "price": 720000.0,
+              "priceText": "720 ألف د.ك",
+              "source": "الفريج",
+              "url": "https://front.alforaij.com/Listing/Detail/260"
+            },
+            {
+              "code": "AF-219",
+              "area": "سلوى",
+              "price": 450000.0,
+              "priceText": "450 ألف د.ك",
+              "source": "الفريج",
+              "url": "https://front.alforaij.com/Listing/Detail/219"
+            }
+          ],
+          "clients": []
+        },
+        {
+          "code": "AF-314",
+          "source": "الفريج",
+          "listingType": "مباشر",
+          "governorate": "محافظة الفروانية",
+          "area": "خيطان",
+          "propertyType": "بيت",
+          "transaction": "للبيع",
+          "rental": false,
+          "price": 220000.0,
+          "priceText": "220 ألف د.ك",
+          "space": 300.0,
+          "publishedDate": "2026-08-01",
+          "daysAgo": 8,
+          "url": "https://front.alforaij.com/Listing/Detail/314",
+          "summary": "البيت نظيف.",
+          "dealScore": 100,
+          "confidence": 0.93,
+          "valuationLabel": "لقطة ممتازة",
+          "valuationReason": "السعر أقل من وسيط المقارنات بنسبة كبيرة: 220,000 د.ك مقابل وسيط 400,000 د.ك. المقارنة تمت داخل نفس المنطقة على السعر الإجمالي للعروض المشابهة، وسعر المتر للمطلوب 733 د.ك/م² مقابل وسيط 1,216 د.ك/م².",
+          "marketMedian": 400000.0,
+          "pricePerSqm": 733.3,
+          "officialValue": 234000.0,
+          "officialSourceKind": "official",
+          "comparablesCount": 6,
+          "comparableScope": "نفس المنطقة",
+          "score": 97.5,
+          "evidence": [
+            {
+              "code": "AF-223",
+              "area": "خيطان",
+              "price": 350000.0,
+              "priceText": "350 ألف د.ك",
+              "source": "الفريج",
+              "url": "https://front.alforaij.com/Listing/Detail/223"
+            },
+            {
+              "code": "AF-108",
+              "area": "خيطان",
+              "price": 215000.0,
+              "priceText": "215 ألف د.ك",
+              "source": "الفريج",
+              "url": "https://front.alforaij.com/Listing/Detail/108"
+            },
+            {
+              "code": "AD-283226",
+              "area": "خيطان",
+              "price": 2000000.25,
+              "priceText": "2,000,000 د.ك",
+              "source": "السوق المباشر (بوشملان)",
+              "url": "https://www.boshamlan.com//sale/buildings/al-farwaniya-governorate/khaitan/283226"
+            },
+            {
+              "code": "AD-299",
+              "area": "خيطان",
+              "price": 450000.0,
+              "priceText": "450,000 د.ك",
+              "source": "السوق المباشر (alforaij)",
+              "url": "https://front.alforaij.com/Listing/Detail/299"
+            }
+          ],
+          "clients": []
+        },
+        {
+          "code": "AF-273",
+          "source": "الفريج",
+          "listingType": "غير محدد",
+          "governorate": "محافظة مبارك الكبير",
+          "area": "صباح السالم",
+          "propertyType": "بيت",
+          "transaction": "للبيع",
+          "rental": false,
+          "price": 220000.0,
+          "priceText": "220 ألف د.ك",
+          "space": 300.0,
+          "publishedDate": "2026-06-21",
+          "daysAgo": 49,
+          "url": "https://front.alforaij.com/Listing/Detail/273",
+          "summary": "مؤجر بالكامل بمبلغ 950 د.ك",
+          "dealScore": 100,
+          "confidence": 0.87,
+          "valuationLabel": "لقطة ممتازة",
+          "valuationReason": "السعر أقل من وسيط المقارنات بنسبة كبيرة: 220,000 د.ك مقابل وسيط 270,000 د.ك. المقارنة تمت داخل نفس المنطقة على السعر الإجمالي للعروض المشابهة، وسعر المتر للمطلوب 733 د.ك/م² مقابل وسيط 900 د.ك/م².",
+          "marketMedian": 270000.0,
+          "pricePerSqm": 733.3,
+          "officialValue": 270000.0,
+          "officialSourceKind": "derived",
+          "comparablesCount": 4,
+          "comparableScope": "نفس المنطقة",
+          "score": 95.5,
+          "evidence": [
+            {
+              "code": "AF-302",
+              "area": "صباح السالم",
+              "price": 270000.0,
+              "priceText": "270 ألف د.ك",
+              "source": "الفريج",
+              "url": "https://front.alforaij.com/Listing/Detail/302"
+            },
+            {
+              "code": "AF-159",
+              "area": "صباح السالم",
+              "price": 270000.0,
+              "priceText": "270 ألف د.ك",
+              "source": "الفريج",
+              "url": "https://front.alforaij.com/Listing/Detail/159"
+            },
+            {
+              "code": "AF-93",
+              "area": "صباح السالم",
+              "price": 270000.0,
+              "priceText": "270 ألف د.ك",
+              "source": "الفريج",
+              "url": "https://front.alforaij.com/Listing/Detail/93"
+            },
+            {
+              "code": "MJ-30016759",
+              "area": "صباح السالم",
+              "price": 500000.0,
+              "priceText": "500,000 د.ك",
+              "source": "Mourjan",
+              "url": "https://www.mourjan.com/kw/kuwait/villas-and-houses/for-sale/30016759/"
+            }
+          ],
+          "clients": [
+            {
+              "area": "صباح السالم",
+              "type": "بيت",
+              "price": "",
+              "phones": "55559950|41060118",
+              "message": "📍 مطلوب شراء بيت في منطقة صباح السالم\n🗺️ المناطق المحددة:\nقـطعة 5\nقـطعة 6\nقـطعة 10\n📞 للاستفسار والتواصل:\n📱 55559950 | 📱 41060118\n🌐 alforaij.com 📍 مطلوب شراء بيت في منطقة صباح السالم\n🗺️ المناطق المحددة:\nقـطعة 5\nقـطعة 6\nقـطعة 10\n📞 للاستفسار والتواصل:\n📱 55559950 | 📱 41060118\n🌐 alforaij.com ",
+              "source": "الفريج",
+              "matchScore": 70.0,
+              "reasons": [
+                "نفس المنطقة",
+                "نفس نوع العقار"
+              ],
+              "clientBudget": null,
+              "potentialProfitKwd": null,
+              "profitReason": "لا يمكن حساب المكسب لأن ميزانية العميل أو سعر الإعلان غير مكتمل."
+            }
+          ]
+        },
+        {
+          "code": "AF-203",
+          "source": "الفريج",
+          "listingType": "غير محدد",
+          "governorate": "محافظة العاصمة",
+          "area": "الدسمة",
+          "propertyType": "بيت",
+          "transaction": "للبيع",
+          "rental": false,
+          "price": 400000.0,
+          "priceText": "400 ألف د.ك",
+          "space": 325.0,
+          "publishedDate": "2026-05-14",
+          "daysAgo": 87,
+          "url": "https://front.alforaij.com/Listing/Detail/203",
+          "summary": "دورين | تكييف وحد",
+          "dealScore": 100,
+          "confidence": 0.87,
+          "valuationLabel": "لقطة ممتازة",
+          "valuationReason": "السعر أقل من وسيط المقارنات بنسبة كبيرة: 400,000 د.ك مقابل وسيط 685,000 د.ك. المقارنة تمت داخل نفس المنطقة + توسعة محدودة على السعر الإجمالي للعروض المشابهة، وسعر المتر للمطلوب 1,231 د.ك/م² مقابل وسيط 1,217 د.ك/م².",
+          "marketMedian": 685000.0,
+          "pricePerSqm": 1230.8,
+          "officialValue": null,
+          "officialSourceKind": "missing",
+          "comparablesCount": 4,
+          "comparableScope": "نفس المنطقة + توسعة محدودة",
+          "score": 95.5,
+          "evidence": [
+            {
+              "code": "AF-307",
+              "area": "النهضة",
+              "price": 350000.0,
+              "priceText": "350 ألف د.ك",
+              "source": "الفريج",
+              "url": "https://front.alforaij.com/Listing/Detail/307"
+            },
+            {
+              "code": "AF-281",
+              "area": "اليرموك",
+              "price": 850000.0,
+              "priceText": "850 ألف د.ك",
+              "source": "الفريج",
+              "url": "https://front.alforaij.com/Listing/Detail/281"
+            },
+            {
+              "code": "AF-214",
+              "area": "الفيحاء",
+              "price": 520000.0,
+              "priceText": "520 ألف د.ك",
+              "source": "الفريج",
+              "url": "https://front.alforaij.com/Listing/Detail/214"
+            },
+            {
+              "code": "AF-189",
+              "area": "الخالدية",
+              "price": 1230000.0,
+              "priceText": "1,230 ألف د.ك",
+              "source": "الفريج",
+              "url": "https://front.alforaij.com/Listing/Detail/189"
+            }
+          ],
+          "clients": []
+        },
+        {
+          "code": "AF-106",
+          "source": "الفريج",
+          "listingType": "غير محدد",
+          "governorate": "محافظة الجهراء",
+          "area": "سعد العبدالله",
+          "propertyType": "بيت",
+          "transaction": "للبيع",
+          "rental": false,
+          "price": 330000.0,
+          "priceText": "330 ألف د.ك",
+          "space": null,
+          "publishedDate": "2026-01-03",
+          "daysAgo": 218,
+          "url": "https://front.alforaij.com/Listing/Detail/106",
+          "summary": "للبيع قسيمة – سعد العبدالله\n\n3 أدوار ونص، فاضية تسليم فوري.\nأرضي + أول + شقتين + سطح (4 غرف وحمامين).\nدرجين، مدخل مؤجرين، مجددة بالكامل، سنترال، مصعد.",
+          "dealScore": 100,
+          "confidence": 0.87,
+          "valuationLabel": "لقطة ممتازة",
+          "valuationReason": "السعر أقل من وسيط المقارنات بنسبة كبيرة: 330,000 د.ك مقابل وسيط 415,000 د.ك. المقارنة تمت داخل نفس المنطقة + توسعة محدودة على السعر الإجمالي للعروض المشابهة، لأن مساحة هذا الإعلان غير مذكورة لم يُحسب سعر المتر.",
+          "marketMedian": 415000.0,
+          "pricePerSqm": null,
+          "officialValue": null,
+          "officialSourceKind": "missing",
+          "comparablesCount": 4,
+          "comparableScope": "نفس المنطقة + توسعة محدودة",
+          "score": 95.5,
+          "evidence": [
+            {
+              "code": "AF-303",
+              "area": "المطلاع",
+              "price": 310000.0,
+              "priceText": "310 ألف د.ك",
+              "source": "الفريج",
+              "url": "https://front.alforaij.com/Listing/Detail/303"
+            },
+            {
+              "code": "AF-287",
+              "area": "المطلاع",
+              "price": 400000.0,
+              "priceText": "400 ألف د.ك",
+              "source": "الفريج",
+              "url": "https://front.alforaij.com/Listing/Detail/287"
+            },
+            {
+              "code": "AF-225",
+              "area": "المطلاع",
+              "price": 430000.0,
+              "priceText": "430 ألف د.ك",
+              "source": "الفريج",
+              "url": "https://front.alforaij.com/Listing/Detail/225"
+            },
+            {
+              "code": "AF-213",
+              "area": "المطلاع",
+              "price": 470000.0,
+              "priceText": "470 ألف د.ك",
+              "source": "الفريج",
+              "url": "https://front.alforaij.com/Listing/Detail/213"
+            }
+          ],
+          "clients": []
+        },
+        {
+          "code": "AD-304",
+          "source": "السوق المباشر (alforaij)",
+          "listingType": "غير محدد",
+          "governorate": "",
+          "area": "Sabah Al-Ahmad",
+          "propertyType": "بيت",
+          "transaction": "للبيع",
+          "rental": false,
+          "price": 259999.89800000002,
+          "priceText": "260,000 د.ك",
+          "space": 454.0,
+          "publishedDate": "2026-07-21",
+          "daysAgo": 19,
+          "url": "https://front.alforaij.com/Listing/Detail/304",
+          "summary": "📍 للبيع شاليه في مدينة صباح الأحمد البحرية (المرحلة الثالثة)\r\n📐 المساحة: 454 متر مربع.\r\n🗺️ الموقع: صف ثاني، بطن وظهر، ارتداد فوق 100 متر، قريب من مول",
+          "dealScore": 100,
+          "confidence": 0.84,
+          "valuationLabel": "لقطة ممتازة",
+          "valuationReason": "السعر أقل من وسيط المقارنات بنسبة كبيرة: 260,000 د.ك مقابل وسيط 510,000 د.ك. المقارنة تمت داخل نفس المنطقة + توسعة محدودة على السعر الإجمالي للعروض المشابهة، وسعر المتر للمطلوب 573 د.ك/م² مقابل وسيط 1,983 د.ك/م².",
+          "marketMedian": 509999.75,
+          "pricePerSqm": 572.7,
+          "officialValue": 190680.0,
+          "officialSourceKind": "official",
+          "comparablesCount": 8,
+          "comparableScope": "نفس المنطقة + توسعة محدودة",
+          "score": 94.4,
+          "evidence": [
+            {
+              "code": "AD-303",
+              "area": "المطلاع",
+              "price": 310000.0,
+              "priceText": "310,000 د.ك",
+              "source": "السوق المباشر (alforaij)",
+              "url": "https://front.alforaij.com/Listing/Detail/303"
+            },
+            {
+              "code": "AD-283226",
+              "area": "خيطان",
+              "price": 2000000.25,
+              "priceText": "2,000,000 د.ك",
+              "source": "السوق المباشر (بوشملان)",
+              "url": "https://www.boshamlan.com//sale/buildings/al-farwaniya-governorate/khaitan/283226"
+            },
+            {
+              "code": "AD-183123",
+              "area": "الأحمدي",
+              "price": 499999.5,
+              "priceText": "500,000 د.ك",
+              "source": "السوق المباشر (بوشملان)",
+              "url": "https://www.boshamlan.com//sale/lands/al-ahmadi-governorate/sabah-al-ahmad-sea-city-khiran/183123"
+            },
+            {
+              "code": "AD-274420",
+              "area": "السالمية",
+              "price": 1850000.1190000002,
+              "priceText": "1,850,000 د.ك",
+              "source": "السوق المباشر (بوشملان)",
+              "url": "https://www.boshamlan.com//sale/buildings/hawally-governorate/salmiya/274420"
+            }
+          ],
+          "clients": []
+        },
+        {
+          "code": "AD-280001",
+          "source": "السوق المباشر (بوشملان)",
+          "listingType": "غير محدد",
+          "governorate": "",
+          "area": "حولي",
+          "propertyType": "بيت",
+          "transaction": "للبيع",
+          "rental": false,
+          "price": 300000.0,
+          "priceText": "300,000 د.ك",
+          "space": 30.0,
+          "publishedDate": "2026-07-21",
+          "daysAgo": 19,
+          "url": "https://www.boshamlan.com//rent/offices/hawally-governorate/hawally/280001",
+          "summary": "مكتب للايجار في حولي",
+          "dealScore": 100,
+          "confidence": 0.84,
+          "valuationLabel": "لقطة ممتازة",
+          "valuationReason": "السعر أقل من وسيط المقارنات بنسبة كبيرة: 300,000 د.ك مقابل وسيط 545,000 د.ك. المقارنة تمت داخل نفس المنطقة على السعر الإجمالي للعروض المشابهة، وسعر المتر للمطلوب 10,000 د.ك/م² مقابل وسيط 1,829 د.ك/م².",
+          "marketMedian": 545000.0,
+          "pricePerSqm": 10000.0,
+          "officialValue": 75000.0,
+          "officialSourceKind": "official",
+          "comparablesCount": 8,
+          "comparableScope": "نفس المنطقة",
+          "score": 94.4,
+          "evidence": [
+            {
+              "code": "AD-274421",
+              "area": "حولي",
+              "price": 2100000.264,
+              "priceText": "2,100,000 د.ك",
+              "source": "السوق المباشر (بوشملان)",
+              "url": "https://www.boshamlan.com//sale/buildings/hawally-governorate/hawally/274421"
+            },
+            {
+              "code": "AD-214637",
+              "area": "حولي",
+              "price": 520000.0,
+              "priceText": "520,000 د.ك",
+              "source": "السوق المباشر (بوشملان)",
+              "url": "https://www.boshamlan.com//sale/houses/hawally-governorate/salam/214637"
+            },
+            {
+              "code": "AD-283314",
+              "area": "حولي",
+              "price": 2100000.24,
+              "priceText": "2,100,000 د.ك",
+              "source": "السوق المباشر (بوشملان)",
+              "url": "https://www.boshamlan.com//sale/buildings/hawally-governorate/maidan-hawally/283314"
+            },
+            {
+              "code": "AD-280",
+              "area": "حولي",
+              "price": 74999.97399999999,
+              "priceText": "75,000 د.ك",
+              "source": "السوق المباشر (alforaij)",
+              "url": "https://front.alforaij.com/Listing/Detail/280"
+            }
+          ],
+          "clients": []
+        }
+      ],
+      "message": "السلام عليكم، معك [اسمك]. هذه أفضل 10 فرص هذا الأسبوع تناسب طلبكم: المطلاع - بيت (ميزانية 310000 د.ك):\n1. AF-303 — المطلاع — 310 ألف د.ك — لقطة ممتازة — المصادر: الفريج\n   🔗 https://front.alforaij.com/Listing/Detail/303\n2. AD-303 — المطلاع — 310,000 د.ك — لقطة ممتازة — المصادر: السوق المباشر (بوشملان), السوق المباشر (alforaij), OpenSooq, الفريج\n   🔗 https://front.alforaij.com/Listing/Detail/303\n3. OS-285301696 — المطلاع — 310,000 د.ك — لقطة ممتازة — المصادر: السوق المباشر (alforaij), السوق المباشر (بوشملان), الفريج\n   🔗 https://kw.opensooq.com/search/285301696\n4. AF-278 — بيان — 270 ألف د.ك — لقطة ممتازة — المصادر: السوق المباشر (alforaij), Mourjan, الفريج\n   🔗 https://front.alforaij.com/Listing/Detail/278\n5. AF-314 — خيطان — 220 ألف د.ك — لقطة ممتازة — المصادر: الفريج, السوق المباشر (بوشملان), السوق المباشر (alforaij)\n   🔗 https://front.alforaij.com/Listing/Detail/314\n6. AF-273 — صباح السالم — 220 ألف د.ك — لقطة ممتازة — المصادر: الفريج, Mourjan\n   🔗 https://front.alforaij.com/Listing/Detail/273\n7. AF-203 — الدسمة — 400 ألف د.ك — لقطة ممتازة — المصادر: الفريج\n   🔗 https://front.alforaij.com/Listing/Detail/203\n8. AF-106 — سعد العبدالله — 330 ألف د.ك — لقطة ممتازة — المصادر: الفريج\n   🔗 https://front.alforaij.com/Listing/Detail/106\n9. AD-304 — Sabah Al-Ahmad — 260,000 د.ك — لقطة ممتازة — المصادر: السوق المباشر (alforaij), السوق المباشر (بوشملان)\n   🔗 https://front.alforaij.com/Listing/Detail/304\n10. AD-280001 — حولي — 300,000 د.ك — لقطة ممتازة — المصادر: السوق المباشر (بوشملان), السوق المباشر (alforaij)\n   🔗 https://www.boshamlan.com//rent/offices/hawally-governorate/hawally/280001\n\nهل ترغب بمتابعة التفاصيل أو حجز موعد معاينة؟ شكرًا.",
+      "matchCount": 10
+    }
+  ],
+  "staticSnapshot": true
+}
