@@ -124,6 +124,201 @@ textarea {
   font-weight: 900;
 }
 
+/* شارة الفريج الرسمية: هوية زرقاء/ذهبية مطابقة لمنصة البحث */
+.hero-brand-link {
+  position: relative;
+  overflow: hidden;
+  gap: 10px;
+  padding: 6px 15px 6px 8px;
+  border: 1px solid rgba(216, 189, 94, .6);
+  border-radius: 999px;
+  /* الأساس ذهبي (حالة التمرير) — والطبقة الزرقاء فوقه تُظهر نفسها افتراضيًا */
+  background: linear-gradient(135deg, #d9b850 0%, #a8860f 62%, #8a6c0a 100%);
+  box-shadow: 0 10px 26px rgba(2, 40, 137, .42), inset 0 1px 0 rgba(255, 255, 255, .25);
+  color: #fff;
+  transition: box-shadow 1.4s ease, border-color 1.4s ease, transform .3s ease;
+}
+
+/* الطبقة الزرقاء (الحالة الافتراضية) تتلاشى عند التمرير فتكشف الذهبي */
+.hero-brand-link::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, #022889 0%, #0a2f91 58%, #052a8d 100%);
+  opacity: 1;
+  transition: opacity 1.4s ease;
+}
+
+.hero-brand-link > * {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-brand-link:hover {
+  transform: translateY(-2px);
+  border-color: rgba(2, 40, 137, .6);
+  box-shadow: 0 14px 38px rgba(146, 138, 11, .5), inset 0 1px 0 rgba(255, 255, 255, .35);
+}
+
+.hero-brand-link:hover::before {
+  opacity: 0; /* الأزرق → الذهبي */
+}
+
+/* ميدالية الشعار: ذهبية افتراضيًا، وعند التمرير تتحول للفاتح ليبقى الرمز الأزرق بارزًا */
+.brand-badge {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px;
+  border-radius: 50%;
+  background: #f4f5f7;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .45), 0 2px 6px rgba(20, 30, 60, .35);
+}
+
+.brand-badge::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 32% 26%, #fff8d9 0%, #e2c968 42%, #928a0b 78%, #6b6410 100%);
+  opacity: 1;
+  transition: opacity 1.4s ease;
+}
+
+.brand-badge-ic {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+.hero-brand-link:hover .brand-badge::before {
+  opacity: 0; /* الميدالية الذهبية → فاتحة */
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1.14;
+  white-space: nowrap;
+}
+
+/* اسم الشركة بلوني الهوية: طبقتان فوق بعضهما تتعابران (ذهبي ⇄ أزرق) عند التمرير */
+.brand-name {
+  position: relative;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: .15px;
+}
+
+.brand-name .bn-gold,
+.brand-name .bn-blue {
+  display: block;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  transition: opacity 1.4s ease;
+}
+
+.bn-gold {
+  background-image: linear-gradient(180deg, #f6ecc0 0%, #e2c968 45%, #b7a13a 78%, #928a0b 100%);
+}
+
+.bn-blue {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(180deg, #9cc0ff 0%, #3d6de0 48%, #0a2f91 100%);
+  opacity: 0;
+}
+
+.hero-brand-link:hover .bn-gold {
+  opacity: 0;
+}
+
+.hero-brand-link:hover .bn-blue {
+  opacity: 1; /* الكلمة الذهبية → زرقاء */
+}
+
+.brand-sub {
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .5px;
+  color: rgba(243, 231, 176, .95);
+  transition: color 1.4s ease;
+}
+
+.hero-brand-link:hover .brand-sub {
+  color: rgba(2, 40, 137, .85);
+}
+
+.brand-arrow {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  color: #e2c968;
+  margin-inline-start: 2px;
+  transition: color 1.4s ease, transform .3s ease;
+}
+
+.hero-brand-link:hover .brand-arrow {
+  color: #0a2f91;
+  transform: translate(2px, -2px);
+}
+
+/* حركة الظهور: توهج ذهبي يلمع بنبضتين ثم يهدأ ويستقر عند تحميل الصفحة */
+.hero-brand-link {
+  animation: brand-enter 2.2s cubic-bezier(.22, .8, .3, 1) both;
+}
+
+@keyframes brand-enter {
+  0%   { opacity: 0; filter: drop-shadow(0 0 0 rgba(226, 201, 104, 0)); }
+  16%  { opacity: 1; filter: drop-shadow(0 0 4px rgba(226, 201, 104, .35)); }
+  38%  { filter: drop-shadow(0 0 18px rgba(226, 201, 104, .8)); }
+  58%  { filter: drop-shadow(0 0 7px rgba(226, 201, 104, .5)); }
+  76%  { filter: drop-shadow(0 0 13px rgba(226, 201, 104, .6)); }
+  100% { opacity: 1; filter: drop-shadow(0 0 0 rgba(226, 201, 104, 0)); }
+}
+
+/* لمعة ذهبية تنزلق عبر الشارة مرتين ثم تخفت وتستقر (فوق المحتوى، لا تحجب النقر) */
+.hero-brand-link::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -80%;
+  right: -80%;
+  z-index: 2;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(115deg, transparent 42%, rgba(255, 240, 190, .55) 50%, transparent 58%);
+  transform: translateX(-70%);
+  opacity: 0;
+  animation: brand-shimmer 2.4s ease-out both;
+}
+
+@keyframes brand-shimmer {
+  0%   { transform: translateX(-70%); opacity: 0; }
+  14%  { opacity: 1; }
+  34%  { transform: translateX(70%); opacity: 0; }
+  42%  { transform: translateX(-70%); opacity: 0; }
+  58%  { opacity: .8; }
+  80%  { transform: translateX(70%); opacity: 0; }
+  100% { transform: translateX(70%); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-brand-link { animation: none; }
+  .hero-brand-link::after { animation: none; opacity: 0; }
+}
+
 .logo-showcase {
   display: grid;
   gap: 14px;
@@ -163,7 +358,7 @@ textarea {
 
 .workspace {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   gap: 18px;
   width: 100%;
   max-width: 1360px;
@@ -2899,7 +3094,7 @@ summary {
   .hero-content,
   .board-filter-grid,
   .board-layout {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .board-metrics {
