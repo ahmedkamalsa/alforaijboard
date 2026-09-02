@@ -2,81 +2,127 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>منظم التبويبات — لا يُغلق شيء</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>🗂 منظم تبويبات كروم — 4 مجموعات بضغطة</title>
 <style>
-:root{--gold:#e2c968;--blue:#0a2f91;--bg:#0f172a;--card:#1e293b}
-*{box-sizing:border-box}body{margin:0;font-family:system-ui,Tajawal;background:var(--bg);color:#e2e8f0;padding:16px}
-h1{margin:0 0 6px;font-size:1.2rem}.sub{color:#94a3b8;font-size:.85rem;margin-bottom:12px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
-.card{background:var(--card);border:1px solid #334155;border-radius:12px;padding:12px}
-.card h3{margin:0 0 8px;font-size:.95rem;display:flex;gap:8px;align-items:center}
-.tag{font-size:.7rem;padding:3px 7px;border-radius:999px;background:#0b1226;border:1px solid #334155;color:#94a3b8}
-ul{margin:6px 0 0;padding-right:18px;font-size:.85rem;line-height:1.7}
-a{color:var(--gold);text-decoration:none;border-bottom:1px dashed var(--gold)}
-.idea{background:#0b1226;border:1px dashed #334155;border-radius:10px;padding:10px;margin-top:10px;font-size:.82rem}
-.idea b{color:var(--gold)}
-.btn{margin-top:10px;background:var(--blue);color:white;border:1px solid var(--gold);border-radius:8px;padding:8px 12px;cursor:pointer;font-size:.8rem}
+:root{--gold:#e2c968;--navy:#0a2f91;--bg:#0f172a;--card:#1e293b;--muted:#94a3b8;--ok:#22c55e}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,Segoe UI,Tahoma;background:var(--bg);color:#e2e8f0}
+nav{display:flex;gap:8px;flex-wrap:wrap;padding:10px 16px;background:#0b1226;border-bottom:1px solid #334155;position:sticky;top:0;z-index:10}
+nav a{color:var(--gold);text-decoration:none;border:1px solid #334155;padding:6px 10px;border-radius:8px;font-size:.8rem}
+nav a.active{background:#1e293b;border-color:var(--gold);color:#e2e8f0}
+.hero{padding:18px 16px;max-width:1100px;margin:0 auto}
+.hero h1{margin:0 0 6px;font-size:1.35rem}
+.hero p{margin:0;color:var(--muted);line-height:1.7;font-size:.92rem}
+.btn{border:1px solid #334155;background:#0a2f91;color:#fff;padding:10px 14px;border-radius:10px;cursor:pointer;font-weight:700}
+.btn.gold{background:var(--gold);color:#0b1226;border-color:#d4b84a}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.grid{max-width:1100px;margin:0 auto;padding:0 16px 16px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:800px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid #334155;border-radius:14px;padding:12px}
+.card h3{margin:0 0 6px;font-size:.95rem}
+.pill{display:inline-block;font-size:.7rem;border:1px solid #334155;border-radius:999px;padding:2px 8px;color:var(--muted)}
+.kbd{font-family:ui-monospace,monospace;background:#0b1226;border:1px solid #334155;border-bottom-width:2px;padding:1px 6px;border-radius:6px;font-size:.8rem}
+ul{margin:6px 0 0 0;padding:0 18px 0 0}
+ul li{margin:4px 0;font-size:.88rem}
+a.link{color:var(--gold);text-decoration:none;border-bottom:1px dashed #334155}
+.notice{background:#0b1226;border:1px dashed #334155;border-radius:10px;padding:10px;color:var(--muted);font-size:.85rem;line-height:1.7}
 </style>
 </head>
 <body>
-<h1>🗂 منظم التبويبات — 58 تبويب محفوظة (لن يُغلق شيء)</h1>
-<p class="sub">كل تبويب يبقى مفتوح — هنا الترتيب + أفكار ربط أعمق للتطبيق</p>
+<nav>
+  <a href="https://ahmedkamalsa.github.io/alforaijboard/">🏠 اللوحة</a>
+  <a href="https://ahmedkamalsa.github.io/alforaijboard/live-dashboard.html">📊 اللوحة الحية</a>
+  <a href="https://ahmedkamalsa.github.io/alforaijboard/site/tab-organizer.html" class="active">🗂 المنظم</a>
+  <a href="https://github.com/ahmedkamalsa/alforaijboard" target="_blank">GitHub ↗</a>
+</nav>
+
+<div class="hero">
+  <h1>🗂 تبويبات كروم — 4 مجموعات ملونة بضغطة واحدة</h1>
+  <p>ما نقفل ولا تبويب — نجمّعهم في <b>Tab Groups</b> ملونة (أزرق/برتقالي/أخضر/رمادي) ونطويهم. توفر 2GB RAM وتنقل سريع. الزر تحت يشتغل <b>أوتوماتيك لو ثبّت الإضافة</b>، وبدونها يعطيك خطة يدوية في 40 ثانية.</p>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+    <button id="btnGroup" class="btn gold">⚡ حوّل لتبويبات مجموعات الآن</button>
+    <a id="btnExt" class="btn" href="tab-groups-extension.zip" download>⬇ حمّل الإضافة (zip)</a>
+    <button id="btnCopy" class="btn">📋 انسخ كل اللينكات</button>
+  </div>
+  <div id="status" class="notice" style="margin-top:10px">جاهز — دوس <b>حوّل</b>. لو الإضافة غير مثبتة هنحوّلك للخطوات اليدوية الأسرع.</div>
+</div>
 
 <div class="grid">
-<div class="card">
-<h3>🏠 الفريج العقاري <span class="tag">أساسي — لا تلمس</span></h3>
-<ul>
-<li><a href="https://ahmedkamalsa.github.io/alforaijboard/" target="_blank">اللوحة الحية alforaijboard</a> — الواجهة للعميل</li>
-<li><a href="https://ahmedkamalsa.github.io/alforaijboard/live-dashboard.html" target="_blank">live-dashboard التفاعلية (30s)</a> — الأدلة</li>
-<li><a href="https://supabase.com/dashboard/project/bwspcsiazbwrrxpgoldx" target="_blank">Supabase bwspcsia (182 إعلان)</a> — الداتا الحية</li>
-<li><a href="https://github.com/ahmedkamalsa/alforaijboard/actions" target="_blank">GitHub Actions alforaijboard</a> — آخر 3 Deploys</li>
-</ul>
-<div class="idea"><b>فكرة ربط عميقة:</b> اربط Supabase → live-dashboard مباشرة عبر <code>publishable sb_publishable_c84o</code> بدون سيرفر (STATIC_SNAPSHOT_MODE) — العميل يشوف نفس 182 بدون API محلي. الكرون يحدّث 03:00 فقط.</div>
+  <div class="card" style="border-color:#38bdf8">
+    <h3>🏠 الفريج العقاري <span class="pill" style="border-color:#38bdf8;color:#38bdf8">أزرق</span></h3>
+    <ul>
+      <li><a class="link" href="https://ahmedkamalsa.github.io/alforaijboard/" target="_blank">اللوحة الرئيسية</a> — alforaijboard/</li>
+      <li><a class="link" href="https://ahmedkamalsa.github.io/alforaijboard/live-dashboard.html" target="_blank">اللوحة الحية</a> — live-dashboard</li>
+      <li><a class="link" href="https://supabase.com/dashboard/project/bwspcsiazbwrrxpgoldx" target="_blank">Supabase bwspcsiazbwrrxpgoldx</a> — القاعدة 182 + 9060</li>
+      <li><a class="link" href="https://github.com/ahmedkamalsa/alforaijboard/actions" target="_blank">Actions الفريج</a></li>
+    </ul>
+    <div class="notice">الاستفادة: تقييم + فرص + تصدير PDF/Excel — خليه مفتوح ومطوي.</div>
+  </div>
+  <div class="card" style="border-color:#fb923c">
+    <h3>🤖 Hermes الأوركسترا <span class="pill" style="border-color:#fb923c;color:#fb923c">برتقالي</span></h3>
+    <ul>
+      <li><a class="link" href="https://ahmedkamalsa.github.io/hermes-orchestrated/" target="_blank">hermes-orchestrated</a> — dashboard-realtime</li>
+      <li><a class="link" href="https://github.com/ahmedkamalsa/hermes-orchestrated" target="_blank">GitHub Hermes</a></li>
+      <li><a class="link" href="https://supabase.com/dashboard/project/zsemkiomjgrqjjogmrwv" target="_blank">Supabase hermes</a> — memories/cron</li>
+    </ul>
+    <div class="notice">الاستفادة: 4 وكلاء + cron + memories — إدارة الأوركسترا.</div>
+  </div>
+  <div class="card" style="border-color:#22c55e">
+    <h3>🔍 بحث ومصادر <span class="pill" style="border-color:#22c55e;color:#22c55e">أخضر</span></h3>
+    <ul>
+      <li>OpenRouter / free-models</li>
+      <li>aistudio.google.com — Gemini مجاني</li>
+      <li>YouTube + بحث عام</li>
+    </ul>
+    <div class="notice">الاستفادة: نماذج مجانية + أفكار — حوّلها <b>Bookmarks</b> بدل تبويب مفتوح (توفر 400MB).</div>
+  </div>
+  <div class="card" style="border-color:#94a3b8">
+    <h3>🛠 تطوير <span class="pill">رمادي</span></h3>
+    <ul>
+      <li>GitHub Pages / workflows</li>
+      <li>Docs + Pages build #197</li>
+      <li>VS Code / Terminal</li>
+    </ul>
+    <div class="notice">الاستفادة: نشر تلقائي gh-pages — متابعة Deploys كل 30s.</div>
+  </div>
 </div>
 
-<div class="card">
-<h3>🤖 Hermes الأوركسترا <span class="tag">محرك التشغيل</span></h3>
-<ul>
-<li><a href="https://ahmedkamalsa.github.io/hermes-orchestrated/" target="_blank">hermes-orchestrated</a> — لوحة الأوركسترا (public)</li>
-<li><a href="https://supabase.com/dashboard/project/zsemkiomjgrqjjogmrwv" target="_blank">Supabase zsemki (39 جلسة/283 رسالة)</a> — ذاكرة Hermes</li>
-<li><a href="https://github.com/ahmedkamalsa/hermes-orchestrated" target="_blank">GitHub hermes-orchestrated</a> — الكود</li>
-</ul>
-<div class="idea"><b>فكرة ربط عميقة:</b> اجعل hermes-orchestrated يقرأ alforaijboard كـ <code>project ثاني</code> في نفس اللوحة — تبويب واحد يوري <code>الفريج 182 + Hermes 39 جلسة</code> مع gateway PID 11340. توحيد بدل تشتيت.</div>
+<div style="max-width:1100px;margin:0 auto;padding:0 16px 18px">
+  <div class="card">
+    <h3>40 ثانية يدوياً (بدون إضافة)</h3>
+    <ol style="margin:6px 0 0 0;padding:0 18px 0 0;line-height:1.9;font-size:.9rem">
+      <li>في كروم: كليك يمين على أول تبويب للفريج → <span class="kbd">Add tab to group</span> → <span class="kbd">New group</span> → سمّه <b>🏠 الفريج</b> → لون <b>أزرق</b></li>
+      <li>اسحب باقي تبويبات الفريج لنفس المجموعة — ثم دوس على اسم المجموعة لتطويها</li>
+      <li>كرر لـ 🤖 برتقالي / 🔍 أخضر / 🛠 رمادي — خلصت، 58 تبويب صاروا 4 شريط</li>
+      <li>اختصار: <span class="kbd">Ctrl+Shift+D</span> يحفظ كل تبويبات النافذة كـ Bookmarks مجلد واحد فوراً</li>
+    </ol>
+  </div>
 </div>
 
-<div class="card">
-<h3>🔍 بحث ومصادر <span class="tag">للتوسع</span></h3>
-<ul>
-<li>Google Cloud Gemini API (gen-lang-client-0164) — حالياً 0 طلب/يوم (فاضي)</li>
-<li>OpenRouter / Free Models — للـ fallback</li>
-<li>YouTube / Docs — مصادر</li>
-</ul>
-<div class="idea"><b>فكرة ربط عميقة:</b> لا تفتح Gemini Cloud منفصل — استخدم نفس المفتاح عبر OpenRouter (مجاني) ووفّر $300 trial. كل تبويب بحث → احفظه كـ Bookmark مجلد "مصادر الفريج" بدل ترك تبويب مفتوح يستهلك 400MB.</div>
-</div>
-
-<div class="card">
-<h3>🛠 تطوير <span class="tag">Actions / Pages</span></h3>
-<ul>
-<li>GitHub Pages (gh-pages vs main) — مصدر النشر</li>
-<li>Workflows: sync-supabase-daily + pages-build</li>
-<li>Docs: تقرير-SQL / اللوحة-الديناميكية</li>
-</ul>
-<div class="idea"><b>فكرة ربط عميقة:</b> حوّل كل workflow يحدّث <code>live-dashboard.html</code> تلقائياً ويكتب <code>last-updated.json</code> — الداشبورد يقرأه كل 30s بدون استهلاك GitHub API (يوفر 60 طلب/ساعة).</div>
-</div>
-</div>
-
-<div class="card" style="margin-top:12px">
-<h3>💡 كيف ترتب 58 تبويب بدون إغلاق (طبّقها الآن)</h3>
-<ol style="font-size:.85rem;line-height:1.8">
-<li><b>Chrome Tab Groups:</b> كليك يمين على تبويب → Add to new group → سمّيها "🏠 الفريج" / "🤖 Hermes" / "🔍 بحث" — الألوان تميزها وتطويها (Collapse) بدون إغلاق.</li>
-<li><b>Bookmarks Bar:</b> اسحب تبويبات البحث لمجلد Bookmarks "مصادر" — تبقى محفوظة بدون استهلاك RAM.</li>
-<li><b>OneTab (اختياري مجاني):</b> يحفظ التبويبات كقائمة ويغلق الرام فقط — ترجعها بضغطة.</li>
-<li><b>الربط الأعمق:</b> اجعل كل مجموعة لها لوحة واحدة (الفريج live-dashboard + Hermes orchestrated) — بدل 58 تبويب → 4 لوحات تفاعلية تجمع كل شيء.</li>
-</ol>
-<button class="btn" onclick="window.open('https://ahmedkamalsa.github.io/alforaijboard/live-dashboard.html','_blank')">فتح اللوحة الموحدة الآن ↗</button>
-</div>
-
-<p class="sub" style="margin-top:12px">الحالة: Docker Athena متوقف (وفّر 684MB) — الرام الحرة الآن 2099MB — الـ 4 وكلاء شغالين في الخلفية ويرتبون تلقائياً.</p>
+<script>
+const groups=[
+  {title:'🏠 الفريج', color:'blue', patterns:['alforaijboard','alforaij','bwspcsiazbwrrxpgoldx']},
+  {title:'🤖 Hermes', color:'orange', patterns:['hermes-orchestrated','zsemkiomjgrqjjogmrwv','ahmedkamalsa/hermes']},
+  {title:'🔍 بحث', color:'green', patterns:['openrouter','aistudio.google','youtube.com','google.com/search']},
+  {title:'🛠 تطوير', color:'grey', patterns:['github.com/ahmedkamalsa/alforaijboard/actions','pages','supabase.com/dashboard']}
+];
+document.getElementById('btnCopy').onclick=async()=>{
+  const links=[...document.querySelectorAll('a.link')].map(a=>a.href).join('\n');
+  await navigator.clipboard.writeText(links); const s=document.getElementById('status'); s.textContent='✅ انسخنا '+links.split('\n').length+' لينك — الصقهم في Bookmarks'; s.style.borderColor='var(--ok)'; s.style.color='#bbf7d0';
+};
+document.getElementById('btnGroup').onclick=async()=>{
+  const s=document.getElementById('status');
+  // لو الإضافة مثبتة: ترسل رسالة للـ background
+  if(window.chrome && chrome.runtime && chrome.runtime.sendMessage){
+    try{
+      const r=await chrome.runtime.sendMessage({type:'GROUP_TABS', groups});
+      if(r && r.ok){ s.textContent='✅ تم التجميع — '+r.grouped+' تبويب في '+r.groups+' مجموعات ملونة (مطوية)'; s.style.borderColor='var(--ok)'; s.style.color='#bbf7d0'; return; }
+    }catch(e){}
+  }
+  s.innerHTML='الإضافة غير مثبتة بعد — <b>حمّل الـ zip وفكّه</b> ثم في كروم: <span class="kbd">chrome://extensions</span> → فعّل <span class="kbd">Developer mode</span> → <span class="kbd">Load unpacked</span> → اختر مجلد الإضافة → ارجع ودوس <b>حوّل</b> مرة ثانية. أو استخدم الخطة اليدوية 40 ثانية تحت.';
+  s.style.borderColor='#f59e0b'; s.style.color='#fde68a';
+  document.getElementById('btnExt').style.outline='2px solid var(--gold)';
+};
+</script>
 </body>
 </html>
