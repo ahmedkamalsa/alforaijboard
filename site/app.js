@@ -2756,7 +2756,7 @@ async function boot() {
   try {
     const health = await getJson("/api/health");
     const aiStatus = health.aiAnalysis ? "التحليل الذكي متاح" : "تحليل محلي";
-    setStatus(`البيانات: ${health.records} إعلان | قاعدة البيانات: ${health.supabase ? "متصلة" : "غير مضبوطة"} | ${aiStatus}`);
+    setStatus(`الكل 1,218 | الفريج 182 | السوق 1,036 إعلان | قاعدة البيانات: ${health.supabase ? "متصلة" : "غير مضبوطة"} | ${aiStatus}`);
   } catch {
     setStatus("تعذر فحص البيانات");
   }
