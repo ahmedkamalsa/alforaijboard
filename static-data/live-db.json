@@ -1,5 +1,6 @@
 {
   "url": "https://bwspcsiazbwrrxpgoldx.supabase.co",
-  "anonKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ3c3Bjc2lhemJ3cnJ4cGdvbGR4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA3MTQ3NDQsImV4cCI6MjA4NjI5MDc0NH0.tSlzUbQKTbgxjfgnMs_izP1OSrWJXxkrSJbF075b8Zc",
-  "note": "قراءة مباشرة من قاعدة البيانات الحية عبر المفتاح العام (anon) — الجداول العامة فقط عبر RLS."
+  "anonKey": "sb_publishable_c84oHQS94osRqw_SiTIqMg_8icxvatZ",
+  "note": "قراءة مباشرة من قاعدة البيانات الحية عبر المفتاح العام (publishable) — الجداول العامة فقط عبر RLS.",
+  "publishableKey": "sb_publishable_c84oHQS94osRqw_SiTIqMg_8icxvatZ"
 }

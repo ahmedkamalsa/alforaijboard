@@ -16,6 +16,14 @@
   --red: #b91c1c;
   --shadow: 0 1px 2px rgba(15, 23, 42, .08);
   --cover-image: url("assets/kuwait_glass_cover.webp");
+  /* هوية الفريج — مقياس الذهب/الكحلي + توكينات الحلقة (ذهبي داكنًا، كحلي فاتحًا) */
+  --brand-gold-300: #e2c968;
+  --brand-gold-400: #d9b850;
+  --brand-navy-300: #0a2f91;
+  --ring-width: 2px;
+  --ring-color: var(--brand-navy-300);
+  --ring-offset: 2px;
+  --radius-sm: 6px;
 }
 
 * {
@@ -3227,4 +3235,15 @@ summary {
     break-inside: avoid;
     margin-bottom: 12px;
   }
+}
+
+/* حلقة التركيز — هوية ذهبية/كحلية (ذهبي للوضع الداكن، كحلي للفاتح) */
+[data-theme="dark"] {
+  --ring-color: var(--brand-gold-300);
+}
+
+:focus-visible {
+  outline: var(--ring-width) solid var(--ring-color);
+  outline-offset: var(--ring-offset);
+  border-radius: var(--radius-sm);
 }
