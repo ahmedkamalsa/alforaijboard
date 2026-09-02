@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>منظم التبويبات — لا يُغلق شيء</title>
+<style>
+:root{--gold:#e2c968;--blue:#0a2f91;--bg:#0f172a;--card:#1e293b}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,Tajawal;background:var(--bg);color:#e2e8f0;padding:16px}
+h1{margin:0 0 6px;font-size:1.2rem}.sub{color:#94a3b8;font-size:.85rem;margin-bottom:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+.card{background:var(--card);border:1px solid #334155;border-radius:12px;padding:12px}
+.card h3{margin:0 0 8px;font-size:.95rem;display:flex;gap:8px;align-items:center}
+.tag{font-size:.7rem;padding:3px 7px;border-radius:999px;background:#0b1226;border:1px solid #334155;color:#94a3b8}
+ul{margin:6px 0 0;padding-right:18px;font-size:.85rem;line-height:1.7}
+a{color:var(--gold);text-decoration:none;border-bottom:1px dashed var(--gold)}
+.idea{background:#0b1226;border:1px dashed #334155;border-radius:10px;padding:10px;margin-top:10px;font-size:.82rem}
+.idea b{color:var(--gold)}
+.btn{margin-top:10px;background:var(--blue);color:white;border:1px solid var(--gold);border-radius:8px;padding:8px 12px;cursor:pointer;font-size:.8rem}
+</style>
+</head>
+<body>
+<h1>🗂 منظم التبويبات — 58 تبويب محفوظة (لن يُغلق شيء)</h1>
+<p class="sub">كل تبويب يبقى مفتوح — هنا الترتيب + أفكار ربط أعمق للتطبيق</p>
+
+<div class="grid">
+<div class="card">
+<h3>🏠 الفريج العقاري <span class="tag">أساسي — لا تلمس</span></h3>
+<ul>
+<li><a href="https://ahmedkamalsa.github.io/alforaijboard/" target="_blank">اللوحة الحية alforaijboard</a> — الواجهة للعميل</li>
+<li><a href="https://ahmedkamalsa.github.io/alforaijboard/live-dashboard.html" target="_blank">live-dashboard التفاعلية (30s)</a> — الأدلة</li>
+<li><a href="https://supabase.com/dashboard/project/bwspcsiazbwrrxpgoldx" target="_blank">Supabase bwspcsia (182 إعلان)</a> — الداتا الحية</li>
+<li><a href="https://github.com/ahmedkamalsa/alforaijboard/actions" target="_blank">GitHub Actions alforaijboard</a> — آخر 3 Deploys</li>
+</ul>
+<div class="idea"><b>فكرة ربط عميقة:</b> اربط Supabase → live-dashboard مباشرة عبر <code>publishable sb_publishable_c84o</code> بدون سيرفر (STATIC_SNAPSHOT_MODE) — العميل يشوف نفس 182 بدون API محلي. الكرون يحدّث 03:00 فقط.</div>
+</div>
+
+<div class="card">
+<h3>🤖 Hermes الأوركسترا <span class="tag">محرك التشغيل</span></h3>
+<ul>
+<li><a href="https://ahmedkamalsa.github.io/hermes-orchestrated/" target="_blank">hermes-orchestrated</a> — لوحة الأوركسترا (public)</li>
+<li><a href="https://supabase.com/dashboard/project/zsemkiomjgrqjjogmrwv" target="_blank">Supabase zsemki (39 جلسة/283 رسالة)</a> — ذاكرة Hermes</li>
+<li><a href="https://github.com/ahmedkamalsa/hermes-orchestrated" target="_blank">GitHub hermes-orchestrated</a> — الكود</li>
+</ul>
+<div class="idea"><b>فكرة ربط عميقة:</b> اجعل hermes-orchestrated يقرأ alforaijboard كـ <code>project ثاني</code> في نفس اللوحة — تبويب واحد يوري <code>الفريج 182 + Hermes 39 جلسة</code> مع gateway PID 11340. توحيد بدل تشتيت.</div>
+</div>
+
+<div class="card">
+<h3>🔍 بحث ومصادر <span class="tag">للتوسع</span></h3>
+<ul>
+<li>Google Cloud Gemini API (gen-lang-client-0164) — حالياً 0 طلب/يوم (فاضي)</li>
+<li>OpenRouter / Free Models — للـ fallback</li>
+<li>YouTube / Docs — مصادر</li>
+</ul>
+<div class="idea"><b>فكرة ربط عميقة:</b> لا تفتح Gemini Cloud منفصل — استخدم نفس المفتاح عبر OpenRouter (مجاني) ووفّر $300 trial. كل تبويب بحث → احفظه كـ Bookmark مجلد "مصادر الفريج" بدل ترك تبويب مفتوح يستهلك 400MB.</div>
+</div>
+
+<div class="card">
+<h3>🛠 تطوير <span class="tag">Actions / Pages</span></h3>
+<ul>
+<li>GitHub Pages (gh-pages vs main) — مصدر النشر</li>
+<li>Workflows: sync-supabase-daily + pages-build</li>
+<li>Docs: تقرير-SQL / اللوحة-الديناميكية</li>
+</ul>
+<div class="idea"><b>فكرة ربط عميقة:</b> حوّل كل workflow يحدّث <code>live-dashboard.html</code> تلقائياً ويكتب <code>last-updated.json</code> — الداشبورد يقرأه كل 30s بدون استهلاك GitHub API (يوفر 60 طلب/ساعة).</div>
+</div>
+</div>
+
+<div class="card" style="margin-top:12px">
+<h3>💡 كيف ترتب 58 تبويب بدون إغلاق (طبّقها الآن)</h3>
+<ol style="font-size:.85rem;line-height:1.8">
+<li><b>Chrome Tab Groups:</b> كليك يمين على تبويب → Add to new group → سمّيها "🏠 الفريج" / "🤖 Hermes" / "🔍 بحث" — الألوان تميزها وتطويها (Collapse) بدون إغلاق.</li>
+<li><b>Bookmarks Bar:</b> اسحب تبويبات البحث لمجلد Bookmarks "مصادر" — تبقى محفوظة بدون استهلاك RAM.</li>
+<li><b>OneTab (اختياري مجاني):</b> يحفظ التبويبات كقائمة ويغلق الرام فقط — ترجعها بضغطة.</li>
+<li><b>الربط الأعمق:</b> اجعل كل مجموعة لها لوحة واحدة (الفريج live-dashboard + Hermes orchestrated) — بدل 58 تبويب → 4 لوحات تفاعلية تجمع كل شيء.</li>
+</ol>
+<button class="btn" onclick="window.open('https://ahmedkamalsa.github.io/alforaijboard/live-dashboard.html','_blank')">فتح اللوحة الموحدة الآن ↗</button>
+</div>
+
+<p class="sub" style="margin-top:12px">الحالة: Docker Athena متوقف (وفّر 684MB) — الرام الحرة الآن 2099MB — الـ 4 وكلاء شغالين في الخلفية ويرتبون تلقائياً.</p>
+</body>
+</html>
