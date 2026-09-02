@@ -15,46 +15,33 @@
 .badge.ok{border-color:#16a34a;color:#86efac}.badge.warn{border-color:#eab308;color:#fde68a}.badge.err{border-color:#ef4444;color:#fca5a5}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;padding:16px}
 .card{background:var(--card);border:1px solid #334155;border-radius:14px;padding:14px}
-.card h3{margin:0 0 8px;font-size:1rem;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.card h3{margin:0 0 8px;font-size:1rem;display:flex;align-items:center;gap:8px}
 .kpi{font-size:1.6rem;font-weight:800}.kpi small{font-size:.75rem;font-weight:400;color:var(--muted)}
 .meta{font-size:.78rem;color:var(--muted);margin-top:6px}
 .meta a{color:var(--gold);text-decoration:none;border-bottom:1px dashed var(--gold)}
 table{width:100%;border-collapse:collapse;font-size:.85rem}th,td{padding:8px 6px;border-bottom:1px solid #334155;text-align:right}
 th{color:var(--muted);font-weight:600}.pill{padding:3px 8px;border-radius:999px;font-size:.72rem;background:#052e16;color:#86efac;border:1px solid #16a34a}
-.pill.pending{background:#422006;color:#fde68a;border-color:#eab308}.pill.err{background:#450a0a;color:#fca5a5;border-color:#ef4444}
+.pill.pending{background:#422006;color:#fde68a;border-color:#eab308}
 .live-dot{width:8px;height:8px;background:#22c55e;border-radius:50%;display:inline-block;animation:pulse 1.5s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 .controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px}
-.controls button,.btn{background:#0b1226;color:#e2e8f0;border:1px solid #334155;border-radius:8px;padding:6px 10px;cursor:pointer;font-size:.8rem}
-.controls button:hover,.btn:hover{border-color:var(--gold)}
-.collapse{max-height:0;overflow:hidden;transition:max-height .3s}.collapse.open{max-height:800px}
+.controls button{background:#0b1226;color:#e2e8f0;border:1px solid #334155;border-radius:8px;padding:6px 10px;cursor:pointer;font-size:.8rem}
+.controls button:hover{border-color:var(--gold)}
+.collapse{max-height:0;overflow:hidden;transition:max-height .3s}.collapse.open{max-height:600px}
 code{font-family:ui-monospace,Consolas;background:#0b1226;padding:2px 6px;border-radius:6px;font-size:.78rem}
 .timeline{position:relative;padding-right:18px}.timeline::before{content:"";position:absolute;right:6px;top:0;bottom:0;width:2px;background:#334155}
 .tl-item{position:relative;margin:10px 0;padding-right:10px}.tl-item::before{content:"";position:absolute;right:-12px;top:8px;width:10px;height:10px;border-radius:50%;background:var(--gold);border:2px solid var(--blue)}
-/* tabs */
-.tabs{display:flex;gap:6px;padding:0 16px;margin-top:14px;flex-wrap:wrap;border-bottom:1px solid #334155}
-.tab-btn{padding:8px 14px;border-radius:10px 10px 0 0;border:1px solid #334155;border-bottom:none;background:#0b1226;color:#94a3b8;cursor:pointer;font-size:.85rem}
-.tab-btn.active{background:var(--card);color:#fff;border-color:var(--gold);font-weight:700}
-.tab-panel{display:none}.tab-panel.active{display:block}
-.deploy-toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:10px 0}
-.deploy-toolbar input,.deploy-toolbar select{background:#0b1226;color:#e2e8f0;border:1px solid #334155;border-radius:8px;padding:6px 10px;font-size:.8rem}
-.deploy-toolbar input{flex:1;min-width:160px}
-.sha-copy{cursor:pointer;border:1px dashed #475569;border-radius:6px;padding:1px 6px;font-family:ui-monospace}
-.sha-copy:hover{border-color:var(--gold);color:var(--gold)}
-.toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:#0b1226;border:1px solid var(--gold);color:#e2e8f0;padding:8px 14px;border-radius:10px;font-size:.85rem;display:none;z-index:99}
-.rate-note{font-size:.72rem;color:var(--muted);margin-top:6px}
 </style>
 </head>
 <body>
 <header class="topbar">
   <h1><span class="live-dot"></span> اللوحة التفاعلية الحية — بالأدلة والمصادر</h1>
-  <p>تحديث تلقائي كل 30 ثانية • كل رقم مربوط بمصدره • آخر فحص: <span id="lastCheck">—</span> • <span id="countdown">30s</span> <span id="rateInfo" class="rate-note"></span></p>
+  <p>تحديث تلقائي كل 30 ثانية • كل رقم مربوط بمصدره • آخر فحص: <span id="lastCheck">—</span> • <span id="countdown">30s</span></p>
   <div class="badges">
     <span class="badge ok">GitHub Pages: <b>مبني</b> gh-pages → /</span>
     <span class="badge warn" id="quotaBadge">الكوتا: باقي 15 يوم حتى 17 Sep</span>
     <span class="badge warn" id="tokenBadge">التوكن sbp_0068… ينتهي 02 Oct (30 يوم)</span>
     <span class="badge ok" id="sbBadge">Supabase: 182 إعلان حي</span>
-    <span class="badge ok" id="gateBadge" title="hermes-orchestrated">Gateway: جاري الفحص…</span>
   </div>
   <div class="controls">
     <button id="refreshBtn">تحديث الآن 🔄</button>
@@ -63,15 +50,7 @@ code{font-family:ui-monospace,Consolas;background:#0b1226;padding:2px 6px;border
   </div>
 </header>
 
-<nav class="tabs" role="tablist" aria-label="tabs">
-  <button class="tab-btn active" data-tab="overview" role="tab" aria-selected="true">نظرة عامة</button>
-  <button class="tab-btn" data-tab="hermes" role="tab">hermes-orchestrated ⚙️</button>
-  <button class="tab-btn" data-tab="deploys" role="tab">النشرات — آخر 3 Deploys</button>
-</nav>
-
 <main>
-<!-- OVERVIEW -->
-<div id="tab-overview" class="tab-panel active">
 <div class="grid">
   <div class="card">
     <h3>📊 البيانات الحية <span class="pill" id="sbStatus">متصل</span></h3>
@@ -80,6 +59,7 @@ code{font-family:ui-monospace,Consolas;background:#0b1226;padding:2px 6px;border
     <div class="kpi" id="kpiDevs">50 <small>تطوير / market_developments</small></div>
     <div class="meta">المصدر: <code>bwspcsiazbwrrxpgoldx.supabase.co/rest/v1/listings?select=count</code> عبر SERVICE_ROLE • Content-Range: 0-0/182<br>ملفات مزامنة: <code>site/static-data/live-db.json</code> + <code>static-data/live-db.json</code> + <code>frontend/…</code> (3 مواقع)</div>
   </div>
+
   <div class="card">
     <h3>⏳ العد التنازلي</h3>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
@@ -88,6 +68,7 @@ code{font-family:ui-monospace,Consolas;background:#0b1226;padding:2px 6px;border
     </div>
     <div class="meta">الساعة الآن: <span id="nowClock">—</span> (Asia/Kuwait)</div>
   </div>
+
   <div class="card">
     <h3>🔒 صحة Supabase — Security Advisor</h3>
     <div class="kpi" id="rlsErrors">3 <small>أخطاء RLS معطلة</small></div>
@@ -101,102 +82,70 @@ alter table public.listing_quality_events enable row level security;
 -- حماية مستقبلية: أي جدول جديد يُفعل له RLS تلقائياً</pre></div>
   </div>
 </div>
+
+<div class="grid">
+  <div class="card" style="grid-column:1/-1">
+    <h3>🚀 آخر 3 Deploys — يعني إيه "3"؟ <span class="pill">تفاعلي — يحدّث كل 30s</span></h3>
+    <p class="meta" style="margin:0 0 10px">كل Deploy = عملية **نشر كاملة** لمجلد <code>site/</code> إلى فرع <code>gh-pages</code> ثم بناء GitHub Pages إلى <code>https://ahmedkamalsa.github.io/alforaijboard/</code>. الثلاثة هم **آخر 3 عمليات بناء ناجحة** (pages-build-deployment). اضغط أي صف لفتح الدليل.</p>
+    <div style="overflow:auto">
+    <table id="deploysTable">
+      <thead><tr><th>#</th><th>الوصف</th><th>الفرع</th><th>SHA</th><th>الحالة</th><th>التوقيت</th><th>المدة</th><th>الدليل</th></tr></thead>
+      <tbody id="deploysBody"><tr><td colspan="8" style="text-align:center;color:var(--muted)">جاري جلب الأدلة من GitHub API…</td></tr></tbody>
+    </table>
+    </div>
+    <div class="timeline" id="timeline" style="margin-top:12px"></div>
+    <div class="meta">المصدر الحي: <code>api.github.com/repos/ahmedkamalsa/alforaijboard/actions/runs?per_page=3</code> + <code>repos/.../pages</code> (build_type: legacy, source: gh-pages:/)<br>النشر الحالي: <code>https://ahmedkamalsa.github.io/alforaijboard/</code> — <span id="pagesStatus">جاري الفحص…</span></div>
+  </div>
+</div>
+
+<nav style="display:flex;gap:8px;flex-wrap:wrap;padding:10px 16px;background:#0b1226;border-bottom:1px solid #334155;position:sticky;top:0;z-index:10">
+  <a href="https://ahmedkamalsa.github.io/alforaijboard/" style="color:var(--gold);text-decoration:none;border:1px solid #334155;padding:6px 10px;border-radius:8px;font-size:.8rem">🏠 اللوحة الرئيسية</a>
+  <a href="https://ahmedkamalsa.github.io/alforaijboard/live-dashboard.html" style="color:#e2e8f0;text-decoration:none;border:1px solid var(--gold);padding:6px 10px;border-radius:8px;font-size:.8rem;background:#1e293b">📊 اللوحة الحية</a>
+  <a href="https://ahmedkamalsa.github.io/alforaijboard/orchestra-tree.html" style="color:var(--gold);text-decoration:none;border:1px solid #334155;padding:6px 10px;border-radius:8px;font-size:.8rem">🌳 شجرة الأوركسترا</a>
+  <a href="https://ahmedkamalsa.github.io/alforaijboard/tab-organizer.html" style="color:var(--gold);text-decoration:none;border:1px solid #334155;padding:6px 10px;border-radius:8px;font-size:.8rem">🗂 منظم التبويبات</a>
+  <a href="https://github.com/ahmedkamalsa/alforaijboard" target="_blank" style="color:var(--muted);text-decoration:none;border:1px solid #334155;padding:6px 10px;border-radius:8px;font-size:.8rem">GitHub ↗</a>
+  <a href="https://ahmedkamalsa.github.io/hermes-orchestrated/" target="_blank" style="color:var(--muted);text-decoration:none;border:1px solid #334155;padding:6px 10px;border-radius:8px;font-size:.8rem">Hermes ↗</a>
+</nav>
+
 <div class="grid">
   <div class="card">
     <h3>⚙️ الكرون اليومي</h3>
     <div class="meta">الملف: <code>.github/workflows/sync-supabase-daily.yml</code><br>الجدولة: <code>0 0 * * *</code> = <b>03:00 Asia/Kuwait يومياً</b> + <code>on: push</code> (يدفع عند أي تعديل في alforaijboard/**)<br>الخطوات: Checkout → Setup Python → pip install → sync_listings_supabase.py → persist_to_supabase.py<br>الأسرار: SUPABASE_URL / ANON / SERVICE_ROLE (مخفية)<br>الحالة: <span class="pill">مفعل</span> — القادم الليلة 03:00</div>
   </div>
   <div class="card">
-    <h3>🔗 الروابط بالأدلة</h3>
+    <h3>🔗 الروابط السريعة — تنقل بين الأعمال</h3>
     <div class="meta" style="line-height:1.9">
       • اللوحة: <a href="https://ahmedkamalsa.github.io/alforaijboard/" target="_blank">alforaijboard/</a> — المصدر gh-pages<br>
+      • الشجرة: <a href="https://ahmedkamalsa.github.io/alforaijboard/orchestra-tree.html" target="_blank">orchestra-tree</a> — تقسيم 4 وكلاء<br>
+      • المنظم: <a href="https://ahmedkamalsa.github.io/alforaijboard/tab-organizer.html" target="_blank">tab-organizer</a> — 58 تبويب مرتب<br>
+      • البوربوينت: <a href="https://github.com/ahmedkamalsa/alforaijboard" target="_blank">شجرة-الأوركسترا.pptx</a> (42KB)<br>
       • Actions: <a href="https://github.com/ahmedkamalsa/alforaijboard/actions" target="_blank">Actions</a> — كل Run له URL ودليل<br>
       • Supabase: <a href="https://supabase.com/dashboard/project/bwspcsiazbwrrxpgoldx" target="_blank">bwspcsiazbwrrxpgoldx</a> — FREE / EXCEEDING<br>
       • التوكن: <a href="https://supabase.com/dashboard/account/tokens" target="_blank">account/tokens</a> — sbp_0068… حتى 02 Oct<br>
-      • الكود: <code>setup_all.sql 484 سطر idempotent (72/72)</code>
+      • الكود: <code>setup_all.sql 97 جملة idempotent</code>
     </div>
   </div>
 </div>
-</div><!-- /overview -->
 
-<!-- HERMES-ORCHESTRATED TAB — يصلح رسالة gateway not installed الكاذبة -->
-<div id="tab-hermes" class="tab-panel">
 <div class="grid">
   <div class="card" style="grid-column:1/-1">
-    <h3>⚙️ hermes-orchestrated — حالة الـ Gateway <span class="pill" id="hermesPill">فحص…</span></h3>
-    <p class="meta" style="margin:0 0 10px">هذا التبويب يصلح الإنذار الكاذب <code>gateway not installed</code>. المنصة تعمل بنمطين صالحين: <b>static-data (gh-pages)</b> أو <b>live gateway (ALFORAIJ_API_BASE)</b>. كلا النمطين يعتبر Gateway مثبتاً.</p>
-    <div id="hermesChecks" class="meta" style="line-height:1.9"></div>
-    <div id="hermesVerdict" style="margin-top:10px;padding:10px;border-radius:10px;border:1px solid #334155;background:#0b1226;font-size:.9rem"></div>
-    <div class="controls" style="margin-top:10px">
-      <button id="hermesRecheck">إعادة فحص Gateway</button>
-      <button id="hermesCopyDiag">نسخ تقرير الفحص</button>
+    <h3>🛠️ التطوير — 50 عنصر + كل اللينكات <span class="pill">مباشر من Supabase</span></h3>
+    <p class="meta" style="margin:0 0 8px">مصدر: <code>market_developments (50)</code> — أخبار وتطوير سوق الكويت. كل عنوان رابط مباشر — دوس للانتقال.</p>
+    <div style="display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap">
+      <input id="devSearch" placeholder="ابحث في التطوير..." style="flex:1;min-width:200px;background:#0b1226;color:#e2e8f0;border:1px solid #334155;border-radius:8px;padding:7px 10px;font-size:.85rem">
+      <span class="pill" id="devCount">50</span>
     </div>
-    <p class="meta">إصلاح الخلل السابق: كان الفحص القديم يعتبر <code>STATIC_SNAPSHOT_MODE=true</code> = خطأ "not installed"، بينما هو نمط orchestrated صالح يخدم من <code>static-data/*.json</code>. الآن يظهر <b>مثبت — يعمل عبر static-data</b> بدل الرسالة الكاذبة.</p>
+    <div id="devList" style="max-height:420px;overflow:auto;border:1px solid #334155;border-radius:10px;padding:8px;background:#0b1226">جاري تحميل التطوير...</div>
+    <div class="meta" style="margin-top:6px">المصدر الحي: <code>https://bwspcsiazbwrrxpgoldx.supabase.co/rest/v1/market_developments?select=title,url,source</code> عبر publishable — مع Fallback لملف محلي.</div>
   </div>
 </div>
-<div class="grid">
-  <div class="card">
-    <h3>🔍 أدلة التشخيص</h3>
-    <div class="meta" style="line-height:1.9">
-      • <code>window.ALFORAIJ_API_BASE</code> = <code id="diagApiBase">—</code><br>
-      • <code>config.js</code> محمل: <span id="diagConfig">—</span><br>
-      • <code>static-data/health.json</code>: <span id="diagHealth">—</span><br>
-      • <code>static-data/hermes-gateway.json</code>: <span id="diagGw">—</span><br>
-      • <code>static-data/live-db.json</code>: <span id="diagLiveDb">—</span><br>
-      • GitHub Pages source: <span id="diagPages">—</span> <code>gh-pages:/</code>
-    </div>
-  </div>
-  <div class="card">
-    <h3>🛠️ ماذا تفعل إذا ظهر "غير مثبت" فعلاً؟</h3>
-    <ol class="meta" style="line-height:1.9;margin:0;padding-right:18px">
-      <li>تأكد أن <code>site/config.js</code> يحتوي <code>window.ALFORAIJ_API_BASE="https://...gateway..."</code> إذا أردت نمط live.</li>
-      <li>أو اتركه فارغاً ليستخدم <code>static-data/*.json</code> (الافتراضي الصالح على GitHub Pages).</li>
-      <li>لا تعتبر رسالة "gateway not installed" خطأ إذا كان <code>health.json → staticSnapshot:true</code>.</li>
-      <li>للتخزين المباشر: تحقق من Supabase publishable key في <code>live-db.json</code>.</li>
-    </ol>
-  </div>
-</div>
-</div>
-
-<!-- DEPLOYS TAB -->
-<div id="tab-deploys" class="tab-panel">
-<div class="grid">
-  <div class="card" style="grid-column:1/-1">
-    <h3>🚀 آخر 3 Deploys — يعني إيه "3"؟ <span class="pill">تفاعلي — يحدّث كل 30s (GitHub كل 90s لتجنب Rate Limit)</span></h3>
-    <p class="meta" style="margin:0 0 10px">كل Deploy = عملية **نشر كاملة** لمجلد <code>site/</code> إلى فرع <code>gh-pages</code> ثم بناء GitHub Pages إلى <code>https://ahmedkamalsa.github.io/alforaijboard/</code>. الثلاثة هم **آخر 3 عمليات بناء ناجحة** (pages-build-deployment). اضغط أي صف لفتح الدليل.</p>
-    <div class="deploy-toolbar">
-      <input id="deploySearch" type="search" placeholder="بحث: SHA / وصف / فرع…">
-      <select id="deployFilterStatus"><option value="">كل الحالات</option><option value="success">success فقط</option><option value="pending">pending</option><option value="failure">failure</option></select>
-      <select id="deployFilterBranch"><option value="">كل الفروع</option><option value="gh-pages">gh-pages</option><option value="main">main</option></select>
-      <button class="btn" id="deployClearFilter">مسح الفلتر</button>
-      <span class="meta" id="deployCount">—</span>
-    </div>
-    <div style="overflow:auto">
-    <table id="deploysTable">
-      <thead><tr><th>#</th><th>الوصف</th><th>الفرع</th><th>SHA <span style="font-weight:400;font-size:.7rem">(انسخ)</span></th><th>الحالة</th><th>التوقيت</th><th>المدة</th><th>الدليل</th></tr></thead>
-      <tbody id="deploysBody"><tr><td colspan="8" style="text-align:center;color:var(--muted)">جاري جلب الأدلة من GitHub API…</td></tr></tbody>
-    </table>
-    </div>
-    <div class="timeline" id="timeline" style="margin-top:12px"></div>
-    <div class="meta">المصدر الحي: <code>api.github.com/repos/ahmedkamalsa/alforaijboard/actions/runs?per_page=3</code> + <code>repos/.../pages</code> (build_type: legacy, source: gh-pages:/)<br>النشر الحالي: <code>https://ahmedkamalsa.github.io/alforaijboard/</code> — <span id="pagesStatus">جاري الفحص…</span>
-    <br><span class="rate-note" id="deployRateNote"></span></div>
-  </div>
-</div>
-</div>
-
 </main>
-<div id="toast" class="toast"></div>
-<script src="config.js?v=live-20260902"></script>
+
 <script>
 const REPO='ahmedkamalsa/alforaijboard';
 const TOKEN_EXPIRY=new Date('2026-10-02T00:00:00Z');
 const QUOTA_DEADLINE=new Date('2026-09-17T00:00:00Z');
 let auto=true, timer=30, interval;
-let cachedRuns=[]; // for filtering
-const MIN_GITHUB_INTERVAL_MS = 90000; // 90s => ~40/h max, preserves 60/h unauthenticated limit even with 2 endpoints
-const PAGES_CACHE_MS = 300000; // 5m for pages endpoint
-let lastGithubFetch = 0;
-let lastPagesFetch = 0;
 
 function fmtAgo(iso){
   const d=new Date(iso), diff=(Date.now()-d.getTime())/1000;
@@ -206,249 +155,83 @@ function fmtAgo(iso){
   return d.toLocaleString('ar-EG',{timeZone:'Asia/Kuwait'});
 }
 function daysLeft(date){return Math.max(0,Math.ceil((date-Date.now())/86400000));}
-function showToast(msg){
-  const t=document.getElementById('toast'); t.textContent=msg; t.style.display='block';
-  clearTimeout(t._h); t._h=setTimeout(()=>t.style.display='none',1800);
-}
-async function copyText(txt){
-  try{ await navigator.clipboard.writeText(txt); showToast('تم النسخ: '+txt); }
-  catch{ const ta=document.createElement('textarea'); ta.value=txt; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); showToast('تم النسخ: '+txt); }
-}
 
-// Tabs
-document.querySelectorAll('.tab-btn').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-    document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
-  });
-});
-
-function renderDeploys(runs){
-  cachedRuns = runs.slice();
-  applyDeployFilter();
-  // timeline
-  const tl=document.getElementById('timeline');
-  tl.innerHTML='';
-  runs.forEach((run,i)=>{
-    tl.insertAdjacentHTML('beforeend',`<div class="tl-item"><b>#${i+1} ${run.head_sha.slice(0,7)}</b> — ${escapeHtml(run.display_title||run.name)} — <span style="color:var(--muted)">${fmtAgo(run.created_at)}</span> — <a href="${run.html_url}" target="_blank" style="color:var(--gold)">الدليل ↗</a> <button class="btn" style="padding:2px 6px;font-size:.72rem" onclick="copySha('${run.head_sha}')">نسخ SHA</button></div>`);
-  });
-}
-function escapeHtml(s){return String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;')}
-window.copySha = (sha)=>copyText(sha);
-
-function applyDeployFilter(){
-  const q=(document.getElementById('deploySearch').value||'').trim().toLowerCase();
-  const st=document.getElementById('deployFilterStatus').value;
-  const br=document.getElementById('deployFilterBranch').value;
+async function fetchDeploys(){
   const body=document.getElementById('deploysBody');
-  let filtered=cachedRuns.filter(r=>{
-    const hay=(r.display_title+' '+r.name+' '+r.head_sha+' '+r.head_branch+' '+(r.conclusion||r.status)).toLowerCase();
-    if(q && !hay.includes(q)) return false;
-    if(st && !((r.conclusion||r.status||'').toLowerCase().includes(st))) return false;
-    if(br && r.head_branch!==br) return false;
-    return true;
-  });
-  // if filters empty but we have no runs yet show fallback
-  if(!cachedRuns.length){ body.innerHTML='<tr><td colspan="8" style="text-align:center;color:var(--muted)">لا بيانات بعد — سيتم الجلب تلقائياً</td></tr>'; return; }
-  if(!filtered.length){
-    body.innerHTML='<tr><td colspan="8" style="text-align:center;color:var(--muted)">لا نتائج مطابقة للفلتر — جرّب كلمة أخرى أو امسح الفلتر</td></tr>';
-  } else {
+  const tl=document.getElementById('timeline');
+  try{
+    const r=await fetch(`https://api.github.com/repos/${REPO}/actions/runs?per_page=10`,{headers:{'Accept':'application/vnd.github+json'}});
+    const j=await r.json();
+    const runs=(j.workflow_runs||[]).filter(x=>x.name==='pages build and deployment').slice(0,3);
+    if(!runs.length) throw new Error('no runs');
     body.innerHTML='';
-    filtered.forEach((run,i)=>{
+    tl.innerHTML='';
+    runs.forEach((run,i)=>{
       const dur=Math.round((new Date(run.updated_at)-new Date(run.created_at))/1000);
-      const row=`<tr style="cursor:pointer">
+      const row=`<tr style="cursor:pointer" onclick="window.open('${run.html_url}','_blank')">
         <td>${i+1}</td>
-        <td>${escapeHtml(run.display_title||run.name)}</td>
-        <td><code>${escapeHtml(run.head_branch)}</code></td>
-        <td><code class="sha-copy" title="انسخ SHA" onclick="event.stopPropagation();copySha('${run.head_sha}')">${run.head_sha.slice(0,7)}</code> <span style="font-size:.7rem;color:var(--muted)" title="${run.head_sha}">${run.head_sha.slice(0,7)}</span></td>
-        <td><span class="pill ${run.conclusion==='success'?'':'pending'}">${run.conclusion==='success'?'✅ success':'⏳ '+(run.conclusion||run.status)}</span></td>
+        <td>${run.display_title||run.name}</td>
+        <td><code>${run.head_branch}</code></td>
+        <td><code>${run.head_sha.slice(0,7)}</code></td>
+        <td><span class="pill">${run.conclusion==='success'?'✅ success':'⏳ '+run.status}</span></td>
         <td>${fmtAgo(run.created_at)}<br><span style="color:var(--muted);font-size:.72rem">${new Date(run.created_at).toLocaleString('ar-EG',{timeZone:'Asia/Kuwait'})}</span></td>
         <td>${dur}s</td>
-        <td><a href="${run.html_url}" target="_blank" style="color:var(--gold)" onclick="event.stopPropagation()">فتح ↗</a></td>
+        <td><a href="${run.html_url}" target="_blank" style="color:var(--gold)">فتح ↗</a></td>
       </tr>`;
-      const tr=document.createElement('tbody'); tr.innerHTML=row; const el=tr.firstElementChild;
-      el.addEventListener('click',()=>window.open(run.html_url,'_blank'));
-      body.appendChild(el);
+      body.insertAdjacentHTML('beforeend',row);
+      tl.insertAdjacentHTML('beforeend',`<div class="tl-item"><b>#${i+1} ${run.head_sha.slice(0,7)}</b> — ${run.display_title} — <span style="color:var(--muted)">${fmtAgo(run.created_at)}</span> — <a href="${run.html_url}" target="_blank" style="color:var(--gold)">الدليل ↗</a></div>`);
     });
-  }
-  document.getElementById('deployCount').textContent = `عرض ${filtered.length} من ${cachedRuns.length}`;
-}
-document.getElementById('deploySearch').addEventListener('input', applyDeployFilter);
-document.getElementById('deployFilterStatus').addEventListener('change', applyDeployFilter);
-document.getElementById('deployFilterBranch').addEventListener('change', applyDeployFilter);
-document.getElementById('deployClearFilter').addEventListener('click',()=>{document.getElementById('deploySearch').value='';document.getElementById('deployFilterStatus').value='';document.getElementById('deployFilterBranch').value='';applyDeployFilter();});
-
-// GitHub fetch with rate-limit safety: throttle + ETag + localStorage cache
-async function fetchWithThrottle(url, etagKey, cacheKey){
-  const headers={'Accept':'application/vnd.github+json'};
-  const etag=localStorage.getItem(etagKey);
-  if(etag) headers['If-None-Match']=etag;
-  const r=await fetch(url,{headers});
-  const remaining=r.headers.get('x-ratelimit-remaining');
-  const reset=r.headers.get('x-ratelimit-reset');
-  if(remaining!==null){
-    const ri=document.getElementById('rateInfo');
-    const rn=document.getElementById('deployRateNote');
-    const txt=`GitHub Rate: باقي ${remaining}/60 — يتجدد ${reset? new Date(Number(reset)*1000).toLocaleTimeString('ar-EG',{timeZone:'Asia/Kuwait'}):'—'}`;
-    if(ri) ri.textContent='• '+txt;
-    if(rn) rn.textContent=txt;
-    if(Number(remaining) < 10){
-      console.warn('GitHub rate low', remaining);
-    }
-  }
-  if(r.status===304){
-    const cached=localStorage.getItem(cacheKey);
-    if(cached) return {data: JSON.parse(cached), fromCache:true, notModified:true};
-    return {data:null, notModified:true};
-  }
-  if(r.status===403){
-    // rate exceeded
-    const cached=localStorage.getItem(cacheKey);
-    if(cached) return {data: JSON.parse(cached), fromCache:true, rateLimited:true};
-    throw new Error('GitHub rate limit 403');
-  }
-  if(!r.ok) throw new Error('GitHub '+r.status);
-  const etagNew=r.headers.get('etag');
-  if(etagNew) localStorage.setItem(etagKey, etagNew);
-  const j=await r.json();
-  try{ localStorage.setItem(cacheKey, JSON.stringify(j)); }catch{}
-  return {data:j, fromCache:false};
-}
-
-async function fetchDeploys({force=false}={}){
-  const body=document.getElementById('deploysBody');
-  const now=Date.now();
-  const needRuns = force || (now - lastGithubFetch >= MIN_GITHUB_INTERVAL_MS);
-  const needPages = force || (now - lastPagesFetch >= PAGES_CACHE_MS);
-  // if throttled, just update timestamp and keep cached display
-  if(!needRuns && !needPages){
-    document.getElementById('lastCheck').textContent=new Date().toLocaleString('ar-EG',{timeZone:'Asia/Kuwait'})+' (cached — حماية Rate Limit)';
-    return;
-  }
-  try{
-    if(needRuns){
-      const res=await fetchWithThrottle(`https://api.github.com/repos/${REPO}/actions/runs?per_page=10`,'gh-etag-runs','gh-cache-runs');
-      lastGithubFetch = now;
-      const j=res.data || JSON.parse(localStorage.getItem('gh-cache-runs')||'{}');
-      const runs=(j.workflow_runs||[]).filter(x=>x.name==='pages build and deployment').slice(0,3);
-      if(!runs.length) throw new Error('no runs');
-      // render
-      const tlEmpty = document.getElementById('timeline');
-      body.innerHTML='';
-      // store pages status update separately
-      renderDeploys(runs);
-    }
-    if(needPages){
-      try{
-        const pr=await fetchWithThrottle(`https://api.github.com/repos/${REPO}/pages`,'gh-etag-pages','gh-cache-pages');
-        lastPagesFetch = Date.now();
-        const pj=pr.data || JSON.parse(localStorage.getItem('gh-cache-pages')||'{}');
-        document.getElementById('pagesStatus').textContent = (pj.status||'—')+' — '+(pj.html_url||'')+' — '+(pj.source? pj.source.branch+':'+pj.source.path : 'gh-pages:/');
-        document.getElementById('diagPages').textContent = (pj.status||'—')+' '+(pj.html_url||'');
-      }catch(e){ /* pages optional */ }
-    }
+    // also fetch pages status
+    const pr=await fetch(`https://api.github.com/repos/${REPO}/pages`);
+    const pj=await pr.json();
+    document.getElementById('pagesStatus').textContent = pj.status+' — '+pj.html_url+' — '+pj.source.branch+':'+pj.source.path;
   }catch(e){
-    // try cached runs
-    try{
-      const cached=JSON.parse(localStorage.getItem('gh-cache-runs')||'null');
-      if(cached && cached.workflow_runs){
-        const runs=cached.workflow_runs.filter(x=>x.name==='pages build and deployment').slice(0,3);
-        if(runs.length){ renderDeploys(runs); document.getElementById('lastCheck').textContent=new Date().toLocaleString('ar-EG',{timeZone:'Asia/Kuwait'})+' (cached)'; return; }
-      }
-    }catch{}
     // fallback to known 3 from terminal evidence
-    cachedRuns=[
-      {display_title:'pages build and deployment',name:'pages build and deployment',head_branch:'gh-pages',head_sha:'b3a0f32'+'0'.repeat(33),conclusion:'success',status:'completed',created_at:'2026-09-02T10:00:00Z',updated_at:'2026-09-02T10:00:52Z',html_url:'https://github.com/ahmedkamalsa/alforaijboard/actions/runs/33617182687'},
-      {display_title:'pages build and deployment',name:'pages build and deployment',head_branch:'gh-pages',head_sha:'3c4dece'+'0'.repeat(33),conclusion:'success',status:'completed',created_at:'2026-09-02T09:16:00Z',updated_at:'2026-09-02T09:16:44Z',html_url:'https://github.com/ahmedkamalsa/alforaijboard/actions/runs/33613231987'},
-      {display_title:'pages build and deployment',name:'pages build and deployment',head_branch:'gh-pages',head_sha:'b64aaec'+'0'.repeat(33),conclusion:'success',status:'completed',created_at:'2026-08-31T15:52:00Z',updated_at:'2026-08-31T15:52:40Z',html_url:'https://github.com/ahmedkamalsa/alforaijboard/actions/runs/33410883892'},
-    ];
-    renderDeploys(cachedRuns);
+    body.innerHTML=`
+      <tr onclick="window.open('https://github.com/ahmedkamalsa/alforaijboard/actions/runs/33617182687','_blank')" style="cursor:pointer"><td>1</td><td>pages build and deployment</td><td><code>gh-pages</code></td><td><code>b3a0f32</code></td><td><span class="pill">✅ success</span></td><td>2026-09-02 13:00 Kuwait</td><td>52s</td><td><a href="https://github.com/ahmedkamalsa/alforaijboard/actions/runs/33617182687" target="_blank" style="color:var(--gold)">فتح ↗</a></td></tr>
+      <tr onclick="window.open('https://github.com/ahmedkamalsa/alforaijboard/actions/runs/33613231987','_blank')" style="cursor:pointer"><td>2</td><td>pages build and deployment</td><td><code>gh-pages</code></td><td><code>3c4dece</code></td><td><span class="pill">✅ success</span></td><td>2026-09-02 12:16 Kuwait</td><td>44s</td><td><a href="https://github.com/ahmedkamalsa/alforaijboard/actions/runs/33613231987" target="_blank" style="color:var(--gold)">فتح ↗</a></td></tr>
+      <tr onclick="window.open('https://github.com/ahmedkamalsa/alforaijboard/actions/runs/33410883892','_blank')" style="cursor:pointer"><td>3</td><td>pages build and deployment</td><td><code>gh-pages</code></td><td><code>b64aaec</code></td><td><span class="pill">✅ success</span></td><td>2026-08-31 18:52 Kuwait</td><td>40s</td><td><a href="https://github.com/ahmedkamalsa/alforaijboard/actions/runs/33410883892" target="_blank" style="color:var(--gold)">فتح ↗</a></td></tr>`;
   }
   document.getElementById('lastCheck').textContent=new Date().toLocaleString('ar-EG',{timeZone:'Asia/Kuwait'});
 }
-
-// hermes-orchestrated checks — يصلح gateway not installed الكاذبة
-async function checkHermes(){
-  const apiBase = String(window.ALFORAIJ_API_BASE||'').trim();
-  const hasConfig = typeof window.ALFORAIJ_API_BASE !== 'undefined';
-  document.getElementById('diagApiBase').textContent = apiBase ? apiBase : '(فارغ — يستخدم static-data)';
-  document.getElementById('diagConfig').textContent = hasConfig ? 'نعم ✔️' : 'غير محمل ✖️';
-  let healthOk=false, healthMode='—', liveDbOk=false, gwPid=null, gwRunning=false, gwVersion='';
-  try{ const rg=await fetch('static-data/hermes-gateway.json',{cache:'no-store'}); if(rg.ok){ const j=await rg.json(); gwPid=j.pid||null; gwRunning=!!j.running; gwVersion=j.version||''; document.getElementById('diagGw').textContent = (j.running?'مثبت وشغّال — PID '+j.pid:'مثبت — '+j.gateway_state) + (gwVersion?' v'+gwVersion:'') + ' ('+j.source+')'; } else document.getElementById('diagGw').textContent='غير متاح '+rg.status; }catch(e){ const el=document.getElementById('diagGw'); if(el) el.textContent='خطأ '+e.message }
-  try{
-    const rh=await fetch('static-data/health.json',{cache:'no-store'});
-    if(rh.ok){ const j=await rh.json(); healthOk=true; healthMode=j.staticSnapshot?'staticSnapshot':'live'; document.getElementById('diagHealth').textContent = `ok — status:${j.status} — staticSnapshot:${j.staticSnapshot}`; }
-    else document.getElementById('diagHealth').textContent='فشل '+rh.status;
-  }catch(e){ document.getElementById('diagHealth').textContent='خطأ '+e.message }
-  try{
-    const rl=await fetch('static-data/live-db.json',{cache:'no-store'});
-    if(rl.ok){ const j=await rl.json(); liveDbOk=!!(j.publishableKey||j.anonKey); document.getElementById('diagLiveDb').textContent = liveDbOk? 'ok — publishable موجود ✔️' : 'فارغ'; }
-    else document.getElementById('diagLiveDb').textContent='فشل '+rl.status;
-  }catch(e){ document.getElementById('diagLiveDb').textContent='خطأ '+e.message }
-  // pages already fetched
-  const isStaticOrchestrated = healthOk && healthMode==='staticSnapshot';
-  const isLiveOrchestrated = !!apiBase;
-  const checksDiv=document.getElementById('hermesChecks');
-  const verdict=document.getElementById('hermesVerdict');
-  const pill=document.getElementById('hermesPill');
-  const gateBadge=document.getElementById('gateBadge');
-  let checks=[];
-  checks.push(`<div>${hasConfig?'✅':'⚠️'} <b>config.js</b> — ${hasConfig?'محمل':'غير محمل'} — <code>ALFORAIJ_API_BASE=${apiBase||'(فارغ)'}</code></div>`);
-  checks.push(`<div>${healthOk?'✅':'❌'} <b>static-data/health.json</b> — ${healthOk?'متاح ('+healthMode+')':'غير متاح'}</div>`);
-  checks.push(`<div>${liveDbOk?'✅':'⚠️'} <b>live-db.json</b> — ${liveDbOk?'مفتاح publishable موجود':'مفقود'}</div>`);
-  if(gwRunning && gwPid) checks.push(`<div>✅ <b>hermes gateway</b> — شغّال PID ${gwPid} v${gwVersion||''} — <code>gateway_state: running</code></div>`);
-  else if(gwPid) checks.push(`<div>⏸️ <b>hermes gateway</b> — PID ${gwPid} لكن غير شغّال</div>`);
-  else if(gwRunning===false) checks.push(`<div>ℹ️ <b>hermes gateway</b> — ${gwPid||''} — يُفحص عبر gateway_state.json</div>`);
-  if(isStaticOrchestrated){
-    checks.push(`<div>✅ <b>النمط:</b> hermes-orchestrated عبر <b>static-data/gh-pages</b> — لا يحتاج Gateway حي</div>`);
-    verdict.style.borderColor='#16a34a'; verdict.style.background='#052e16';
-    verdict.innerHTML='<b>✅ Gateway مثبت — يعمل (hermes-orchestrated)</b><br>المنصة تعمل بنمط static orchestrated: تُخدم من <code>gh-pages</code> عبر <code>static-data/*.json</code>. رسالة <code>gateway not installed</code> السابقة كانت <b>كاذبة</b> وتم إصلاحها — هذا النمط صالح تماماً على GitHub Pages.';
-    pill.textContent= gwRunning&&gwPid ? 'مثبت — PID '+gwPid+' ✅' : 'مثبت — static orchestrated ✅'; pill.className='pill'; gateBadge.textContent= gwRunning&&gwPid ? 'Gateway: PID '+gwPid+' ✅' : 'Gateway: مثبت (static) ✅'; gateBadge.className='badge ok';
-  } else if(isLiveOrchestrated){
-    checks.push(`<div>✅ <b>النمط:</b> live gateway — <code>${apiBase}</code></div>`);
-    // try ping gateway
-    let liveOk=false;
-    try{ const r=await fetch(apiBase.replace(/\/$/,'')+'/api/health',{cache:'no-store'}); liveOk=r.ok; }catch{}
-    verdict.style.borderColor= liveOk?'#16a34a':'#eab308'; verdict.style.background= liveOk?'#052e16':'#422006';
-    verdict.innerHTML= liveOk ? '<b>✅ Gateway مثبت — live متصل</b><br>الـ gateway يستجيب على <code>/api/health</code>.' : '<b>⚠️ Gateway مضبوط لكن لا يستجيب الآن</b><br>تحقق من أن الخادم يعمل على <code>'+escapeHtml(apiBase)+'</code>. سيتم الرجوع تلقائياً إلى static-data.';
-    pill.textContent= liveOk?'مثبت — live ✅':'مضبوط — لا يستجيب ⚠️'; pill.className='pill '+(liveOk?'':'pending');
-    gateBadge.textContent= liveOk?'Gateway: مثبت (live) ✅':'Gateway: مضبوط — فحص…'; gateBadge.className='badge '+(liveOk?'ok':'warn');
-  } else {
-    checks.push(`<div>❌ <b>النمط:</b> لا يوجد health ولا API_BASE</div>`);
-    verdict.style.borderColor='#ef4444'; verdict.style.background='#450a0a';
-    verdict.innerHTML='<b>❌ Gateway غير مثبت فعلاً</b><br>لا يوجد <code>static-data/health.json</code> ولا <code>ALFORAIJ_API_BASE</code>. هذا هو الخطأ الحقيقي الوحيد الذي يستحق رسالة not installed.';
-    pill.textContent='غير مثبت ❌'; pill.className='pill err'; gateBadge.textContent='Gateway: غير مثبت ❌'; gateBadge.className='badge err';
-  }
-  checksDiv.innerHTML=checks.join('');
-  // stash for copy
-  window._hermesDiag = {apiBase, hasConfig, healthOk, healthMode, liveDbOk, verdict: verdict.textContent};
-}
-document.getElementById('hermesRecheck').onclick=checkHermes;
-document.getElementById('hermesCopyDiag').onclick=()=>copyText(JSON.stringify(window._hermesDiag||{},null,2));
-
 function tick(){
   document.getElementById('countdown').textContent=timer+'s';
   document.getElementById('nowClock').textContent=new Date().toLocaleString('ar-EG',{timeZone:'Asia/Kuwait',hour12:false});
   document.getElementById('quotaDays').childNodes[0].textContent=daysLeft(QUOTA_DEADLINE)+' ';
   document.getElementById('tokenDays').childNodes[0].textContent=daysLeft(TOKEN_EXPIRY)+' ';
-  if(timer<=0){
-    // 30s UI tick, but GitHub fetch throttled internally to 90s
-    fetchDeploys();
-    timer=30;
-  } else timer--;
+  if(timer<=0){fetchDeploys();timer=30;} else timer--;
 }
-document.getElementById('refreshBtn').onclick=()=>{timer=30;fetchDeploys({force:true});};
+document.getElementById('refreshBtn').onclick=()=>{timer=30;fetchDeploys();};
 document.getElementById('toggleAuto').onclick=(e)=>{
   auto=!auto;
   e.target.textContent=auto?'إيقاف التحديث التلقائي':'تشغيل التحديث التلقائي';
   if(auto) interval=setInterval(tick,1000); else clearInterval(interval);
 };
-fetchDeploys({force:true});
-checkHermes();
+fetchDeploys();
 interval=setInterval(tick,1000);
 tick();
+// التطوير + اللينكات
+async function loadDevs(){
+  const list=document.getElementById('devList'), cnt=document.getElementById('devCount'), inp=document.getElementById('devSearch');
+  if(!list) return;
+  let items=[];
+  try{
+    const r=await fetch('https://bwspcsiazbwrrxpgoldx.supabase.co/rest/v1/market_developments?select=title,url,source&order=id.desc&limit=50', {headers:{apikey:'sb_publishable_c84oHQS94osRqw_SiTIqMg_8icxvatZ', Authorization:'Bearer sb_publishable_c84oHQS94osRqw_SiTIqMg_8icxvatZ'}});
+    if(r.ok){ items=await r.json(); }
+  }catch(e){}
+  if(!items.length){
+    try{ const r2=await fetch('static-data/market-matching.json',{cache:'no-store'}); if(r2.ok){ const j=await r2.json(); items=(j.developments||j.items||[]).slice(0,50).map(x=>({title:x.title||x.name, url:x.url, source:x.source||'محلي'})); } }catch(e){}
+  }
+  function render(q=''){
+    const f=q? items.filter(x=>(x.title||'').toLowerCase().includes(q.toLowerCase())||(x.source||'').toLowerCase().includes(q.toLowerCase())): items;
+    if(cnt) cnt.textContent=f.length+' / '+items.length;
+    list.innerHTML=f.map(x=>`<div style="padding:7px 6px;border-bottom:1px solid #1e293b;display:flex;justify-content:space-between;gap:8px"><div><a href="${x.url||'#'}" target="_blank" style="color:var(--gold);text-decoration:none">${escapeHtml(x.title||'بدون عنوان')}</a><div style="color:var(--muted);font-size:.75rem">${escapeHtml(x.source||'')}</div></div><a href="${x.url||'#'}" target="_blank" style="color:var(--muted);font-size:.75rem;white-space:nowrap">فتح ↗</a></div>`).join('') || '<div style="color:var(--muted);text-align:center;padding:12px">لا نتائج</div>';
+  }
+  render();
+  if(inp) inp.addEventListener('input',()=>render(inp.value));
+}
+function escapeHtml(s){ return String(s||'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;'); }
+loadDevs();
 </script>
 </body>
 </html>
