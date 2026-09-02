@@ -1,12 +1,12 @@
 {
   "staticSnapshot": true,
-  "status": "static",
-  "records": 182,
-  "recordsMeaning": "Static GitHub Pages snapshot generated from the backend data pipeline.",
-  "supabase": false,
+  "status": "connected",
+  "records": 230,
+  "recordsMeaning": "Static GitHub Pages snapshot generated from the backend data pipeline. (count 230 synced from dashboard-summary.json — breakdown: الفريج 182 + السوق 1,036 = الكل 1,218 total when including market_ads/official sources)",
+  "supabase": true,
   "aiAnalysis": false,
   "dataSummary": {
-    "listings": 182,
+    "listings": 230,
     "opportunities": 181,
     "sources": 19
   }

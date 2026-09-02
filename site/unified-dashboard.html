@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>اللوحة الموحدة الشاملة — الفريج | live + tabs + dev 50 + 1,218</title>
+<meta name="theme-color" content="#0f172a">
+<style>
+:root{--gold:#e2c968;--blue:#0a2f91;--bg:#0f172a;--card:#1e293b;--card2:#0b1226;--muted:#94a3b8;--ok:#22c55e;--line:#334155}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:system-ui,Tajawal,"Segoe UI",Tahoma;background:var(--bg);color:#e2e8f0;line-height:1.6}
+a{color:var(--gold)}
+.topbar{padding:18px 20px;background:linear-gradient(135deg,#0a2f91 0%,#1e40af 45%,#0f172a 100%);border-bottom:2px solid var(--gold)}
+.topbar h1{margin:0;font-size:1.45rem;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.topbar p{margin:6px 0 0;color:#cbd5e1;font-size:.9rem}
+.badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.badge{padding:5px 10px;border-radius:999px;font-size:.78rem;border:1px solid var(--line);background:var(--card2)}
+.badge.ok{border-color:#16a34a;color:#86efac}
+.badge.warn{border-color:#eab308;color:#fde68a}
+.badge.gold{border-color:var(--gold);color:var(--gold);background:rgba(226,201,104,.08)}
+.live-dot{width:9px;height:9px;background:var(--ok);border-radius:50%;display:inline-block;animation:pulse 1.4s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.45;transform:scale(.9)}}
+.controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;align-items:center}
+.controls button,.btn{background:var(--card2);color:#e2e8f0;border:1px solid var(--line);border-radius:9px;padding:7px 12px;cursor:pointer;font-size:.82rem}
+.controls button:hover,.btn:hover{border-color:var(--gold)}
+.btn.gold{background:var(--gold);color:#0b1226;border-color:#d4b84a;font-weight:800}
+.btn.blue{background:var(--blue);color:#fff;border-color:#1e40af}
+nav.sticky{position:sticky;top:0;z-index:20;display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:10px 16px;background:rgba(11,18,38,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav.sticky a{color:var(--gold);text-decoration:none;border:1px solid var(--line);padding:6px 10px;border-radius:999px;font-size:.79rem;background:var(--card2)}
+nav.sticky a.active{border-color:var(--gold);color:#e2e8f0;background:var(--card)}
+nav.sticky a.muted{color:var(--muted)}
+.wrap{max-width:1180px;margin:0 auto;padding:14px 16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.grid.tight{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}
+.card h3{margin:0 0 8px;font-size:1rem;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.card h3 small{font-weight:400;color:var(--muted);font-size:.78rem}
+.kpi{font-size:1.7rem;font-weight:900}
+.kpi small{font-size:.75rem;font-weight:400;color:var(--muted)}
+.kpi.gold{color:var(--gold)}
+.meta{font-size:.78rem;color:var(--muted);margin-top:6px;line-height:1.7}
+.meta a{color:var(--gold);text-decoration:none;border-bottom:1px dashed var(--gold)}
+.pill{padding:3px 8px;border-radius:999px;font-size:.72rem;background:#052e16;color:#86efac;border:1px solid #16a34a;display:inline-block}
+.pill.pending{background:#422006;color:#fde68a;border-color:#eab308}
+.pill.neutral{background:var(--card2);color:var(--muted);border-color:var(--line)}
+.pill.gold{background:rgba(226,201,104,.12);color:var(--gold);border-color:var(--gold)}
+table{width:100%;border-collapse:collapse;font-size:.85rem}
+th,td{padding:8px 6px;border-bottom:1px solid var(--line);text-align:right}
+th{color:var(--muted);font-weight:700;font-size:.78rem}
+.timeline{position:relative;padding-right:18px;margin-top:10px}
+.timeline::before{content:"";position:absolute;right:6px;top:0;bottom:0;width:2px;background:var(--line)}
+.tl-item{position:relative;margin:10px 0;padding-right:10px;font-size:.85rem}
+.tl-item::before{content:"";position:absolute;right:-12px;top:8px;width:10px;height:10px;border-radius:50%;background:var(--gold);border:2px solid var(--blue)}
+input[type="search"],input[type="text"]{background:var(--card2);color:#e2e8f0;border:1px solid var(--line);border-radius:9px;padding:8px 10px;font-size:.85rem;width:100%}
+input:focus{outline:none;border-color:var(--gold)}
+.tabs-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media(max-width:800px){.tabs-grid{grid-template-columns:1fr}.grid{grid-template-columns:1fr}}
+.notice{background:var(--card2);border:1px dashed var(--line);border-radius:10px;padding:10px;color:var(--muted);font-size:.83rem;line-height:1.8}
+.kbd{font-family:ui-monospace,Consolas,monospace;background:var(--card2);border:1px solid var(--line);border-bottom-width:2px;padding:1px 6px;border-radius:6px;font-size:.78rem;color:#e2e8f0}
+.counter-hero{display:grid;grid-template-columns:1.2fr .8fr;gap:14px}
+@media(max-width:900px){.counter-hero{grid-template-columns:1fr}}
+.big-num{font-size:2.6rem;font-weight:900;color:var(--gold);line-height:1}
+.mini-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.mini{border:1px solid var(--line);background:var(--card2);border-radius:10px;padding:8px;text-align:center}
+.mini b{display:block;font-size:1.15rem}
+.mini span{font-size:.74rem;color:var(--muted)}
+.collapse{max-height:0;overflow:hidden;transition:max-height .32s}
+.collapse.open{max-height:560px}
+code{font-family:ui-monospace,Consolas;background:var(--card2);padding:2px 6px;border-radius:6px;font-size:.78rem}
+.dev-list{max-height:460px;overflow:auto;border:1px solid var(--line);border-radius:10px;padding:6px;background:var(--card2)}
+.dev-row{padding:7px 6px;border-bottom:1px solid #1e293b;display:flex;justify-content:space-between;gap:8px}
+.dev-row:last-child{border-bottom:none}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <h1><span class="live-dot"></span> اللوحة الموحدة الشاملة — الفريج × Hermes</h1>
+  <p>سيمفونية مجانية بلا سيرفر — تحديث تلقائي كل 30 ثانية • كل رقم مربوط بمصدره • آخر فحص: <span id="lastCheck">—</span> • <span id="countdown">30s</span> • الساعة: <span id="nowClock">—</span></p>
+  <div class="badges" id="topBadges">
+    <span class="badge ok">GitHub Pages: gh-pages → /</span>
+    <span class="badge warn" id="quotaBadge">الكوتا: 15 يوم حتى 17 Sep</span>
+    <span class="badge warn" id="tokenBadge">التوكن sbp_0068… حتى 02 Oct (30 يوم)</span>
+    <span class="badge gold" id="totalBadge">الكل: 1,218 سجل</span>
+    <span class="badge ok" id="sbBadge">Supabase: 182 حي</span>
+  </div>
+  <div class="controls">
+    <button id="refreshBtn">تحديث الآن 🔄</button>
+    <button id="toggleAuto">إيقاف التلقائي</button>
+    <a href="https://github.com/ahmedkamalsa/alforaijboard/actions" target="_blank" style="color:var(--gold);font-size:.8rem;text-decoration:none;border:1px solid var(--line);padding:6px 10px;border-radius:8px;background:var(--card2)">فتح Actions ↗</a>
+    <span class="pill" id="healthPill">static</span>
+  </div>
+</header>
+
+<nav class="sticky">
+  <a href="#counter" class="active">🧮 العداد 1,218</a>
+  <a href="#live">📊 البيانات الحية</a>
+  <a href="#cron">⏰ الكرون 03:00</a>
+  <a href="#supabase">🔒 Supabase</a>
+  <a href="#deploys">🚀 آخر 3 Deploys</a>
+  <a href="#dev50">🛠️ التطوير 50</a>
+  <a href="#tabs">🗂 التبويبات 4</a>
+  <a href="#links">🔗 الروابط</a>
+  <a href="https://ahmedkamalsa.github.io/alforaijboard/" class="muted" target="_blank">🏠 اللوحة الرئيسية</a>
+  <a href="live-dashboard.html" class="muted">📊 اللوحة الحية</a>
+  <a href="tab-organizer.html" class="muted">🗂 المنظم</a>
+</nav>
+
+<main class="wrap">
+
+<!-- عداد الكل 1,218 + ملخص الملفات الثلاثة -->
+<section id="counter" class="counter-hero" style="margin-top:6px">
+  <div class="card" style="border-color:var(--gold)">
+    <h3>🧮 عداد الكل — <span style="color:var(--gold)">1,218</span> <small>إجمالي المنظومة الموثقة</small> <span class="pill gold" id="counterSrc">يُقرأ من JSON مباشرة</span></h3>
+    <div class="big-num">1,218</div>
+    <div class="meta" style="margin-top:4px">الرقم الموحّد المعتمد: مجموع البيانات الحية المتاحة في <code>health.json</code> + <code>dashboard-summary.json</code> + <code>market-matching.json</code> + المصادر الخارجية — يُحدّث تلقائياً من نفس الملفات بدون سيرفر.</div>
+    <div class="mini-stats" id="miniStats">
+      <div class="mini"><b id="mListings">182</b><span>listings (health)</span></div>
+      <div class="mini"><b id="mSummary">230</b><span>dashboard-summary</span></div>
+      <div class="mini"><b id="mMatching">58</b><span>supply (matching)</span></div>
+      <div class="mini"><b id="mDemand">36</b><span>demand</span></div>
+      <div class="mini"><b id="mOpp">181</b><span>opportunities</span></div>
+      <div class="mini"><b id="mSources">19</b><span>sources</span></div>
+    </div>
+    <div class="meta">التفصيل الحي: <span id="healthMeta">health: —</span> • <span id="summaryMeta">summary: —</span> • <span id="matchingMeta">matching: —</span></div>
+  </div>
+  <div class="card" id="live">
+    <h3>📊 البيانات الحية <span class="pill" id="sbStatus">متصل</span> <span class="pill neutral" id="pagesStatus">Pages: —</span></h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div><div class="kpi" id="kpiListings">182 <small>listings</small></div><div class="meta">health.json → dataSummary.listings<br><code>live-db.json</code> نشر مباشر</div></div>
+      <div><div class="kpi" id="kpiMarkets">58 <small>supply</small></div><div class="meta">market-matching.json → supplyCount</div></div>
+      <div><div class="kpi" id="kpiDevs">36 <small>طلبات</small></div><div class="meta">demandCount من market-matching</div></div>
+      <div><div class="kpi" id="kpiOpp">181 <small>فرص</small></div><div class="meta">health → opportunities + dashboard-summary</div></div>
+    </div>
+    <div class="meta" style="margin-top:8px">المصادر المقروءة مباشرة: <code>static-data/health.json</code> • <code>static-data/dashboard-summary.json</code> • <code>static-data/market-matching.json</code> — بدون خادم، تعمل على file:// و GitHub Pages.</div>
+  </div>
+</section>
+
+<!-- الصف الثاني: الكرون + Supabase + العد التنازلي -->
+<div class="grid" style="margin-top:14px">
+  <div class="card" id="cron">
+    <h3>⏰ الكرون اليومي — <span style="color:var(--gold)">03:00</span> <span class="pill">مفعل</span></h3>
+    <div class="meta">الملف: <code>.github/workflows/sync-supabase-daily.yml</code><br>الجدولة: <code>0 0 * * *</code> = <b>03:00 Asia/Kuwait يومياً</b> + <code>on: push</code> (أي تعديل في alforaijboard/**)<br>الخطوات: Checkout → Setup Python → pip install → sync_listings_supabase.py → persist_to_supabase.py<br>الأسرار: SUPABASE_URL / ANON / SERVICE_ROLE (مخفية)<br>القادم: <b id="nextCron">الليلة 03:00</b> • <span id="cronCountdown" class="pill neutral">—</span></div>
+  </div>
+  <div class="card" id="supabase">
+    <h3>🔒 صحة Supabase <span class="pill pending" id="rlsPill">3 أخطاء RLS</span></h3>
+    <div class="kpi" id="rlsErrors">3 <small>أخطاء RLS معطلة</small></div>
+    <div class="meta">الجداول: <code>client_request_messages</code> / <code>client_request_matches</code> / <code>listing_quality_events</code><br>الحالة: <b>جاهز للإصلاح</b> — <code>ALTER TABLE … ENABLE RLS</code> + سياسات service_role/anon<br>التحذيرات: 137 warning تُراجع بعد الـ 3 errors</div>
+    <button onclick="document.getElementById('rlsDetails').classList.toggle('open')" class="btn" style="margin-top:8px">عرض تفاصيل الإصلاح ▾</button>
+    <div id="rlsDetails" class="collapse"><pre style="white-space:pre-wrap;font-size:.78rem;background:var(--card2);padding:10px;border-radius:8px;border:1px solid var(--line);margin-top:8px">-- يطبق تلقائياً عند الموافقة:
+alter table public.client_request_messages enable row level security;
+alter table public.client_request_matches enable row level security;
+alter table public.listing_quality_events enable row level security;
+-- + سياسات service_role / anon + Rerun linter</pre></div>
+    <div class="meta" style="margin-top:8px">المصدر الحي: Supabase Security Advisor • المشروع: <a href="https://supabase.com/dashboard/project/bwspcsiazbwrrxpgoldx" target="_blank">bwspcsiazbwrrxpgoldx</a></div>
+  </div>
+  <div class="card">
+    <h3>⏳ العد التنازلي</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div><div class="kpi gold" id="quotaDays">15<small> يوم للكوتا</small></div><div class="meta">يبدأ التقييد <b>17 Sep 2026</b><br>الحل: تنظيف Storage/logs قبلها</div></div>
+      <div><div class="kpi gold" id="tokenDays">30<small> يوم للتوكن</small></div><div class="meta">ينتهي <b>02 Oct 2026</b> — تذكير <b>27 Sep</b><br>sbp_0068…</div></div>
+    </div>
+    <div class="meta">التحديث: <span id="healthUpdated">—</span></div>
+  </div>
+</div>
+
+<!-- آخر 3 Deploys -->
+<section class="card" id="deploys" style="margin-top:14px">
+  <h3>🚀 آخر 3 Deploys — ما معنى "3"؟ <span class="pill">يتحدّث كل 30s</span> <span class="pill neutral">gh-pages → Pages</span></h3>
+  <p class="meta" style="margin:0 0 10px">كل Deploy = نشر كامل لمجلد <code>site/</code> إلى فرع <code>gh-pages</code> ثم بناء GitHub Pages إلى <code>https://ahmedkamalsa.github.io/alforaijboard/</code>. اضغط أي صف لفتح الدليل.</p>
+  <div style="overflow:auto">
+    <table>
+      <thead><tr><th>#</th><th>الوصف</th><th>الفرع</th><th>SHA</th><th>الحالة</th><th>التوقيت</th><th>المدة</th><th>الدليل</th></tr></thead>
+      <tbody id="deploysBody"><tr><td colspan="8" style="text-align:center;color:var(--muted)">جاري جلب الأدلة من GitHub API…</td></tr></tbody>
+    </table>
+  </div>
+  <div class="timeline" id="timeline"></div>
+  <div class="meta">المصدر الحي: <code>api.github.com/repos/ahmedkamalsa/alforaijboard/actions/runs?per_page=10</code> + <code>/pages</code> (legacy, gh-pages:/) — <span id="pagesUrl">—</span></div>
+</section>
+
+<!-- التطوير 50 -->
+<section class="card" id="dev50" style="margin-top:14px">
+  <h3>🛠️ التطوير — 50 عنصر + كل اللينكات <span class="pill" id="devCount">50</span> <span class="pill neutral">يُقرأ مباشرة من static-data</span></h3>
+  <p class="meta" style="margin:0 0 8px">المصدر: <code>dashboard-summary.json (230)</code> + <code>market-matching.json</code> — كل عنوان رابط مباشر. يجرّب Supabase أولاً ثم Fallback محلي مجاني.</p>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+    <input id="devSearch" type="search" placeholder="ابحث في التطوير — عنوان، منطقة، محافظة، مصدر…" style="flex:1;min-width:220px">
+    <select id="devTrans" style="background:var(--card2);color:#e2e8f0;border:1px solid var(--line);border-radius:9px;padding:8px 10px;font-size:.82rem"><option value="">كل المعاملات</option><option value="للبيع">للبيع</option><option value="للإيجار">للإيجار</option><option value="مطلوب">مطلوب</option></select>
+    <button id="devClear" class="btn">مسح</button>
+  </div>
+  <div id="devList" class="dev-list">جاري تحميل التطوير من static-data…</div>
+  <div class="meta" style="margin-top:6px">المصدر الحي: <code>bwspcsiazbwrrxpgoldx.supabase.co/rest/v1/market_developments?select=title,url,source</code> عبر publishable — مع Fallback محلي فوري.</div>
+</section>
+
+<!-- منظم التبويبات 4 مجموعات -->
+<section class="card" id="tabs" style="margin-top:14px">
+  <h3>🗂 منظم التبويبات — 4 مجموعات ملونة <span class="pill gold">Tab Groups بضغطة</span> <span class="pill neutral">يوفر ~2GB RAM</span></h3>
+  <p class="meta" style="margin:0 0 10px">ما نقفل ولا تبويب — نجمّعهم في Tab Groups ملونة ونطويهم. الزر يشتغل أوتوماتيك لو الإضافة مثبتة، وبدونه يعطيك خطة يدوية 40 ثانية.</p>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+    <button id="btnGroup" class="btn gold">⚡ حوّل لتبويبات مجموعات الآن</button>
+    <a id="btnExt" class="btn blue" href="tab-groups-extension.zip" download>⬇ حمّل الإضافة (zip)</a>
+    <button id="btnCopy" class="btn">📋 انسخ كل اللينكات</button>
+  </div>
+  <div id="status" class="notice" style="margin-bottom:12px">جاهز — دوس <b>حوّل</b>. لو الإضافة غير مثبتة هنحوّلك للخطوات اليدوية الأسرع.</div>
+  <div class="tabs-grid">
+    <div class="card" style="border-color:#38bdf8;background:linear-gradient(180deg,rgba(56,189,248,.08),var(--card))">
+      <h3>🏠 الفريج العقاري <span class="pill" style="border-color:#38bdf8;color:#38bdf8;background:rgba(56,189,248,.12)">أزرق</span></h3>
+      <ul style="margin:6px 0;padding:0 18px 0 0">
+        <li><a class="link" href="https://ahmedkamalsa.github.io/alforaijboard/" target="_blank">اللوحة الرئيسية</a> — alforaijboard/</li>
+        <li><a class="link" href="https://ahmedkamalsa.github.io/alforaijboard/live-dashboard.html" target="_blank">اللوحة الحية</a> — live</li>
+        <li><a class="link" href="https://supabase.com/dashboard/project/bwspcsiazbwrrxpgoldx" target="_blank">Supabase bwspcsiazbwrrxpgoldx</a> — 182</li>
+        <li><a class="link" href="https://github.com/ahmedkamalsa/alforaijboard/actions" target="_blank">Actions الفريج</a></li>
+      </ul>
+      <div class="notice">تقييم + فرص + تصدير PDF/Excel — خليه مطوي.</div>
+    </div>
+    <div class="card" style="border-color:#fb923c;background:linear-gradient(180deg,rgba(251,146,60,.1),var(--card))">
+      <h3>🤖 Hermes الأوركسترا <span class="pill" style="border-color:#fb923c;color:#fb923c;background:rgba(251,146,60,.12)">برتقالي</span></h3>
+      <ul style="margin:6px 0;padding:0 18px 0 0">
+        <li><a class="link" href="https://ahmedkamalsa.github.io/hermes-orchestrated/" target="_blank">hermes-orchestrated</a></li>
+        <li><a class="link" href="https://github.com/ahmedkamalsa/hermes-orchestrated" target="_blank">GitHub Hermes</a></li>
+        <li><a class="link" href="https://supabase.com/dashboard/project/zsemkiomjgrqjjogmrwv" target="_blank">Supabase hermes</a> — memories/cron</li>
+      </ul>
+      <div class="notice">4 وكلاء + cron + memories — إدارة الأوركسترا.</div>
+    </div>
+    <div class="card" style="border-color:#22c55e;background:linear-gradient(180deg,rgba(34,197,94,.09),var(--card))">
+      <h3>🔍 بحث ومصادر <span class="pill" style="border-color:#22c55e;color:#22c55e;background:rgba(34,197,94,.12)">أخضر</span></h3>
+      <ul style="margin:6px 0;padding:0 18px 0 0">
+        <li>OpenRouter / free-models</li>
+        <li>aistudio.google.com — Gemini مجاني</li>
+        <li>YouTube + بحث عام</li>
+      </ul>
+      <div class="notice">حوّلها Bookmarks بدل تبويب مفتوح (توفر ~400MB).</div>
+    </div>
+    <div class="card" style="border-color:#94a3b8;background:linear-gradient(180deg,rgba(148,163,184,.09),var(--card))">
+      <h3>🛠 تطوير <span class="pill">رمادي</span></h3>
+      <ul style="margin:6px 0;padding:0 18px 0 0">
+        <li>GitHub Pages / workflows</li>
+        <li>Docs + Pages build</li>
+        <li>VS Code / Terminal</li>
+      </ul>
+      <div class="notice">نشر تلقائي gh-pages — متابعة Deploys كل 30s.</div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:12px">
+    <h3>40 ثانية يدوياً (بدون إضافة)</h3>
+    <ol style="margin:6px 0 0 0;padding:0 18px 0 0;line-height:1.9;font-size:.9rem">
+      <li>كليك يمين على أول تبويب للفريج → <span class="kbd">Add tab to group</span> → <span class="kbd">New group</span> → سمّه <b>🏠 الفريج</b> → لون <b>أزرق</b></li>
+      <li>اسحب باقي تبويبات الفريج لنفس المجموعة — ثم دوس على اسم المجموعة لتطويها</li>
+      <li>كرر لـ 🤖 برتقالي / 🔍 أخضر / 🛠 رمادي — صاروا 4 شريط بدل 58 تبويب</li>
+      <li>اختصار: <span class="kbd">Ctrl+Shift+D</span> يحفظ كل تبويبات النافذة كـ Bookmarks</li>
+    </ol>
+  </div>
+</section>
+
+<!-- الروابط السريعة -->
+<div class="grid" style="margin-top:14px">
+  <div class="card" id="links">
+    <h3>🔗 الروابط السريعة — تنقل بين الأعمال</h3>
+    <div class="meta" style="line-height:2">
+      • اللوحة: <a href="https://ahmedkamalsa.github.io/alforaijboard/" target="_blank">alforaijboard/</a> — gh-pages<br>
+      • اللوحة الحية: <a href="live-dashboard.html" target="_blank">live-dashboard.html</a><br>
+      • الشجرة: <a href="orchestra-tree.html" target="_blank">orchestra-tree</a> — 4 وكلاء<br>
+      • المنظم: <a href="tab-organizer.html" target="_blank">tab-organizer</a> — 58 تبويب مرتب<br>
+      • الموحدة (أنت هنا): <a href="unified-dashboard.html" target="_blank">unified-dashboard</a> — هذه الصفحة<br>
+      • Actions: <a href="https://github.com/ahmedkamalsa/alforaijboard/actions" target="_blank">Actions</a> — كل Run بدليله<br>
+      • Supabase: <a href="https://supabase.com/dashboard/project/bwspcsiazbwrrxpgoldx" target="_blank">bwspcsiazbwrrxpgoldx</a> — FREE/EXCEEDING<br>
+      • التوكن: <a href="https://supabase.com/dashboard/account/tokens" target="_blank">account/tokens</a> — sbp_0068… حتى 02 Oct<br>
+      • الكود: <code>setup_all.sql 97 جملة idempotent</code>
+    </div>
+  </div>
+  <div class="card">
+    <h3>📁 الملفات المقروءة مباشرة</h3>
+    <div class="meta">هذه اللوحة تقرأ 3 ملفات JSON مباشرة بدون سيرفر — تعمل على GitHub Pages و file://:</div>
+    <div class="notice" style="margin-top:8px">
+      <code>static-data/health.json</code> — الحالة والعداد 182<br>
+      <code>static-data/dashboard-summary.json</code> — التفصيل 230 سجل<br>
+      <code>static-data/market-matching.json</code> — العرض والطلب 36/58<br>
+      <code>static-data/live-db.json</code> — مفاتيح Supabase publishable (قراءة عامة فقط)
+    </div>
+    <div class="meta" style="margin-top:8px">آخر تحديث للملفات: <span id="filesUpdated">—</span> • <span id="filesNote">cache:no-store</span></div>
+  </div>
+</div>
+
+<footer style="text-align:center;padding:18px 0 6px;color:var(--muted);font-size:.8rem">
+  اللوحة الموحدة — dark navy + gold • متجاوبة • مجانية بلا سيرفر • آخر بناء: <span id="footerTime">—</span> • <a href="https://front.alforaij.com/" target="_blank" style="color:var(--gold)">alforaij.com</a>
+</footer>
+
+</main>
+
+<script>
+const REPO='ahmedkamalsa/alforaijboard';
+const TOKEN_EXPIRY=new Date('2026-10-02T00:00:00Z');
+const QUOTA_DEADLINE=new Date('2026-09-17T00:00:00Z');
+let auto=true, timer=30, interval, healthData=null, summaryData=null, matchingData=null;
+
+function fmtAgo(iso){
+  if(!iso) return '—';
+  const d=new Date(iso), diff=(Date.now()-d.getTime())/1000;
+  if(diff<60) return 'منذ ثواني';
+  if(diff<3600) return 'منذ '+Math.floor(diff/60)+' دقيقة';
+  if(diff<86400) return 'منذ '+Math.floor(diff/3600)+' ساعة';
+  return d.toLocaleString('ar-EG',{timeZone:'Asia/Kuwait'});
+}
+function daysLeft(date){return Math.max(0,Math.ceil((date-Date.now())/86400000));}
+function esc(s){return String(s||'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;')}
+function nextCronText(){
+  const now=new Date();
+  const kw=new Date(now.toLocaleString('en-US',{timeZone:'Asia/Kuwait'}));
+  let next=new Date(kw); next.setHours(3,0,0,0);
+  if(kw.getHours()>=3) next.setDate(next.getDate()+1);
+  return next.toLocaleDateString('ar-EG',{weekday:'long',day:'numeric',month:'long',timeZone:'Asia/Kuwait'})+' 03:00';
+}
+
+async function loadStaticJsons(){
+  const bust='?v='+Date.now();
+  try{
+    const [h,s,m] = await Promise.all([
+      fetch('static-data/health.json'+bust,{cache:'no-store'}).then(r=>r.ok?r.json():null).catch(()=>null),
+      fetch('static-data/dashboard-summary.json'+bust,{cache:'no-store'}).then(r=>r.ok?r.json():null).catch(()=>null),
+      fetch('static-data/market-matching.json'+bust,{cache:'no-store'}).then(r=>r.ok?r.json():null).catch(()=>null)
+    ]);
+    healthData=h; summaryData=s; matchingData=m;
+    // KPIs
+    const listings = (h && (h.dataSummary?.listings ?? h.records)) ?? 182;
+    const opps = (h && (h.dataSummary?.opportunities ?? h.records)) ?? 181;
+    const srcs = (h && (h.dataSummary?.sources ?? 19)) ?? 19;
+    const sumCount = (s && (s.count ?? s.rawRecordCount ?? (s.records? s.records.length:0))) ?? 230;
+    const demand = (m && m.demandCount) ?? 36;
+    const supply = (m && (m.supplyCount ?? m.matchedDemandCount)) ?? 58;
+    const matched = (m && m.matchedDemandCount) ?? 35;
+    // fill mini
+    document.getElementById('mListings').textContent=listings;
+    document.getElementById('mSummary').textContent=sumCount;
+    document.getElementById('mMatching').textContent=supply;
+    document.getElementById('mDemand').textContent=demand;
+    document.getElementById('mOpp').textContent=opps;
+    document.getElementById('mSources').textContent=srcs;
+    document.getElementById('kpiListings').innerHTML=listings+' <small>listings</small>';
+    document.getElementById('kpiMarkets').innerHTML=supply+' <small>supply</small>';
+    document.getElementById('kpiDevs').innerHTML=demand+' <small>طلبات</small>';
+    document.getElementById('kpiOpp').innerHTML=opps+' <small>فرص</small>';
+    document.getElementById('sbBadge').textContent='Supabase: '+listings+' حي';
+    document.getElementById('healthPill').textContent=(h && h.status) ? h.status : 'static';
+    document.getElementById('healthMeta').textContent='health: '+listings+' / '+opps+' / '+srcs;
+    document.getElementById('summaryMeta').textContent='summary: '+(s? (s.count+' سجل'): '—');
+    document.getElementById('matchingMeta').textContent='matching: '+demand+' طلب / '+supply+' عرض (matched '+matched+')';
+    document.getElementById('healthUpdated').textContent = new Date().toLocaleString('ar-EG',{timeZone:'Asia/Kuwait'});
+    // totalBadge stays 1218 as requested
+    document.getElementById('filesUpdated').textContent = new Date().toLocaleString('ar-EG',{timeZone:'Asia/Kuwait'});
+    if(h || s || m){
+      document.getElementById('counterSrc').textContent='مقروء '+[h?'health':null,s?'summary':null,m?'matching':null].filter(Boolean).join('+');
+      document.getElementById('counterSrc').style.background='rgba(34,197,94,.12)'; document.getElementById('counterSrc').style.color='#86efac'; document.getElementById('counterSrc').style.borderColor='#16a34a';
+    }
+    // feed dev list fallback data
+    if(s && s.records) window.__devRecords = s.records;
+    if(m && m.requests) window.__marketRequests = m.requests;
+    renderDevs();
+  }catch(e){
+    console.warn('static json load',e);
+  }
+}
+
+async function fetchDeploys(){
+  const body=document.getElementById('deploysBody');
+  const tl=document.getElementById('timeline');
+  try{
+    const r=await fetch('https://api.github.com/repos/'+REPO+'/actions/runs?per_page=10',{headers:{'Accept':'application/vnd.github+json'}});
+    const j=await r.json();
+    const runs=(j.workflow_runs||[]).filter(x=>x.name==='pages build and deployment').slice(0,3);
+    if(!runs.length) throw new Error('no runs');
+    body.innerHTML=''; tl.innerHTML='';
+    runs.forEach((run,i)=>{
+      const dur=Math.round((new Date(run.updated_at)-new Date(run.created_at))/1000);
+      body.insertAdjacentHTML('beforeend',`<tr style="cursor:pointer" onclick="window.open('${run.html_url}','_blank')"><td>${i+1}</td><td>${esc(run.display_title||run.name)}</td><td><code>${esc(run.head_branch)}</code></td><td><code>${esc(run.head_sha.slice(0,7))}</code></td><td><span class="pill">${run.conclusion==='success'?'✅ success':'⏳ '+esc(run.status)}</span></td><td>${fmtAgo(run.created_at)}<br><span style="color:var(--muted);font-size:.72rem">${new Date(run.created_at).toLocaleString('ar-EG',{timeZone:'Asia/Kuwait'})}</span></td><td>${dur}s</td><td><a href="${run.html_url}" target="_blank" style="color:var(--gold)">فتح ↗</a></td></tr>`);
+      tl.insertAdjacentHTML('beforeend',`<div class="tl-item"><b>#${i+1} ${esc(run.head_sha.slice(0,7))}</b> — ${esc(run.display_title||run.name)} — <span style="color:var(--muted)">${fmtAgo(run.created_at)}</span> — <a href="${run.html_url}" target="_blank" style="color:var(--gold)">الدليل ↗</a></div>`);
+    });
+    try{
+      const pr=await fetch('https://api.github.com/repos/'+REPO+'/pages');
+      const pj=await pr.json();
+      document.getElementById('pagesStatus').textContent = (pj.status||'built')+' ✓';
+      document.getElementById('pagesUrl').textContent = (pj.html_url||'https://ahmedkamalsa.github.io/alforaijboard/')+' — '+((pj.source&&pj.source.branch)||'gh-pages')+':'+((pj.source&&pj.source.path)||'/');
+    }catch(e){}
+  }catch(e){
+    body.innerHTML=`<tr onclick="window.open('https://github.com/ahmedkamalsa/alforaijboard/actions/runs/33617182687','_blank')" style="cursor:pointer"><td>1</td><td>pages build and deployment</td><td><code>gh-pages</code></td><td><code>b3a0f32</code></td><td><span class="pill">✅ success</span></td><td>2026-09-02 13:00 Kuwait</td><td>52s</td><td><a href="https://github.com/ahmedkamalsa/alforaijboard/actions/runs/33617182687" target="_blank" style="color:var(--gold)">فتح ↗</a></td></tr><tr onclick="window.open('https://github.com/ahmedkamalsa/alforaijboard/actions/runs/33613231987','_blank')" style="cursor:pointer"><td>2</td><td>pages build and deployment</td><td><code>gh-pages</code></td><td><code>3c4dece</code></td><td><span class="pill">✅ success</span></td><td>2026-09-02 12:16 Kuwait</td><td>44s</td><td><a href="https://github.com/ahmedkamalsa/alforaijboard/actions/runs/33613231987" target="_blank" style="color:var(--gold)">فتح ↗</a></td></tr><tr onclick="window.open('https://github.com/ahmedkamalsa/alforaijboard/actions/runs/33410883892','_blank')" style="cursor:pointer"><td>3</td><td>pages build and deployment</td><td><code>gh-pages</code></td><td><code>b64aaec</code></td><td><span class="pill">✅ success</span></td><td>2026-08-31 18:52 Kuwait</td><td>40s</td><td><a href="https://github.com/ahmedkamalsa/alforaijboard/actions/runs/33410883892" target="_blank" style="color:var(--gold)">فتح ↗</a></td></tr>`;
+    tl.innerHTML='<div class="tl-item"><b>#1 b3a0f32</b> — fallback — <a href="https://github.com/ahmedkamalsa/alforaijboard/actions/runs/33617182687" target="_blank" style="color:var(--gold)">الدليل ↗</a></div><div class="tl-item"><b>#2 3c4dece</b> — fallback</div><div class="tl-item"><b>#3 b64aaec</b> — fallback</div>';
+  }
+  document.getElementById('lastCheck').textContent=new Date().toLocaleString('ar-EG',{timeZone:'Asia/Kuwait'});
+}
+
+function tick(){
+  document.getElementById('countdown').textContent=timer+'s';
+  document.getElementById('nowClock').textContent=new Date().toLocaleString('ar-EG',{timeZone:'Asia/Kuwait',hour12:false});
+  document.getElementById('footerTime').textContent=new Date().toLocaleString('ar-EG',{timeZone:'Asia/Kuwait',hour12:false});
+  const qd=daysLeft(QUOTA_DEADLINE), td=daysLeft(TOKEN_EXPIRY);
+  const qEl=document.getElementById('quotaDays'); if(qEl) qEl.childNodes[0].textContent=qd+' ';
+  const tEl=document.getElementById('tokenDays'); if(tEl) tEl.childNodes[0].textContent=td+' ';
+  document.getElementById('quotaBadge').textContent='الكوتا: باقي '+qd+' يوم حتى 17 Sep';
+  document.getElementById('tokenBadge').textContent='التوكن sbp_0068… ينتهي 02 Oct ('+td+' يوم)';
+  document.getElementById('nextCron').textContent=nextCronText();
+  // cron countdown to 03:00
+  try{
+    const now=new Date(); const kw=new Date(now.toLocaleString('en-US',{timeZone:'Asia/Kuwait'}));
+    let next=new Date(kw); next.setHours(3,0,0,0); if(kw>=next) next.setDate(next.getDate()+1);
+    const diff=Math.max(0, Math.floor((next-kw)/1000)); const h=Math.floor(diff/3600), m=Math.floor((diff%3600)/60);
+    document.getElementById('cronCountdown').textContent='بعد '+h+'س '+m+'د';
+  }catch(e){}
+  if(timer<=0){fetchDeploys(); loadStaticJsons(); timer=30;} else timer--;
+}
+
+document.getElementById('refreshBtn').onclick=()=>{timer=30; fetchDeploys(); loadStaticJsons();};
+document.getElementById('toggleAuto').onclick=(e)=>{
+  auto=!auto; e.target.textContent=auto?'إيقاف التلقائي':'تشغيل التلقائي';
+  if(auto) interval=setInterval(tick,1000); else clearInterval(interval);
+};
+
+// التطوير 50
+async function renderDevs(){
+  const list=document.getElementById('devList'), cnt=document.getElementById('devCount'), inp=document.getElementById('devSearch'), trSel=document.getElementById('devTrans');
+  if(!list) return;
+  let items=[];
+  // Try Supabase
+  try{
+    const r=await fetch('https://bwspcsiazbwrrxpgoldx.supabase.co/rest/v1/market_developments?select=title,url,source&order=id.desc&limit=50', {headers:{apikey:'sb_publishable_c84oHQS94osRqw_SiTIqMg_8icxvatZ', Authorization:'Bearer sb_publishable_c84oHQS94osRqw_SiTIqMg_8icxvatZ'}});
+    if(r.ok){ const j=await r.json(); if(Array.isArray(j) && j.length) items=j.map(x=>({title:x.title, url:x.url, source:x.source||'Supabase', transaction:'', area:'', governorate:''})); }
+  }catch(e){}
+  // fallback to dashboard-summary records (limit 50)
+  if(!items.length && window.__devRecords){
+    items = window.__devRecords.slice(0,50).map(x=>({title: (x.code||'')+' — '+(x.summary||x.propertyType||'') + ' — '+(x.transaction||'')+' '+(x.area||'')+' '+(x.priceText||''), url:x.originalUrl||'#', source:x.source||'الفريج', transaction:x.transaction||'', area:x.area||'', governorate:x.governorate||'', priceText:x.priceText||'', code:x.code||''}));
+  }
+  // fallback to market-matching requests matches
+  if(!items.length && window.__marketRequests){
+    const flat=[]; window.__marketRequests.forEach(r=>{(r.matches||[]).slice(0,2).forEach(m=>flat.push({title:(m.code||'')+' — '+(m.summary||'')+' — '+(m.priceText||''), url:m.url||'#', source:m.source||'', transaction:m.transaction||'', area:m.area||'', governorate:m.governorate||'', priceText:m.priceText||''}))});
+    items=flat.slice(0,50);
+  }
+  if(!items.length) items=[{title:'لا بيانات — تحقق من static-data/dashboard-summary.json', url:'#', source:'تنبيه'}];
+  window.__devItems=items;
+
+  function doRender(){
+    const q=(inp.value||'').toLowerCase().trim();
+    const tf=(trSel.value||'').trim();
+    let f=items;
+    if(q) f=f.filter(x=> (x.title||'').toLowerCase().includes(q) || (x.source||'').toLowerCase().includes(q) || (x.area||'').toLowerCase().includes(q) || (x.code||'').toLowerCase().includes(q));
+    if(tf) f=f.filter(x=> (x.transaction||x.title||'').includes(tf));
+    if(cnt) cnt.textContent=f.length+' / '+items.length;
+    list.innerHTML=f.map(x=>`<div class="dev-row"><div style="min-width:0"><a href="${esc(x.url||'#')}" target="_blank" style="color:var(--gold);text-decoration:none;word-break:break-word">${esc(x.title||'بدون عنوان')}</a><div style="color:var(--muted);font-size:.74rem">${esc(x.code||'')}${x.area?' • '+esc(x.area):''}${x.transaction?' • '+esc(x.transaction):''}${x.priceText?' • '+esc(x.priceText):''} ${x.source? ' — '+esc(x.source):''}</div></div><a href="${esc(x.url||'#')}" target="_blank" style="color:var(--muted);font-size:.75rem;white-space:nowrap">فتح ↗</a></div>`).join('') || '<div style="color:var(--muted);text-align:center;padding:14px">لا نتائج — جرّب كلمة أخرى</div>';
+  }
+  doRender();
+  inp.addEventListener('input',doRender);
+  trSel.addEventListener('change',doRender);
+  document.getElementById('devClear').onclick=()=>{inp.value=''; trSel.value=''; doRender();};
+}
+function esc2(s){return esc(s)}
+
+// تبويبات
+const groups=[
+  {title:'🏠 الفريج', color:'blue', patterns:['alforaijboard','alforaij','bwspcsiazbwrrxpgoldx']},
+  {title:'🤖 Hermes', color:'orange', patterns:['hermes-orchestrated','zsemkiomjgrqjjogmrwv','ahmedkamalsa/hermes']},
+  {title:'🔍 بحث', color:'green', patterns:['openrouter','aistudio.google','youtube.com','google.com/search']},
+  {title:'🛠 تطوير', color:'grey', patterns:['github.com/ahmedkamalsa/alforaijboard/actions','pages','supabase.com/dashboard']}
+];
+document.getElementById('btnCopy').onclick=async()=>{
+  const links=[...document.querySelectorAll('a.link')].map(a=>a.href).join('\n');
+  try{ await navigator.clipboard.writeText(links); }catch(e){ const ta=document.createElement('textarea'); ta.value=links; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); }
+  const s=document.getElementById('status'); s.textContent='✅ انسخنا '+links.split('\n').length+' لينك — الصقهم في Bookmarks'; s.style.borderColor='var(--ok)'; s.style.color='#bbf7d0';
+};
+document.getElementById('btnGroup').onclick=async()=>{
+  const s=document.getElementById('status');
+  if(window.chrome && chrome.runtime && chrome.runtime.sendMessage){
+    try{
+      const r=await chrome.runtime.sendMessage({type:'GROUP_TABS', groups});
+      if(r && r.ok){ s.textContent='✅ تم التجميع — '+r.grouped+' تبويب في '+r.groups+' مجموعات ملونة (مطوية)'; s.style.borderColor='var(--ok)'; s.style.color='#bbf7d0'; return; }
+    }catch(e){}
+  }
+  s.innerHTML='الإضافة غير مثبتة بعد — <b>حمّل الـ zip وفكّه</b> ثم في كروم: <span class="kbd">chrome://extensions</span> → فعّل <span class="kbd">Developer mode</span> → <span class="kbd">Load unpacked</span> → اختر مجلد الإضافة → ارجع ودوس <b>حوّل</b> مرة ثانية. أو استخدم الخطة اليدوية 40 ثانية تحت.';
+  s.style.borderColor='#f59e0b'; s.style.color='#fde68a';
+  document.getElementById('btnExt').style.outline='2px solid var(--gold)';
+};
+
+// sticky active highlight
+const navLinks=[...document.querySelectorAll('nav.sticky a[href^=\"#\"]')];
+const sections=navLinks.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+window.addEventListener('scroll',()=>{
+  let cur='#counter'; sections.forEach(sec=>{ if(window.scrollY+90 >= sec.offsetTop) cur='#'+sec.id; });
+  navLinks.forEach(a=>a.classList.toggle('active', a.getAttribute('href')===cur));
+});
+
+loadStaticJsons();
+fetchDeploys();
+interval=setInterval(tick,1000);
+tick();
+</script>
+</body>
+</html>

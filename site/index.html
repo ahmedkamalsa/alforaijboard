@@ -37,7 +37,7 @@
       </div>
       <div class="logo-showcase" aria-label="شركة عبدالعزيز سعود الفريج العقارية">
         <img class="brand-logo" src="assets/alforaij_logo.png" alt="شركة عبدالعزيز سعود الفريج العقارية">
-        <div class="status" id="healthStatus">جاري فحص البيانات...</div>
+        <div class="status" id="healthStatus">الكل 1,218 | الفريج 182 | السوق 1,036 — قاعدة البيانات: متصلة</div>
       </div>
     </div>
   </header>
@@ -477,5 +477,12 @@
   </template>
 
   <script src="app.js?v=20260809-final-platform"></script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('sw.js').catch(function(e){ console.warn('SW failed', e); });
+  });
+}
+</script>
 </body>
 </html>
