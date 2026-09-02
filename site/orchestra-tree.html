@@ -1,0 +1,72 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>شجرة الأوركسترا — التقسيم الاحترافي</title>
+<style>
+:root{--gold:#e2c968;--blue:#0a2f91;--bg:#0f172a;--card:#1e293b;--muted:#94a3b8}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,Tajawal;background:var(--bg);color:#e2e8f0}
+header{padding:16px;background:linear-gradient(135deg,#0a2f91,#1e40af);border-bottom:2px solid var(--gold);text-align:center}
+h1{margin:0;font-size:1.25rem}p.sub{margin:6px 0 0;color:#cbd5e1;font-size:.85rem}
+.tree{display:flex;flex-direction:column;align-items:center;padding:18px;gap:14px}
+.level{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+.node{background:var(--card);border:1px solid #334155;border-radius:14px;padding:12px;min-width:240px;max-width:320px;position:relative}
+.node.orch{border-color:var(--gold);background:linear-gradient(135deg,#1e293b,#0a2f91);box-shadow:0 0 0 2px rgba(226,201,104,.2)}
+.node h3{margin:0 0 6px;font-size:.95rem;display:flex;gap:8px;align-items:center}
+.node .role{font-size:.72rem;padding:3px 7px;border-radius:999px;background:#0b1226;border:1px solid #334155;color:var(--muted)}
+.node ul{margin:6px 0 0;padding-right:16px;font-size:.8rem;line-height:1.6;color:#cbd5e1}
+.node .growth{margin-top:8px;background:#0b1226;border:1px dashed #334155;border-radius:8px;padding:7px;font-size:.75rem}
+.growth b{color:var(--gold)}
+.arrow{color:var(--gold);font-size:1.2rem}
+.connector{width:2px;height:14px;background:var(--gold);opacity:.6}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:700px){.level{flex-direction:column;align-items:center}}
+</style></head><body>
+<header>
+<h1>🌳 شجرة الأوركسترا — توظيف احترافي 4 وكلاء</h1>
+<p class="sub">أنت (الموجه) → أنا (الأوركستر) → 4 وكلاء متخصصين → كل وكيل ينمو ويشارك</p>
+</header>
+<div class="tree">
+  <div class="node orch">
+    <h3>👑 أنت — الموجه الاستراتيجي</h3>
+    <span class="role">تحدد الهدف والجودة</span>
+    <ul><li>تختار الأولوية: الفريج 182 vs السوق 3376</li><li>توافق على التدخل الوحيد (SQL دقيقة)</li><li>تقيّم الأفكار الأعمق</li></ul>
+  </div>
+  <div class="connector"></div><div class="arrow">▼</div>
+  <div class="node orch">
+    <h3>🎼 أنا — Hermes Orchestrator</h3>
+    <span class="role">أوزع، أتابع، أجمع — لا أنفذ وحدي</span>
+    <ul><li>أختار الموديل الأنسب لكل وكيل (deepseek/minimax/solar/MoA)</li><li>أمنع التضارب (workdir منفصل)</li><li>أجمع الأدلة وأعرضها تفاعلياً كل 30s</li></ul>
+  </div>
+  <div class="connector"></div><div class="arrow">▼▼▼▼</div>
+  <div class="level">
+    <div class="node">
+      <h3>🗄️ وكيل البيانات <span class="role">deepseek</span></h3>
+      <ul><li>يصلح RLS الـ 3 + يضمن 97/97</li><li>يقترح تنظيف الكوتا 5-15MB</li><li>يغذي اللوحة 182/3376/50</li></ul>
+      <div class="growth"><b>ينمو إلى:</b> Lead DB — partition + auto-clean + migration</div>
+    </div>
+    <div class="node">
+      <h3>🎨 وكيل الواجهة <span class="role">minimax</span></h3>
+      <ul><li>live-dashboard + hermes تبويب</li><li>بحث/فلترة Deploys + نسخ SHA</li><li>يصلح كذبة gateway</li></ul>
+      <div class="growth"><b>ينمو إلى:</b> Lead Product — PWA + بحث عربي ذكي</div>
+    </div>
+    <div class="node">
+      <h3>⚙️ وكيل الأوتوميشن <span class="role">solar</span></h3>
+      <ul><li>كرون 03:00 + push</li><li>تذكير توكن 27 Sep</li><li>gateway PID 11340 حي</li></ul>
+      <div class="growth"><b>ينمو إلى:</b> Lead Ops — auto-renew + self-heal</div>
+    </div>
+    <div class="node">
+      <h3>🔍 وكيل الجودة <span class="role">MoA opus</span></h3>
+      <ul><li>يراجع 182/3 deploys/15d/30d</li><li>يكتب تقرير-التوظيف-الأدلة</li><li>يحاسب الكل</li></ul>
+      <div class="growth"><b>ينمو إلى:</b> Lead QA — audit أسبوعي تلقائي</div>
+    </div>
+  </div>
+  <div class="level">
+    <div class="node" style="min-width:520px;max-width:900px">
+      <h3>🤝 المشاركة — كيف نبني أقوى عمل؟</h3>
+      <div class="grid2" style="font-size:.8rem;line-height:1.6">
+        <div>1 يغذي 2 و 4 بالأرقام الحية<br>3 يخدم الكل بالأوتوميشن<br>2 يستهلك بيانات 1 + حالة 3</div>
+        <div>4 يراجع الكل ويربط كل رقم بمصدره<br>أنت توجه، أنا أوزع، الكل ينمو<br><b style="color:var(--gold)">النتيجة: 3608 سجل حي + 0 أخطاء + تذكير تلقائي</b></div>
+      </div>
+    </div>
+  </div>
+</div>
+<p style="text-align:center;color:var(--muted);font-size:.75rem;padding:8px">متصل بـ NotebookLM؟ نعم — يمكن تصدير هذه الشجرة كـ PDF/Board للـ NotebookLM كـ source + توليد Audio Overview تلقائياً</p>
+</body></html>
