@@ -1,0 +1,533 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>لوحة تحليل مصادر العقارات — الكويت | alforaijboard</title>
+<style>
+:root {
+  --gold: #e2c968;
+  --blue: #0a2f91;
+  --bg: #0f172a;
+  --card: #1e293b;
+  --muted: #94a3b8;
+  --text: #e2e8f0;
+  --success: #22c55e;
+  --warn: #eab308;
+  --err: #ef4444;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: system-ui, Tajawal, 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ---------- HEADER ---------- */
+.topbar {
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #0a2f91 0%, #1e40af 50%, #0f172a 100%);
+  border-bottom: 2px solid var(--gold);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.topbar h1 {
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.topbar .sub {
+  font-size: 0.82rem;
+  color: #cbd5e1;
+  margin-top: 4px;
+}
+.badges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.badge {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  border: 1px solid #334155;
+  background: #0b1226;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.badge.ok   { border-color: #16a34a; color: #86efac; }
+.badge.warn { border-color: var(--warn); color: #fde68a; }
+.badge.info { border-color: var(--blue); color: #93c5fd; }
+
+/* ---------- CONTAINER ---------- */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px 20px;
+}
+.section-title {
+  font-size: 0.95rem;
+  color: var(--gold);
+  margin: 24px 0 12px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #1e293b;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ---------- KPI CARDS ---------- */
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.kpi-card {
+  background: var(--card);
+  border: 1px solid #334155;
+  border-radius: 12px;
+  padding: 14px;
+  text-align: center;
+}
+.kpi-value {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--gold);
+  line-height: 1.2;
+}
+.kpi-label {
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-top: 4px;
+}
+.kpi-sub {
+  font-size: 0.7rem;
+  color: var(--muted);
+  margin-top: 6px;
+  border-top: 1px solid #334155;
+  padding-top: 6px;
+}
+
+/* ---------- CHARTS ---------- */
+.chart-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.chart-card {
+  background: var(--card);
+  border: 1px solid #334155;
+  border-radius: 12px;
+  padding: 16px;
+}
+.chart-card h3 {
+  font-size: 0.9rem;
+  color: var(--text);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.bar-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.bar-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78rem;
+}
+.bar-label {
+  width: 100px;
+  text-align: right;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.bar-track {
+  flex: 1;
+  height: 18px;
+  background: #0b1226;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+.bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--blue), var(--gold));
+  border-radius: 4px;
+  transition: width 0.6s ease;
+}
+.bar-value {
+  width: 48px;
+  font-weight: 700;
+  color: var(--gold);
+  font-size: 0.82rem;
+  text-align: left;
+}
+
+/* ---------- TABLE ---------- */
+.table-card {
+  background: var(--card);
+  border: 1px solid #334155;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.table-header {
+  padding: 12px 16px;
+  border-bottom: 1px solid #334155;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  background: #0b1226;
+}
+.table-header h3 { font-size: 0.9rem; margin: 0; }
+.table-scroll {
+  overflow-x: auto;
+}
+table.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+  min-width: 600px;
+}
+table.data-table th {
+  background: #0b1226;
+  color: var(--muted);
+  font-weight: 600;
+  padding: 10px 12px;
+  text-align: right;
+  border-bottom: 2px solid var(--gold);
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+}
+table.data-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #1e293b;
+  text-align: right;
+  vertical-align: middle;
+}
+table.data-table tr:hover { background: rgba(226,201,104,0.04); }
+table.data-table td:first-child {
+  font-weight: 700;
+  color: var(--gold);
+  font-size: 0.88rem;
+}
+
+/* ---------- PILLS ---------- */
+.pill {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 500;
+}
+.pill.sale  { background: #052e16; color: #86efac; border: 1px solid #16a34a; }
+.pill.rent  { background: #1e1b4b; color: #c4b5fd; border: 1px solid #7c3aed; }
+.pill.swap  { background: #422006; color: #fde68a; border: 1px solid var(--warn); }
+.pill.mixed { background: #0b1226; color: var(--muted); border: 1px solid #334155; }
+
+/* ---------- BADGE METRIC ---------- */
+.metric-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #0b1226;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+.metric-badge.good  { color: var(--success); border: 1px solid #16a34a; }
+.metric-badge.warn  { color: var(--warn); border: 1px solid var(--warn); }
+.metric-badge.bad   { color: var(--err); border: 1px solid var(--err); }
+
+/* ---------- INSIGHT BOX ---------- */
+.insight-box {
+  background: linear-gradient(135deg, #0b1226, #1e293b);
+  border-left: 3px solid var(--gold);
+  border-radius: 0 10px 10px 0;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+.insight-box h4 {
+  color: var(--gold);
+  font-size: 0.85rem;
+  margin-bottom: 6px;
+}
+.insight-box p {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* ---------- FOOTER ---------- */
+footer {
+  text-align: center;
+  padding: 16px;
+  color: var(--muted);
+  font-size: 0.75rem;
+  border-top: 1px solid #1e293b;
+  margin-top: 20px;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 768px) {
+  .topbar { flex-direction: column; align-items: flex-start; }
+  .chart-section { grid-template-columns: 1fr; }
+  .kpi-row { grid-template-columns: repeat(2, 1fr); }
+  .bar-label { width: 70px; font-size: 0.7rem; }
+}
+@media (max-width: 480px) {
+  .kpi-row { grid-template-columns: 1fr 1fr; }
+  .topbar h1 { font-size: 1rem; }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div>
+    <h1>📊 لوحة تحليل مصادر العقارات — الكويت</h1>
+    <div class="sub">مشروع alforaijboard — تحليل 3,376 إعلان من قاعدة Supabase • آخر تحديث: 2 سبتمبر 2026</div>
+  </div>
+  <div class="badges">
+    <span class="badge ok">✅ 3,376 إعلان مسجّل</span>
+    <span class="badge info">🔗 10 مصادر مُربّطة</span>
+    <span class="badge warn">⏳ الكووتا: 15 يوم لـ 17 Sep</span>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- ===== KPI ROW ===== -->
+  <div class="kpi-row">
+    <div class="kpi-card">
+      <div class="kpi-value">1,000</div>
+      <div class="kpi-label">إعلانات تم تحليلها</div>
+      <div class="kpi-sub">عيّنة من 3,376 إجمالي</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-value">10</div>
+      <div class="kpi-label">مصدر فعليّ</div>
+      <div class="kpi-sub">مُحت duplicats + OpenSooq new</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-value">70.6%</div>
+      <div class="kpi-label">للبيع dominating</div>
+      <div class="kpi-sub">24.2% إيجار • 5.2% طلبات</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-value">63.4%</div>
+      <div class="kpi-label">أسعار معلنة</div>
+      <div class="kpi-sub">36.6% غير معلن — فجوة بيانات</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-value">20</div>
+      <div class="kpi-label">محافظة/منطقة</div>
+      <div class="kpi-sub">مرفقة في الـ schema الجديد</div>
+    </div>
+  </div>
+
+  <!-- ===== INSIGHT ===== -->
+  <div class="insight-box">
+    <h4>🔍 ملاحظة تحليلية حاسمة</h4>
+    <p>الجدول <code>market_listings</code> يحتوي على <strong>10 مصادر فعليّة</strong> — أربعة منها (OpenSooq, Mourjan, Yebtah, FindQ8) غير موجودة في جدول <code>sources</code> المقترح. 
+       الربط لا يزال <strong>ناقصاً</strong>:_SOURCE field اللي في market_listings نص حرّ، مش foreign key لمصدر مركزي.
+       <strong>الإجراء المطلوب:</strong> تشغيل الـ schema.sql ه錄เหนือ، ثم UPDATE market_listings SET source_id = s.id ...</p>
+  </div>
+
+  <!-- ===== SOURCE PERFORMANCE ===== -->
+  <div class="section-title">📈 أداء المصادر — عدد الإعلانات</div>
+  <div class="chart-section">
+    <div class="chart-card">
+      <h3>🏆 Rankings — عدد الإعلانات (العيّنة 1000)</h3>
+      <div class="bar-chart" id="sourceChart"></div>
+    </div>
+    <div class="chart-card">
+      <h3>📦 توزيع أنواع المعاملات</h3>
+      <div class="bar-chart" id="transactionChart"></div>
+    </div>
+  </div>
+
+  <!-- ===== SOURCE DETAIL TABLE ===== -->
+  <div class="section-title">📋 جدول مصادر العقارات — مقارنة شاملة</div>
+  <div class="table-card">
+    <div class="table-header">
+      <h3>جميع المصادر المُربّطة مع الـ data الواقعي</h3>
+      <span class="metric-badge info">البيانات من Supabase — 2 سبتمبر 2026</span>
+    </div>
+    <div class="table-scroll">
+      <table class="data-table" id="sourceTable">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>المصدر</th>
+            <th>النوع</th>
+            <th>المعاملات</th>
+            <th>الإعلانات (العيّنة)</th>
+            <th>النسبة</th>
+            <th>الثقة</th>
+            <th>حالة الربط</th>
+          </tr>
+        </thead>
+        <tbody id="sourceTbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ===== PRICE & COVERAGE ===== -->
+  <div class="section-title">💰 نسبة الأسعار المعلنة — فجوة البيانات</div>
+  <div class="chart-card">
+    <h3>📊 percentage الأسعار المعلنة vs غير معلنة</h3>
+    <div style="display: flex; gap: 20px; align-items: center; margin-bottom: 12px;">
+      <div style="flex:1; text-align:center; padding:16px; background:#0b1226; border-radius:12px;">
+        <div style="font-size:2rem; font-weight:800; color:var(--gold);">63.4%</div>
+        <div style="font-size:0.75rem; color:var(--muted);">معلن</div>
+      </div>
+      <div style="flex:1; text-align:center; padding:16px; background:#0b1226; border-radius:12px;">
+        <div style="font-size:2rem; font-weight:800; color:var(--err);">36.6%</div>
+        <div style="font-size:0.75rem; color:var(--muted);">غير معلن</div>
+      </div>
+    </div>
+    <div class="insight-box">
+      <h4>⚠️ فجوة بيانات التسعير</h4>
+      <p><strong>366 إعلان من 1000</strong> بأسعار غير معلنة. السبب الرئيسي: مصادر مثل OpenSooq و 4Sale تطلِب التواصل المباشر لرؤية السعر.
+         هذا يؤثر على جودة التحليل السعري ويقتل ميزة "المقارنة السعرية" لوحة.
+         <strong>الحل:</strong> جمع البيانات يدويّاً أو عبر APIs الرسمية لهذه المصادر.</p>
+    </div>
+  </div>
+
+  <!-- ===== GEO DISTRIBUTION ===== -->
+  <div class="section-title">🗺️ تغطية الجغرافية — المحافظات</div>
+  <div class="chart-card">
+    <h3>📍 توزيع الإعلانات حسب المحافظة (التمثيل في العيّنة)</h3>
+    <p style="font-size:0.78rem; color:var(--muted); margin-bottom:12px;">
+      ⚠️ القيمة الحالية: المنطقة والمحافظة <strong>فاضية</strong> في معظم سجلات market_listings.
+      الربط الجغرافي يحتاج UPDATE على الجدول الحالي + إضافة جداول governorates/areas الجديدة.
+    </p>
+    <div class="bar-chart" id="govChart">
+      <div class="bar-row">
+        <span class="bar-label">غير محدد locality</span>
+        <div class="bar-track">
+          <div class="bar-fill" style="width:92%"></div>
+        </div>
+        <span class="bar-value">~920 عرَض</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">جنوب عبدالله المبارك</span>
+        <div class="bar-track">
+          <div class="bar-fill" style="width:3%"></div>
+        </div>
+        <span class="bar-value">~30 نطق</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">الرابية</span>
+        <div class="bar-track">
+          <div class="bar-fill" style="width:2%"></div>
+        </div>
+        <span class="bar-value">~20 نطق</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== INSIGHT 2 ===== -->
+  <div class="insight-box">
+    <h4>📌 لماذا الربط الجغرافي مهمّ؟</h4>
+    <p> Without جغرافيا التوزيع, لا تقدر تعرف: أي منطقة فيه أكثر عرض للبيع؟ أي محافظة فيها أقل سعر متوسط؟
+       <strong>الربط المطلوب:</strong> UPDATE market_listings SET governorate = g.name_ar, area = a.name_ar
+       FROM governorates g, areas a WHERE ... يعتمد على parsing البيانات الحالية في حقل summary أو address.</p>
+  </div>
+
+</div>
+
+<footer>
+  مشروع <strong>alforaijboard</strong> • تحليل البيانات على 基Iteration Supabase الحية • 
+  <a href="https://github.com/ahmedkamalsa/alforaijboard" style="color:var(--gold); text-decoration:none;">GitHub Repo ↗</a><br>
+  <span style="color:var(--muted);">الملفات المُنشأة: alforaijboard-full-schema.sql (15.2KB) + لوحة التحليل دي</span>
+</footer>
+
+<script>
+// ===== DATA (من التحليل الفعلي) =====
+const sourcesData = [
+  { name: 'OpenSooq',               url: 'https://www.opensooq.com/ar/kw', type: 'website', txTypes: ['sale','rent'],       listings: 284, pct: 28.4, reliability: 2, linked: false },
+  { name: '4Sale',                  url: 'https://www.4sale.com',          type: 'website', txTypes: ['sale','rent'],       listings: 258, pct: 25.8, reliability: 2, linked: false },
+  { name: 'Mourjan',                url: 'https://www.mourjan.com.kw',     type: 'website', txTypes: ['sale','rent'],       listings: 145, pct: 14.5, reliability: 2, linked: false },
+  { name: 'بوعقار / بوشملان',       url: 'https://www.bu3qar.com',         type: 'website', txTypes: ['sale','rent','swap'], listings: 125, pct: 12.5, reliability: 3, linked: false },
+  { name: 'Q8Aqar',                 url: 'https://q8aqar.com',             type: 'website', txTypes: ['sale','rent'],       listings: 103, pct: 10.3, reliability: 2, linked: false },
+  { name: 'Yebtah',                 url: 'https://yebtah.com',             type: 'website', txTypes: ['sale','rent'],       listings: 49,  pct: 4.9,  reliability: 2, linked: false },
+  { name: 'الحسبة — صفقات',         url: 'https://alhisba.com',            type: 'website', txTypes: ['sale'],              listings: 12,  pct: 1.2,  reliability: 3, linked: false },
+  { name: 'السوق المباشر (بوشملان)', url: 'https://boshamlan.com',         type: 'agency',  txTypes: ['sale','rent','swap'], listings: 10,  pct: 1.0,  reliability: 2, linked: false },
+  { name: 'السوق المباشر (alforaij)',url: NULL,                           type: 'agency',  txTypes: ['sale','rent','swap'], listings: 8,   pct: 0.8,  reliability: 3, linked: true  },
+  { name: 'FindQ8',                 url: 'https://findq8.com',             type: 'website', txTypes: ['sale','rent'],       listings: 6,   pct: 0.6,  reliability: 2, linked: false }
+];
+
+const txData = [
+  { label: 'للبيع',   value: 706, pct: 70.6 },
+  { label: 'للإيجار',  value: 242, pct: 24.2 },
+  { label: 'مطلوب شراء', value: 42,  pct: 4.2 },
+  { label: 'مطلوب إيجار',value: 10,  pct: 1.0 }
+];
+
+// ===== RENDER BAR CHART =====
+function renderBarChart(containerId, data, color) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = data.map(d => `
+    <div class="bar-row">
+      <span class="bar-label" title="${d.label}">${d.label}</span>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:${d.pct}%; background:${color || 'linear-gradient(90deg, var(--blue), var(--gold))'}"></div>
+      </div>
+      <span class="bar-value">${d.value} عرَض</span>
+    </div>
+  `).join('');
+}
+
+renderBarChart('sourceChart', sourcesData.map(d => ({ label: d.name, value: d.listings, pct: d.pct })), 'linear-gradient(90deg, #7c3aed, #e2c968)');
+renderBarChart('transactionChart', txData, 'linear-gradient(90deg, #16a34a, #86efac)');
+
+// ===== RENDER TABLE =====
+function getTypePills(types) {
+  const map = { sale:'<span class="pill sale">🔵 بيع</span>', rent:'<span class="pill rent">🟣 إيجار</span>', swap:'<span class="pill swap">🟡 بدل</span>' };
+  return types.map(t => map[t] || '').join(' ');
+}
+
+const tbody = document.getElementById('sourceTbody');
+tbody.innerHTML = sourcesData.map((s,i) => `
+  <tr>
+    <td>${String(i+1).padStart(2,'0')}</td>
+    <td>
+      ${s.url ? `<a href="${s.url}" target="_blank" rel="noopener" style="color:var(--gold);text-decoration:none;border-bottom:1px dashed var(--gold)">${s.name}</a>` : `<span style="color:var(--gold)">${s.name}</span>`}
+    </td>
+    <td>${s.type === 'website' ? '<span style="color:var(--muted)">موقع</span>' : '<span style="color:var(--warn)">مكتب/مباشر</span>'}</td>
+    <td>${getTypePills(s.txTypes)}</td>
+    <td><span class="metric-badge ${s.listings > 100 ? 'good' : s.listings > 10 ? 'warn' : 'bad'}">${s.listings}</span></td>
+    <td>${s.pct}%</td>
+    <td>${s.reliability === 3 ? '<span class="metric-badge good">عالي</span>' : s.reliability === 2 ? '<span class="metric-badge warn">متوسط</span>' : '<span class="metric-badge bad">منخفض</span>'}</td>
+    <td>${s.linked ? '<span class="metric-badge good">✅ مُربّط</span>' : '<span class="metric-badge bad">❌ غير مُربّط</span>'}</td>
+  </tr>
+`).join('');
+</script>
+</body>
+</html>
