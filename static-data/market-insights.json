@@ -1,0 +1,1779 @@
+{
+  "tableOk": true,
+  "fetchedAt": "2026-09-02T10:00:25",
+  "note": "عائد الإيجار = (وسيط الإيجار × 12) ÷ وسيط سعر البيع من الحصاد المتراكم + الفريج المحلي (عرضًا وطلبًا) بعد استبعاد القيم الشاذة (3×IQR).",
+  "areas": [
+    {
+      "area": "الصباحية",
+      "governorate": "محافظة الأحمدي",
+      "saleCount": 2,
+      "rentCount": 2,
+      "outliersRemoved": 0,
+      "medianSalePrice": 125600.0,
+      "medianSalePerM2": 555.6,
+      "medianRent": 300.0,
+      "medianRentPerM2": null,
+      "rentalYield": 2.87,
+      "yieldNote": "low"
+    },
+    {
+      "area": "الفروانية",
+      "governorate": "محافظة الفروانية",
+      "saleCount": 16,
+      "rentCount": 24,
+      "outliersRemoved": 1,
+      "medianSalePrice": 550000.0,
+      "medianSalePerM2": 1021.6,
+      "medianRent": 1000.0,
+      "medianRentPerM2": 10000.0,
+      "rentalYield": 2.18,
+      "yieldNote": "high"
+    },
+    {
+      "area": "الصديق",
+      "governorate": "محافظة حولي",
+      "saleCount": 5,
+      "rentCount": 2,
+      "outliersRemoved": 0,
+      "medianSalePrice": 485000.0,
+      "medianSalePerM2": 1139.1,
+      "medianRent": 850.0,
+      "medianRentPerM2": null,
+      "rentalYield": 2.1,
+      "yieldNote": "low"
+    },
+    {
+      "area": "السالمية",
+      "governorate": "محافظة حولي",
+      "saleCount": 25,
+      "rentCount": 55,
+      "outliersRemoved": 8,
+      "medianSalePrice": 165000.0,
+      "medianSalePerM2": 1262.6,
+      "medianRent": 280.0,
+      "medianRentPerM2": 6.5,
+      "rentalYield": 2.04,
+      "yieldNote": "high"
+    },
+    {
+      "area": "الأندلس",
+      "governorate": "محافظة الفروانية",
+      "saleCount": 4,
+      "rentCount": 2,
+      "outliersRemoved": 0,
+      "medianSalePrice": 350000.0,
+      "medianSalePerM2": 956.7,
+      "medianRent": 585.0,
+      "medianRentPerM2": null,
+      "rentalYield": 2.01,
+      "yieldNote": "low"
+    },
+    {
+      "area": "الفنيطيس",
+      "governorate": "محافظة مبارك الكبير",
+      "saleCount": 6,
+      "rentCount": 2,
+      "outliersRemoved": 1,
+      "medianSalePrice": 400000.0,
+      "medianSalePerM2": 866.7,
+      "medianRent": 625.0,
+      "medianRentPerM2": null,
+      "rentalYield": 1.88,
+      "yieldNote": "low"
+    },
+    {
+      "area": "جابر الأحمد",
+      "governorate": "محافظة الجهراء",
+      "saleCount": 14,
+      "rentCount": 14,
+      "outliersRemoved": 0,
+      "medianSalePrice": 345000.0,
+      "medianSalePerM2": 793.8,
+      "medianRent": 525.0,
+      "medianRentPerM2": 2.9,
+      "rentalYield": 1.83,
+      "yieldNote": "high"
+    },
+    {
+      "area": "القرين",
+      "governorate": "محافظة مبارك الكبير",
+      "saleCount": 10,
+      "rentCount": 5,
+      "outliersRemoved": 4,
+      "medianSalePrice": 300000.0,
+      "medianSalePerM2": 800.0,
+      "medianRent": 425.0,
+      "medianRentPerM2": 16.1,
+      "rentalYield": 1.7,
+      "yieldNote": "low"
+    },
+    {
+      "area": "الرميثية",
+      "governorate": "محافظة حولي",
+      "saleCount": 8,
+      "rentCount": 3,
+      "outliersRemoved": 0,
+      "medianSalePrice": 397500.0,
+      "medianSalePerM2": 893.3,
+      "medianRent": 550.0,
+      "medianRentPerM2": 0.6,
+      "rentalYield": 1.66,
+      "yieldNote": "low"
+    },
+    {
+      "area": "صباح الأحمد",
+      "governorate": "محافظة الأحمدي",
+      "saleCount": 13,
+      "rentCount": 4,
+      "outliersRemoved": 0,
+      "medianSalePrice": 375000.0,
+      "medianSalePerM2": 369.0,
+      "medianRent": 475.0,
+      "medianRentPerM2": null,
+      "rentalYield": 1.52,
+      "yieldNote": "low"
+    },
+    {
+      "area": "المهبولة",
+      "governorate": "محافظة الأحمدي",
+      "saleCount": 13,
+      "rentCount": 20,
+      "outliersRemoved": 2,
+      "medianSalePrice": 180000.0,
+      "medianSalePerM2": 904.4,
+      "medianRent": 215.0,
+      "medianRentPerM2": null,
+      "rentalYield": 1.43,
+      "yieldNote": "high"
+    },
+    {
+      "area": "غرب عبدالله المبارك",
+      "governorate": "محافظة الأحمدي",
+      "saleCount": 4,
+      "rentCount": 2,
+      "outliersRemoved": 0,
+      "medianSalePrice": 280000.0,
+      "medianSalePerM2": 1250.0,
+      "medianRent": 315.0,
+      "medianRentPerM2": null,
+      "rentalYield": 1.35,
+      "yieldNote": "low"
+    },
+    {
+      "area": "سعد العبدالله",
+      "governorate": "محافظة الجهراء",
+      "saleCount": 6,
+      "rentCount": 4,
+      "outliersRemoved": 1,
+      "medianSalePrice": 320000.0,
+      "medianSalePerM2": 800.0,
+      "medianRent": 350.0,
+      "medianRentPerM2": null,
+      "rentalYield": 1.31,
+      "yieldNote": "low"
+    },
+    {
+      "area": "الزهراء",
+      "governorate": "محافظة حولي",
+      "saleCount": 8,
+      "rentCount": 2,
+      "outliersRemoved": 0,
+      "medianSalePrice": 437500.0,
+      "medianSalePerM2": 1200.0,
+      "medianRent": 465.0,
+      "medianRentPerM2": null,
+      "rentalYield": 1.28,
+      "yieldNote": "low"
+    },
+    {
+      "area": "السلام",
+      "governorate": "محافظة حولي",
+      "saleCount": 5,
+      "rentCount": 3,
+      "outliersRemoved": 0,
+      "medianSalePrice": 580000.0,
+      "medianSalePerM2": 1440.0,
+      "medianRent": 600.0,
+      "medianRentPerM2": null,
+      "rentalYield": 1.24,
+      "yieldNote": "low"
+    },
+    {
+      "area": "عبدالله المبارك",
+      "governorate": "محافظة الفروانية",
+      "saleCount": 2,
+      "rentCount": 2,
+      "outliersRemoved": 0,
+      "medianSalePrice": 540000.0,
+      "medianSalePerM2": null,
+      "medianRent": 550.0,
+      "medianRentPerM2": null,
+      "rentalYield": 1.22,
+      "yieldNote": "low"
+    },
+    {
+      "area": "سلوى",
+      "governorate": "محافظة حولي",
+      "saleCount": 6,
+      "rentCount": 9,
+      "outliersRemoved": 2,
+      "medianSalePrice": 420000.0,
+      "medianSalePerM2": 689.7,
+      "medianRent": 415.0,
+      "medianRentPerM2": 95.0,
+      "rentalYield": 1.19,
+      "yieldNote": "high"
+    },
+    {
+      "area": "المطلاع",
+      "governorate": "محافظة الجهراء",
+      "saleCount": 21,
+      "rentCount": 16,
+      "outliersRemoved": 1,
+      "medianSalePrice": 305000.0,
+      "medianSalePerM2": 756.2,
+      "medianRent": 290.0,
+      "medianRentPerM2": 2.8,
+      "rentalYield": 1.14,
+      "yieldNote": "high"
+    },
+    {
+      "area": "أبو فطيرة",
+      "governorate": "محافظة مبارك الكبير",
+      "saleCount": 7,
+      "rentCount": 3,
+      "outliersRemoved": 0,
+      "medianSalePrice": 470000.0,
+      "medianSalePerM2": 1175.0,
+      "medianRent": 440.0,
+      "medianRentPerM2": null,
+      "rentalYield": 1.12,
+      "yieldNote": "low"
+    },
+    {
+      "area": "خيطان",
+      "governorate": "محافظة الفروانية",
+      "saleCount": 10,
+      "rentCount": 11,
+      "outliersRemoved": 2,
+      "medianSalePrice": 545000.0,
+      "medianSalePerM2": 1362.5,
+      "medianRent": 450.0,
+      "medianRentPerM2": 30.0,
+      "rentalYield": 0.99,
+      "yieldNote": "high"
+    },
+    {
+      "area": "صباح السالم",
+      "governorate": "محافظة مبارك الكبير",
+      "saleCount": 12,
+      "rentCount": 5,
+      "outliersRemoved": 2,
+      "medianSalePrice": 270000.0,
+      "medianSalePerM2": 1033.3,
+      "medianRent": 220.0,
+      "medianRentPerM2": null,
+      "rentalYield": 0.98,
+      "yieldNote": "high"
+    },
+    {
+      "area": "الجابرية",
+      "governorate": "محافظة حولي",
+      "saleCount": 7,
+      "rentCount": 5,
+      "outliersRemoved": 0,
+      "medianSalePrice": 600000.0,
+      "medianSalePerM2": 632.9,
+      "medianRent": 450.0,
+      "medianRentPerM2": 4.4,
+      "rentalYield": 0.9,
+      "yieldNote": "high"
+    },
+    {
+      "area": "غرناطة",
+      "governorate": "محافظة العاصمة",
+      "saleCount": 2,
+      "rentCount": 3,
+      "outliersRemoved": 0,
+      "medianSalePrice": 990000.0,
+      "medianSalePerM2": 1590.0,
+      "medianRent": 650.0,
+      "medianRentPerM2": 1.6,
+      "rentalYield": 0.79,
+      "yieldNote": "low"
+    },
+    {
+      "area": "المنقف",
+      "governorate": "محافظة الأحمدي",
+      "saleCount": 7,
+      "rentCount": 6,
+      "outliersRemoved": 1,
+      "medianSalePrice": 585000.0,
+      "medianSalePerM2": 973.7,
+      "medianRent": 245.0,
+      "medianRentPerM2": null,
+      "rentalYield": 0.5,
+      "yieldNote": "high"
+    },
+    {
+      "area": "القادسية",
+      "governorate": "محافظة العاصمة",
+      "saleCount": 5,
+      "rentCount": 3,
+      "outliersRemoved": 1,
+      "medianSalePrice": 495000.0,
+      "medianSalePerM2": 1237.5,
+      "medianRent": 160.0,
+      "medianRentPerM2": null,
+      "rentalYield": 0.39,
+      "yieldNote": "low"
+    },
+    {
+      "area": "بنيد القار",
+      "governorate": "محافظة العاصمة",
+      "saleCount": 5,
+      "rentCount": 6,
+      "outliersRemoved": 0,
+      "medianSalePrice": 1200000.0,
+      "medianSalePerM2": 3440.0,
+      "medianRent": 300.0,
+      "medianRentPerM2": null,
+      "rentalYield": 0.3,
+      "yieldNote": "high"
+    },
+    {
+      "area": "حولي",
+      "governorate": "محافظة حولي",
+      "saleCount": 22,
+      "rentCount": 24,
+      "outliersRemoved": 1,
+      "medianSalePrice": 1114500.0,
+      "medianSalePerM2": 1944.4,
+      "medianRent": 190.0,
+      "medianRentPerM2": 10.6,
+      "rentalYield": 0.2,
+      "yieldNote": "high"
+    },
+    {
+      "area": "الجهراء",
+      "governorate": "محافظة الجهراء",
+      "saleCount": 3,
+      "rentCount": 6,
+      "outliersRemoved": 1,
+      "medianSalePrice": 2000000.0,
+      "medianSalePerM2": 2857.1,
+      "medianRent": 260.0,
+      "medianRentPerM2": null,
+      "rentalYield": 0.16,
+      "yieldNote": "low"
+    },
+    {
+      "area": "الرقعي",
+      "governorate": "محافظة الفروانية",
+      "saleCount": 2,
+      "rentCount": 3,
+      "outliersRemoved": 0,
+      "medianSalePrice": 8000000.0,
+      "medianSalePerM2": 3159.2,
+      "medianRent": 1000.0,
+      "medianRentPerM2": 10.5,
+      "rentalYield": 0.15,
+      "yieldNote": "low"
+    },
+    {
+      "area": "أبو حليفة",
+      "governorate": "محافظة الأحمدي",
+      "saleCount": 2,
+      "rentCount": 4,
+      "outliersRemoved": 0,
+      "medianSalePrice": 3010000.0,
+      "medianSalePerM2": null,
+      "medianRent": 55.0,
+      "medianRentPerM2": null,
+      "rentalYield": 0.02,
+      "yieldNote": "low"
+    },
+    {
+      "area": "ميناء عبدالله",
+      "governorate": "محافظة الأحمدي",
+      "saleCount": 0,
+      "rentCount": 1,
+      "outliersRemoved": 0,
+      "medianSalePrice": null,
+      "medianSalePerM2": null,
+      "medianRent": 3250.0,
+      "medianRentPerM2": 1.3,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "غرب عبدالله مبارك",
+      "governorate": "محافظة الأحمدي",
+      "saleCount": 0,
+      "rentCount": 4,
+      "outliersRemoved": 0,
+      "medianSalePrice": null,
+      "medianSalePerM2": null,
+      "medianRent": 325.0,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "الشرق",
+      "governorate": "محافظة العاصمة",
+      "saleCount": 1,
+      "rentCount": 7,
+      "outliersRemoved": 1,
+      "medianSalePrice": 320.0,
+      "medianSalePerM2": null,
+      "medianRent": 600.0,
+      "medianRentPerM2": 27.1,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "الشويخ",
+      "governorate": "محافظة العاصمة",
+      "saleCount": 1,
+      "rentCount": 6,
+      "outliersRemoved": 0,
+      "medianSalePrice": 2500000.0,
+      "medianSalePerM2": null,
+      "medianRent": 1600.0,
+      "medianRentPerM2": 23.5,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "القصر",
+      "governorate": "محافظة الجهراء",
+      "saleCount": 0,
+      "rentCount": 3,
+      "outliersRemoved": 0,
+      "medianSalePrice": null,
+      "medianSalePerM2": null,
+      "medianRent": 380.0,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "النهضة",
+      "governorate": "محافظة العاصمة",
+      "saleCount": 1,
+      "rentCount": 1,
+      "outliersRemoved": 0,
+      "medianSalePrice": 350000.0,
+      "medianSalePerM2": 875.0,
+      "medianRent": 500.0,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "جابر العلي",
+      "governorate": "محافظة الأحمدي",
+      "saleCount": 0,
+      "rentCount": 2,
+      "outliersRemoved": 0,
+      "medianSalePrice": null,
+      "medianSalePerM2": null,
+      "medianRent": 405.0,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "السرة",
+      "governorate": "محافظة العاصمة",
+      "saleCount": 2,
+      "rentCount": 1,
+      "outliersRemoved": 0,
+      "medianSalePrice": 750000.0,
+      "medianSalePerM2": 1000.0,
+      "medianRent": 950.0,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "الفردوس",
+      "governorate": "محافظة الفروانية",
+      "saleCount": 1,
+      "rentCount": 1,
+      "outliersRemoved": 0,
+      "medianSalePrice": 400.0,
+      "medianSalePerM2": null,
+      "medianRent": 100000.0,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "المباركية",
+      "governorate": "محافظة العاصمة",
+      "saleCount": 3,
+      "rentCount": 3,
+      "outliersRemoved": 0,
+      "medianSalePrice": 4000.0,
+      "medianSalePerM2": 34.7,
+      "medianRent": 560.0,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "ضاحية فهد الأحمد",
+      "governorate": "محافظة الأحمدي",
+      "saleCount": 0,
+      "rentCount": 2,
+      "outliersRemoved": 0,
+      "medianSalePrice": null,
+      "medianSalePerM2": null,
+      "medianRent": 440.0,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "ميدان حولي",
+      "governorate": "محافظة حولي",
+      "saleCount": 0,
+      "rentCount": 4,
+      "outliersRemoved": 1,
+      "medianSalePrice": null,
+      "medianSalePerM2": null,
+      "medianRent": 320.0,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "الرابية",
+      "governorate": "محافظة الفروانية",
+      "saleCount": 4,
+      "rentCount": 0,
+      "outliersRemoved": 0,
+      "medianSalePrice": 360000.0,
+      "medianSalePerM2": 646.8,
+      "medianRent": null,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "مشرف",
+      "governorate": "محافظة حولي",
+      "saleCount": 2,
+      "rentCount": 1,
+      "outliersRemoved": 0,
+      "medianSalePrice": 845000.0,
+      "medianSalePerM2": 1126.7,
+      "medianRent": 650.0,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "الوفرة",
+      "governorate": "محافظة الأحمدي",
+      "saleCount": 6,
+      "rentCount": 0,
+      "outliersRemoved": 0,
+      "medianSalePrice": 11000.0,
+      "medianSalePerM2": 187.6,
+      "medianRent": null,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "العديلية",
+      "governorate": "محافظة العاصمة",
+      "saleCount": 2,
+      "rentCount": 0,
+      "outliersRemoved": 0,
+      "medianSalePrice": 660500.0,
+      "medianSalePerM2": 677.2,
+      "medianRent": null,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "العارضية",
+      "governorate": "محافظة الفروانية",
+      "saleCount": 3,
+      "rentCount": 1,
+      "outliersRemoved": 0,
+      "medianSalePrice": 280000.0,
+      "medianSalePerM2": 900.0,
+      "medianRent": 50.0,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "صباح الاحمد السكنية",
+      "governorate": "محافظة الأحمدي",
+      "saleCount": 5,
+      "rentCount": 0,
+      "outliersRemoved": 0,
+      "medianSalePrice": 220000.0,
+      "medianSalePerM2": 387.5,
+      "medianRent": null,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "كيفان",
+      "governorate": "محافظة العاصمة",
+      "saleCount": 5,
+      "rentCount": 0,
+      "outliersRemoved": 0,
+      "medianSalePrice": 640000.0,
+      "medianSalePerM2": 1780.2,
+      "medianRent": null,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "العقيلة",
+      "governorate": "محافظة مبارك الكبير",
+      "saleCount": 0,
+      "rentCount": 2,
+      "outliersRemoved": 0,
+      "medianSalePrice": null,
+      "medianSalePerM2": null,
+      "medianRent": 337.5,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "فنطاس",
+      "governorate": "محافظة مبارك الكبير",
+      "saleCount": 0,
+      "rentCount": 4,
+      "outliersRemoved": 0,
+      "medianSalePrice": null,
+      "medianSalePerM2": null,
+      "medianRent": 410.0,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "Al-Masayel",
+      "governorate": "",
+      "saleCount": 0,
+      "rentCount": 1,
+      "outliersRemoved": 0,
+      "medianSalePrice": null,
+      "medianSalePerM2": null,
+      "medianRent": 450.0,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "القبلة",
+      "governorate": "محافظة العاصمة",
+      "saleCount": 1,
+      "rentCount": 4,
+      "outliersRemoved": 0,
+      "medianSalePrice": 700.0,
+      "medianSalePerM2": 10.0,
+      "medianRent": 475.0,
+      "medianRentPerM2": 15.5,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "الأمغرة",
+      "governorate": "محافظة الجهراء",
+      "saleCount": 0,
+      "rentCount": 1,
+      "outliersRemoved": 0,
+      "medianSalePrice": null,
+      "medianSalePerM2": null,
+      "medianRent": 90.0,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "مرقاب",
+      "governorate": "محافظة العاصمة",
+      "saleCount": 2,
+      "rentCount": 3,
+      "outliersRemoved": 0,
+      "medianSalePrice": 15000.0,
+      "medianSalePerM2": 53.3,
+      "medianRent": 2500.0,
+      "medianRentPerM2": 7.8,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "اليرموك",
+      "governorate": "محافظة العاصمة",
+      "saleCount": 8,
+      "rentCount": 1,
+      "outliersRemoved": 0,
+      "medianSalePrice": 875000.0,
+      "medianSalePerM2": 1066.7,
+      "medianRent": 900.0,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "جليب الشيوخ",
+      "governorate": "محافظة الفروانية",
+      "saleCount": 2,
+      "rentCount": 2,
+      "outliersRemoved": 0,
+      "medianSalePrice": 1262500.0,
+      "medianSalePerM2": 2522.7,
+      "medianRent": 17650.0,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "ام الهيمان",
+      "governorate": "محافظة الأحمدي",
+      "saleCount": 0,
+      "rentCount": 1,
+      "outliersRemoved": 0,
+      "medianSalePrice": null,
+      "medianSalePerM2": null,
+      "medianRent": 500.0,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "الفحيحيل",
+      "governorate": "محافظة الأحمدي",
+      "saleCount": 5,
+      "rentCount": 11,
+      "outliersRemoved": 1,
+      "medianSalePrice": 400000.0,
+      "medianSalePerM2": 3778.9,
+      "medianRent": 35000.0,
+      "medianRentPerM2": 11818.2,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "الرقة",
+      "governorate": "محافظة الأحمدي",
+      "saleCount": 2,
+      "rentCount": 2,
+      "outliersRemoved": 0,
+      "medianSalePrice": 140235.0,
+      "medianSalePerM2": null,
+      "medianRent": 2110.0,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "بيان",
+      "governorate": "محافظة حولي",
+      "saleCount": 6,
+      "rentCount": 1,
+      "outliersRemoved": 0,
+      "medianSalePrice": 282500.0,
+      "medianSalePerM2": 978.3,
+      "medianRent": 650.0,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "الفيحاء",
+      "governorate": "محافظة العاصمة",
+      "saleCount": 2,
+      "rentCount": 0,
+      "outliersRemoved": 0,
+      "medianSalePrice": 689200.0,
+      "medianSalePerM2": 1723.0,
+      "medianRent": null,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "الخيران",
+      "governorate": "محافظة الأحمدي",
+      "saleCount": 4,
+      "rentCount": 0,
+      "outliersRemoved": 0,
+      "medianSalePrice": 450.0,
+      "medianSalePerM2": 675.0,
+      "medianRent": null,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "شمال غرب الصليبيخات",
+      "governorate": "محافظة العاصمة",
+      "saleCount": 2,
+      "rentCount": 1,
+      "outliersRemoved": 0,
+      "medianSalePrice": 300.0,
+      "medianSalePerM2": null,
+      "medianRent": 350.0,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "القيروان",
+      "governorate": "محافظة العاصمة",
+      "saleCount": 1,
+      "rentCount": 2,
+      "outliersRemoved": 0,
+      "medianSalePrice": 300.0,
+      "medianSalePerM2": null,
+      "medianRent": 375.0,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "خيران السكنية",
+      "governorate": "محافظة الأحمدي",
+      "saleCount": 2,
+      "rentCount": 1,
+      "outliersRemoved": 0,
+      "medianSalePrice": 130110.0,
+      "medianSalePerM2": 650.0,
+      "medianRent": 30.0,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "صباح الناصر",
+      "governorate": "محافظة الفروانية",
+      "saleCount": 1,
+      "rentCount": 5,
+      "outliersRemoved": 0,
+      "medianSalePrice": 280000.0,
+      "medianSalePerM2": 700.0,
+      "medianRent": 400.0,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "الشعب",
+      "governorate": "محافظة حولي",
+      "saleCount": 1,
+      "rentCount": 2,
+      "outliersRemoved": 0,
+      "medianSalePrice": 20000.0,
+      "medianSalePerM2": null,
+      "medianRent": 2850.0,
+      "medianRentPerM2": 12.5,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "الوفرة السكنية",
+      "governorate": "محافظة الأحمدي",
+      "saleCount": 3,
+      "rentCount": 0,
+      "outliersRemoved": 0,
+      "medianSalePrice": 230000.0,
+      "medianSalePerM2": 441.7,
+      "medianRent": null,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "النسيم",
+      "governorate": "محافظة الجهراء",
+      "saleCount": 0,
+      "rentCount": 2,
+      "outliersRemoved": 0,
+      "medianSalePrice": null,
+      "medianSalePerM2": null,
+      "medianRent": 340.0,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "القصور",
+      "governorate": "محافظة مبارك الكبير",
+      "saleCount": 5,
+      "rentCount": 0,
+      "outliersRemoved": 1,
+      "medianSalePrice": 385000.0,
+      "medianSalePerM2": 962.5,
+      "medianRent": null,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "حطين",
+      "governorate": "محافظة حولي",
+      "saleCount": 2,
+      "rentCount": 1,
+      "outliersRemoved": 0,
+      "medianSalePrice": 520000.0,
+      "medianSalePerM2": 1338.3,
+      "medianRent": 450.0,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "السالمي",
+      "governorate": "محافظة الجهراء",
+      "saleCount": 1,
+      "rentCount": 0,
+      "outliersRemoved": 0,
+      "medianSalePrice": 800.0,
+      "medianSalePerM2": null,
+      "medianRent": null,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "قرطبة",
+      "governorate": "محافظة العاصمة",
+      "saleCount": 3,
+      "rentCount": 1,
+      "outliersRemoved": 0,
+      "medianSalePrice": 1400000.0,
+      "medianSalePerM2": 1400.0,
+      "medianRent": 3000.0,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "صباح الأحمد البحرية",
+      "governorate": "محافظة الأحمدي",
+      "saleCount": 1,
+      "rentCount": 0,
+      "outliersRemoved": 0,
+      "medianSalePrice": 425000.0,
+      "medianSalePerM2": 885.4,
+      "medianRent": null,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "أبو الحصانية",
+      "governorate": "محافظة مبارك الكبير",
+      "saleCount": 2,
+      "rentCount": 1,
+      "outliersRemoved": 0,
+      "medianSalePrice": 1350000.0,
+      "medianSalePerM2": 719.0,
+      "medianRent": 150.0,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "الواحة",
+      "governorate": "محافظة الجهراء",
+      "saleCount": 0,
+      "rentCount": 1,
+      "outliersRemoved": 0,
+      "medianSalePrice": null,
+      "medianSalePerM2": null,
+      "medianRent": 200.0,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "النعيم",
+      "governorate": "محافظة الجهراء",
+      "saleCount": 0,
+      "rentCount": 1,
+      "outliersRemoved": 0,
+      "medianSalePrice": null,
+      "medianSalePerM2": null,
+      "medianRent": 10000.0,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "جنوب عبدالله المبارك",
+      "governorate": "محافظة الفروانية",
+      "saleCount": 1,
+      "rentCount": 2,
+      "outliersRemoved": 0,
+      "medianSalePrice": 172000.0,
+      "medianSalePerM2": null,
+      "medianRent": 400.0,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "الدوحة",
+      "governorate": "محافظة العاصمة",
+      "saleCount": 1,
+      "rentCount": 0,
+      "outliersRemoved": 0,
+      "medianSalePrice": 210000.0,
+      "medianSalePerM2": 525.0,
+      "medianRent": null,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "العمرية",
+      "governorate": "محافظة الفروانية",
+      "saleCount": 7,
+      "rentCount": 1,
+      "outliersRemoved": 0,
+      "medianSalePrice": 450000.0,
+      "medianSalePerM2": 791.7,
+      "medianRent": 1100.0,
+      "medianRentPerM2": 2.8,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "مبارك الكبير",
+      "governorate": "محافظة مبارك الكبير",
+      "saleCount": 2,
+      "rentCount": 0,
+      "outliersRemoved": 0,
+      "medianSalePrice": 345000.0,
+      "medianSalePerM2": 850.0,
+      "medianRent": null,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "الفنطاس",
+      "governorate": "محافظة الأحمدي",
+      "saleCount": 2,
+      "rentCount": 1,
+      "outliersRemoved": 0,
+      "medianSalePrice": 650225.0,
+      "medianSalePerM2": 1984.7,
+      "medianRent": 120.0,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "البصري",
+      "governorate": "محافظة الأحمدي",
+      "saleCount": 0,
+      "rentCount": 1,
+      "outliersRemoved": 0,
+      "medianSalePrice": null,
+      "medianSalePerM2": null,
+      "medianRent": 400.0,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "الشهداء",
+      "governorate": "محافظة حولي",
+      "saleCount": 1,
+      "rentCount": 2,
+      "outliersRemoved": 0,
+      "medianSalePrice": 550000.0,
+      "medianSalePerM2": 1375.0,
+      "medianRent": 1400.0,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "المسايل",
+      "governorate": "محافظة مبارك الكبير",
+      "saleCount": 9,
+      "rentCount": 0,
+      "outliersRemoved": 0,
+      "medianSalePrice": 440000.0,
+      "medianSalePerM2": 1011.0,
+      "medianRent": null,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "ضاحية عبدالله السالم",
+      "governorate": "محافظة العاصمة",
+      "saleCount": 1,
+      "rentCount": 0,
+      "outliersRemoved": 0,
+      "medianSalePrice": 1000000.0,
+      "medianSalePerM2": 1333.3,
+      "medianRent": null,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "الروضة",
+      "governorate": "محافظة العاصمة",
+      "saleCount": 0,
+      "rentCount": 3,
+      "outliersRemoved": 0,
+      "medianSalePrice": null,
+      "medianSalePerM2": null,
+      "medianRent": 900.0,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "الرحاب",
+      "governorate": "محافظة الفروانية",
+      "saleCount": 1,
+      "rentCount": 0,
+      "outliersRemoved": 0,
+      "medianSalePrice": 39000.0,
+      "medianSalePerM2": 86.7,
+      "medianRent": null,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "عبدالله السالم",
+      "governorate": "محافظة العاصمة",
+      "saleCount": 2,
+      "rentCount": 0,
+      "outliersRemoved": 0,
+      "medianSalePrice": 1150000.0,
+      "medianSalePerM2": 1533.3,
+      "medianRent": null,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "الصليبية",
+      "governorate": "محافظة الجهراء",
+      "saleCount": 1,
+      "rentCount": 0,
+      "outliersRemoved": 0,
+      "medianSalePrice": 7000.0,
+      "medianSalePerM2": 175.0,
+      "medianRent": null,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "عمان",
+      "governorate": "محافظة الفروانية",
+      "saleCount": 1,
+      "rentCount": 0,
+      "outliersRemoved": 0,
+      "medianSalePrice": 10000000.0,
+      "medianSalePerM2": null,
+      "medianRent": null,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "الخالدية",
+      "governorate": "محافظة العاصمة",
+      "saleCount": 2,
+      "rentCount": 0,
+      "outliersRemoved": 0,
+      "medianSalePrice": 1265000.0,
+      "medianSalePerM2": 1880.0,
+      "medianRent": null,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "Siddiq",
+      "governorate": "محافظة حولي",
+      "saleCount": 0,
+      "rentCount": 1,
+      "outliersRemoved": 0,
+      "medianSalePrice": null,
+      "medianSalePerM2": null,
+      "medianRent": 1600.0,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "صباح الأحمد السكنية",
+      "governorate": "محافظة الأحمدي",
+      "saleCount": 1,
+      "rentCount": 0,
+      "outliersRemoved": 0,
+      "medianSalePrice": 415000.0,
+      "medianSalePerM2": 691.7,
+      "medianRent": null,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "الأحمدي",
+      "governorate": "محافظة الأحمدي",
+      "saleCount": 0,
+      "rentCount": 1,
+      "outliersRemoved": 0,
+      "medianSalePrice": null,
+      "medianSalePerM2": null,
+      "medianRent": 400.0,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "إشبيلية",
+      "governorate": "محافظة الفروانية",
+      "saleCount": 0,
+      "rentCount": 1,
+      "outliersRemoved": 0,
+      "medianSalePrice": null,
+      "medianSalePerM2": null,
+      "medianRent": 400.0,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "هدية",
+      "governorate": "محافظة الأحمدي",
+      "saleCount": 0,
+      "rentCount": 1,
+      "outliersRemoved": 0,
+      "medianSalePrice": null,
+      "medianSalePerM2": null,
+      "medianRent": 320.0,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "الشامية",
+      "governorate": "محافظة العاصمة",
+      "saleCount": 1,
+      "rentCount": 0,
+      "outliersRemoved": 0,
+      "medianSalePrice": 750000.0,
+      "medianSalePerM2": 1923.1,
+      "medianRent": null,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "جابر الاحمد",
+      "governorate": "محافظة العاصمة",
+      "saleCount": 0,
+      "rentCount": 2,
+      "outliersRemoved": 0,
+      "medianSalePrice": null,
+      "medianSalePerM2": null,
+      "medianRent": 450.0,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "ابو فطيرة",
+      "governorate": "محافظة مبارك الكبير",
+      "saleCount": 1,
+      "rentCount": 1,
+      "outliersRemoved": 0,
+      "medianSalePrice": 550000.0,
+      "medianSalePerM2": null,
+      "medianRent": 1400.0,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "اشبيلية",
+      "governorate": "محافظة الفروانية",
+      "saleCount": 1,
+      "rentCount": 0,
+      "outliersRemoved": 0,
+      "medianSalePrice": 420000.0,
+      "medianSalePerM2": 1050.0,
+      "medianRent": null,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "صباح الاحمد البحرية - الخيران",
+      "governorate": "محافظة الأحمدي",
+      "saleCount": 3,
+      "rentCount": 0,
+      "outliersRemoved": 0,
+      "medianSalePrice": 220000.0,
+      "medianSalePerM2": 473.1,
+      "medianRent": null,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "العيون",
+      "governorate": "محافظة الجهراء",
+      "saleCount": 0,
+      "rentCount": 0,
+      "outliersRemoved": 0,
+      "medianSalePrice": null,
+      "medianSalePerM2": null,
+      "medianRent": null,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "خيطان الجنوبي الجديدة",
+      "governorate": "محافظة الفروانية",
+      "saleCount": 0,
+      "rentCount": 2,
+      "outliersRemoved": 0,
+      "medianSalePrice": null,
+      "medianSalePerM2": null,
+      "medianRent": 450.0,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "الاندلس",
+      "governorate": "محافظة الفروانية",
+      "saleCount": 1,
+      "rentCount": 2,
+      "outliersRemoved": 0,
+      "medianSalePrice": 700000.0,
+      "medianSalePerM2": 1320.8,
+      "medianRent": 375.0,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "الخيران السكنية - الجانب البري",
+      "governorate": "محافظة الأحمدي",
+      "saleCount": 3,
+      "rentCount": 0,
+      "outliersRemoved": 0,
+      "medianSalePrice": 200000.0,
+      "medianSalePerM2": 449.7,
+      "medianRent": null,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "ابو حليفة",
+      "governorate": "محافظة الأحمدي",
+      "saleCount": 1,
+      "rentCount": 0,
+      "outliersRemoved": 0,
+      "medianSalePrice": 58000.0,
+      "medianSalePerM2": null,
+      "medianRent": null,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "الدسمة",
+      "governorate": "محافظة العاصمة",
+      "saleCount": 1,
+      "rentCount": 0,
+      "outliersRemoved": 0,
+      "medianSalePrice": 400000.0,
+      "medianSalePerM2": 1230.8,
+      "medianRent": null,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "علي صباح السالم - ام الهيمان",
+      "governorate": "محافظة الأحمدي",
+      "saleCount": 1,
+      "rentCount": 0,
+      "outliersRemoved": 0,
+      "medianSalePrice": 400000.0,
+      "medianSalePerM2": null,
+      "medianRent": null,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    },
+    {
+      "area": "جليب الشيوخ - الحساوي",
+      "governorate": "محافظة الفروانية",
+      "saleCount": 1,
+      "rentCount": 0,
+      "outliersRemoved": 0,
+      "medianSalePrice": 800000.0,
+      "medianSalePerM2": 1296.6,
+      "medianRent": null,
+      "medianRentPerM2": null,
+      "rentalYield": null,
+      "yieldNote": ""
+    }
+  ],
+  "series": [
+    {
+      "area": "الرابية",
+      "points": [
+        {
+          "month": "2026-04",
+          "perM2": 588.2
+        },
+        {
+          "month": "2026-08",
+          "perM2": 705.3
+        },
+        {
+          "month": "2026-09",
+          "perM2": 293626.7
+        }
+      ]
+    },
+    {
+      "area": "القرين",
+      "points": [
+        {
+          "month": "2026-08",
+          "perM2": 33525.0
+        },
+        {
+          "month": "2026-09",
+          "perM2": 750.0
+        }
+      ]
+    },
+    {
+      "area": "السالمية",
+      "points": [
+        {
+          "month": "2026-05",
+          "perM2": 883.3
+        },
+        {
+          "month": "2026-08",
+          "perM2": 2500.0
+        },
+        {
+          "month": "2026-09",
+          "perM2": 451.7
+        }
+      ]
+    },
+    {
+      "area": "الخالدية",
+      "points": [
+        {
+          "month": "2026-05",
+          "perM2": 2460.0
+        },
+        {
+          "month": "2026-08",
+          "perM2": 1300.0
+        }
+      ]
+    },
+    {
+      "area": "حولي",
+      "points": [
+        {
+          "month": "2026-03",
+          "perM2": 2133.3
+        },
+        {
+          "month": "2026-06",
+          "perM2": 1209.7
+        },
+        {
+          "month": "2026-08",
+          "perM2": 2298.9
+        },
+        {
+          "month": "2026-09",
+          "perM2": 1205.1
+        }
+      ]
+    },
+    {
+      "area": "خيطان",
+      "points": [
+        {
+          "month": "2026-05",
+          "perM2": 583.3
+        },
+        {
+          "month": "2026-08",
+          "perM2": 1171.9
+        },
+        {
+          "month": "2026-09",
+          "perM2": 2175.0
+        }
+      ]
+    },
+    {
+      "area": "الفيحاء",
+      "points": [
+        {
+          "month": "2026-05",
+          "perM2": 1300.0
+        },
+        {
+          "month": "2026-09",
+          "perM2": 2146.0
+        }
+      ]
+    },
+    {
+      "area": "صباح السالم",
+      "points": [
+        {
+          "month": "2026-06",
+          "perM2": 733.3
+        },
+        {
+          "month": "2026-07",
+          "perM2": 900.0
+        },
+        {
+          "month": "2026-08",
+          "perM2": 2105.1
+        },
+        {
+          "month": "2026-09",
+          "perM2": 1166.7
+        }
+      ]
+    },
+    {
+      "area": "الفروانية",
+      "points": [
+        {
+          "month": "2026-05",
+          "perM2": 2085.6
+        },
+        {
+          "month": "2026-08",
+          "perM2": 749.4
+        },
+        {
+          "month": "2026-09",
+          "perM2": 375.0
+        }
+      ]
+    },
+    {
+      "area": "كيفان",
+      "points": [
+        {
+          "month": "2026-08",
+          "perM2": 1560.4
+        },
+        {
+          "month": "2026-09",
+          "perM2": 1381.7
+        }
+      ]
+    },
+    {
+      "area": "السلام",
+      "points": [
+        {
+          "month": "2026-05",
+          "perM2": 994.9
+        },
+        {
+          "month": "2026-06",
+          "perM2": 1440.0
+        },
+        {
+          "month": "2026-09",
+          "perM2": 1475.0
+        }
+      ]
+    },
+    {
+      "area": "المنقف",
+      "points": [
+        {
+          "month": "2026-05",
+          "perM2": 1467.4
+        },
+        {
+          "month": "2026-08",
+          "perM2": 973.7
+        },
+        {
+          "month": "2026-09",
+          "perM2": 841.6
+        }
+      ]
+    }
+  ],
+  "months": [
+    "2026-02",
+    "2026-03",
+    "2026-04",
+    "2026-05",
+    "2026-06",
+    "2026-07",
+    "2026-08",
+    "2026-09"
+  ],
+  "governorates": [
+    {
+      "governorate": "محافظة العاصمة",
+      "medianSalePerM2": 1237.5
+    },
+    {
+      "governorate": "محافظة حولي",
+      "medianSalePerM2": 1169.5
+    },
+    {
+      "governorate": "محافظة الفروانية",
+      "medianSalePerM2": 1021.6
+    },
+    {
+      "governorate": "محافظة مبارك الكبير",
+      "medianSalePerM2": 914.6
+    },
+    {
+      "governorate": "محافظة الجهراء",
+      "medianSalePerM2": 793.8
+    },
+    {
+      "governorate": "محافظة الأحمدي",
+      "medianSalePerM2": 662.5
+    }
+  ],
+  "sources": [
+    {
+      "source": "OpenSooq",
+      "count": 508,
+      "sharePct": 43.0
+    },
+    {
+      "source": "الفريج",
+      "count": 182,
+      "sharePct": 15.4
+    },
+    {
+      "source": "4Sale",
+      "count": 149,
+      "sharePct": 12.6
+    },
+    {
+      "source": "Mourjan",
+      "count": 75,
+      "sharePct": 6.3
+    },
+    {
+      "source": "بوعقار / بوشملان (Bu3qar)",
+      "count": 73,
+      "sharePct": 6.2
+    },
+    {
+      "source": "FindQ8",
+      "count": 11,
+      "sharePct": 0.9
+    },
+    {
+      "source": "الحسبة - الصفقات المسجلة العامة",
+      "count": 10,
+      "sharePct": 0.8
+    },
+    {
+      "source": "Yebtah",
+      "count": 7,
+      "sharePct": 0.6
+    }
+  ],
+  "market": {
+    "direction": "هابط",
+    "changePct": -8.2,
+    "series": [
+      {
+        "month": "2025-12",
+        "perM2": 916.7
+      },
+      {
+        "month": "2026-01",
+        "perM2": 1535.7
+      },
+      {
+        "month": "2026-02",
+        "perM2": 687.5
+      },
+      {
+        "month": "2026-03",
+        "perM2": 666.7
+      },
+      {
+        "month": "2026-04",
+        "perM2": 727.5
+      },
+      {
+        "month": "2026-05",
+        "perM2": 962.5
+      },
+      {
+        "month": "2026-06",
+        "perM2": 905.6
+      },
+      {
+        "month": "2026-07",
+        "perM2": 887.5
+      },
+      {
+        "month": "2026-08",
+        "perM2": 1013.3
+      },
+      {
+        "month": "2026-09",
+        "perM2": 841.6
+      }
+    ]
+  },
+  "sampleTotals": {
+    "sale": 618,
+    "rent": 433,
+    "buyRequests": 116,
+    "rentRequests": 15
+  },
+  "staticSnapshot": true
+}

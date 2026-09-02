@@ -1,0 +1,31 @@
+{
+  "staticSnapshot": true,
+  "status": "static",
+  "records": 182,
+  "recordsMeaning": "Static GitHub Pages snapshot generated from the backend data pipeline.",
+  "totalRecords": 1182,
+  "localRecords": 182,
+  "externalRecords": 1000,
+  "bySource": [
+    {
+      "source": "4Sale",
+      "count": 729
+    },
+    {
+      "source": "Mourjan",
+      "count": 251
+    },
+    {
+      "source": "FindQ8",
+      "count": 20
+    }
+  ],
+  "supabase": false,
+  "aiAnalysis": false,
+  "dataSummary": {
+    "listings": 182,
+    "opportunities": 431,
+    "sources": 26,
+    "externalHarvested": 1000
+  }
+}

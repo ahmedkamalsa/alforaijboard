@@ -1,0 +1,1072 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="منصة الفريج للبحث والتقييم العقاري وفرص المكسب المبنية على الأدلة والمصادر.">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/alforaij-official-symbol.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="assets/alforaij-official-symbol.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+  <meta name="theme-color" content="#0F172A">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="الفريج">
+  <link rel="manifest" href="manifest.json">
+  <title>منصة الفريج للفرص والتقييم العقاري</title>
+  <link rel="stylesheet" href="styles.css?v=20260819-v2">
+  <script src="config.js?v=20260819-trends"></script>
+  <script src="components/lucide-icons.js?v=20260819-modern"></script>
+  <link rel="stylesheet" href="components/hover-card-v2.css?v=20260819-modern">
+  <link rel="stylesheet" href="components/install-prompt.css?v=20260819-modern">
+  <!-- Leaflet + Chart.js loaded lazily on first search to improve FCP by ~3s -->
+</head>
+<body>
+  <header class="topbar">
+    <div class="hero-content">
+      <div class="hero-title">
+        <h1>🏠 الفريج العقاري</h1>
+        <p class="hero-copy">بحث وتقييم وفرص عقارية مبنية على الأدلة — من بيانات الفريج والمصادر الخارجية</p>
+        <div class="hero-actions">
+          <div class="bell-wrap">
+            <button class="hero-link bell-toggle" id="bellToggle" type="button" aria-label="تنبيهاتي" title="تنبيهاتي">🔔 <span id="bellCount" class="bell-count" hidden>0</span></button>
+            <div id="bellDropdown" class="bell-dropdown" hidden></div>
+          </div>
+          <button class="hero-link theme-toggle" id="themeToggle" type="button" aria-label="تبديل الوضع"><svg class="hero-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg> الوضع الفاتح</button>
+          <div class="status" id="healthStatus">جاري فحص البيانات...</div>
+        </div>
+      </div>
+      <div class="logo-showcase">
+        <img class="brand-logo" src="assets/alforaij_logo.png" alt="الفريج العقاري">
+      </div>
+    </div>
+  </header>
+
+  <div class="geo-divider" aria-hidden="true"></div>
+
+  <main class="workspace">
+    <div class="main-tabs-shell">
+    <nav class="main-tabs" id="mainTabs" aria-label="الأقسام الرئيسية">
+      <button class="main-tab active" data-main-tab="search" type="button"><svg class="tab-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg> بحث <b class="main-tab-count" id="tabCountSearch"></b></button>
+      <button class="main-tab" data-main-tab="opportunities" type="button"><svg class="tab-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12l4 6-10 13L2 9Z"/><path d="M11 3 8 9l4 13 4-13-3-6"/><path d="M2 9h20"/></svg> فرص <b class="main-tab-count" id="tabCountOpp"></b></button>
+      <button class="main-tab" data-main-tab="board" type="button"><svg class="tab-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg> السوق <b class="main-tab-count" id="tabCountBoard"></b></button>
+      <button class="main-tab" data-main-tab="insights" type="button"><svg class="tab-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m16 8-4 4-4-4-4 4"/></svg> مؤشرات</button>
+      <button class="main-tab" data-main-tab="developments" type="button"><svg class="tab-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg> تحديثات <b class="main-tab-count" id="tabCountDevelopments"></b></button>
+      <button class="main-tab" data-main-tab="analytics" type="button"><svg class="tab-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m16 8-4 4-4-4-4 4"/></svg> تحليلات</button>
+      <button class="main-tab" data-main-tab="account" type="button"><svg class="tab-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg> حساب</button>
+    </nav>
+    <details class="main-more">
+      <summary aria-label="روابط إضافية">•••</summary>
+      <div class="main-more-menu">
+        <button data-more-tab="why-free" type="button">مجاني وأدق</button>
+        <button data-more-tab="metrics" type="button">المقاييس <b class="main-tab-count" id="tabCountMetrics"></b></button>
+        <a href="activity.html">التصنيفات</a>
+      </div>
+    </details>
+    </div>
+
+    <section class="action-toolbar" data-main-panel="search">
+      <div>
+        <strong>بحث</strong>
+        <span>اكتب الطلب. النتيجة والمصدر في نفس الصفحة.</span>
+      </div>
+      <div class="action-buttons">
+        <button id="toggleCustomSearchBtn" type="button">خيارات</button>
+        <button id="clearChatBtn" type="button">مسح</button>
+        <button id="downloadReportBtn" type="button">JSON</button>
+        <button id="downloadPdfBtn" class="primary" type="button">PDF</button>
+        <button id="downloadExcelBtn" class="primary" type="button" style="background:#1a7f37">Excel</button>
+      </div>
+    </section>
+
+    <section class="board-panel" data-main-panel="board">
+      <div class="board-header">
+        <div class="board-header-title">
+          <h2>📊 لوحة السوق</h2>
+          <span id="boardFilterSummary" class="board-summary-badge">كل السجلات</span>
+        </div>
+      </div>
+
+      <div class="board-quick-filters">
+        <div class="board-filter-row">
+          <div class="board-filter-group">
+            <label class="board-filter-label">المحور</label>
+            <select id="boardMetricFilter" class="board-select">
+              <option value="movement">حركة الدلال</option>
+              <option value="opportunities">فرص محسوبة</option>
+              <option value="saleOffers">عروض للبيع</option>
+              <option value="buyRequests">طلبات شراء</option>
+              <option value="rentOffers">عروض الإيجار</option>
+              <option value="rentRequests">طلبات الإيجار</option>
+            </select>
+          </div>
+          <div class="board-filter-group">
+            <label class="board-filter-label">المحافظة</label>
+            <input id="boardGovernorateFilter" class="board-input" placeholder="الكل" autocomplete="off">
+            <datalist id="boardGovernorates"></datalist>
+          </div>
+          <div class="board-filter-group">
+            <label class="board-filter-label">المنطقة</label>
+            <input id="boardAreaFilter" class="board-input" placeholder="الكل" autocomplete="off">
+            <datalist id="boardAreas"></datalist>
+          </div>
+          <div class="board-filter-group">
+            <label class="board-filter-label">نوع العقار</label>
+            <input id="boardPropertyTypeFilter" class="board-input" placeholder="الكل" autocomplete="off">
+            <datalist id="boardPropertyTypes"></datalist>
+          </div>
+          <button id="boardRunSearchBtn" class="board-apply-btn" type="button">🔍 تطبيق</button>
+          <button id="boardClearFiltersBtn" class="board-clear-btn" type="button">مسح</button>
+        </div>
+      </div>
+
+      <div id="boardMetricCards" class="board-metrics"></div>
+
+      <div id="boardMatchingLink"></div>
+
+      <div class="board-layout">
+        <section class="board-overview">
+          <div class="board-overview-header">
+            <h3>📈 ملخص السوق</h3>
+          </div>
+          <div id="boardStats" class="board-stats"></div>
+        </section>
+        <section class="governorate-section" aria-label="الأرقام حسب المحافظات">
+          <div class="gov-section-header">
+            <div class="gov-section-title">
+              <h2><span class="gov-icon">📊</span> الأرقام حسب المحافظات</h2>
+              <span class="gov-subtitle">اضغط المحافظة لفتح مناطقها، أو اضغط أي رقم لعرض الإعلانات الفعلية</span>
+            </div>
+            <div class="gov-section-actions">
+              <div class="gov-view-switch" role="group" aria-label="طريقة عرض الأرقام">
+                <button type="button" class="gov-view-btn active" data-gov-view="grid">شبكة</button>
+                <button type="button" class="gov-view-btn" data-gov-view="table">جدول</button>
+              </div>
+              <span id="govAxisPill" class="gov-axis-pill">المحور: حركة الدلال</span>
+              <button id="govExportCsvBtn" class="gov-action-btn" type="button" title="تصدير CSV" hidden>⬇ CSV</button>
+              <button id="govCopyBtn" class="gov-action-btn" type="button" title="نسخ" hidden>📋 نسخ</button>
+              <button id="govClearSelectionsBtn" class="gov-action-btn" type="button">مسح الاختيارات</button>
+            </div>
+          </div>
+          <div id="govSummaryBar" class="gov-summary-bar"></div>
+          <div class="gov-section-content">
+            <div id="governorateCards" class="gov-grid-view">
+              <div class="gov-loading">
+                <div class="gov-loading-spinner"></div>
+                <span>جاري تحميل بيانات المحافظات...</span>
+              </div>
+            </div>
+            <div id="govLinkedAds" class="gov-linked-ads" hidden>
+              <div class="gov-linked-ads-header">
+                <h3>📌 الإعلانات المرتبطة بالاختيار</h3>
+                <span id="govLinkedAdsCount" class="gov-linked-ads-count">0 إعلان</span>
+              </div>
+              <div id="govLinkedAdsGrid" class="gov-linked-ads-grid"></div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section class="insights-panel" data-main-panel="insights">
+      <div class="section-title">
+        <div>
+          <h2>تحليلات السوق</h2>
+          <span>عائد الإيجار واتجاه سعر المتر لكل منطقة من بيانات الحصاد المتراكمة — رؤية المستثمر المحلي.</span>
+        </div>
+        <span id="insightsMeta" class="filter-summary"></span>
+      </div>
+
+      <div class="market-chat">
+        <div class="section-title compact-title market-chat-title">
+          <div>
+            <h3>اسأل السوق — إجابة فورية</h3>
+            <span>سؤال سريع عن الحصاد المتراكم (سعر المتر، الإيجار، العائد، الطلب) من تحليلات السوق نفسها — بدون تشغيل بحث كامل.</span>
+          </div>
+        </div>
+        <div class="market-chat-row">
+          <input id="marketChatInput" type="text" placeholder="مثال: متوسط سعر المتر في الجهراء · أعلى منطقة عائد · كم طلب شراء في الأحمدي" autocomplete="off">
+          <button id="marketChatSend" class="primary" type="button">اسأل</button>
+        </div>
+        <div class="market-chat-chips" id="marketChatChips" aria-label="أسئلة جاهزة"></div>
+        <div id="marketChatLog" class="market-chat-log" aria-live="polite"></div>
+      </div>
+
+      <div class="section-title compact-title heatmap-title">
+        <div>
+          <h3>خريطة حرارية للمناطق</h3>
+          <span class="heatmap-legend" id="insightsHeatmapLegend">
+            <i class="legend-swatch legend-cheap"></i>أرخص من وسيط المحافظة (فرصة)
+            <i class="legend-swatch legend-neutral"></i>قريب من الوسيط
+            <i class="legend-swatch legend-expensive"></i>أعلى من الوسيط (مضخم)
+          </span>
+        </div>
+        <div class="heatmap-actions">
+          <div class="heatmap-view-switch" role="group" aria-label="طريقة عرض المناطق">
+            <button type="button" class="view-btn active" data-heat-view="grid">شبكة المناطق</button>
+            <button type="button" class="view-btn" data-heat-view="map">🗺 خريطة تفاعلية</button>
+          </div>
+          <div class="heatmap-mode-switch" role="group" aria-label="أساس تلوين الخريطة">
+            <button type="button" class="mode-btn" data-heat-mode="gap">فجوة السعر</button>
+            <button type="button" class="mode-btn" data-heat-mode="yield">عائد الإيجار</button>
+          </div>
+        </div>
+      </div>
+      <div id="insightsHeatmap" class="board-heatmap">
+        <div class="empty">جاري تحميل الخريطة الحرارية...</div>
+      </div>
+      <div id="insightsLeafletMap" class="insights-leaflet-map" hidden></div>
+      <div id="mapListingFilters" class="map-listing-filters" hidden>
+        <div class="map-filter-head">
+          <span class="map-filter-title">📌 نقاط الإعلانات — دوائر صغيرة بدرجة الفرصة</span>
+          <span id="mapListingCount" class="map-filter-count"></span>
+          <button type="button" class="map-filter-clear" id="mapFilterClearBtn" data-map-filter-clear hidden>✕ مسح الفلاتر</button>
+        </div>
+        <div class="map-filter-groups" id="mapFilterGroups"></div>
+        <div class="map-filter-legend">
+          <i class="legend-swatch" style="background:hsl(120 68% 40% / .85)"></i>فرصة قوية
+          <i class="legend-swatch" style="background:hsl(60 68% 40% / .85)"></i>متوسطة
+          <i class="legend-swatch" style="background:hsl(0 68% 40% / .85)"></i>منخفضة
+          <i class="legend-swatch" style="background:hsl(220 15% 50% / .62)"></i>غير مقيّم
+        </div>
+      </div>
+      <div id="watchedAreasInsights" class="watched-areas"></div>
+      <div id="insightsRoot" class="insights-root">
+        <div class="empty">جاري تحميل تحليلات السوق...</div>
+      </div>
+    </section>
+
+    <section id="customSearchPanel" class="request-panel chat-panel custom-search-panel" data-main-panel="search">
+      <div class="section-title">
+        <h2>بحث وتقييم الفرص</h2>
+        <span>اكتب وصف الطلب، اختر نطاق المصدر، ثم راجع النتائج والأدلة من نفس المكان</span>
+      </div>
+
+      <div id="chatWindow" class="chat-window" aria-live="polite"></div>
+
+      <div class="chat-controls">
+        <input id="chatInput" type="text" placeholder="اكتب سؤالك أو الوصف هنا... مثال: بيت 400م في ابو فطيرة، تشطيب سوبر ديلوكس" autocomplete="off">
+        <button id="sendChatBtn" class="primary" type="button" onclick="sendChat()">إرسال</button>
+      </div>
+
+      <div class="chat-options">
+        <label>نطاق المصدر
+          <select id="sourceModeField">
+            <option value="local">الفريج فقط</option>
+            <option value="all" selected>كل المصادر المتاحة</option>
+            <option value="source">منصة/مصدر محدد فقط</option>
+          </select>
+        </label>
+        <label>المنصة المحددة
+          <select id="selectedSourceField">
+            <option value="OpenSooq">OpenSooq</option>
+            <option value="Mourjan">Mourjan</option>
+            <option value="Q8Aqar">Q8Aqar</option>
+            <option value="الحسبة">الحسبة - صفقات عامة</option>
+            <option value="Sakan">Sakan</option>
+            <option value="Waseet">Waseet</option>
+            <option value="NabdAqar">NabdAqar</option>
+            <option value="Bu3qar">Bu3qar / بوشملان</option>
+            <option value="Aqarat">Aqarat</option>
+            <option value="4Sale">4Sale</option>
+            <option value="السوق المباشر">السوق المباشر</option>
+            <option value="مؤشرات رسمية">مؤشرات رسمية</option>
+            <option value="الصفقات الرسمية">الصفقات الرسمية</option>
+          </select>
+        </label>
+        <label class="compact"><input id="includeExternal" type="checkbox" checked> تفعيل مصادر خارجية</label>
+      </div>
+
+      <details class="deal-simulator" id="dealSimulator">
+        <summary><svg class="hero-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8"/><path d="M16 14v4"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg> محاكي صفقة الاستثمار</summary>
+        <div class="sim-fields">
+          <label>سعر الشراء (د.ك)
+            <input id="simBuyPrice" type="number" min="0" step="1000" inputmode="decimal" placeholder="مثال: 280000" autocomplete="off">
+          </label>
+          <label>تكلفة الترميم (د.ك)
+            <input id="simRenovCost" type="number" min="0" step="500" inputmode="decimal" placeholder="مثال: 15000" autocomplete="off">
+          </label>
+          <label>الإيجار المتوقع شهريًا (د.ك)
+            <input id="simRent" type="number" min="0" step="50" inputmode="decimal" placeholder="مثال: 800" autocomplete="off">
+          </label>
+          <button id="simPrefill" type="button" class="sim-prefill" title="تعبئة سعر الشراء من أفضل نتيجة بيع في التقرير الحالي والإيجار المتوقع من وسيط إيجارات منطقتها إن وُجد">تعبئة من أفضل نتيجة</button>
+        </div>
+        <div class="sim-results">
+          <div class="sim-result"><span>العائد السنوي</span><strong id="simYield">—</strong></div>
+          <div class="sim-result"><span>فترة الاسترداد</span><strong id="simPayback">—</strong></div>
+          <div class="sim-result"><span>رأس المال الكلي</span><strong id="simCapital">—</strong></div>
+          <div class="sim-result"><span>الدخل السنوي</span><strong id="simIncome">—</strong></div>
+        </div>
+        <p class="sim-note" id="simNote">أدخل سعر الشراء وتكلفة الترميم والإيجار المتوقع شهريًا — يُحسب العائد السنوي وفترة الاسترداد فورًا.</p>
+      </details>
+
+      <details class="mortgage-calc" id="mortgageCalc">
+        <summary><svg class="hero-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 17l10-10 4 4 6-6"/><path d="M14 5h8v8"/></svg> حاسبة الرهن العقاري — مقارنة البنوك</summary>
+        <div class="mortgage-fields">
+          <label>قيمة العقار (د.ك)
+            <input id="mortgagePrice" type="number" min="0" step="1000" inputmode="decimal" placeholder="مثال: 250000" autocomplete="off">
+          </label>
+          <label>الدفعة المقدمة (%)
+            <input id="mortgageDownPct" type="number" min="0" max="80" step="5" value="30" inputmode="decimal" autocomplete="off">
+          </label>
+          <label>المدة (سنوات)
+            <input id="mortgageYears" type="number" min="1" max="25" step="1" value="20" inputmode="decimal" autocomplete="off">
+          </label>
+          <label>الراتب الشهري (د.ك) — اختياري
+            <input id="mortgageSalary" type="number" min="0" step="100" inputmode="decimal" placeholder="لحساب نسبة القسط من الراتب" autocomplete="off">
+          </label>
+          <button id="mortgageCalcBtn" type="button" class="primary">قارن البنوك</button>
+        </div>
+        <div class="mortgage-results" id="mortgageResults" hidden>
+          <div class="mortgage-summary" id="mortgageSummary"></div>
+          <div class="mortgage-banks" id="mortgageBanks"></div>
+        </div>
+        <p class="sim-note">قارن أقساط وأسعار فائدة KFH، KBK، CBK، وبوبيان — يُنصح بزيادة الدفعة المقدمة إذا تجاوز القسط 40% من الراتب.</p>
+      </details>
+
+      <details class="insurance-calc" id="insuranceCalc">
+        <summary><svg class="hero-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> حاسبة التأمين العقاري</summary>
+        <div class="insurance-fields">
+          <label>قيمة العقار (د.ك)
+            <input id="insurancePrice" type="number" min="0" step="1000" inputmode="decimal" placeholder="مثال: 300000" autocomplete="off">
+          </label>
+          <label>قيمة المحتويات (د.ك) — اختياري
+            <input id="insuranceContents" type="number" min="0" step="1000" inputmode="decimal" placeholder="مثال: 50000" autocomplete="off">
+          </label>
+          <label>عمر البناء (سنوات)
+            <input id="insuranceAge" type="number" min="0" max="100" step="1" value="5" inputmode="decimal" autocomplete="off">
+          </label>
+          <label>المدة (سنوات)
+            <input id="insuranceYears" type="number" min="1" max="10" step="1" value="1" inputmode="decimal" autocomplete="off">
+          </label>
+          <button id="insuranceCalcBtn" type="button" class="primary">قارن خيارات التأمين</button>
+        </div>
+        <div class="insurance-results" id="insuranceResults" hidden>
+          <div class="insurance-summary" id="insuranceSummary"></div>
+          <div class="insurance-options" id="insuranceOptions"></div>
+        </div>
+        <p class="sim-note">قارن تكلفة تأمين الممتلكات والمحتويات والمسؤولية المدنية — الخصومات متاحة للعقار الجديد ونظام الأمان.</p>
+      </details>
+
+      <details class="advanced-fields">
+        <summary>خيارات متقدمة</summary>
+        <div class="fields">
+          <label>نوع العملية<input id="transactionField" type="text" list="advTransactions" placeholder="اكتب أو اختر: للبيع / للإيجار…" autocomplete="off"></label>
+          <label>نوع العقار<input id="typeField" type="text" list="advTypes" placeholder="اكتب أو اختر: بيت / شقة / أرض…" autocomplete="off"></label>
+          <div class="wide"><label for="areasField">المناطق</label><span id="areasChips" class="chips-wrap"></span><input id="areasField" type="text" list="advAreas" placeholder="اكتب أو اختر منطقة ثم Enter أو فاصلة لإضافتها — يمكنك اختيار عدة مناطق…" autocomplete="off"></div>
+          <datalist id="advTransactions"></datalist>
+          <datalist id="advTypes"></datalist>
+          <datalist id="advAreas"></datalist>
+          <label>أقل مساحة<input id="minAreaField" type="number" min="0"></label>
+          <label>أعلى مساحة<input id="maxAreaField" type="number" min="0"></label>
+          <label>ميزانية البيع<input id="budgetField" type="number" min="0"></label>
+          <label>ميزانية الإيجار<input id="rentBudgetField" type="number" min="0"></label>
+          <label>عدد الغرف<input id="bedroomsField" type="number" min="0"></label>
+        </div>
+      </details>
+    </section>
+
+    <div class="geo-divider" aria-hidden="true"></div>
+
+    <section class="results-panel" data-main-panel="search">
+        <div class="section-title">
+          <h2>النتائج</h2>
+          <span>الأعلى توصية أولًا</span>
+        </div>
+        <div class="results-toolbar">
+          <button id="simpleModeToggle" class="save-search-btn" type="button" onclick="toggleSimpleMode()" title="تبديل بين البطاقات المبسطة والتحليل المفصل">مبسط</button>
+          <button id="saveSearchBtn" class="save-search-btn" type="button" onclick="handleSaveSearch()">نبّهني</button>
+          <button id="savedSearchesToggle" class="saved-toggle-btn" type="button" onclick="toggleSavedSearches()">محفوظ</button>
+          <button id="accountBtn" class="saved-toggle-btn" type="button" onclick="openAccountModal()">حساب</button>
+          <span id="saveSearchMsg" class="save-search-msg" hidden></span>
+        </div>
+        <div id="resultsFilterChips" class="results-filter-chips" hidden aria-label="فلاتر سريعة بالنقر"></div>
+        <div id="savedSearchesBox" class="saved-searches-box" hidden></div>
+        <div id="smartAlertsBox" class="smart-alerts-box">
+          <div class="smart-alerts-header">
+            <h3>🔔 تنبيهات ذكية</h3>
+            <button id="smartAlertsRefreshBtn" type="button" class="save-search-btn" onclick="refreshSmartAlerts()">تحديث</button>
+          </div>
+          <div id="smartAlertsList" class="smart-alerts-list">
+            <p class="smart-alerts-empty">سجّل دخولك لتفعيل التنبيهات الذكية</p>
+          </div>
+          <div id="smartAlertSubscribe" class="smart-alert-subscribe" hidden>
+            <span id="smartAlertSubscribeArea"></span>
+            <button id="smartAlertSubscribeBtn" type="button" class="save-search-btn" onclick="subscribeSmartAlert()">اشترك في تنبيهات هذه المنطقة</button>
+          </div>
+        </div>
+        <div id="resultsSources" class="results-sources" hidden></div>
+        <div id="agentTraceBox" class="agent-trace-box" hidden></div>
+        <div id="demandIndicatorBox" class="results-demand" hidden></div>
+        <div id="areaPriceCompare" class="area-price-compare" hidden>
+          <h3>📊 مقارنة أسعار المناطق</h3>
+          <div id="areaPriceChart"></div>
+        </div>
+        <div id="priceTrendsBox" class="price-trends-box" hidden>
+          <h3>📈 اتجاهات الأسعار</h3>
+          <div id="priceTrendsChartWrap"><canvas id="priceTrendsChart"></canvas></div>
+        </div>
+        <div id="roiCalculatorBox" class="roi-calculator-box" hidden>
+          <h3>💰 حاسبة العائد الاستثماري</h3>
+          <div class="roi-form">
+            <label>سعر الشراء (د.ك)
+              <input id="roiBuyPrice" type="number" placeholder="200000">
+            </label>
+            <label>الإيجار الشهري (د.ك)
+              <input id="roiMonthlyRent" type="number" placeholder="800">
+            </label>
+            <label>تكاليف الترميم (د.ك)
+              <input id="roiRenovation" type="number" placeholder="10000" value="0">
+            </label>
+            <button type="button" onclick="calculateROI()">احسب العائد</button>
+          </div>
+          <div id="roiResult" class="roi-result" hidden></div>
+        </div>
+        <div class="map-toggle-row">
+          <button id="mapToggleBtn" class="save-search-btn" type="button" onclick="toggleMapView()" hidden>🗺️ الخريطة</button>
+        </div>
+        <div id="mapContainer" class="map-container" hidden>
+          <div id="propertyMap" class="property-map"></div>
+        </div>
+        <div id="results" class="results" role="region" aria-label="نتائج البحث" aria-live="polite" aria-atomic="false"></div>
+      </section>
+
+    <section class="main-panel" data-main-panel="search">
+      <section class="summary-strip">
+        <div>
+          <span class="metric-label">النتائج</span>
+          <strong id="resultCount">0</strong>
+        </div>
+        <div>
+          <span class="metric-label">أفضل توصية</span>
+          <strong id="topScore">-</strong>
+        </div>
+        <div>
+          <span class="metric-label">مصدر متصل</span>
+          <strong id="connectedSources">-</strong>
+        </div>
+        <div>
+          <span class="metric-label">قاعدة البيانات</span>
+          <strong id="persistenceStatus">-</strong>
+        </div>
+      </section>
+
+      <section class="insight-panel">
+        <div>
+          <h2>الخلاصة <span id="analysisBadge" class="analysis-badge"></span></h2>
+          <div id="searchScopeNote" class="scope-note" hidden></div>
+          <p id="summaryText">لم يتم تشغيل تحليل بعد.</p>
+          <details id="fullSummaryBox" class="collapsible" hidden>
+            <summary>التقرير الكامل</summary>
+            <div id="fullSummaryText"></div>
+          </details>
+        </div>
+        <details class="collapsible">
+          <summary>طريقة الترتيب والحساب</summary>
+          <div class="method-box">
+            <h3>طريقة الترتيب</h3>
+            <p id="rankingMethod">بعد تشغيل البحث ستظهر طريقة حساب درجة التوصية.</p>
+          </div>
+        </details>
+        <details class="collapsible">
+          <summary>الفرق بين الإيجار والبيع والشراء (تأكيد الحسابات)</summary>
+          <div id="transactionSummary" class="method-box">
+            <p>بعد تشغيل البحث سيظهر تأكيد الفرق في حسابات كل نوع معاملة.</p>
+          </div>
+        </details>
+      </section>
+
+      <section class="profit-panel">
+        <div class="section-title">
+          <h2>فرص المكسب</h2>
+          <span id="profitMeta">تظهر بعد البحث</span>
+        </div>
+        <p id="profitNote" class="scope-note"></p>
+        <div id="profitList" class="profit-list"></div>
+      </section>
+
+      <section class="similar-external-panel">
+        <div class="section-title">
+          <h2>إعلانات مشابهة من المواقع الأخرى</h2>
+          <span id="similarExternalMeta">تظهر بعد تشغيل البحث</span>
+        </div>
+        <p id="similarExternalNote" class="scope-note"></p>
+        <div id="similarExternalList" class="similar-external-list"></div>
+      </section>
+    </section>
+
+    <section class="opportunities-panel" data-main-panel="opportunities">
+        <div class="section-title opp-head">
+          <div>
+            <h2>أفضل الفرص والتوقعات</h2>
+            <span>يومية / أسبوعية / شهرية / سنوية + توقعات الأسعار، بربط مباشر بالعملاء المحتملين</span>
+          </div>
+          <div class="opp-head-actions">
+            <div class="gov-view-switch" id="oppViewSwitch" role="group" aria-label="طريقة عرض الفرص">
+              <button type="button" class="gov-view-btn active" data-opp-view="grid">شبكة</button>
+              <button type="button" class="gov-view-btn" data-opp-view="table">جدول مضغوط</button>
+            </div>
+            <button id="oppExportCsvBtn" class="board-mini-btn" type="button" title="تصدير الفرص الحالية إلى CSV بترميز UTF-8 يعمل مع Excel" hidden>⬇ تصدير CSV</button>
+            <button id="oppCopyBtn" class="board-mini-btn" type="button" title="نسخ الفرص الحالية إلى الحافظة بصيغة TSV — الصق مباشرة في Excel" hidden>📋 نسخ</button>
+            <span class="opp-schedule-note">الصفحة الرئيسية = أفضل الفرص اليومية · تتحدث يوميًا في 6:00 صباحًا</span>
+            <span id="oppUpdated" class="opp-updated"></span>
+            <button id="oppRefreshBtn" class="primary">تحديث الفرص</button>
+          </div>
+        </div>
+
+        <div class="opp-tabs" id="oppTabs" role="tablist">
+          <button class="opp-tab active" data-tier="best" role="tab">الأفضل</button>
+          <button class="opp-tab" data-tier="daily" role="tab">يومية</button>
+          <button class="opp-tab" data-tier="weekly" role="tab">أسبوعية</button>
+          <button class="opp-tab" data-tier="monthly" role="tab">شهرية</button>
+          <button class="opp-tab" data-tier="yearly" role="tab">سنوية</button>
+          <button class="opp-tab" data-tier="forecast" role="tab">التوقعات</button>
+          <button class="opp-tab" data-tier="clients" role="tab">العملاء</button>
+          <button class="opp-tab" data-tier="alerts" role="tab">تنبيهات واتساب</button>
+          <button class="opp-tab" data-tier="digest" role="tab">الموجز الأسبوعي</button>
+          <button class="opp-tab" data-tier="history" role="tab">الأداء الزمني</button>
+          <button class="opp-tab" data-tier="matching" role="tab">العرض والطلب</button>
+          <button class="opp-tab" data-tier="delta" role="tab">الجديد والمحذوف</button>
+        </div>
+
+        <details class="collapsible opp-filters">
+          <summary>الفلاتر (المصدر / نوع الإعلان / المحافظة / المنطقة / نوع العقار / السعر)</summary>
+          <div id="oppSourceFilterRow" class="opp-source-filter" role="group" aria-label="فلتر مصدر الفرص">
+            <button class="opp-source-chip active" data-source="" type="button">الكل <b id="oppCountAll">0</b></button>
+            <button class="opp-source-chip" data-source="external" type="button">مواقع خارجية <b id="oppCountExternal">0</b></button>
+            <button class="opp-source-chip" data-source="local" type="button">الفريج فقط <b id="oppCountLocal">0</b></button>
+          </div>
+          <div id="oppKindFilterRow" class="opp-source-filter opp-kind-filter" role="group" aria-label="فلتر نوع الإعلان (مباشر/مكتب)">
+            <button class="opp-source-chip active" data-kind="" type="button">كل الأنواع</button>
+            <button class="opp-source-chip" data-kind="مباشر" type="button">مباشر <b id="oppCountDirect">0</b></button>
+            <button class="opp-source-chip" data-kind="مكتب" type="button">مكتب <b id="oppCountOffice">0</b></button>
+          </div>
+          <div class="fields opp-filter-fields">
+            <label>المحافظة
+              <select id="oppGovFilter"><option value="">الكل</option></select>
+            </label>
+            <label>المنطقة
+              <select id="oppAreaFilter"><option value="">الكل</option></select>
+            </label>
+            <label>نوع العقار
+              <select id="oppTypeFilter"><option value="">الكل</option></select>
+            </label>
+            <label>نوع العملية
+              <select id="oppTransactionFilter">
+                <option value="">الكل</option>
+                <option value="بيع">بيع / شراء</option>
+                <option value="إيجار">إيجار</option>
+              </select>
+            </label>
+            <label>أقل سعر (د.ك)
+              <input id="oppMinPrice" type="number" min="0" placeholder="0">
+            </label>
+            <label>أعلى سعر (د.ك)
+              <input id="oppMaxPrice" type="number" min="0" placeholder="—">
+            </label>
+            <label>الحد الأدنى لدرجة الفرصة
+              <input id="oppMinScore" type="number" min="0" max="100" placeholder="0">
+            </label>
+          </div>
+        </details>
+
+        <p id="oppOfficialNote" class="official-note" hidden></p>
+        <p id="oppConfidenceMethod" class="scope-note" hidden></p>
+        <div id="oppSourcesBar" class="results-sources" hidden></div>
+        <div id="oppList" class="results"></div>
+      </section>
+
+      <section class="developments-panel" data-main-panel="developments">
+        <div class="section-title">
+          <div>
+            <h2>تطورات السوق العقاري الكويتي</h2>
+            <span>أحدث الأخبار والمؤشرات العقارية — يجمعها وكيل الاكتشاف يوميًا من مصادر متخصصة</span>
+          </div>
+          <span id="developmentsMeta" class="filter-summary"></span>
+        </div>
+        <div id="developmentsAgentState" class="source-summary-bar"></div>
+        <div id="developmentsRoot" class="developments-grid">
+          <div class="empty">جاري تحميل تطورات السوق...</div>
+        </div>
+        <details class="collapsible">
+          <summary>حالة مصادر الاكتشاف اليومي</summary>
+          <div id="developmentsSources" class="source-grid muted-grid"></div>
+        </details>
+      </section>
+
+      <!-- ── لوحة التحليلات ── -->
+      <section class="analytics-panel" data-main-panel="analytics">
+        <div class="section-title">
+          <div>
+            <h2>📊 لوحة التحليلات</h2>
+            <span>أنماط البحث والمناطق الشائعة واتجاهات الأسعار</span>
+          </div>
+          <button onclick="window._refreshAnalytics && window._refreshAnalytics()" class="btn-sm">🔄 تحديث</button>
+        </div>
+        <div id="analyticsDashboard" class="analytics-grid">
+          <p class="muted">جاري تحميل البيانات…</p>
+        </div>
+      </section>
+
+      <section class="whyfree-panel" data-main-panel="why-free">
+        <div class="section-title">
+          <div>
+            <h2>لماذا مجاني وأدق؟</h2>
+            <span>مقارنة شفافة بما تدفعه في المنصات الأخرى — وكل رقم في هذه الصفحة يحمل مصدره</span>
+          </div>
+        </div>
+
+        <div class="whyfree-hero">
+          <h3>الترتيب بالمصلحة، لا بالدفع</h3>
+          <p>المنصات الكبرى تبيع <b>الظهور</b>: إعلانك يتصدّر إذا دفعت (تثبيت — تمييز — رفع). نحن نبيع <b>القرار الموثق</b>: كل تقييم مبني على وسيط إعلانات فعلية في نفس المنطقة والنوع، وكل رقم يعرض عدد أدلته ومصادره. لذلك الترتيب عندنا «أفضل صفقة أولًا» — مجانًا ودون دفع.</p>
+        </div>
+
+        <div class="whyfree-compare" role="table" aria-label="مقارنة الميزات والأسعار بين المنافسين والمنصة">
+          <div class="whyfree-row whyfree-head" role="row">
+            <div><h4>الميزة</h4></div>
+            <div><h4>عند المنافسين (بالدفع)</h4></div>
+            <div><h4>عندنا — مجاني وأدق</h4></div>
+            <div><h4>المصدر</h4></div>
+          </div>
+
+          <div class="whyfree-row" role="row">
+            <div><h4>ترتيب الظهور (التثبيت والتمييز)</h4></div>
+            <div class="paid"><p>الإعلان المجاني <b>10 أيام فقط</b> مع رصيد <b>3 د.ك/شهر</b>؛ التثبيت والتمييز والتثبيت بالبحث مميزات مدفوعة، وباقاتها <b>«تعتمد على أماكن التثبيت المتاحة وحجم الطلب عليها»</b>.</p></div>
+            <div class="free"><p>الترتيب بدرجة الفرصة الموضوعية — وسيط المقارنات وعدد الأدلة — <b>«أفضل صفقة أولًا» بلا دفع</b>.</p></div>
+            <div class="whyfree-src"><a href="https://www.q84sale.com/ar/faqs" target="_blank" rel="noreferrer">4Sale — الأسئلة الشائعة</a></div>
+          </div>
+
+          <div class="whyfree-row" role="row">
+            <div><h4>ترقية إعلانك (Premium Listing)</h4></div>
+            <div class="paid"><p>الإدراج المميز برسوم <b>شهرية</b> + رسم إداري <b>1,000 درهم</b> يُدفع خلال 7 أيام — مقابل «دفعة في خوارزمية الترتيب» لمدة 30 يومًا.</p></div>
+            <div class="free"><p>التقييم الموثق (سعر المتر + المقارنات + الأدلة + المصادر) <b>لكل فرصة — مجانًا</b>.</p></div>
+            <div class="whyfree-src"><a href="https://www.propertyfinder.com/terms-conditions-single-use-premium/" target="_blank" rel="noreferrer">PropertyFinder — شروط الإدراج المميز</a></div>
+          </div>
+
+          <div class="whyfree-row" role="row">
+            <div><h4>الوصول لبيانات كل المنصات</h4></div>
+            <div class="paid"><p>باقات الوكلاء باشتراكات شهرية <b>«تتنوع أسعارها وخدماتها»</b> وتُحدد في نموذج الاشتراك — ليست مجانية.</p></div>
+            <div class="free"><p>بحث موحد في <b>5+ مصادر</b> (4Sale، OpenSooq، Mourjan وغيرها) — مجانًا.</p></div>
+            <div class="whyfree-src"><a href="https://www.propertyfinder.com/terms-conditions-for-agents-advertisers/" target="_blank" rel="noreferrer">PropertyFinder — شروط الوكلاء</a></div>
+          </div>
+
+          <div class="whyfree-row" role="row">
+            <div><h4>تقرير تقييم عقاري</h4></div>
+            <div class="paid"><p>البنوك تُجري <b>معاينة ميدانية</b> للعقار والمنطقة ودراسة تفصيلية للسوق — أيام وتكاليف قبل أن تحصل على رقم واحد.</p></div>
+            <div class="free"><p>تقييم <b>فوري</b> من تراكم الإعلانات الفعلية — لأن الكويت لا تنشر سعر المتر رسميًا، وهذا الكوربوس هو المرجع العملي الوحيد.</p></div>
+            <div class="whyfree-src"><a href="https://www.kfh.com/home/Personal/Real-Estate-Evaluation-.html" target="_blank" rel="noreferrer">KFH وKIB — التقييم العقاري</a></div>
+          </div>
+
+          <div class="whyfree-row" role="row">
+            <div><h4>العملاء المحتملون (الليدز)</h4></div>
+            <div class="paid"><p>في بوابات الخليج تُباع بيانات العملاء المحتملين بأسعار مرتفعة (تقدير سوقي <b>150–300 درهم للليد</b>).</p><span class="whyfree-tag">تقدير سوقي — لا سعر رسمي منشور</span></div>
+            <div class="free"><p>مطابقة العرض بالطلب وقاعدة العملاء — مجانًا، والطلب المُقيّد بميزانية يُعرض عليك قبل المنافسين.</p></div>
+            <div class="whyfree-src"><span>ممارسة سوقية (لا رقم رسمي)</span></div>
+          </div>
+
+          <div class="whyfree-row" role="row">
+            <div><h4>البحث المحفوظ + تنبيه النزول</h4></div>
+            <div class="paid"><p>ميزة البحث المحفوظ مع «إشعار فور نزول إعلان مطابق» — داخل تطبيق المنصة الخاضع لدفع الظهور.</p></div>
+            <div class="free"><p>ضمن خطة <b>الحسابات المجاني</b> — تنبيه واتساب عند نزول فرصة مطابقة لبحثك المحفوظ.</p><span class="whyfree-tag soon">قريبًا</span></div>
+            <div class="whyfree-src"><a href="https://www.q84sale.com/ar/faqs" target="_blank" rel="noreferrer">4Sale — الأسئلة الشائعة</a></div>
+          </div>
+
+          <div class="whyfree-row" role="row">
+            <div><h4>إغلاق الصفقة — عمولة الوسيط</h4></div>
+            <div class="paid"><p>في دبي عمولة الوسيط المعيارية <b>2% من سعر البيع</b> (يدفعها المشتري لوسيطه) و<b>5% من الإيجار السنوي</b> في عقود الإيجار — نسب منظمة في سوق يخضع لرقابة RERA.</p><span class="whyfree-tag">معدل سوقي منظم — ليس رسوم منصة</span></div>
+            <div class="free"><p>المطابقة تصل إلى المعلن مباشرة، وتقرير التقييم يعرض <b>رقم السوق قبل التفاوض</b> — تقرر بسعر معلوم لا بعمولة عمياء.</p></div>
+            <div class="whyfree-src"><a href="https://www.engelvoelkers.com/ae/en/resources/how-much-is-the-real-estate-agent-commission-in-dubai" target="_blank" rel="noreferrer">Engel &amp; Völkers — عمولة الوسيط في دبي</a></div>
+          </div>
+
+          <div class="whyfree-row" role="row">
+            <div><h4>رسوم نقل الملكية (DLD)</h4></div>
+            <div class="paid"><p>في دبي <b>4% من قيمة العقار</b> رسم نقل ملكية يُدفع لدائرة الأراضي والأملاك (يدفعه المشتري عادة) فوق سعر الشراء — قبل أن تملك العقار.</p></div>
+            <div class="free"><p>عندنا لا توجد رسوم نقل أو تسجيل للاطلاع على الأسعار والمعاملات — <b>سجل السوق مفتوح كاملًا</b> قبل أي التزام.</p></div>
+            <div class="whyfree-src"><a href="https://www.engelvoelkers.com/ae/en/resources/dld-fees" target="_blank" rel="noreferrer">Engel &amp; Völkers — رسوم DLD</a></div>
+          </div>
+
+          <div class="whyfree-row" role="row">
+            <div><h4>باقات الوكلاء السنوية</h4></div>
+            <div class="paid"><p>اشتراكات الوكلاء تُحدَّد عبر نموذج اشتراك (Subscription Order) بأسعار <b>غير منشورة</b>؛ التقدير السوقي <b>500–2,000+ درهم لكل إعلان</b> في PropertyFinder (بحسب وسيط مرخّص من RERA) وفوقها رسم إداري <b>1,000 درهم</b> للإدراج المميز.</p><span class="whyfree-tag">تقدير سوقي — الأسعار تُفاوض عبر نموذج الاشتراك</span></div>
+            <div class="free"><p>حسابات الوسطاء <b>مجانية</b> — ضمن خطة الحسابات المجاني (بحث محفوظ + تنبيهات).</p><span class="whyfree-tag soon">قريبًا</span></div>
+            <div class="whyfree-src"><a href="https://joinoliva.com/en/learn/blog/property-finder-vs-bayut-platform-comparison-2026" target="_blank" rel="noreferrer">Oliva (RERA BRN 1573501) + شروط PropertyFinder</a></div>
+          </div>
+        </div>
+
+        <div class="whyfree-coverage">
+          <h4>من أين نجمع؟ بداية التغطية لكل منصة</h4>
+          <p class="whyfree-coverage-note">عدد الإعلانات الحالي وأول يوم بدأنا فيه الجلب من كل منصة — المواقع الخارجية لا تنشر تاريخ الإعلان عادة، لذلك «أول جلب» هو المرجع الصادق لبداية التغطية، وتاريخ النشر المعروف يُذكر حيث توفره المنصة.</p>
+          <div id="platformDatesWrap" class="coverage-table" role="table" aria-label="بداية الحصاد لكل منصة"></div>
+        </div>
+
+        <div class="platform-intel" aria-labelledby="platformIntelTitle">
+          <div class="platform-intel-head">
+            <div>
+              <h4 id="platformIntelTitle">خريطة الربط والاشتراكات وقاعدة البيانات</h4>
+              <p>تصنيف عملي لكل مصدر: المتصل الآن، المشروط، الرسمي، وما يحتاج شراكة أو اشتراك مصرح به قبل أن يدخل في التقييم.</p>
+            </div>
+            <span id="platformIntelMeta" class="filter-summary"></span>
+          </div>
+          <div id="platformIntelRoot" class="platform-intel-grid" aria-live="polite">
+            <div class="empty">جار تحميل خريطة المصادر...</div>
+          </div>
+        </div>
+
+        <details class="collapsible">
+          <summary>مصادر الأسعار — افتح وتحقّق بنفسك</summary>
+          <ul class="whyfree-sources">
+            <li><a href="https://www.q84sale.com/ar/faqs" target="_blank" rel="noreferrer">4Sale — الأسئلة الشائعة (الكويت)</a>: «يحصل كل مستخدم على 3 دنانير شهريًا… مدة الإعلان المجاني 10 أيام»، «أسعار الباقات تعتمد على أماكن التثبيت المتاحة وعلى حجم الطلب عليها»، «مميزات اختيارية مثل: التثبيت – التمييز – تثبيت بالبحث»، «البحث المحفوظ… سيتم إرسال إشعار فور نزول إعلان مطابق».</li>
+            <li><a href="https://www.propertyfinder.com/terms-conditions-single-use-premium/" target="_blank" rel="noreferrer">PropertyFinder — شروط الإدراج المميز Single-Use Premium</a>: «You shall pay the Fee on a monthly basis… AED1000 administration fee payable within seven (7) days» — رسم إداري 1,000 درهم + رسوم شهرية، مقابل رفع ترتيب إعلان واحد لمدة 30 يومًا.</li>
+            <li><a href="https://www.propertyfinder.com/terms-conditions-for-agents-advertisers/" target="_blank" rel="noreferrer">PropertyFinder — شروط الوكلاء والمعلنين</a>: «We offer a number of different packages that vary in terms of price and services» — باقات اشتراك مدفوعة للوكلاء.</li>
+            <li><a href="https://www.kfh.com/home/Personal/Real-Estate-Evaluation-.html" target="_blank" rel="noreferrer">بيت التمويل الكويتي — خدمة التقييم العقاري</a>: فريق متخصص من المهندسين والمقيمين العقاريين (تقييم ميداني).</li>
+            <li><a href="https://www.kib.com.kw/home/Real-Estate/Services/Services/Real-Estate-Appraisal.html" target="_blank" rel="noreferrer">البنك الأهلي المتحد KIB — التقييم العقاري</a>: «تتم معاينة العقار والمنطقة المحيطة به ودراسة سوق العقار بشكل تفصيلي».</li>
+            <li><a href="https://www.engelvoelkers.com/ae/en/resources/how-much-is-the-real-estate-agent-commission-in-dubai" target="_blank" rel="noreferrer">Engel &amp; Völkers — عمولة الوسيط في دبي</a>: «Real estate agent commission in Dubai is usually 2% of a property's sales price» — عمولة الوسيط المعيارية 2% من سعر البيع، ورقابة RERA على السوق.</li>
+            <li><a href="https://home-dubai.de/en/lexicon/brokerage-fee/" target="_blank" rel="noreferrer">Home Dubai — عمولة الوساطة</a>: «regulated by law… a standard 2% of the purchase price for sales transactions and 5% of the annual rent for rental contracts» — 2% بيع و5% إيجار.</li>
+            <li><a href="https://www.engelvoelkers.com/ae/en/resources/dld-fees" target="_blank" rel="noreferrer">Engel &amp; Völkers — رسوم DLD</a>: «The most common DLD fee in Dubai is the property transfer fee, which is 4% of the purchase price» — 4% رسم نقل ملكية.</li>
+            <li><a href="https://joinoliva.com/en/learn/blog/property-finder-vs-bayut-platform-comparison-2026" target="_blank" rel="noreferrer">Oliva — مقارنة PropertyFinder وBayut (RERA BRN 1573501)</a>: «Property Finder's higher listing costs (AED 500-2,000+ per listing)» — أرقامها مدققة مقابل سجلات دائرة الأراضي وملفات RERA.</li>
+          </ul>
+        </details>
+
+        <div class="whyfree-cta-row">
+          <button class="primary whyfree-cta" data-go="search" type="button">جرّب التقييم الآن — مجانًا</button>
+          <button class="whyfree-cta alt" data-go="opportunities" type="button">شاهد أفضل الفرص</button>
+          <button class="whyfree-share" id="shareWhyFreeBtn" type="button" title="شارك صفحة لماذا مجاني وأدق عبر واتساب" onclick="shareWhyFreePage()">📤 شارك صفحة «لماذا مجاني وأدق»</button>
+        </div>
+        <p class="scope-note">آخر تحقق من الأسعار: أغسطس 2026. حيث لا تنشر المنصة سعرًا ثابتًا (مثل باقات 4Sale) نكتب ذلك كما تنص صفحتها الرسمية — الشفافية تشمل أرقامنا نحن أيضًا.</p>
+      </section>
+
+      <section class="metrics-panel" data-main-panel="metrics">
+        <div class="section-title">
+          <div>
+            <h2>سجل تعريفات المقاييس</h2>
+            <span>كل رقم يظهر في المنصة — صيغته ومصدره ومن اعتمده. مرجع داخلي موحد لفريق البيانات.</span>
+          </div>
+          <span class="filter-summary" id="metricsMeta"></span>
+        </div>
+
+        <div class="metrics-toolbar">
+          <label class="metrics-search">
+            <span>ابحث في السجل</span>
+            <input id="metricsFilter" type="text" placeholder="اكتب اسم مقياس أو كلمة من الصيغة… مثل: عائد، ثقة، سعر المتر" autocomplete="off">
+          </label>
+          <div class="metrics-legend">
+            <i class="legend-swatch legend-approved"></i>معتمد — فريق بيانات الفريج
+            <i class="legend-swatch legend-auto"></i>محسوب تلقائيًا من الحصاد
+          </div>
+        </div>
+
+        <div id="metricsRoot" class="metrics-root">
+          <div class="empty">جاري تحميل سجل المقاييس...</div>
+        </div>
+      </section>
+  </main>
+
+  <template id="resultTemplate">
+    <article class="result-card">
+      <div class="rank-cell"></div>
+      <div class="result-body">
+        <div class="result-head">
+          <div class="result-head-main">
+            <h3></h3>
+            <div class="result-pills">
+              <span class="pill mode-pill" hidden></span>
+              <span class="pill tx-pill" hidden></span>
+              <span class="pill src-pill"></span>
+            </div>
+            <p class="meta"></p>
+            <span class="outside-area pill warn" hidden></span>
+            <span class="price-gap-badge" hidden></span>
+          </div>
+          <div class="verdict">
+            <span class="verdict-label"></span>
+            <strong class="recommendation"></strong>
+          </div>
+        </div>
+
+        <div class="simple-block">
+          <strong class="simple-price"></strong>
+          <span class="simple-area"></span>
+          <span class="simple-type"></span>
+          <span class="simple-date"></span>
+        </div>
+
+        <div class="card-facts"></div>
+
+        <div class="classification-badges" hidden></div>
+
+        <div class="score-grid"></div>
+        <div class="price-history" hidden></div>
+        <div class="result-insights">
+          <span class="data-quality"></span>
+          <span class="source-trust"></span>
+        </div>
+        <div class="trust-score-section"></div>
+        <div class="confidence-interval-section"></div>
+        <div class="explanation-factors-section"></div>
+        <p class="decision-line"></p>
+
+        <details class="result-details">
+          <summary>التفاصيل والأدلة</summary>
+          <p class="valuation-reason"></p>
+          <p class="description"></p>
+          <div class="result-clients"></div>
+          <div class="financing-info"></div>
+
+          <div class="reason-block">
+            <h4>لماذا ظهرت بهذا الترتيب؟</h4>
+            <div class="reasons"></div>
+            <div class="warnings"></div>
+          </div>
+
+          <details class="evidence">
+            <summary>الأدلة والمقارنات</summary>
+            <div class="comparables"></div>
+          </details>
+
+          <details class="calc-details">
+            <summary>مصدر كل رقم وطريقة الحساب</summary>
+            <div class="number-sources"></div>
+            <h4>تفصيل مطابقة الطلب</h4>
+            <div class="match-breakdown"></div>
+            <h4>تفصيل درجة التوصية</h4>
+            <div class="recommendation-breakdown"></div>
+          </details>
+        </details>
+
+        <div class="card-footer">
+          <span class="pub-date"></span>
+          <div class="card-actions">
+            <button type="button" class="details-btn">عرض التفاصيل</button>
+            <a class="call-link" target="_blank" rel="noreferrer" hidden>📞 اتصال مباشر</a>
+            <a class="open-link" target="_blank" rel="noreferrer">فتح الإعلان الأصلي</a>
+          </div>
+        </div>
+      </div>
+    </article>
+  </template>
+
+  <div id="sourceTrustTip" class="source-trust-tip" hidden>
+    <span class="source-trust-tone"></span>
+    <div>
+      <strong>ثقة المصدر</strong>
+      <span class="source-trust-line"></span>
+    </div>
+  </div>
+
+  <div id="boardDrilldown" class="drill-overlay" hidden>
+    <div class="drill-backdrop" data-drill-close></div>
+    <aside class="drill-panel" role="dialog" aria-modal="true" aria-labelledby="drillTitle">
+      <header class="drill-head">
+        <div>
+          <h4 id="drillTitle"></h4>
+          <span id="drillSub"></span>
+        </div>
+        <button type="button" class="icon-btn" data-drill-close aria-label="إغلاق">✕</button>
+      </header>
+      <div id="drillBody" class="drill-body"></div>
+      <footer class="drill-foot">
+        <button type="button" id="drillRunAnalysis" class="primary">تشغيل نفس الفلاتر في التقييم</button>
+      </footer>
+    </aside>
+  </div>
+
+  <div id="boardListingModal" class="listing-overlay" hidden>
+    <div class="listing-backdrop" data-listing-close></div>
+    <aside class="listing-panel" role="dialog" aria-modal="true" aria-labelledby="listingTitle">
+      <header class="listing-head">
+        <div>
+          <h4 id="listingTitle"></h4>
+          <span id="listingSub"></span>
+        </div>
+        <button type="button" class="icon-btn" data-listing-close aria-label="إغلاق">✕</button>
+      </header>
+      <div id="listingBody" class="listing-body"></div>
+    </aside>
+  </div>
+
+  <button class="chat-fab" id="chatFab" type="button" aria-label="اسأل المساعد العقاري" title="اسأل المساعد العقاري — بحث وتقييم فوري">
+    <span data-lucide="message-circle" data-lucide-size="22" data-lucide-stroke="2"></span>
+    <span class="chat-fab-label">اسأل المساعد</span>
+  </button>
+
+  <div id="accountModal" class="account-overlay" hidden>
+    <aside class="account-panel" role="dialog" aria-modal="true" aria-labelledby="accountTitle">
+      <button class="account-close" id="accountCloseBtn" type="button" aria-label="إغلاق">✕</button>
+      <h3 id="accountTitle">حسابي المجاني</h3>
+      <p class="account-sub">سجّل برقم هاتفك أو حساب Google — بلا كلمة مرور — واحفظ بحثك ليصلَك تنبيه عند نزول فرصة مطابقة.</p>
+      <div id="accountStepPhone">
+        <label class="account-field">رقم الهاتف</label>
+        <div class="phone-input-row">
+          <select id="phoneCountryCode" class="phone-country-select" aria-label="رمز الدولة">
+            <option value="+965" data-flag="🇰🇼">🇰🇼 +965</option>
+            <option value="+966" data-flag="🇸🇦">🇸🇦 +966</option>
+            <option value="+971" data-flag="🇦🇪">🇦🇪 +971</option>
+            <option value="+20" data-flag="🇪🇬">🇪🇬 +20</option>
+            <option value="+973" data-flag="🇧🇭">🇧🇭 +973</option>
+            <option value="+974" data-flag="🇶🇦">🇶🇦 +974</option>
+            <option value="+968" data-flag="🇴🇲">🇴🇲 +968</option>
+            <option value="+964" data-flag="🇮🇶">🇮🇶 +964</option>
+            <option value="+962" data-flag="🇯🇴">🇯🇴 +962</option>
+            <option value="+961" data-flag="🇱🇧">🇱🇧 +961</option>
+            <option value="+90" data-flag="🇹🇷">🇹🇷 +90</option>
+            <option value="+44" data-flag="🇬🇧">🇬🇧 +44</option>
+            <option value="+1" data-flag="🇺🇸">🇺🇸 +1</option>
+            <option value="+91" data-flag="🇮🇳">🇮🇳 +91</option>
+            <option value="+86" data-flag="🇨🇳">🇨🇳 +86</option>
+            <option value="+81" data-flag="🇯🇵">🇯🇵 +81</option>
+            <option value="+82" data-flag="🇰🇷">🇰🇷 +82</option>
+            <option value="+33" data-flag="🇫🇷">🇫🇷 +33</option>
+            <option value="+49" data-flag="🇩🇪">🇩🇪 +49</option>
+            <option value="+7" data-flag="🇷🇺">🇷🇺 +7</option>
+            <option value="+55" data-flag="🇧🇷">🇧🇷 +55</option>
+            <option value="+61" data-flag="🇦🇺">🇦🇺 +61</option>
+            <option value="+60" data-flag="🇲🇾">🇲🇾 +60</option>
+            <option value="+66" data-flag="🇹🇭">🇹🇭 +66</option>
+            <option value="+63" data-flag="🇵🇭">🇵🇭 +63</option>
+          </select>
+          <input id="accountPhone" type="tel" inputmode="tel" placeholder="رقم الهاتف" autocomplete="tel" class="phone-number-input">
+        </div>
+        <button id="accountSendOtp" class="primary" type="button" onclick="accountRequestOtp()">أرسل الرمز</button>
+        <div class="auth-divider"><span>أو</span></div>
+        <div id="googleSignInWrap">
+          <button type="button" class="google-signin-btn" id="googleSignInBtn" onclick="googleLogin()">
+            <svg viewBox="0 0 24 24" width="20" height="20"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+            <span>الدخول بحساب Google</span>
+          </button>
+        </div>
+        <div id="appleSignInWrap">
+          <button type="button" class="apple-signin-btn" id="appleSignInBtn" onclick="appleLogin()">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="#000"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            <span>الدخول بحساب Apple</span>
+          </button>
+        </div>
+      </div>
+      <div id="accountStepOtp" hidden>
+        <p id="accountOtpNote" class="account-otp-note"></p>
+        <label class="account-field">رمز التحقق
+          <input id="accountOtpCode" type="text" inputmode="numeric" maxlength="6" placeholder="6 أرقام" autocomplete="one-time-code">
+        </label>
+        <button id="accountVerifyBtn" class="primary" type="button" onclick="accountVerifyOtp()">تأكيد التسجيل</button>
+      </div>
+      <p id="accountMsg" class="account-msg" hidden></p>
+      <p id="accountStatus" class="account-status" hidden></p>
+      <div id="portfolioWrap" class="portfolio-wrap" hidden>
+        <h4 class="portfolio-title">محفظتي العقارية</h4>
+        <p class="account-sub">سجّل عقاراتك لتتتبّع قيمتها السوقية التقديرية وعائدها — مجانًا. التقدير من سعر المتر المتوقع في المنطقة، وليس تقييمًا نهائيًا.</p>
+        <form id="portfolioForm" class="portfolio-form" onsubmit="return portfolioSave(event)">
+          <label class="account-field">المنطقة
+            <input id="pfArea" type="text" placeholder="مثال: السالمية" required>
+          </label>
+          <label class="account-field">نوع العقار
+            <select id="pfType">
+              <option value="">—</option>
+              <option>شقة</option>
+              <option>بيت</option>
+              <option>أرض</option>
+              <option>مكتب</option>
+              <option>محل</option>
+            </select>
+          </label>
+          <div class="portfolio-grid2">
+            <label class="account-field">المساحة (م²)
+              <input id="pfSpace" type="number" min="1" placeholder="400">
+            </label>
+            <label class="account-field">سعر الشراء (د.ك)
+              <input id="pfPrice" type="number" min="1" placeholder="250000">
+            </label>
+          </div>
+          <div class="portfolio-grid2">
+            <label class="account-field">الإيجار الشهري (د.ك)
+              <input id="pfRent" type="number" min="0" placeholder="900">
+            </label>
+            <label class="account-field">تاريخ الشراء
+              <input id="pfDate" type="text" placeholder="2026-01">
+            </label>
+          </div>
+          <button type="submit" class="primary portfolio-add-btn">أضف إلى محفظتي</button>
+        </form>
+        <div id="portfolioList" class="portfolio-list"></div>
+      </div>
+    </aside>
+  </div>
+
+  <script src="components/hover-card.js"></script>
+  <script src="components/a11y-enhancements.js"></script>
+  <script src="components/install-prompt.js"></script>
+  <script src="https://accounts.google.com/gsi/client" async defer onerror="console.log('Google GIS not loaded')"></script>
+  <script src="app.js?v=20260828-google"></script>
+  <script>
+    /* تهيئة Lucide Icons بعد تحميل الصفحة */
+    if (window.LucideIcons) {
+      LucideIcons.loadScript().then(() => {
+        LucideIcons.replaceAll();
+      });
+    }
+  </script>
+  <script>
+    /* تسجيل Service Worker للتخزين المؤقت */
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', async () => {
+        try {
+          const registration = await navigator.serviceWorker.register('/sw.js', { scope: '/' });
+          console.log('[App] SW registered:', registration.scope);
+          
+          // مراقبة التحديثات
+          registration.addEventListener('updatefound', () => {
+            const newWorker = registration.installing;
+            newWorker.addEventListener('statechange', () => {
+              if (newWorker.state === 'activated') {
+                // إشعار المستخدم بوجود تحديث
+                if (document.hidden) return;
+                const toast = document.createElement('div');
+                toast.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#b7a13a;color:#fff;padding:12px 24px;border-radius:8px;font-size:14px;z-index:99999;box-shadow:0 4px 20px rgba(0,0,0,0.3);cursor:pointer;';
+                toast.textContent = '🔄 تحديث متاح — اضغط للتحديث';
+                toast.onclick = () => { newWorker.postMessage({ type: 'SKIP_WAITING' }); window.location.reload(); };
+                document.body.appendChild(toast);
+                setTimeout(() => toast.remove(), 8000);
+              }
+            });
+          });
+        } catch (err) {
+          console.warn('[App] SW registration failed:', err);
+        }
+      });
+    }    </script>
+
+  <!-- ── صندوق المساعد العقاري العائم ── -->
+  <div id="assistantOverlay" class="assistant-overlay" hidden>
+    <div class="assistant-chatbox">
+      <header class="assistant-header">
+        <div class="assistant-header-info">
+          <span class="assistant-avatar">🏠</span>
+          <div>
+            <h4 class="assistant-title">المساعد العقاري</h4>
+            <span class="assistant-status">متصل — ابحث وتقيّم فورًا</span>
+          </div>
+        </div>
+        <button class="assistant-close" id="assistantCloseBtn" type="button" aria-label="إغلاق">✕</button>
+      </header>
+      <div class="assistant-messages" id="assistantMessages">
+        <div class="assistant-msg assistant-msg-bot">
+          <div class="assistant-msg-avatar">🏠</div>
+          <div class="assistant-msg-body">
+            مرحباً! أنا المساعد العقاري من منصة الفريج. اكتب بحثك مثلاً:<br>
+            <em>«بيت 400م في الفروانية»</em> أو <em>«شقة للإيجار في السالمية»</em>
+          </div>
+        </div>
+      </div>
+      <form class="assistant-input-area" id="assistantForm" autocomplete="off">
+        <input id="assistantInput" type="text" placeholder="اكتب طلبك العقاري هنا..." autocomplete="off">
+        <button type="submit" class="assistant-send" aria-label="إرسال">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </form>
+      <div class="assistant-export-bar">
+        <button type="button" class="assistant-export-btn" onclick="exportChatPDF()" title="تحميل النتائج كملف PDF">📄 PDF</button>
+        <button type="button" class="assistant-export-btn" onclick="exportChatExcel()" title="تحميل النتائج كجدول Excel">📊 Excel</button>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

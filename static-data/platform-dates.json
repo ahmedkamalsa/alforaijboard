@@ -1,0 +1,73 @@
+{
+  "generatedAt": "2026-09-02T10:00:23",
+  "note": "firstFetch = أول يوم بدأنا فيه جلب الإعلانات من هذه المنصة؛ المواقع الخارجية لا تنشر تاريخ الإعلان عادة، لذا هو المرجع الصادق لبداية التغطية.",
+  "platforms": [
+    {
+      "source": "OpenSooq",
+      "count": 1598,
+      "firstFetch": "2026-08-10",
+      "earliestPublished": null
+    },
+    {
+      "source": "4Sale",
+      "count": 729,
+      "firstFetch": "2026-08-11",
+      "earliestPublished": null
+    },
+    {
+      "source": "Q8Aqar",
+      "count": 341,
+      "firstFetch": "2026-08-10",
+      "earliestPublished": null
+    },
+    {
+      "source": "Mourjan",
+      "count": 331,
+      "firstFetch": "2026-08-10",
+      "earliestPublished": null
+    },
+    {
+      "source": "بوعقار / بوشملان (Bu3qar)",
+      "count": 219,
+      "firstFetch": "2026-08-10",
+      "earliestPublished": null
+    },
+    {
+      "source": "الفريج",
+      "count": 182,
+      "firstFetch": null,
+      "earliestPublished": null
+    },
+    {
+      "source": "Yebtah",
+      "count": 90,
+      "firstFetch": "2026-08-10",
+      "earliestPublished": null
+    },
+    {
+      "source": "الحسبة - الصفقات المسجلة العامة",
+      "count": 30,
+      "firstFetch": "2026-08-10",
+      "earliestPublished": null
+    },
+    {
+      "source": "FindQ8",
+      "count": 20,
+      "firstFetch": "2026-08-27",
+      "earliestPublished": null
+    },
+    {
+      "source": "السوق المباشر (بوشملان)",
+      "count": 10,
+      "firstFetch": "2026-08-10",
+      "earliestPublished": "2026-07-21"
+    },
+    {
+      "source": "السوق المباشر (alforaij)",
+      "count": 8,
+      "firstFetch": "2026-08-10",
+      "earliestPublished": "2026-06-28"
+    }
+  ],
+  "staticSnapshot": true
+}

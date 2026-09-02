@@ -1,0 +1,149 @@
+{
+  "generatedAt": "2026-09-02T06:03:51",
+  "hasPrevious": true,
+  "counts": {
+    "added": 19,
+    "removed": 18,
+    "priceDrops": 0
+  },
+  "officialTransactions": {
+    "importStatus": "skipped",
+    "importCount": 0,
+    "storedCount": 0,
+    "note": "لا يوجد مصدر صفقات رسمي مضبوط لهذا التشغيل."
+  },
+  "officialIndicators": {
+    "storedCount": 53,
+    "status": "ok"
+  },
+  "candidatePlatforms": {
+    "count": 5,
+    "reachable": 0,
+    "blocked": 4,
+    "discontinued": 1,
+    "sources": [
+      {
+        "id": "aqarmap_kw",
+        "name": "Aqarmap Kuwait",
+        "kind": "marketplace",
+        "status": "discontinued",
+        "detail": "الموقع يعيد بوابة مصر حاليًا (النسخة الكويتية متوقفة)"
+      },
+      {
+        "id": "bayut_kw",
+        "name": "Bayut Kuwait",
+        "kind": "marketplace",
+        "status": "unreachable",
+        "detail": "HTTP Error 401: Unauthorized"
+      },
+      {
+        "id": "paci_kuwait_finder",
+        "name": "Kuwait Finder (PACI)",
+        "kind": "official",
+        "status": "unreachable",
+        "detail": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1028)>"
+      },
+      {
+        "id": "propertyfinder_kw",
+        "name": "Property Finder Kuwait",
+        "kind": "marketplace",
+        "status": "unreachable",
+        "detail": "<urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>"
+      },
+      {
+        "id": "e_gov_kw_portal",
+        "name": "بوابة الكويت العقارية (e.gov.kw)",
+        "kind": "official",
+        "status": "unreachable",
+        "detail": "HTTP Error 403: Forbidden"
+      }
+    ],
+    "newlyAvailable": []
+  },
+  "top": {
+    "priceDrops": [],
+    "added": [
+      {
+        "code": "AF-223",
+        "area": "خيطان",
+        "propertyType": "بيت",
+        "price": 350000.0,
+        "priceText": "350 ألف د.ك",
+        "oldPrice": null,
+        "oldPriceText": null,
+        "valuationLabel": "لقطة ممتازة (أقل من السوق بوضوح)",
+        "source": "الفريج",
+        "url": "https://front.alforaij.com/Listing/Detail/223",
+        "guidance": "فرصة جديدة في السوق — راسل العملاء المطابقين فورًا قبل المنافسين."
+      },
+      {
+        "code": "AF-168",
+        "area": "حولي",
+        "propertyType": "عمارة",
+        "price": 1600000.0,
+        "priceText": "1,600 ألف د.ك",
+        "oldPrice": null,
+        "oldPriceText": null,
+        "valuationLabel": "لقطة ممتازة",
+        "source": "الفريج",
+        "url": "https://front.alforaij.com/Listing/Detail/168",
+        "guidance": "فرصة جديدة في السوق — راسل العملاء المطابقين فورًا قبل المنافسين."
+      },
+      {
+        "code": "AF-142",
+        "area": "المطلاع",
+        "propertyType": "عقارات",
+        "price": 260000.0,
+        "priceText": "260 ألف د.ك",
+        "oldPrice": null,
+        "oldPriceText": null,
+        "valuationLabel": "لقطة ممتازة (أقل من السوق بوضوح)",
+        "source": "الفريج",
+        "url": "https://front.alforaij.com/Listing/Detail/142",
+        "guidance": "فرصة جديدة في السوق — راسل العملاء المطابقين فورًا قبل المنافسين."
+      }
+    ],
+    "removed": [
+      {
+        "code": "BU3-7657",
+        "area": "صباح الأحمد",
+        "propertyType": "أرض",
+        "price": 160000.0,
+        "priceText": "160,000 د.ك",
+        "oldPrice": null,
+        "oldPriceText": null,
+        "valuationLabel": "لقطة ممتازة",
+        "source": "بوعقار / بوشملان (Bu3qar)",
+        "url": "https://www.bu3qar.com/product-details/7657/%D9%84%D9%84%D8%A8%D9%8A%D8%B9-%D8%A7%D8%B1%D8%B6-%D8%B5%D9%81-%D8%AB%D8%A7%D9%86%D9%8A-%D9%81%D9%8A-%D8%A7%D9%84%D8%A8%D8%AD%D8%B1%D9%8A%D8%A9-%D8%A7%D9%84%D9%85%D8%B1%D8%AD%D9%84%D8%A9-%D8%A7%D9%84%D8%A7%D9%88%D9%84%D9%8A",
+        "guidance": "اختفى الإعلان من السوق — أزله من العروض المرسلة وأبلغ العملاء المهتمين (قد يكون حُجز أو سُحب)."
+      },
+      {
+        "code": "BU3-7603",
+        "area": "الدوحة",
+        "propertyType": "بيت",
+        "price": 210000.0,
+        "priceText": "210,000 د.ك",
+        "oldPrice": null,
+        "oldPriceText": null,
+        "valuationLabel": "لقطة ممتازة",
+        "source": "بوعقار / بوشملان (Bu3qar)",
+        "url": "https://www.bu3qar.com/product-details/7603/%D9%84%D9%84%D8%A8%D9%8A%D8%B9-%D8%A8%D9%8A%D8%AA-%D9%81%D9%89-%D8%A7%D9%84%D8%AF%D9%88%D8%AD%D9%87-%D9%82%D8%B7%D8%B9%D9%87-2",
+        "guidance": "اختفى الإعلان من السوق — أزله من العروض المرسلة وأبلغ العملاء المهتمين (قد يكون حُجز أو سُحب)."
+      },
+      {
+        "code": "MJ-28525343",
+        "area": "خيطان",
+        "propertyType": "بيت",
+        "price": 300000.0,
+        "priceText": "300,000 د.ك",
+        "oldPrice": null,
+        "oldPriceText": null,
+        "valuationLabel": "لقطة ممتازة",
+        "source": "Mourjan",
+        "url": "https://www.mourjan.com/kw/kuwait/villas-and-houses/for-sale/28525343/",
+        "guidance": "اختفى الإعلان من السوق — أزله من العروض المرسلة وأبلغ العملاء المهتمين (قد يكون حُجز أو سُحب)."
+      }
+    ]
+  },
+  "staticSnapshot": true
+}

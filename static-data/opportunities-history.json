@@ -1,0 +1,202 @@
+{
+  "dates": [],
+  "series": [
+    {
+      "area": "الرابية",
+      "points": [
+        {
+          "date": "",
+          "value": 586666.7
+        }
+      ],
+      "first": 586666.7,
+      "latest": 586666.7,
+      "changePercent": 0.0,
+      "direction": "مستقر"
+    },
+    {
+      "area": "الشرق",
+      "points": [
+        {
+          "date": "",
+          "value": 41176.5
+        }
+      ],
+      "first": 41176.5,
+      "latest": 41176.5,
+      "changePercent": 0.0,
+      "direction": "مستقر"
+    },
+    {
+      "area": "القصور",
+      "points": [
+        {
+          "date": "",
+          "value": 31087.5
+        }
+      ],
+      "first": 31087.5,
+      "latest": 31087.5,
+      "changePercent": 0.0,
+      "direction": "مستقر"
+    },
+    {
+      "area": "الرقعي",
+      "points": [
+        {
+          "date": "",
+          "value": 4318.3
+        }
+      ],
+      "first": 4318.3,
+      "latest": 4318.3,
+      "changePercent": 0.0,
+      "direction": "مستقر"
+    },
+    {
+      "area": "بنيد القار",
+      "points": [
+        {
+          "date": "",
+          "value": 4000.0
+        }
+      ],
+      "first": 4000.0,
+      "latest": 4000.0,
+      "changePercent": 0.0,
+      "direction": "مستقر"
+    },
+    {
+      "area": "ميدان حولي",
+      "points": [
+        {
+          "date": "",
+          "value": 2692.3
+        }
+      ],
+      "first": 2692.3,
+      "latest": 2692.3,
+      "changePercent": 0.0,
+      "direction": "مستقر"
+    },
+    {
+      "area": "صباح السالم",
+      "points": [
+        {
+          "date": "",
+          "value": 2068.5
+        }
+      ],
+      "first": 2068.5,
+      "latest": 2068.5,
+      "changePercent": 0.0,
+      "direction": "مستقر"
+    },
+    {
+      "area": "الفنطاس",
+      "points": [
+        {
+          "date": "",
+          "value": 1984.7
+        }
+      ],
+      "first": 1984.7,
+      "latest": 1984.7,
+      "changePercent": 0.0,
+      "direction": "مستقر"
+    },
+    {
+      "area": "حولي",
+      "points": [
+        {
+          "date": "",
+          "value": 1944.4
+        }
+      ],
+      "first": 1944.4,
+      "latest": 1944.4,
+      "changePercent": 0.0,
+      "direction": "مستقر"
+    },
+    {
+      "area": "كيفان",
+      "points": [
+        {
+          "date": "",
+          "value": 1780.2
+        }
+      ],
+      "first": 1780.2,
+      "latest": 1780.2,
+      "changePercent": 0.0,
+      "direction": "مستقر"
+    },
+    {
+      "area": "السلام",
+      "points": [
+        {
+          "date": "",
+          "value": 1500.0
+        }
+      ],
+      "first": 1500.0,
+      "latest": 1500.0,
+      "changePercent": 0.0,
+      "direction": "مستقر"
+    },
+    {
+      "area": "حطين",
+      "points": [
+        {
+          "date": "",
+          "value": 1450.0
+        }
+      ],
+      "first": 1450.0,
+      "latest": 1450.0,
+      "changePercent": 0.0,
+      "direction": "مستقر"
+    },
+    {
+      "area": "الفيحاء",
+      "points": [
+        {
+          "date": "",
+          "value": 1300.0
+        }
+      ],
+      "first": 1300.0,
+      "latest": 1300.0,
+      "changePercent": 0.0,
+      "direction": "مستقر"
+    },
+    {
+      "area": "الخالدية",
+      "points": [
+        {
+          "date": "",
+          "value": 1300.0
+        }
+      ],
+      "first": 1300.0,
+      "latest": 1300.0,
+      "changePercent": 0.0,
+      "direction": "مستقر"
+    },
+    {
+      "area": "جليب الشيوخ - الحساوي",
+      "points": [
+        {
+          "date": "",
+          "value": 1296.6
+        }
+      ],
+      "first": 1296.6,
+      "latest": 1296.6,
+      "changePercent": 0.0,
+      "direction": "مستقر"
+    }
+  ],
+  "snapshotCount": 1,
+  "staticSnapshot": true
+}
