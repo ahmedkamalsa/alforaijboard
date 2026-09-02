@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "AlForaij Tab Groups — 1-Click",
+  "version": "1.0.0",
+  "description": "حوّل تبويباتك لـ 4 مجموعات ملونة (الفريج/ Hermes/ بحث/ تطوير) بضغطة",
+  "permissions": ["tabs","tabGroups"],
+  "host_permissions": ["<all_urls>"],
+  "action": {"default_title": "جمّع التبويبات"},
+  "background": {"service_worker": "background.js"}
+}
