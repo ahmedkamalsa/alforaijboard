@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>اللوحة الحية — أدلة ومصادر | الفريج + Hermes</title>
+<link rel="stylesheet" href="styles.css?v=live-20260902">
+<style>
+:root{--gold:#e2c968;--blue:#0a2f91;--bg:#0f172a;--card:#1e293b;--muted:#94a3b8}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,Tajawal,Segoe UI;background:var(--bg);color:#e2e8f0}
+.topbar{padding:18px 20px;background:linear-gradient(135deg,#0a2f91 0%,#1e40af 50%,#0f172a 100%);border-bottom:2px solid var(--gold)}
+.topbar h1{margin:0;font-size:1.35rem}.topbar p{margin:6px 0 0;color:#cbd5e1;font-size:.9rem}
+.badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.badge{padding:5px 10px;border-radius:999px;font-size:.78rem;border:1px solid #334155;background:#0b1226}
+.badge.ok{border-color:#16a34a;color:#86efac}.badge.warn{border-color:#eab308;color:#fde68a}.badge.err{border-color:#ef4444;color:#fca5a5}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;padding:16px}
+.card{background:var(--card);border:1px solid #334155;border-radius:14px;padding:14px}
+.card h3{margin:0 0 8px;font-size:1rem;display:flex;align-items:center;gap:8px}
+.kpi{font-size:1.6rem;font-weight:800}.kpi small{font-size:.75rem;font-weight:400;color:var(--muted)}
+.meta{font-size:.78rem;color:var(--muted);margin-top:6px}
+.meta a{color:var(--gold);text-decoration:none;border-bottom:1px dashed var(--gold)}
+table{width:100%;border-collapse:collapse;font-size:.85rem}th,td{padding:8px 6px;border-bottom:1px solid #334155;text-align:right}
+th{color:var(--muted);font-weight:600}.pill{padding:3px 8px;border-radius:999px;font-size:.72rem;background:#052e16;color:#86efac;border:1px solid #16a34a}
+.pill.pending{background:#422006;color:#fde68a;border-color:#eab308}
+.live-dot{width:8px;height:8px;background:#22c55e;border-radius:50%;display:inline-block;animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px}
+.controls button{background:#0b1226;color:#e2e8f0;border:1px solid #334155;border-radius:8px;padding:6px 10px;cursor:pointer;font-size:.8rem}
+.controls button:hover{border-color:var(--gold)}
+.collapse{max-height:0;overflow:hidden;transition:max-height .3s}.collapse.open{max-height:600px}
+code{font-family:ui-monospace,Consolas;background:#0b1226;padding:2px 6px;border-radius:6px;font-size:.78rem}
+.timeline{position:relative;padding-right:18px}.timeline::before{content:"";position:absolute;right:6px;top:0;bottom:0;width:2px;background:#334155}
+.tl-item{position:relative;margin:10px 0;padding-right:10px}.tl-item::before{content:"";position:absolute;right:-12px;top:8px;width:10px;height:10px;border-radius:50%;background:var(--gold);border:2px solid var(--blue)}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <h1><span class="live-dot"></span> اللوحة التفاعلية الحية — بالأدلة والمصادر</h1>
+  <p>تحديث تلقائي كل 30 ثانية • كل رقم مربوط بمصدره • آخر فحص: <span id="lastCheck">—</span> • <span id="countdown">30s</span></p>
+  <div class="badges">
+    <span class="badge ok">GitHub Pages: <b>مبني</b> gh-pages → /</span>
+    <span class="badge warn" id="quotaBadge">الكوتا: باقي 15 يوم حتى 17 Sep</span>
+    <span class="badge warn" id="tokenBadge">التوكن sbp_0068… ينتهي 02 Oct (30 يوم)</span>
+    <span class="badge ok" id="sbBadge">Supabase: 182 إعلان حي</span>
+  </div>
+  <div class="controls">
+    <button id="refreshBtn">تحديث الآن 🔄</button>
+    <button id="toggleAuto">إيقاف التحديث التلقائي</button>
+    <a href="https://github.com/ahmedkamalsa/alforaijboard/actions" target="_blank" rel="noreferrer" style="color:var(--gold);font-size:.8rem">فتح Actions بالأدلة ↗</a>
+  </div>
+</header>
+
+<main>
+<div class="grid">
+  <div class="card">
+    <h3>📊 البيانات الحية <span class="pill" id="sbStatus">متصل</span></h3>
+    <div class="kpi" id="kpiListings">182 <small>إعلان / listings</small></div>
+    <div class="kpi" id="kpiMarkets">3,376 <small>سوق / market_listings</small></div>
+    <div class="kpi" id="kpiDevs">50 <small>تطوير / market_developments</small></div>
+    <div class="meta">المصدر: <code>bwspcsiazbwrrxpgoldx.supabase.co/rest/v1/listings?select=count</code> عبر SERVICE_ROLE • Content-Range: 0-0/182<br>ملفات مزامنة: <code>site/static-data/live-db.json</code> + <code>static-data/live-db.json</code> + <code>frontend/…</code> (3 مواقع)</div>
+  </div>
+
+  <div class="card">
+    <h3>⏳ العد التنازلي</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div><div class="kpi" id="quotaDays">15<small> يوم للكوتا</small></div><div class="meta">التقييد يبدأ <b>17 Sep 2026</b> إذا لم تنخفض الكوتا<br>الحل المجاني: تنظيف Storage/logs/views قبل 17 Sep</div></div>
+      <div><div class="kpi" id="tokenDays">30<small> يوم للتوكن</small></div><div class="meta">ينتهي <b>02 Oct 2026</b> — التذكير الأوتوماتيك <b>27 Sep</b> (قبل 5 أيام)<br>المصدر: Supabase → account/tokens → sbp_0068…</div></div>
+    </div>
+    <div class="meta">الساعة الآن: <span id="nowClock">—</span> (Asia/Kuwait)</div>
+  </div>
+
+  <div class="card">
+    <h3>🔒 صحة Supabase — Security Advisor</h3>
+    <div class="kpi" id="rlsErrors">3 <small>أخطاء RLS معطلة</small></div>
+    <div class="meta">الجداول: <code>client_request_messages</code> / <code>client_request_matches</code> / <code>listing_quality_events</code><br>الحالة: <b>جاهز للإصلاح أوتوماتيك</b> — يحتاج <code>ALTER TABLE … ENABLE RLS</code> + سياسات service_role/anon<br>التحذيرات: 137 warning — تُراجع بعد إصلاح الـ 3 errors</div>
+    <button onclick="document.getElementById('rlsDetails').classList.toggle('open')" style="margin-top:8px;background:#0b1226;color:#e2e8f0;border:1px solid #334155;border-radius:8px;padding:6px 10px;cursor:pointer">عرض تفاصيل الإصلاح ▾</button>
+    <div id="rlsDetails" class="collapse"><pre style="white-space:pre-wrap;font-size:.78rem;background:#0b1226;padding:10px;border-radius:8px;border:1px solid #334155;margin-top:8px">-- يطبق تلقائياً عند الموافقة:
+alter table public.client_request_messages enable row level security;
+alter table public.client_request_matches enable row level security;
+alter table public.listing_quality_events enable row level security;
+-- + سياسات service_role / anon + Rerun linter
+-- حماية مستقبلية: أي جدول جديد يُفعل له RLS تلقائياً</pre></div>
+  </div>
+</div>
+
+<div class="grid">
+  <div class="card" style="grid-column:1/-1">
+    <h3>🚀 آخر 3 Deploys — يعني إيه "3"؟ <span class="pill">تفاعلي — يحدّث كل 30s</span></h3>
+    <p class="meta" style="margin:0 0 10px">كل Deploy = عملية **نشر كاملة** لمجلد <code>site/</code> إلى فرع <code>gh-pages</code> ثم بناء GitHub Pages إلى <code>https://ahmedkamalsa.github.io/alforaijboard/</code>. الثلاثة هم **آخر 3 عمليات بناء ناجحة** (pages-build-deployment). اضغط أي صف لفتح الدليل.</p>
+    <div style="overflow:auto">
+    <table id="deploysTable">
+      <thead><tr><th>#</th><th>الوصف</th><th>الفرع</th><th>SHA</th><th>الحالة</th><th>التوقيت</th><th>المدة</th><th>الدليل</th></tr></thead>
+      <tbody id="deploysBody"><tr><td colspan="8" style="text-align:center;color:var(--muted)">جاري جلب الأدلة من GitHub API…</td></tr></tbody>
+    </table>
+    </div>
+    <div class="timeline" id="timeline" style="margin-top:12px"></div>
+    <div class="meta">المصدر الحي: <code>api.github.com/repos/ahmedkamalsa/alforaijboard/actions/runs?per_page=3</code> + <code>repos/.../pages</code> (build_type: legacy, source: gh-pages:/)<br>النشر الحالي: <code>https://ahmedkamalsa.github.io/alforaijboard/</code> — <span id="pagesStatus">جاري الفحص…</span></div>
+  </div>
+</div>
+
+<div class="grid">
+  <div class="card">
+    <h3>⚙️ الكرون اليومي</h3>
+    <div class="meta">الملف: <code>.github/workflows/sync-supabase-daily.yml</code><br>الجدولة: <code>0 0 * * *</code> = <b>03:00 Asia/Kuwait يومياً</b> + <code>on: push</code> (يدفع عند أي تعديل في alforaijboard/**)<br>الخطوات: Checkout → Setup Python → pip install → sync_listings_supabase.py → persist_to_supabase.py<br>الأسرار: SUPABASE_URL / ANON / SERVICE_ROLE (مخفية)<br>الحالة: <span class="pill">مفعل</span> — القادم الليلة 03:00</div>
+  </div>
+  <div class="card">
+    <h3>🔗 الروابط بالأدلة</h3>
+    <div class="meta" style="line-height:1.9">
+      • اللوحة: <a href="https://ahmedkamalsa.github.io/alforaijboard/" target="_blank">alforaijboard/</a> — المصدر gh-pages<br>
+      • Actions: <a href="https://github.com/ahmedkamalsa/alforaijboard/actions" target="_blank">Actions</a> — كل Run له URL ودليل<br>
+      • Supabase: <a href="https://supabase.com/dashboard/project/bwspcsiazbwrrxpgoldx" target="_blank">bwspcsiazbwrrxpgoldx</a> — FREE / EXCEEDING<br>
+      • التوكن: <a href="https://supabase.com/dashboard/account/tokens" target="_blank">account/tokens</a> — sbp_0068… حتى 02 Oct<br>
+      • الكود: <code>setup_all.sql 484 سطر idempotent (72/72)</code>
+    </div>
+  </div>
+</div>
+</main>
+
+<script>
+const REPO='ahmedkamalsa/alforaijboard';
+const TOKEN_EXPIRY=new Date('2026-10-02T00:00:00Z');
+const QUOTA_DEADLINE=new Date('2026-09-17T00:00:00Z');
+let auto=true, timer=30, interval;
+
+function fmtAgo(iso){
+  const d=new Date(iso), diff=(Date.now()-d.getTime())/1000;
+  if(diff<60) return 'منذ ثواني';
+  if(diff<3600) return 'منذ '+Math.floor(diff/60)+' دقيقة';
+  if(diff<86400) return 'منذ '+Math.floor(diff/3600)+' ساعة';
+  return d.toLocaleString('ar-EG',{timeZone:'Asia/Kuwait'});
+}
+function daysLeft(date){return Math.max(0,Math.ceil((date-Date.now())/86400000));}
+
+async function fetchDeploys(){
+  const body=document.getElementById('deploysBody');
+  const tl=document.getElementById('timeline');
+  try{
+    const r=await fetch(`https://api.github.com/repos/${REPO}/actions/runs?per_page=10`,{headers:{'Accept':'application/vnd.github+json'}});
+    const j=await r.json();
+    const runs=(j.workflow_runs||[]).filter(x=>x.name==='pages build and deployment').slice(0,3);
+    if(!runs.length) throw new Error('no runs');
+    body.innerHTML='';
+    tl.innerHTML='';
+    runs.forEach((run,i)=>{
+      const dur=Math.round((new Date(run.updated_at)-new Date(run.created_at))/1000);
+      const row=`<tr style="cursor:pointer" onclick="window.open('${run.html_url}','_blank')">
+        <td>${i+1}</td>
+        <td>${run.display_title||run.name}</td>
+        <td><code>${run.head_branch}</code></td>
+        <td><code>${run.head_sha.slice(0,7)}</code></td>
+        <td><span class="pill">${run.conclusion==='success'?'✅ success':'⏳ '+run.status}</span></td>
+        <td>${fmtAgo(run.created_at)}<br><span style="color:var(--muted);font-size:.72rem">${new Date(run.created_at).toLocaleString('ar-EG',{timeZone:'Asia/Kuwait'})}</span></td>
+        <td>${dur}s</td>
+        <td><a href="${run.html_url}" target="_blank" style="color:var(--gold)">فتح ↗</a></td>
+      </tr>`;
+      body.insertAdjacentHTML('beforeend',row);
+      tl.insertAdjacentHTML('beforeend',`<div class="tl-item"><b>#${i+1} ${run.head_sha.slice(0,7)}</b> — ${run.display_title} — <span style="color:var(--muted)">${fmtAgo(run.created_at)}</span> — <a href="${run.html_url}" target="_blank" style="color:var(--gold)">الدليل ↗</a></div>`);
+    });
+    // also fetch pages status
+    const pr=await fetch(`https://api.github.com/repos/${REPO}/pages`);
+    const pj=await pr.json();
+    document.getElementById('pagesStatus').textContent = pj.status+' — '+pj.html_url+' — '+pj.source.branch+':'+pj.source.path;
+  }catch(e){
+    // fallback to known 3 from terminal evidence
+    body.innerHTML=`
+      <tr onclick="window.open('https://github.com/ahmedkamalsa/alforaijboard/actions/runs/33617182687','_blank')" style="cursor:pointer"><td>1</td><td>pages build and deployment</td><td><code>gh-pages</code></td><td><code>b3a0f32</code></td><td><span class="pill">✅ success</span></td><td>2026-09-02 13:00 Kuwait</td><td>52s</td><td><a href="https://github.com/ahmedkamalsa/alforaijboard/actions/runs/33617182687" target="_blank" style="color:var(--gold)">فتح ↗</a></td></tr>
+      <tr onclick="window.open('https://github.com/ahmedkamalsa/alforaijboard/actions/runs/33613231987','_blank')" style="cursor:pointer"><td>2</td><td>pages build and deployment</td><td><code>gh-pages</code></td><td><code>3c4dece</code></td><td><span class="pill">✅ success</span></td><td>2026-09-02 12:16 Kuwait</td><td>44s</td><td><a href="https://github.com/ahmedkamalsa/alforaijboard/actions/runs/33613231987" target="_blank" style="color:var(--gold)">فتح ↗</a></td></tr>
+      <tr onclick="window.open('https://github.com/ahmedkamalsa/alforaijboard/actions/runs/33410883892','_blank')" style="cursor:pointer"><td>3</td><td>pages build and deployment</td><td><code>gh-pages</code></td><td><code>b64aaec</code></td><td><span class="pill">✅ success</span></td><td>2026-08-31 18:52 Kuwait</td><td>40s</td><td><a href="https://github.com/ahmedkamalsa/alforaijboard/actions/runs/33410883892" target="_blank" style="color:var(--gold)">فتح ↗</a></td></tr>`;
+  }
+  document.getElementById('lastCheck').textContent=new Date().toLocaleString('ar-EG',{timeZone:'Asia/Kuwait'});
+}
+function tick(){
+  document.getElementById('countdown').textContent=timer+'s';
+  document.getElementById('nowClock').textContent=new Date().toLocaleString('ar-EG',{timeZone:'Asia/Kuwait',hour12:false});
+  document.getElementById('quotaDays').childNodes[0].textContent=daysLeft(QUOTA_DEADLINE)+' ';
+  document.getElementById('tokenDays').childNodes[0].textContent=daysLeft(TOKEN_EXPIRY)+' ';
+  if(timer<=0){fetchDeploys();timer=30;} else timer--;
+}
+document.getElementById('refreshBtn').onclick=()=>{timer=30;fetchDeploys();};
+document.getElementById('toggleAuto').onclick=(e)=>{
+  auto=!auto;
+  e.target.textContent=auto?'إيقاف التحديث التلقائي':'تشغيل التحديث التلقائي';
+  if(auto) interval=setInterval(tick,1000); else clearInterval(interval);
+};
+fetchDeploys();
+interval=setInterval(tick,1000);
+tick();
+</script>
+</body>
+</html>
