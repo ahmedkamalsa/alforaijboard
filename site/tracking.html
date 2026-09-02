@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تتبع النقرات — الفريج العقاري (البوس فقط)</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--primary:#1a365d;--secondary:#2c5282;--gold:#d69e2e;--bg:#1a202c;--card:#2d3748;--text:#e2e8f0;--muted:#a0aec0;--success:#38a169;--warn:#d69e2e;--danger:#e53e3e;--info:#3182ce;--border:#4a5568}
+body{font-family:'Segoe UI',Tahoma,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
+.header{background:linear-gradient(135deg,var(--primary),var(--secondary));padding:0 20px;height:60px;display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid var(--gold)}
+.header .logo{display:flex;align-items:center;gap:10px}
+.header .logo h1{font-size:1.1rem;color:var(--gold);font-weight:700}
+.header .user-info{display:flex;align-items:center;gap:15px}
+.header .role-badge{padding:4px 12px;border-radius:20px;font-size:0.7rem;font-weight:700;background:rgba(56,161,105,0.15);color:var(--success);border:1px solid var(--success)}
+.header .logout-btn{padding:6px 14px;border-radius:6px;background:transparent;border:1px solid var(--danger);color:var(--danger);cursor:pointer;font-family:inherit;font-size:0.8rem}
+.header .logout-btn:hover{background:var(--danger);color:white}
+.content{flex:1;padding:20px;overflow-y:auto;max-width:1200px;margin:0 auto;width:100%}
+.content h2{font-size:1.3rem;color:var(--gold);margin-bottom:5px}
+.content .sub{color:var(--muted);font-size:0.8rem;margin-bottom:20px}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:20px}
+.stat-card{background:var(--card);padding:16px;border-radius:10px;border:1px solid var(--border)}
+.stat-card .stat-icon{font-size:1.5rem;opacity:0.3}
+.stat-card .stat-value{font-size:1.8rem;font-weight:700;color:var(--gold);line-height:1.2}
+.stat-card .stat-label{color:var(--muted);font-size:0.75rem;margin-top:3px}
+.card{background:var(--card);border-radius:10px;padding:15px;margin-bottom:15px;border:1px solid var(--border)}
+.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.card-header h3{font-size:0.9rem;color:var(--text)}
+table{width:100%;border-collapse:collapse;font-size:0.8rem}
+th{background:var(--bg);color:var(--muted);padding:8px 10px;text-align:right;font-weight:600;border-bottom:1px solid var(--border)}
+td{padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:middle}
+tr:hover{background:rgba(214,158,46,0.04)}
+.text-gold{color:var(--gold);font-weight:600}
+.text-muted{color:var(--muted);font-size:0.7rem}
+.badge{display:inline-block;padding:2px 7px;border-radius:999px;font-size:0.65rem;font-weight:700}
+.badge-view{background:rgba(49,130,206,0.15);color:var(--info)}
+.badge-contact{background:rgba(56,161,105,0.15);color:var(--success)}
+.badge-export{background:rgba(214,158,46,0.15);color:var(--warn)}
+.badge-deal{background:rgba(160,174,192,0.15);color:var(--muted)}
+.filters{display:flex;gap:8px;margin-bottom:15px;flex-wrap:wrap;align-items:center}
+.filters input,.filters select{padding:8px 12px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-family:inherit;font-size:0.8rem;outline:none}
+.filters input:focus,.filters select:focus{border-color:var(--gold)}
+.empty-state{text-align:center;padding:40px;color:var(--muted);font-size:0.9rem}
+.toast{position:fixed;bottom:20px;right:20px;padding:12px 20px;border-radius:8px;z-index:2000;font-size:0.85rem;display:none;animation:slideIn 0.3s ease}
+@keyframes slideIn{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+.toast.success{background:var(--success);color:white}.toast.error{background:var(--danger);color:white}
+@media(max-width:768px){.content{max-width:100%}}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="logo"><h1>🔍 تتبع النقرات</h1><span style="font-size:0.7rem;color:var(--muted)">الفريج العقاري | للبوس فقط 🔐</span></div>
+  <div class="user-info">
+    <span class="role-badge">👑 البوس</span>
+    <button class="logout-btn" onclick="logout()">تسجيل الخروج</button>
+  </div>
+</header>
+<div class="content" id="content">
+  <h2>📊 تتبع النقرات والتحليلات</h2>
+  <p class="sub">كل النقرات والتفاعلات المسجّلة في النظام — للبوس فقط</p>
+  <div class="stats-grid" id="statsGrid"></div>
+  <div class="card">
+    <div class="card-header">
+      <h3>📋 سجل النقرات</h3>
+      <div class="filters">
+        <input type="text" id="searchTracking" placeholder="بحث..." oninput="renderTracking()">
+        <select id="filterEvent" onchange="renderTracking()">
+          <option value="all">كل الأحداث</option>
+          <option value="view-ad">عرض إعلان</option>
+          <option value="contact-click">نقر تواصل</option>
+          <option value="contact-request">طلب تواصل</option>
+          <option value="export">تصدير</option>
+          <option value="deal-stage">تغيير مرحلة صفقة</option>
+          <option value="chat-message">رسالة شات</option>
+          <option value="refresh-data">تحديث البيانات</option>
+          <option value="new-deal">صفقة جديدة</option>
+          <option value="mark-all-read">وضع مقروء</option>
+        </select>
+        <select id="filterUser" onchange="renderTracking()">
+          <option value="all">كل المستخدمين</option>
+        </select>
+      </div>
+    </div>
+    <div style="overflow-x:auto">
+      <table>
+        <thead><tr><th>الوقت</th><th>المستخدم</th><th>نوع الحدث</th><th>التفاصيل</th><th>الإعلان / الصفقة</th></tr></thead>
+        <tbody id="trackingBody"></tbody>
+      </table>
+    </div>
+    <div id="trackingEmpty" class="empty-state" style="display:none">لا توجد سجلات نقرات</div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+const trackingDB = [
+  {time:'2026-09-02 14:35',user:'boss@alforaijboard.com',event:'view-ad',adId:8318,detail:'عرض إعلان 8318 — Bu3qar / Boshamlan'},
+  {time:'2026-09-02 14:36',user:'boss@alforaijboard.com',event:'contact-click',adId:8318,detail:'نقر على زر التواصل مع إعلان #8318'},
+  {time:'2026-09-02 14:40',user:'boss@alforaijboard.com',event:'export',type:'excel',detail:'تصدير تقرير Excel شامل'},
+  {time:'2026-09-02 14:42',user:'boss@alforaijboard.com',event:'deal-stage',dealId:'d1',detail:'تحديث مرحلة الصفقة d1 إلى مفاوضات'},
+  {time:'2026-09-02 14:45',user:'boss@alforaijboard.com',event:'view-ad',adId:3456,detail:'عرض إعلان 3456 — Q8Aqar'},
+  {time:'2026-09-02 14:48',user:'boss@alforaijboard.com',event:'contact-click',adId:3456,detail:'نقر على زر التواصل مع إعلان #3456'},
+  {time:'2026-09-02 14:50',user:'boss@alforaijboard.com',event:'export',type:'pdf',detail:'تصدير تقرير PDF'},
+  {time:'2026-09-02 14:55',user:'boss@alforaijboard.com',event:'chat-message',adId:null,detail:'سأل عن أعلى الإعلانات بالسعر'},
+  {time:'2026-09-02 15:00',user:'admin@alforaijboard.com',event:'view-ad',adId:8779,detail:'عرض إعلان 8779 — 4Sale'},
+  {time:'2026-09-02 15:05',user:'admin@alforaijboard.com',event:'contact-request',adId:5421,detail:'طلب تواصل مع إعلان 5421 — تم إنشاء صفقة تلقائياً'},
+  {time:'2026-09-02 15:10',user:'employee@alforaijboard.com',event:'view-ad',adId:1955,detail:'عرض إعلان 1955 — OpenSooq'},
+  {time:'2026-09-02 15:15',user:'boss@alforaijboard.com',event:'new-deal',adId:null,detail:'إضافة صفقة جديدة: أحمد الحربي — إعلان 8318'},
+  {time:'2026-09-02 15:18',user:'boss@alforaijboard.com',event:'whatsapp-open',adId:null,detail:'فتح واتساب ويب لإرسال رسالة'},
+  {time:'2026-09-02 18:30',user:'boss@alforaijboard.com',event:'refresh-data',adId:null,detail:'تحديث البيانات من Supabase'}
+];
+
+function logout(){
+  sessionStorage.removeItem('trackingUser');
+  window.location.href = '/index.html';
+}
+
+(function init(){
+  const saved = sessionStorage.getItem('trackingUser');
+  if(!saved || JSON.parse(saved).role !== 'boss'){
+    window.location.href = '/index.html';
+    return;
+  }
+  const user = JSON.parse(saved);
+  document.querySelector('.role-badge').textContent = '👑 '+user.name;
+  renderStats();
+  populateUserFilter();
+  renderTracking();
+})();
+
+function renderStats(){
+  const total = trackingDB.length;
+  const uniqueUsers = new Set(trackingDB.map(t=>t.user)).size;
+  const today = new Date().toISOString().split('T')[0];
+  const todayClicks = trackingDB.filter(t=>t.time.startsWith(today)).length;
+  const viewAds = trackingDB.filter(t=>t.event==='view-ad').length;
+  const contact = trackingDB.filter(t=>t.event==='contact-click'||t.event==='contact-request').length;
+  const exports = trackingDB.filter(t=>t.event==='export').length;
+  const deals = trackingDB.filter(t=>t.event==='deal-stage'||t.event==='new-deal').length;
+
+  document.getElementById('statsGrid').innerHTML =
+    '<div class="stat-card"><div class="stat-icon">👆</div><div class="stat-value">'+total+'</div><div class="stat-label">إجمالي النقرات</div></div>'+
+    '<div class="stat-card"><div class="stat-icon">👥</div><div class="stat-value">'+uniqueUsers+'</div><div class="stat-label">مستخدمين فريدين</div></div>'+
+    '<div class="stat-card"><div class="stat-icon">📅</div><div class="stat-value">'+todayClicks+'</div><div class="stat-label">نقرات اليوم</div></div>'+
+    '<div class="stat-card"><div class="stat-icon">👁️</div><div class="stat-value">'+viewAds+'</div><div class="stat-label">عرض إعلانات</div></div>'+
+    '<div class="stat-card"><div class="stat-icon">📞</div><div class="stat-value">'+contact+'</div><div class="stat-label">تواصل (نقر + طلب)</div></div>'+
+    '<div class="stat-card"><div class="stat-icon">📤</div><div class="stat-value">'+exports+'</div><div class="stat-label">تصديرات</div></div>'+
+    '<div class="stat-card"><div class="stat-icon">🔄</div><div class="stat-value">'+deals+'</div><div class="stat-label">صفقات (جديد + مرحلة)</div></div>';
+}
+
+function populateUserFilter(){
+  const users = [...new Set(trackingDB.map(t=>t.user))];
+  const sel = document.getElementById('filterUser');
+  users.forEach(u => sel.innerHTML += '<option value="'+u+'">'+u+'</option>');
+}
+
+function renderTracking(){
+  const search = document.getElementById('searchTracking').value.toLowerCase();
+  const eventFilter = document.getElementById('filterEvent').value;
+  const userFilter = document.getElementById('filterUser').value;
+
+  const filtered = trackingDB.filter(t => {
+    if(eventFilter !== 'all' && t.event !== eventFilter) return false;
+    if(userFilter !== 'all' && t.user !== userFilter) return false;
+    if(search){
+      const hay = (t.detail+' '+t.user+' '+t.event+' '+(t.adId||'')+' '+(t.dealId||'')+' '+(t.type||'')).toLowerCase();
+      if(!hay.includes(search)) return false;
+    }
+    return true;
+  });
+
+  const tbody = document.getElementById('trackingBody');
+  const empty = document.getElementById('trackingEmpty');
+  tbody.innerHTML = '';
+
+  if(filtered.length === 0){
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+
+  filtered.forEach(t => {
+    const tr = document.createElement('tr');
+    let badge = '';
+    let ref = '';
+
+    switch(t.event){
+      case 'view-ad':
+        badge = '<span class="badge badge-view">👁️ عرض إعلان</span>';
+        ref = t.adId ? '#'+t.adId : '—';
+        break;
+      case 'contact-click':
+        badge = '<span class="badge badge-contact">📞 نقر تواصل</span>';
+        ref = t.adId ? '#'+t.adId : '—';
+        break;
+      case 'contact-request':
+        badge = '<span class="badge badge-contact">📬 طلب تواصل</span>';
+        ref = t.adId ? '#'+t.adId : '—';
+        break;
+      case 'export':
+        badge = '<span class="badge badge-export">📤 تصدير</span>';
+        ref = (t.type||'').toUpperCase();
+        break;
+      case 'deal-stage':
+        badge = '<span class="badge badge-deal">🔄 مرحلة صفقة</span>';
+        ref = t.dealId ? 'الصفقة '+t.dealId : '—';
+        break;
+      case 'new-deal':
+        badge = '<span class="badge badge-deal">➕ صفقة جديدة</span>';
+        ref = t.detail ? t.detail.substring(0,40)+'...' : '—';
+        break;
+      case 'chat-message':
+        badge = '<span class="badge" style="background:rgba(49,130,206,0.15);color:var(--info)">💬 شات</span>';
+        ref = '—';
+        break;
+      case 'refresh-data':
+        badge = '<span class="badge" style="background:rgba(160,174,192,0.15);color:var(--muted)">🔄 تحديث</span>';
+        ref = '—';
+        break;
+      case 'mark-all-read':
+        badge = '<span class="badge" style="background:rgba(56,161,105,0.15);color:var(--success)">✓ مقروء</span>';
+        ref = '—';
+        break;
+      case 'whatsapp-open':
+        badge = '<span class="badge badge-warning">💬 واتساب</span>';
+        ref = '—';
+        break;
+      default:
+        badge = '<span class="badge badge-muted">'+t.event+'</span>';
+        ref = '—';
+    }
+
+    tr.innerHTML = '<td>'+t.time+'</td><td>'+t.user+'</td><td>'+badge+'</td><td>'+t.detail+'</td><td>'+ref+'</td>';
+    tbody.appendChild(tr);
+  });
+}
+
+function showToast(msg, type='info'){
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.className = 'toast '+(type||'info');
+  toast.style.display = 'block';
+  setTimeout(()=>{ toast.style.display='none'; }, 3000);
+}
+</script>
+</body>
+</html>
