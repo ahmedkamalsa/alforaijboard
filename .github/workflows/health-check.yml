@@ -1,16 +1,24 @@
 name: System Health Check
 on:
-  schedule: [{ cron: '0 * * * *' }]
+  schedule:
+    - cron: "*/5 * * * *"
   workflow_dispatch:
 jobs:
   check:
     runs-on: ubuntu-latest
     env:
-      SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
-      SUPABASE_URL: https://bwspcsiazbwrrxpgoldx.supabase.co
+      SUPABASE_URL: "https://bwspcsiazbwrrxpgoldx.supabase.co"
+      SUPABASE_ANON_KEY: ${ secrets.SUPABASE_ANON_KEY }
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
-        with: { python-version: '3.11' }
-      - run: pip install psutil 2>/dev/null || true
-      - run: python check_docker.py || echo "Health check completed"
+        with:
+          python-version: "3.11"
+      - name: Check Supabase
+        run: |
+          python -c "\nimport json, urllib.request, ssl, os\nfrom datetime import datetime\nctx = ssl.create_default_context()\nctx.check_hostname = False\nctx.verify_mode = ssl.CERT_NONE\nurl = \"https://bwspcsiazbwrrxpgoldx.supabase.co/rest/v1/market_listings?select=count\"\nreq = urllib.request.Request(url, headers={\n    \"apikey\": os.environ.get(\"SUPABASE_ANON_KEY\", \"\")\",\n    \"Authorization\": \"Bearer \" + os.environ.get(\"SUPABASE_ANON_KEY\", \"\")\",\n    \"Content-Type\": \"application/json\"\n})\ntry:\n    with urllib.request.urlopen(req, context=ctx, timeout=10) as r:\n        data = json.loads(r.read())\n        count = data[0][\"count\"] if data else 0\n        print(f\"OK: {count} listings\")\n        os.makedirs(\"site/static-data\", exist_ok=True)\n        health = {\"status\": \"connected_live\", \"records\": count, \"lastUpdated\": datetime.utcnow().isoformat()}\n        with open(\"site/static-data/health.json\", \"w\") as f:\n            json.dump(health, f, indent=2)\nexcept Exception as e:\n    print(f\"Error: {e}\")\n    exit(1)\n"
+      - uses: peaceiris/actions-gh-pages@v3
+        if: success()
+        with:
+          github_token: ${ secrets.GITHUB_TOKEN }
+          publish_dir: ./site
