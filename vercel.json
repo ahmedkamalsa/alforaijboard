@@ -1,4 +1,4 @@
 {
-  "buildCommand": "python -m pip install -r agent/requirements.txt && python agent/refresh_dashboard_register.py && python agent/build_static_site.py",
+  "buildCommand": "echo Static dashboard ready",
   "outputDirectory": "site"
 }
