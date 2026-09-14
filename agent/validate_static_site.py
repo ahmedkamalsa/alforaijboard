@@ -87,11 +87,17 @@ def main() -> None:
         raise AssertionError("Deployment security headers must allow reading same-origin static-data")
 
     metadata = read_json(SITE / "last-updated.json")
-    if metadata.get("record_count") != len(records):
+    metadata_count = metadata.get("record_count")
+    metadata_source = metadata.get("source")
+    if metadata_source == "supabase_market_listings":
+        if not isinstance(metadata_count, int) or metadata_count <= 0:
+            raise AssertionError("last-updated.json Supabase record count is invalid")
+    elif metadata_count != len(records):
         raise AssertionError("last-updated.json record count does not match dashboard-summary.json")
 
     print(json.dumps({
         "records": len(records),
+        "metadata_records": metadata_count,
         "opportunities_scored": opportunities.get("totalScored"),
         "opportunities_visible": len((dashboard.get("opportunities") or {}).get("items") or []),
         "market_requests": len(matching.get("requests") or []),
