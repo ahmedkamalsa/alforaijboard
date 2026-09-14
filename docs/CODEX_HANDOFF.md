@@ -1,0 +1,91 @@
+# Codex Handoff
+
+Date: 2026-09-14
+
+## Exact Current State
+
+- Workspace root: `D:\foraj_social\287`.
+- `alforaijboard` branch: `safety/pre-reorg-20260914-163154`.
+- Latest `alforaijboard` commit: `487a5ba fix: make dashboard validation metadata source-aware`.
+- `alforaijboard` working tree: clean.
+- `alforaij-research-assistant` branch: `main`, dirty before this work and still dirty.
+- No push performed.
+- Temporary inspection copy may remain: `D:\foraj_social\287\.tmp_alforaijboard_build_check_20260914`.
+
+## Root Cause
+
+Found and fixed inside `alforaijboard`.
+
+`agent/validate_static_site.py` compared `site/last-updated.json.record_count` to `len(site/static-data/dashboard-summary.json.records)`.
+
+Current artifacts prove these counts describe different sources:
+
+- `site/last-updated.json`: `source=supabase_market_listings`, `record_count=3912`.
+- `site/static-data/dashboard-summary.json`: `records=230`, `count=230`.
+- `site/static-data/live-db.json`: `total_count=1000`.
+- `site/static-data/health.json`: `records=3376`.
+
+Cause category: validator bug exposed by mixed/stale generated artifacts. The metadata file came from Supabase live sync, not the dashboard-summary generator.
+
+## Files Inspected
+
+- `alforaijboard/agent/validate_static_site.py`
+- `alforaijboard/agent/build_static_site.py`
+- `alforaijboard/agent/build_dashboard_preview_v2.py`
+- `alforaijboard/sync_live_db.py`
+- `alforaijboard/update_live_db.py`
+- `alforaijboard/.github/workflows/update-dashboard.yml`
+- `alforaijboard/netlify.toml`
+- `alforaijboard/vercel.json`
+- `alforaij-research-assistant/.github/workflows/deploy-alforaijboard.yml`
+- `alforaij-research-assistant/scripts/export_static_frontend_data.py`
+- narrow JSON key/count inspection of `site/last-updated.json`, `site/static-data/dashboard-summary.json`, `site/static-data/live-db.json`, `site/static-data/health.json`
+
+## Files Changed
+
+- `alforaijboard/agent/validate_static_site.py`
+- `alforaijboard/docs/CODEX_MAINTENANCE_REPORT.md`
+- `alforaijboard/docs/CODEX_HANDOFF.md`
+
+No files changed in `alforaij-research-assistant`.
+
+## Tests Run / Results
+
+- `python agent\validate_static_site.py`: passed.
+- `python -m py_compile agent\validate_static_site.py`: passed.
+- `python agent\build_static_site.py` in temp copy: failed before rewriting `site`; missing `agent/output/.../03_*.xlsx`. Same missing `agent/output` condition exists in real repo.
+- Post-commit `python agent\validate_static_site.py`: passed.
+
+## Current Git Status
+
+`alforaijboard`:
+
+```text
+## safety/pre-reorg-20260914-163154
+```
+
+`alforaij-research-assistant`:
+
+```text
+## main...origin/main
+ M .github/workflows/sync-supabase-daily.yml
+ M backend/main.py
+ M data/daily_agent_status.json
+ M data/daily_update_notifications.json
+ M data/market_developments.json
+ M frontend/app.js
+ M frontend/index.html
+ M scripts/export_static_frontend_data.py
+ M supabase/setup_all.sql
+?? .github/workflows/token-renewal-reminder.yml
+?? backend/services/hermes_gateway.py
+?? scripts/export_hermes_gateway.py
+?? supabase/migrations/025_rls_fix_three_tables.sql
+?? supabase/تقرير-RLS-والكوتا.md
+```
+
+## Next 3 Commands / Actions
+
+1. `cd D:\foraj_social\287\alforaijboard; python agent\validate_static_site.py`
+2. Determine root dashboard role with: `rg -n --glob '*.py' --glob '*.js' --glob '*.html' --glob '*.yml' --glob '*.toml' --glob '*.json' "live-dashboard\.html|site/live-dashboard\.html"`
+3. If cleanup is still desired, compare deployment needs before deleting: `git ls-tree -r --name-only origin/gh-pages | rg "live-dashboard|^site/live-dashboard"`

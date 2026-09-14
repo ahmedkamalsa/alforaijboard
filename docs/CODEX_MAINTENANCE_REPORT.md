@@ -2,6 +2,14 @@
 
 Date: 2026-09-14
 
+Current confirmed state after follow-up check:
+
+- Commit: `487a5ba fix: make dashboard validation metadata source-aware`.
+- `python agent\validate_static_site.py`: passed after the fix.
+- `alforaijboard`: clean on `safety/pre-reorg-20260914-163154`.
+- `alforaij-research-assistant`: still has pre-existing modified/untracked work and was not changed.
+- Root cause remains confirmed: `last-updated.json` currently records Supabase-sync metadata (`record_count=3912`, `source=supabase_market_listings`) while `dashboard-summary.json` is a separate dashboard snapshot with `230` records. The old validator compared those unrelated counts.
+
 ## 1. Confirmed Architecture
 
 - `alforaij-research-assistant` is the active product/source repository on branch `main`.
