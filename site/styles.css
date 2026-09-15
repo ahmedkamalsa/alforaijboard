@@ -292,3 +292,247 @@
   font-size: 16px;
   color: var(--blue);
 }
+
+/* ============================================================
+   وكيل الفريج العقاري الذكي (AI Agent UI Styles)
+   ============================================================ */
+.ai-agent-container {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.08);
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+.ai-agent-header {
+  background: linear-gradient(135deg, #0a2f91 0%, #1e40af 50%, #4c1d95 100%);
+  color: #ffffff;
+  padding: 18px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.agent-profile {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.agent-avatar {
+  font-size: 32px;
+  width: 52px;
+  height: 52px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.agent-profile h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 900;
+  color: #ffffff;
+}
+
+.agent-profile p {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: #cbd5e1;
+}
+
+.agent-badges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.agent-quick-prompts {
+  padding: 14px 20px;
+  background: #f8fafc;
+  border-bottom: 1px solid var(--line);
+}
+
+.quick-prompts-title {
+  display: block;
+  font-size: 12px;
+  font-weight: 800;
+  color: #64748b;
+  margin-bottom: 10px;
+}
+
+.quick-chips-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.agent-prompt-chip {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 999px;
+  padding: 7px 14px;
+  font-size: 12px;
+  font-weight: 800;
+  color: #1e293b;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.agent-prompt-chip:hover {
+  background: #eff6ff;
+  border-color: #2563eb;
+  color: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+.agent-chat-box {
+  padding: 20px;
+  max-height: 480px;
+  min-height: 280px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: #fcfcfd;
+}
+
+.agent-bubble {
+  display: flex;
+  width: 100%;
+}
+
+.agent-bubble-bot {
+  justify-content: flex-start;
+}
+
+.agent-bubble-user {
+  justify-content: flex-end;
+}
+
+.agent-bubble-inner {
+  max-width: 82%;
+  padding: 14px 18px;
+  border-radius: 12px;
+  position: relative;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.agent-bubble-bot .agent-bubble-inner {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-right: 4px solid #7c3aed;
+  color: #0f172a;
+}
+
+.agent-bubble-user .agent-bubble-inner {
+  background: linear-gradient(135deg, #0a2f91, #1e40af);
+  color: #ffffff;
+  border-radius: 12px;
+}
+
+.agent-bubble-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11.5px;
+  margin-bottom: 6px;
+  opacity: 0.85;
+}
+
+.agent-bubble-body {
+  font-size: 14px;
+  line-height: 1.7;
+  word-break: break-word;
+}
+
+.agent-bubble-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 8px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.bubble-act-btn {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 800;
+  color: #334155;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.bubble-act-btn:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.bubble-act-btn.wa-btn {
+  background: #dcfce7;
+  border-color: #86efac;
+  color: #166534;
+}
+
+.bubble-act-btn.wa-btn:hover {
+  background: #bbf7d0;
+}
+
+.agent-input-form {
+  padding: 14px 20px;
+  background: #ffffff;
+  border-top: 1px solid var(--line);
+  display: flex;
+  gap: 10px;
+}
+
+.agent-input-form input {
+  flex: 1;
+  padding: 12px 16px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.agent-input-form input:focus {
+  outline: none;
+  border-color: #0a2f91;
+  box-shadow: 0 0 0 3px rgba(10, 47, 145, 0.15);
+}
+
+.agent-input-form button.primary {
+  background: linear-gradient(135deg, #0a2f91, #7c3aed);
+  border: none;
+  color: #ffffff;
+  padding: 0 20px;
+  border-radius: 8px;
+  font-weight: 800;
+  font-size: 13.5px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.agent-input-form button.secondary {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  color: #64748b;
+  padding: 0 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+}
+

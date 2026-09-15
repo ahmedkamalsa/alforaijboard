@@ -10,6 +10,8 @@
   <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
   <meta name="theme-color" content="#0F172A">
   <title>منصة الفريج للفرص والتقييم العقاري</title>
+  <meta property="og:title" content="منصة الفريج للفرص والتقييم العقاري">
+  <meta property="og:description" content="منصة الفريج للبحث والتقييم العقاري وفرص المكسب المبنية على الأدلة والمصادر في سوق العقار الكويتي">
   <link rel="stylesheet" href="styles.css?v=20260809-evidence-suite">
   <script src="config.js?v=20260809-evidence-suite"></script>
   <script src="live-supabase-client.js?v=20260903-live"></script>
@@ -119,6 +121,7 @@
         <span>اكتب الطلب، اختر نطاق المصدر، ثم راجع النتائج والمصادر والأدلة من نفس الصفحة.</span>
       </div>
       <div class="action-buttons">
+        <button id="openAiAgentToolbarBtn" class="primary" style="background: linear-gradient(135deg, #0a2f91, #7c3aed); border-color: #8b5cf6;" type="button">وكيل الفريج الذكي 🤖</button>
         <button id="toggleCustomSearchBtn" type="button">بحث مخصص</button>
         <button id="clearChatBtn" type="button">مسح البحث</button>
         <button id="downloadReportBtn" type="button">حفظ التقرير JSON</button>
@@ -384,6 +387,7 @@
           <button class="opp-tab" data-tier="history" role="tab">الأداء الزمني</button>
           <button class="opp-tab" data-tier="matching" role="tab">العرض والطلب</button>
           <button class="opp-tab" data-tier="delta" role="tab">الجديد والمحذوف</button>
+          <button class="opp-tab opp-tab-ai" data-tier="agent-chat" role="tab" style="background: #ede9fe; color: #6d28d9; border-color: #c4b5fd; font-weight: bold;">الوكيل الذكي للعملاء 🤖</button>
         </div>
 
         <details class="collapsible opp-filters">

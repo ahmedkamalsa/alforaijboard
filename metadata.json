@@ -1,0 +1,8 @@
+{
+  "name": "منصة الفريج للفرص والتقييم العقاري",
+  "description": "منصة الفريج للبحث والتقييم العقاري وفرص المكسب المبنية على الأدلة والمصادر في سوق العقار الكويتي",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
