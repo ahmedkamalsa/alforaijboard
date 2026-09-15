@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="منصة الفريج للبحث والتقييم العقاري وفرص المكسب المبنية على الأدلة والمصادر.">
+  <meta name="description" content="منصة الفريج للبحث والتقييم العقاري وفرص المكسب المبنية على الأدلة والمصادر في سوق العقار الكويتي">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/alforaij-official-symbol.png">
   <link rel="icon" type="image/png" sizes="512x512" href="assets/alforaij-official-symbol.png">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
@@ -12,7 +12,14 @@
   <title>منصة الفريج للفرص والتقييم العقاري</title>
   <meta property="og:title" content="منصة الفريج للفرص والتقييم العقاري">
   <meta property="og:description" content="منصة الفريج للبحث والتقييم العقاري وفرص المكسب المبنية على الأدلة والمصادر في سوق العقار الكويتي">
-  <link rel="stylesheet" href="styles.css?v=20260809-evidence-suite">
+  <link rel="stylesheet" href="styles.css?v=20260915-responsive-v3">
+
+  <!-- Firebase App & Auth SDKs (v10 Modular via CDN compatible) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+  <!-- App Core Config & Clients -->
   <script src="config.js?v=20260809-evidence-suite"></script>
   <script src="live-supabase-client.js?v=20260903-live"></script>
   <script src="supabase-client.js?v=20260903-supabase"></script>
@@ -27,6 +34,7 @@
         <p class="hero-copy">بحث موحد في بيانات الفريج والمصادر الخارجية، تقييم موثق بمصدر كل رقم، وفرص مكسب تربط العرض بالطلب والعملاء المحتملين.</p>
         <div class="hero-actions">
           <a class="hero-link" href="#board">فتح لوحة الأرقام والفرص</a>
+          <a class="hero-link" href="#mapExplorerSection" style="background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.3);">خريطة الكويت التفاعلية 🗺️</a>
           <a class="hero-link hero-brand-link" href="https://front.alforaij.com/" target="_blank" rel="noreferrer" aria-label="فتح لوحة الفريج الأساسية — منصة الفريج الأصلية">
             <span class="brand-badge"><img class="brand-badge-ic" src="assets/alforaij-official-symbol.png" alt=""></span>
             <span class="brand-text">
@@ -49,42 +57,54 @@
           </div>
           <div class="status-pill status-ai" id="aiStatus">
             <span class="status-dot"></span>
-            <span>تحليل ذكي: 가동</span>
+            <span>تحليل ذكي: نشط مع البحث</span>
           </div>
           <div class="status-pill status-sync" id="syncStatus">
             <span class="status-dot"></span>
-            <span>آخر تحديث: -</span>
+            <span>آخر تحديث: لحظي</span>
           </div>
         </div>
-        <div class="status" id="healthStatus">الكل 1,218 | الفريج 182 | السوق 1,036 — قاعدة البيانات: متصلة</div>
+        <!-- User Account / Google Sign-in Firebase bar -->
+        <div id="userAuthContainer" style="margin-top: 10px; display: flex; justify-content: flex-end;">
+          <button id="googleSignInBtn" class="auth-btn" type="button">
+            <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
+            تسجيل الدخول بجوجل
+          </button>
+          <div id="userProfileBadge" class="user-auth-badge" style="display: none;">
+            <img id="userAvatarImg" src="" alt="المستخدم">
+            <span id="userNameSpan">المستخدم</span>
+            <button id="signOutBtn" class="auth-btn auth-btn-danger" type="button">خروج</button>
+          </div>
+        </div>
+        <div class="status" id="healthStatus">قاعدة البيانات: متصلة (4,821 إعلاناً | 424 فرصة)</div>
       </div>
     </div>
     <div class="top-metrics-row">
       <div class="top-metric">
-        <span class="top-metric-value" id="totalAdsMetric">1,218</span>
-        <span class="top-metric-label">إعلان</span>
+        <span class="top-metric-value" id="totalAdsMetric">4,821</span>
+        <span class="top-metric-label">إعلان معتمد</span>
       </div>
       <div class="top-metric">
-        <span class="top-metric-value" id="opportunitiesMetric">58</span>
-        <span class="top-metric-label">فرصة</span>
+        <span class="top-metric-value" id="opportunitiesMetric">424</span>
+        <span class="top-metric-label">فرصة مكسب</span>
       </div>
       <div class="top-metric">
-        <span class="top-metric-value" id="evaluatedMetric">431</span>
-        <span class="top-metric-label">دخلت التقييم</span>
+        <span class="top-metric-value" id="evaluatedMetric">1,890</span>
+        <span class="top-metric-label">مقيّم بالأدلة</span>
       </div>
       <div class="top-metric">
-        <span class="top-metric-value" id="directMetric">1,050</span>
-        <span class="top-metric-label">مباشر</span>
+        <span class="top-metric-value" id="directMetric">3,420</span>
+        <span class="top-metric-label">عقار مباشر</span>
       </div>
       <div class="top-metric">
-        <span class="top-metric-value" id="officeMetric">14</span>
-        <span class="top-metric-label">مكتب</span>
+        <span class="top-metric-value" id="officeMetric">1,401</span>
+        <span class="top-metric-label">مكتب معتمد</span>
       </div>
     </div>
   </header>
 
-  <section class="quick-filters-strip">
-    <div class="quick-governorates">
+  <section class="quick-filters-bar">
+    <div class="quick-govs">
       <span class="quick-label">المحافظة:</span>
       <button class="quick-chip active" data-gov="all">الكل</button>
       <button class="quick-chip" data-gov="al-asima">العاصمة</button>
@@ -129,6 +149,25 @@
       </div>
     </section>
 
+    <!-- Google Maps Platform Kuwait Real Estate Explorer -->
+    <section class="map-explorer-container" id="mapExplorerSection">
+      <div class="map-header-bar">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          خريطة عقارات الكويت التفاعلية (Google Maps Platform)
+        </h3>
+        <div class="map-controls-row">
+          <button class="map-filter-chip active" data-map-filter="all" type="button">كل المناطق</button>
+          <button class="map-filter-chip" data-map-filter="capital" type="button">العاصمة</button>
+          <button class="map-filter-chip" data-map-filter="hawally" type="button">حولي والسالمية</button>
+          <button class="map-filter-chip" data-map-filter="farwaniya" type="button">الفروانية وضواحيها</button>
+          <button class="map-filter-chip" data-map-filter="ahmadi" type="button">الأحمدي والخيران</button>
+          <button class="map-filter-chip" data-map-filter="opps" type="button" style="color: #92400e; font-weight: bold;">⭐ أفضل الفرص فقط</button>
+        </div>
+      </div>
+      <div id="kuwaitGoogleMap" class="map-view-canvas"></div>
+    </section>
+
     <section class="board-panel" id="board">
       <div class="section-title">
         <div>
@@ -146,216 +185,142 @@
             <option value="buyRequests">طلبات شراء</option>
             <option value="rentOffers">عروض الإيجار</option>
             <option value="rentRequests">طلبات الإيجار</option>
+            <option value="opportunities">فرص محسوبة</option>
           </select>
         </label>
-        <label>المحافظة - اكتب أو اختر
-          <input id="boardGovernorateFilter" list="boardGovernorates" placeholder="كل المحافظات" autocomplete="off">
-          <datalist id="boardGovernorates"></datalist>
+        <label>المحافظة
+          <select id="boardGovernorateFilter"><option value="">الكل</option></select>
         </label>
-        <label>نوع المعاملة - اكتب أو اختر
-          <input id="boardTransactionFilter" list="boardTransactions" placeholder="كل المعاملات" autocomplete="off">
-          <datalist id="boardTransactions"></datalist>
+        <label>المنطقة
+          <input id="boardAreaFilter" list="areaList" placeholder="اكتب أو اختر المنطقة">
         </label>
-        <label>نوع العقار - اكتب أو اختر
-          <input id="boardPropertyTypeFilter" list="boardPropertyTypes" placeholder="كل أنواع العقار" autocomplete="off">
-          <datalist id="boardPropertyTypes"></datalist>
+        <label>نوع العقار
+          <select id="boardPropertyTypeFilter"><option value="">الكل</option></select>
         </label>
-        <label>نمط الإدراج
-          <select id="boardListingModeFilter">
-            <option value="">كل الأنماط</option>
+        <label>نمط الإعلان
+          <select id="boardModeFilter">
+            <option value="">الكل</option>
+            <option value="مباشر">مباشر</option>
+            <option value="مكتب">مكتب</option>
           </select>
         </label>
-        <label>المنطقة - اكتب أو اختر
-          <input id="boardAreaFilter" list="boardAreas" placeholder="كل المناطق" autocomplete="off">
-          <datalist id="boardAreas"></datalist>
+        <label>المصدر
+          <select id="boardSourceFilter"><option value="">الكل</option></select>
         </label>
-        <div class="board-platform-field">
-          <span class="field-caption">منصات التقييم - الافتراضي كل المنصات</span>
-          <div class="platform-chips" id="boardPlatformFilter">
-            <label><input name="boardPlatform" type="checkbox" value="__all" checked> كل المنصات</label>
-            <label><input name="boardPlatform" type="checkbox" value="الفريج"> الفريج</label>
-            <label><input name="boardPlatform" type="checkbox" value="بوشملان"> بوشملان</label>
-            <label><input name="boardPlatform" type="checkbox" value="OpenSooq"> OpenSooq</label>
-            <label><input name="boardPlatform" type="checkbox" value="Mourjan"> Mourjan</label>
-            <label><input name="boardPlatform" type="checkbox" value="Q8Aqar"> Q8Aqar</label>
-            <label><input name="boardPlatform" type="checkbox" value="الحسبة"> الحسبة</label>
-            <label><input name="boardPlatform" type="checkbox" value="Sakan"> Sakan</label>
-            <label><input name="boardPlatform" type="checkbox" value="Waseet"> Waseet</label>
-            <label><input name="boardPlatform" type="checkbox" value="4Sale"> 4Sale</label>
-          </div>
+        <label>نوع العرض
+          <select id="boardTransactionFilter"><option value="">الكل</option></select>
+        </label>
+        <label>النص
+          <input id="boardTextFilter" placeholder="رقم الإعلان أو الكلمات">
+        </label>
+      </div>
+
+      <div class="board-meta-row">
+        <div class="recent-areas" id="recentAreas"></div>
+        <div class="board-actions">
+          <button id="boardSearchCurrentBtn" class="primary" type="button">ابحث في المعروض</button>
+          <button id="boardResetBtn" type="button">إعادة ضبط</button>
         </div>
       </div>
 
-      <div class="board-filter-actions">
-        <button id="boardRunSearchBtn" class="primary" type="button">بحث وتقييم حسب الاختيارات</button>
-        <button id="boardClearFiltersBtn" type="button">مسح اختيارات اللوحة</button>
+      <div class="board-summary-cards" id="boardSummaryCards"></div>
+      <div id="boardGovernorateDetails" class="governorate-breakdown"></div>
+      <div class="board-table-wrapper">
+        <table class="board-table" id="boardTable">
+          <thead>
+            <tr>
+              <th>المصدر</th>
+              <th>المحافظة</th>
+              <th>المنطقة</th>
+              <th>النوع</th>
+              <th>العملية</th>
+              <th>السعر</th>
+              <th>المساحة</th>
+              <th>النمط</th>
+              <th>التقييم</th>
+              <th>الإجراء</th>
+            </tr>
+          </thead>
+          <tbody id="boardTableBody"></tbody>
+        </table>
       </div>
-
-      <div id="boardMetricCards" class="board-metrics"></div>
-
-      <div class="board-layout">
-        <section class="board-overview">
-          <div class="section-title compact-title">
-            <h3>حركة الاختيارات</h3>
-            <span>اضغط أي كارت أو رقم لتشغيل نفس الفلاتر في التقييم.</span>
-          </div>
-          <div id="boardStats" class="board-stats"></div>
-          <div class="section-title compact-title companion-title">
-            <h3>إعلانات مرافقة</h3>
-            <span>حسب نفس الفلاتر والمنصات.</span>
-          </div>
-          <div id="boardCompanionAds" class="companion-ads"></div>
-          <div class="section-title compact-title companion-title">
-            <h3>فرص الربط والمكسب</h3>
-            <span>طلبات شراء/إيجار مقابل عروض مناسبة من نفس نطاق الفلاتر.</span>
-          </div>
-          <div id="boardMarketMatches" class="board-market-matches"></div>
-        </section>
-        <section class="governorate-board">
-          <div class="section-title compact-title">
-            <h3>الأرقام حسب المحافظات</h3>
-            <span>اضغط المحافظة لفتح مناطقها، أو اضغط الرقم لتصفية وتحليل نفس الاختيار.</span>
-          </div>
-          <div class="table-scroll">
-            <table class="governorate-table">
-              <thead>
-                <tr>
-                  <th>المحافظة / المنطقة</th>
-                  <th>الحركة</th>
-                  <th>الفرص</th>
-                  <th>للبيع</th>
-                  <th>شراء</th>
-                  <th>إيجار</th>
-                  <th>طلب إيجار</th>
-                </tr>
-              </thead>
-              <tbody id="governorateTableBody">
-                <tr><td colspan="7">جاري تحميل بيانات اللوحة...</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </section>
-      </div>
+      <div id="boardTablePagination" class="pagination-row"></div>
     </section>
 
-    <section id="customSearchPanel" class="request-panel chat-panel custom-search-panel" hidden>
-      <div class="section-title">
-        <h2>بحث وتقييم الفرص</h2>
-        <span>اكتب وصف الطلب، اختر نطاق المصدر، ثم راجع النتائج والأدلة من نفس المكان</span>
-      </div>
-
-      <div id="chatWindow" class="chat-window" aria-live="polite"></div>
-
-      <div class="chat-controls">
-        <input id="chatInput" type="text" placeholder="اكتب سؤالك أو الوصف هنا... مثال: بيت 400م في ابو فطيرة، تشطيب سوبر ديلوكس" autocomplete="off">
-        <button id="sendChatBtn" class="primary" type="button" onclick="sendChat()">إرسال</button>
-      </div>
-
-      <div class="chat-options">
-        <label>نطاق المصدر
-          <select id="sourceModeField">
-            <option value="local">الفريج فقط</option>
-            <option value="all" selected>كل المصادر المتاحة</option>
-            <option value="source">منصة/مصدر محدد فقط</option>
-          </select>
-        </label>
-        <label>المنصة المحددة
-          <select id="selectedSourceField">
-            <option value="OpenSooq">OpenSooq</option>
-            <option value="Mourjan">Mourjan</option>
-            <option value="Q8Aqar">Q8Aqar</option>
-            <option value="الحسبة">الحسبة - صفقات عامة</option>
-            <option value="Sakan">Sakan</option>
-            <option value="Waseet">Waseet</option>
-            <option value="NabdAqar">NabdAqar</option>
-            <option value="Bu3qar">Bu3qar / بوشملان</option>
-            <option value="Aqarat">Aqarat</option>
-            <option value="4Sale">4Sale</option>
-            <option value="السوق المباشر">السوق المباشر</option>
-            <option value="مؤشرات رسمية">مؤشرات رسمية</option>
-            <option value="الصفقات الرسمية">الصفقات الرسمية</option>
-          </select>
-        </label>
-        <label class="compact"><input id="includeExternal" type="checkbox" checked> تفعيل مصادر خارجية</label>
-      </div>
-
-      <div class="actions compact-actions">
-        <button id="openEvidenceQuick" type="button">المصادر والأدلة</button>
-      </div>
-
-      <details class="advanced-fields">
-        <summary>خيارات متقدمة</summary>
-        <div class="fields">
-          <label>نوع العملية<input id="transactionField" type="text"></label>
-          <label>نوع العقار<input id="typeField" type="text"></label>
-          <label class="wide">المناطق<input id="areasField" type="text"></label>
-          <label>أقل مساحة<input id="minAreaField" type="number" min="0"></label>
-          <label>أعلى مساحة<input id="maxAreaField" type="number" min="0"></label>
-          <label>ميزانية البيع<input id="budgetField" type="number" min="0"></label>
-          <label>ميزانية الإيجار<input id="rentBudgetField" type="number" min="0"></label>
-          <label>عدد الغرف<input id="bedroomsField" type="number" min="0"></label>
-        </div>
-      </details>
-    </section>
-
-    <section class="main-panel">
-      <section class="summary-strip">
-        <div>
-          <span class="metric-label">النتائج</span>
-          <strong id="resultCount">0</strong>
-        </div>
-        <div>
-          <span class="metric-label">أفضل توصية</span>
-          <strong id="topScore">-</strong>
-        </div>
-        <div>
-          <span class="metric-label">مصدر متصل</span>
-          <strong id="connectedSources">-</strong>
-        </div>
-        <div>
-          <span class="metric-label">قاعدة البيانات</span>
-          <strong id="persistenceStatus">-</strong>
-        </div>
-      </section>
-
-      <section class="insight-panel">
-        <div>
-          <h2>الخلاصة <span id="analysisBadge" class="analysis-badge"></span></h2>
-          <div id="searchScopeNote" class="scope-note" hidden></div>
-          <p id="summaryText">لم يتم تشغيل تحليل بعد.</p>
-          <details id="fullSummaryBox" class="collapsible" hidden>
-            <summary>التقرير الكامل</summary>
-            <div id="fullSummaryText"></div>
-          </details>
-        </div>
-        <details class="collapsible">
-          <summary>طريقة الترتيب والحساب</summary>
-          <div class="method-box">
-            <h3>طريقة الترتيب</h3>
-            <p id="rankingMethod">بعد تشغيل البحث ستظهر طريقة حساب درجة التوصية.</p>
-          </div>
-        </details>
-        <details class="collapsible">
-          <summary>الفرق بين الإيجار والبيع والشراء (تأكيد الحسابات)</summary>
-          <div id="transactionSummary" class="method-box">
-            <p>بعد تشغيل البحث سيظهر تأكيد الفرق في حسابات كل نوع معاملة.</p>
-          </div>
-        </details>
-      </section>
-
-      <section class="profit-panel">
+    <div class="search-and-eval-grid">
+      <section class="search-panel" id="customSearchPanel" hidden>
         <div class="section-title">
-          <h2>فرص المكسب</h2>
-          <span id="profitMeta">تظهر بعد البحث</span>
+          <h2>محددات البحث المخصص</h2>
+          <span>حدد خيارات تفصيلية لتضييق نطاق التقييم.</span>
         </div>
-        <p id="profitNote" class="scope-note"></p>
-        <div id="profitList" class="profit-list"></div>
+        <form id="searchForm" class="fields">
+          <label>المنطقة
+            <input id="areaInput" list="areaList" placeholder="مثال: الخيران، الرميثية">
+          </label>
+          <label>المحافظة
+            <select id="governorateSelect"><option value="">الكل</option></select>
+          </label>
+          <label>نوع العقار
+            <select id="propertyTypeSelect"><option value="">الكل</option></select>
+          </label>
+          <label>نوع العملية
+            <select id="transactionSelect">
+              <option value="">الكل</option>
+              <option value="بيع">بيع</option>
+              <option value="شراء">شراء</option>
+              <option value="إيجار">إيجار</option>
+            </select>
+          </label>
+          <label>الحد الأقصى للسعر (د.ك)
+            <input id="maxPriceInput" type="number" min="0" placeholder="—">
+          </label>
+          <label>نطاق المصادر
+            <select id="sourceScopeSelect">
+              <option value="all">كل المصادر (الفريج + الخارجية المعتمدة)</option>
+              <option value="internal_only">الفريج فقط</option>
+              <option value="external_only">المصادر الخارجية فقط</option>
+            </select>
+          </label>
+          <label>المصدر الخارجي
+            <select id="externalSourceSelect"><option value="">كل المصادر الخارجية</option></select>
+          </label>
+          <label>نمط الإعلان
+            <select id="advertiserModeSelect">
+              <option value="all">الكل</option>
+              <option value="direct_only">مباشر فقط</option>
+              <option value="office_only">مكاتب فقط</option>
+            </select>
+          </label>
+          <div class="form-actions">
+            <button class="primary" type="submit">تنفيذ التقييم</button>
+            <button id="resetSearchBtn" type="button">إعادة تعيين</button>
+          </div>
+        </form>
       </section>
 
-      <section class="similar-external-panel">
+      <section class="chat-search-panel">
         <div class="section-title">
-          <h2>إعلانات مشابهة من المواقع الأخرى</h2>
-          <span id="similarExternalMeta">تظهر بعد تشغيل البحث</span>
+          <h2>البحث المباشر مع الذكاء الاصطناعي</h2>
+          <span>اكتب طلبك مباشرة كأنك تسأل مستشارك العقاري، وستتحول رسالتك إلى تقييم فوري.</span>
+        </div>
+        <div id="chatMessages" class="chat-stream"></div>
+        <form id="chatForm" class="chat-input-row">
+          <input id="chatInput" placeholder="اكتب طلبك... مثال: مطلوب أرض في الفنيطيس بطن وظهر بسعر لا يتجاوز 350 ألف" required>
+          <button class="primary" type="submit">إرسال وبحث</button>
+        </form>
+      </section>
+    </div>
+
+    <section id="resultsSection" class="results-container">
+      <div id="summaryCard" class="summary-card" hidden></div>
+      <div id="resultsList" class="results"></div>
+
+      <section id="similarExternalSection" class="similar-external-panel" hidden>
+        <div class="section-title">
+          <div>
+            <h3>إعلانات مشابهة من السوق الخارجي للتحقق من السعر</h3>
+            <span>قارن هذا العرض بعروض مشابهة معلنة في السوق الآن من نفس المنطقة.</span>
+          </div>
         </div>
         <p id="similarExternalNote" class="scope-note"></p>
         <div id="similarExternalList" class="similar-external-list"></div>
@@ -387,6 +352,7 @@
           <button class="opp-tab" data-tier="history" role="tab">الأداء الزمني</button>
           <button class="opp-tab" data-tier="matching" role="tab">العرض والطلب</button>
           <button class="opp-tab" data-tier="delta" role="tab">الجديد والمحذوف</button>
+          <button class="opp-tab" data-tier="saved" role="tab" style="background: #fef3c7; color: #92400e; font-weight: bold;">⭐ المحفوظات (Firestore)</button>
           <button class="opp-tab opp-tab-ai" data-tier="agent-chat" role="tab" style="background: #ede9fe; color: #6d28d9; border-color: #c4b5fd; font-weight: bold;">الوكيل الذكي للعملاء 🤖</button>
         </div>
 
@@ -452,61 +418,22 @@
           </div>
         </div>
         <div id="dailyUpdateNotice" class="daily-update-notice" hidden></div>
-        <details class="collapsible ops-advanced">
-          <summary>استيراد يدوي احتياطي لصفقات وزارة العدل</summary>
-          <p class="scope-note">المسار الأساسي أوتوماتيكي عبر الوكيل اليومي و <code>OFFICIAL_TRANSACTIONS_SOURCE</code>. استخدم هذا فقط عند توفر CSV/JSON موثق وتريد إدخاله فورًا.</p>
-          <input id="officialImportFile" type="file" accept=".csv,.json,text/csv,application/json">
-          <div class="ops-actions">
-            <button id="officialImportBtn" class="primary" type="button">استيراد الصفقات</button>
-          </div>
-          <p id="officialImportStatus" class="ops-status"></p>
-        </details>
-
-        <div class="section-title">
-          <h2>حالة المصادر</h2>
-          <span>مختصر ما دخل التقييم وما لم يدخل</span>
-        </div>
-        <div id="sourceSummaryBar" class="source-summary-bar"></div>
-        <details class="collapsible">
-          <summary>تفاصيل المصادر</summary>
-          <div id="sourceStatus" class="source-grid"></div>
-        </details>
-        <details class="collapsible">
-          <summary>الخطة المستقبلية للمصادر</summary>
-          <div id="externalSourcePlan" class="source-grid muted-grid"></div>
-        </details>
-        <details class="collapsible">
-          <summary>منصات الاعتماد (تفاصيل)</summary>
-          <div class="registry-wrap">
-            <h3>منصات الاعتماد</h3>
-            <div id="sourceRegistry" class="registry-table"></div>
-          </div>
-        </details>
-        <div id="externalLinks" class="external-links"></div>
-      </section>
-
-      <section class="results-panel">
-        <div class="section-title">
-          <h2>النتائج المرتبة</h2>
-          <span>حسب درجة التوصية</span>
-        </div>
-        <div id="results" class="results"></div>
       </section>
     </section>
   </main>
 
+  <datalist id="areaList"></datalist>
+
   <template id="resultTemplate">
     <article class="result-card">
-      <div class="rank-cell"></div>
       <div class="result-body">
-        <div class="result-head">
+        <div class="result-header">
           <div>
-            <h3></h3>
-            <p class="meta"></p>
-            <span class="outside-area pill warn" hidden></span>
+            <h3 class="title"></h3>
+            <p class="location"></p>
           </div>
-          <div class="verdict">
-            <span class="verdict-label"></span>
+          <div class="price-box">
+            <span class="price"></span>
             <strong class="recommendation"></strong>
           </div>
         </div>
@@ -517,7 +444,11 @@
           <span class="source-trust"></span>
         </div>
         <p class="decision-line"></p>
-        <a class="open-link" target="_blank" rel="noreferrer">فتح الإعلان الأصلي</a>
+        
+        <div style="display: flex; gap: 8px; align-items: center; margin: 10px 0; flex-wrap: wrap;">
+          <a class="open-link" target="_blank" rel="noreferrer">فتح الإعلان الأصلي</a>
+          <button class="bookmark-btn" type="button">⭐ حفظ في المفضلة</button>
+        </div>
 
         <details class="result-details">
           <summary>التفاصيل والأدلة</summary>
@@ -550,13 +481,6 @@
     </article>
   </template>
 
-  <script src="app.js?v=20260809-final-platform"></script>
-<script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function() {
-    navigator.serviceWorker.register('sw.js').catch(function(e){ console.warn('SW failed', e); });
-  });
-}
-</script>
+  <script src="app.js?v=20260915-v3"></script>
 </body>
 </html>

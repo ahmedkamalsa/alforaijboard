@@ -1849,13 +1849,21 @@ function renderClientsTab(root) {
   const clients = oppState.clients || [];
   const rows = clients.map((client) => {
     const firstWa = (client.waLinks && client.waLinks[0]) || waLink((client.phones || "").split("|")[0] || "");
+    const clientName = client.name || client.code || "عميل محتمل";
+    const propInfo = `${client.area || ""} ${client.type || ""}`.trim() || "عقار كويتي";
+    const priceText = client.price ? Number(client.price).toLocaleString("en-US") + " د.ك" : "";
     return `
     <div class="client-row">
-      <strong>${escapeHtml(client.code || "-")}</strong>
-      <span>${escapeHtml(client.area || "")} ${escapeHtml(client.type || "")}</span>
-      <span>${escapeHtml(client.price || "")}</span>
-      <code dir="ltr">${escapeHtml(client.phones || "")}</code>
-      <a class="wa-open" href="${escapeHtml(firstWa)}" target="_blank" rel="noreferrer">واتساب</a>
+      <div class="client-info">
+        <strong>${escapeHtml(client.code || "-")}</strong>
+        <span>${escapeHtml(client.area || "")} ${escapeHtml(client.type || "")}</span>
+        ${priceText ? `<span class="client-budget">${escapeHtml(priceText)}</span>` : ""}
+        <code dir="ltr">${escapeHtml(client.phones || "")}</code>
+      </div>
+      <div class="client-actions">
+        <button class="ai-reply-btn" type="button" onclick="openClientAiReply('${escapeHtml(clientName)}', '${escapeHtml(client.phones || '')}', '${escapeHtml(propInfo)}', '${escapeHtml(String(client.price || ''))}')">🤖 رد ذكي بالـ AI</button>
+        <a class="wa-open" href="${escapeHtml(firstWa)}" target="_blank" rel="noreferrer">واتساب ↗</a>
+      </div>
     </div>`;
   }).join("");
   root.innerHTML = `

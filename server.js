@@ -36,13 +36,13 @@ const KUWAIT_REAL_ESTATE_SYSTEM_PROMPT = `
 خبرتك الميدانية:
 - تحليل شامل لبيانات السوق الكويتي (العاصمة، حولي، الفروانية، مبارك الكبير، الأحمدي، الجهراء).
 - مناطق السكن الخاص والنموذجي: جنوب السرة، الرميثية، مشرف، بيان، الفيحاء، اليرموك، صباح السالم، أبو فطيرة، الفنيطيس، غرب عبدالله المبارك، صباح الأحمد، المطلاع، الخيران.
-- مناطق الاستثماري والتجاري: السالمية، حولي، خيطان، الفروانية، المهبولة، الفنطاس، حولي.
+- مناطق الاستثماري والتجاري: السالمية، حولي، خيطان، الفروانية، المهبولة، الفنطاس.
 - مصطلحات السوق الكويتي: وثيقة حرة، بطن وظهر، زاوية، شارع وسكة، ارتداد كبير، هدام، تشطيب ديلوكس/سوبر ديلوكس، مؤجر بالكامل، مدخول شهري، نسبة عائد، مراجعة، سوم، حد.
-- قاعدة البيانات تضم أكثر من 4,820 إعلان عقاري محدّث و420+ فرصة استثمارية مقيّمة بالأدلة والمقارنات.
+- قاعدة البيانات الحية تضم 4,821 إعلاناً عقارياً محدّثاً و424 فرصة استثمارية مقيّمة بالأدلة والمقارنات.
 
 مهامك:
-1. الرد المباشر والدقيق على استفسارات العملاء والمستثمرين والوسطاء بأسلوب مهني لبق ومقنع.
-2. تقييم أسعار العقارات المعروضة ومقارنتها بمتوسطات السوق الكويتي مع بيان درجة الجدوى والمخاطر.
+1. الرد المباشر والدقيق على استفسارات العملاء والمستثمرين بأسلوب مهني لبق ومقنع.
+2. تقييم أسعار العقارات ومقارنتها بمتوسطات السوق الكويتي مع بيان درجة الجدوى والمخاطر.
 3. صياغة عروض ترويجية ورسائل واتساب احترافية تناسب الذوق الكويتي وتزيد من سرعة إتمام الصفقات.
 4. تقديم نصائح للمشتري أو البائع أو المستأجر لمساعدته في اتخاذ القرار.
 `;
@@ -115,7 +115,18 @@ const STATIC_DATA_MAP = {
   '/api/live-db': 'live-db.json'
 };
 
-// 1. Live Supabase Status Check
+// 1. Safe Public Client Config (Firebase & Google Maps)
+app.get('/api/app-config', (req, res) => {
+  res.json({
+    googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY || 'AIzaSyChwuT0DpOWeYvJ_4qqr88P-YZwJmNQ-uo',
+    firebaseConfig: {
+      projectId: 'banded-carport-81ttq',
+      authDomain: 'banded-carport-81ttq.firebaseapp.com'
+    }
+  });
+});
+
+// 2. Live Supabase Status Check
 app.get('/api/supabase/status', async (req, res) => {
   try {
     const checkRes = await fetch(`${SUPABASE_URL}/rest/v1/market_listings?select=id&limit=1`, {
@@ -148,7 +159,7 @@ app.get('/api/supabase/status', async (req, res) => {
   }
 });
 
-// 2. AI Agent Chat Endpoint
+// 3. Multi-turn AI Agent Chat with Gemini & Google Search Grounding
 app.post('/api/agent/chat', async (req, res) => {
   const { message, history = [], listingContext = null, clientContext = null } = req.body;
   if (!message || typeof message !== 'string') {
@@ -166,19 +177,61 @@ app.post('/api/agent/chat', async (req, res) => {
         contextNote += `\nبيانات العميل المطابق:\n${JSON.stringify(clientContext, null, 2)}`;
       }
 
-      const contents = [
-        { role: 'user', parts: [{ text: `${KUWAIT_REAL_ESTATE_SYSTEM_PROMPT}\n${contextNote}\n\nالسؤال/الطلب:\n${message}` }] }
-      ];
+      // Build multi-turn contents array with proper alternating user/model roles
+      const contents = [];
+      
+      // Inject system knowledge & context in first user turn or system prompt
+      const systemPreamble = `${KUWAIT_REAL_ESTATE_SYSTEM_PROMPT}${contextNote ? '\n\n' + contextNote : ''}`;
 
+      if (Array.isArray(history) && history.length > 0) {
+        for (let i = 0; i < history.length; i++) {
+          const item = history[i];
+          const role = item.role === 'assistant' || item.role === 'model' ? 'model' : 'user';
+          let text = item.text || item.content || '';
+          if (i === 0 && role === 'user') {
+            text = `${systemPreamble}\n\n${text}`;
+          }
+          if (text) {
+            contents.push({ role, parts: [{ text }] });
+          }
+        }
+      }
+
+      // Add the latest user message
+      if (contents.length === 0) {
+        contents.push({
+          role: 'user',
+          parts: [{ text: `${systemPreamble}\n\nالسؤال/الطلب الحالي:\n${message}` }]
+        });
+      } else {
+        contents.push({
+          role: 'user',
+          parts: [{ text: message }]
+        });
+      }
+
+      // Call Gemini with Google Search Grounding enabled for up-to-date accurate market facts
       const response = await ai.models.generateContent({
         model: 'gemini-3.8-flash',
-        contents
+        contents,
+        config: {
+          tools: [{ googleSearch: {} }]
+        }
       });
 
       const replyText = response.text || '';
+      
+      // Extract grounding metadata if provided
+      const searchChunks = response.candidates?.[0]?.groundingMetadata?.groundingChunks || [];
+      const sources = searchChunks.map(c => ({
+        title: c.web?.title || 'مصدر خارجي',
+        uri: c.web?.uri || ''
+      })).filter(s => s.uri);
+
       return res.json({
         reply: replyText,
-        source: 'gemini-3.8-flash',
+        source: 'gemini-3.8-flash-with-search',
+        groundingSources: sources,
         timestamp: new Date().toISOString()
       });
     } catch (err) {
@@ -195,7 +248,7 @@ app.post('/api/agent/chat', async (req, res) => {
   });
 });
 
-// 3. AI Agent WhatsApp Generator
+// 4. AI Agent WhatsApp Generator
 app.post('/api/agent/generate-reply', async (req, res) => {
   const { clientName, area, propertyType, budget, listingCode, listingPrice, phones } = req.body;
 
@@ -242,10 +295,9 @@ app.post('/api/agent/generate-reply', async (req, res) => {
   });
 });
 
-// 4. Daily Agent Run Endpoint
+// 5. Daily Agent Run Endpoint
 app.post('/api/daily-agent/run', async (req, res) => {
   try {
-    // Ping Supabase to get live counts
     let totalCount = 4821;
     try {
       const checkRes = await fetch(`${SUPABASE_URL}/rest/v1/market_listings?select=id&limit=1`, {
@@ -266,7 +318,6 @@ app.post('/api/daily-agent/run', async (req, res) => {
     const nowIso = new Date().toISOString();
     const resultStatus = `تم التحديث بنجاح: تم مسح ${totalCount.toLocaleString('ar-EG')} إعلان وتحديث 424 فرصة استثمارية ومطابقة العروض مع طلبات العملاء.`;
 
-    // Update status file if present
     const statusFilePath = path.join(staticDataDir, 'daily-agent-status.json');
     if (fs.existsSync(statusFilePath)) {
       try {
@@ -291,7 +342,7 @@ app.post('/api/daily-agent/run', async (req, res) => {
   }
 });
 
-// 5. PDF / Printable Valuation Report Endpoint
+// 6. PDF / Printable Valuation Report Endpoint
 app.post('/api/report-pdf', (req, res) => {
   const { report } = req.body || {};
   const query = report?.query || 'عقار في دولة الكويت';
@@ -366,12 +417,12 @@ body { font-family: system-ui, Tajawal, Arial, sans-serif; background: #fff; col
   res.send(htmlContent);
 });
 
-// 6. Outreach Click Tracking
+// 7. Outreach Click Tracking
 app.post('/api/outreach-click', (req, res) => {
   res.json({ success: true, timestamp: new Date().toISOString() });
 });
 
-// 7. General static and API mapping
+// 8. General static and API mapping
 app.get('/api/:endpoint(*)', (req, res) => {
   const fullPath = `/api/${req.params.endpoint}`;
   const fileName = STATIC_DATA_MAP[fullPath] || `${req.params.endpoint}.json`;
