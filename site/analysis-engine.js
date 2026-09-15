@@ -31,8 +31,7 @@ const AnalysisEngine = {
     const sources = new Set();
     const governorates = new Set();
     const areas = new Set();
-    const priced = 0;
-    const withPhone = 0;
+    let priced = 0;
     
     for (const listing of listings) {
       // نوع العقار
@@ -84,7 +83,10 @@ const AnalysisEngine = {
     
     const sum = prices.reduce((a, b) => a + b, 0);
     const avg = Math.round(sum / prices.length);
-    const median = prices[Math.floor(prices.length / 2)];
+    const mid = Math.floor(prices.length / 2);
+    const median = prices.length % 2 === 0
+      ? Math.round((prices[mid - 1] + prices[mid]) / 2)
+      : prices[mid];
     const min = prices[0];
     const max = prices[prices.length - 1];
     

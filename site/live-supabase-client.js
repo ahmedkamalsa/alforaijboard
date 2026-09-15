@@ -180,8 +180,8 @@ class SupabaseLiveClient {
     const sources = {};
     const transactions = {};
     const governorates = {};
-    const priceDisclosed = 0;
-    const priceTotal = 0;
+    let priceDisclosed = 0;
+    let priceTotal = 0;
     const maxPrice = { value: 0 };
     const minPrice = { value: Infinity };
     const prices = [];
@@ -214,7 +214,15 @@ class SupabaseLiveClient {
       .map(([name, count]) => ({ name, count, percentage: Math.round(count / records.length * 100) }));
 
     const avgPrice = prices.length ? Math.round(priceTotal / prices.length) : 0;
-    const medianPrice = prices.length ? prices.sort((a,b) => a-b)[Math.floor(prices.length/2)] : 0;
+    const medianPrice = prices.length
+      ? (() => {
+          const s = [...prices].sort((a, b) => a - b);
+          const mid = Math.floor(s.length / 2);
+          return s.length % 2 === 0
+            ? Math.round((s[mid - 1] + s[mid]) / 2)
+            : s[mid];
+        })()
+      : 0;
 
     return {
       total: records.length,
