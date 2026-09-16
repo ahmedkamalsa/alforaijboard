@@ -2801,6 +2801,19 @@ async function fetchLiveAlforaijCountForStatus() {
   return totals.reduce((sum, value) => sum + Number(value || 0), 0);
 }
 
+async function fetchNetlifyLiveCountsForStatus() {
+  const response = await fetch('/.netlify/functions/live-counts', { cache: 'no-store' });
+  if (!response.ok) throw new Error('Live counts function failed: ' + response.status);
+  const payload = await response.json();
+  if (!payload?.ok) throw new Error(payload?.error || 'Live counts function returned invalid payload');
+  return {
+    local: Number(payload.local || 0),
+    external: Number(payload.external || 0),
+    total: Number(payload.total || 0),
+    cached: Boolean(payload.cached)
+  };
+}
+
 async function updateLiveStatus() {
   const dbStatusEl = document.getElementById('dbStatus');
   const aiStatusEl = document.getElementById('aiStatus');
@@ -2811,6 +2824,25 @@ async function updateLiveStatus() {
   const ANON_KEY='sb_publishable_c84oHQS94osRqw_SiTIqMg_8icxvatZ';
   const SUPABASE_URL = 'https://bwspcsiazbwrrxpgoldx.supabase.co';
   
+  try {
+    const liveCounts = await fetchNetlifyLiveCountsForStatus();
+    if (liveCounts.total > 0) {
+      const statusText = 'متصل: ' + liveCounts.total.toLocaleString('ar-EG') + ' إعلان (الفريج ' + liveCounts.local.toLocaleString('ar-EG') + ' + خارجي ' + liveCounts.external.toLocaleString('ar-EG') + ')' + (liveCounts.cached ? ' cache' : '');
+      dbStatusEl.innerHTML = '<span class="status-dot"></span><span>' + statusText + '</span>';
+      dbStatusEl.className = 'status-pill status-live';
+      aiStatusEl.innerHTML = '<span class="status-dot"></span><span>تحليل ذكي: نشط (Gemini 3.8)</span>';
+      aiStatusEl.className = 'status-pill status-ai';
+      const now = new Date();
+      syncStatusEl.innerHTML = '<span class="status-dot"></span><span>آخر تحديث: ' + now.toLocaleString('ar-EG') + '</span>';
+      syncStatusEl.className = 'status-pill status-sync';
+      const totalAdsEl = document.getElementById('totalAdsMetric');
+      if (totalAdsEl) totalAdsEl.textContent = liveCounts.total.toLocaleString('en-US');
+      return;
+    }
+  } catch (functionError) {
+    console.warn('[Live Status] Netlify live-counts fallback:', functionError.message);
+  }
+
   try {
     // فحص الاتصال
     const countResp = await fetch(SUPABASE_URL + '/rest/v1/market_listings?select=id&limit=10000', {
