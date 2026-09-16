@@ -16,7 +16,7 @@
 ## علاقته بالمشاريع الأخرى
 
 - `alforaij-research-assistant` يدفع `frontend/` إلى فرع `gh-pages` هنا عبر workflow.
-- `vs/site` هو أقرب مصدر محلي لموقع Netlify الحالي.
+- `vs/site` هو أقرب مصدر محلي لموقع Netlify الحالي، وتم نشره عبر Netlify API في deploy `6aaae64f92dd583e054ae56c`.
 
 ## تحذير
 
@@ -28,4 +28,3 @@
 cd D:\foraj_social\287\alforaijboard
 git status --short
 ```
-
