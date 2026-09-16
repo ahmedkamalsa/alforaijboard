@@ -47,6 +47,8 @@ PPTX_PATH = OUTPUT_DIR / "director_manager_report.pptx"
 EXCEL_PATH = OUTPUT_DIR / "director_manager_data_register.xlsx"
 SOURCES_HTML_PATH = OUTPUT_DIR / "sources_methodology.html"
 SOURCES_PDF_PATH = OUTPUT_DIR / "sources_methodology.pdf"
+DIRECT_OFFICE_HTML_PATH = OUTPUT_DIR / "direct_office_ads.html"
+DIRECT_OFFICE_PDF_PATH = OUTPUT_DIR / "direct_office_ads.pdf"
 QA_MD_PATH = OUTPUT_DIR / "QA.md"
 MANIFEST_PATH = OUTPUT_DIR / "manifest.json"
 MONTAGE_PATH = QA_DIR / "pdf_pages_montage.png"
@@ -55,6 +57,8 @@ FINAL_REPORT_PDF = TO_MANAGER_DIR / "01_تقرير_إحصائيات_الفريج
 FINAL_PPTX = TO_MANAGER_DIR / "02_عرض_إحصائيات_الفريج_حسب_المحافظات_قابل_للتعديل.pptx"
 FINAL_EXCEL = TO_MANAGER_DIR / "03_سجل_الأرقام_والمصادر_الفريج.xlsx"
 FINAL_SOURCES_PDF = TO_MANAGER_DIR / "04_مصادر_ومنهجية_البيانات.pdf"
+FINAL_HI1_DIR = ROOT / "output" / "hi_1"
+FINAL_HI1_DIRECT_OFFICE_PDF = FINAL_HI1_DIR / "03_قائمة_الإعلانات_المباشر_والمكتب.pdf"
 
 SNAPSHOT_DATE = date(2026, 7, 29)
 SNAPSHOT_LABEL = "حتى 29 يوليو 2026"
@@ -398,6 +402,257 @@ def fetch_all_data() -> tuple[dict[int, str], list[dict]]:
     return type_names, listings
 
 
+def available_listing_ids_from_dashboard() -> set[int]:
+    site_html = ROOT.parent / "site" / "index.html"
+    if not site_html.exists():
+        return set()
+    match = re.search(
+        r'<script id="payload" type="application/json">(.*?)</script>',
+        site_html.read_text(encoding="utf-8"),
+        re.S,
+    )
+    if not match:
+        return set()
+    payload = json.loads(match.group(1))
+    ids: set[int] = set()
+    for row in payload.get("records", []):
+        code = str(row.get("code", ""))
+        code_match = re.search(r"(\d+)", code)
+        if code_match:
+            ids.add(int(code_match.group(1)))
+    return ids
+
+
+def dashboard_payload_records() -> list[dict]:
+    site_html = ROOT.parent / "site" / "index.html"
+    if not site_html.exists():
+        return []
+    match = re.search(
+        r'<script id="payload" type="application/json">(.*?)</script>',
+        site_html.read_text(encoding="utf-8"),
+        re.S,
+    )
+    if not match:
+        return []
+    payload = json.loads(match.group(1))
+    return list(payload.get("records", []))
+
+
+def direct_office_records_from_dashboard() -> list[dict]:
+    records = dashboard_payload_records()
+    direct = "\u0645\u0628\u0627\u0634\u0631"
+    office = "\u0645\u0643\u062a\u0628"
+    unknown = "\u063a\u064a\u0631 \u0645\u062d\u062f\u062f"
+    filtered = []
+    for row in records:
+        mode = str(row.get("listingMode") or "").strip()
+        if mode and mode != unknown and (direct in mode or office in mode):
+            filtered.append(row)
+    filtered.sort(key=lambda row: (str(row.get("publishedDate") or ""), str(row.get("code") or "")), reverse=True)
+    return filtered
+
+
+def create_direct_office_html() -> int:
+    rows = direct_office_records_from_dashboard()
+    mode_counts = Counter(str(row.get("listingMode") or "غير محدد") for row in rows)
+    governorate_counts = Counter(str(row.get("governorate") or "غير محدد") for row in rows)
+    transaction_counts = Counter(str(row.get("transaction") or "غير محدد") for row in rows)
+
+    def esc(value: object) -> str:
+        text = "" if value is None else str(value)
+        return html.escape(clean_text(text))
+
+    def short(value: object, limit: int = 120) -> str:
+        text = clean_text("" if value is None else str(value))
+        return text if len(text) <= limit else text[: limit - 1].rstrip() + "…"
+
+    stat_cards = "".join(
+        f"""
+        <div class="stat-card">
+          <div class="stat-label">{esc(label)}</div>
+          <div class="stat-value">{fmt_int(value)}</div>
+        </div>
+        """
+        for label, value in [
+            ("إجمالي مباشر/مكتب", len(rows)),
+            ("مباشر", sum(v for k, v in mode_counts.items() if "مباشر" in k)),
+            ("مكتب", sum(v for k, v in mode_counts.items() if "مكتب" in k)),
+            ("محافظات ممثلة", len([k for k in governorate_counts if k != "غير محدد"])),
+        ]
+    )
+    mode_summary = " | ".join(f"{esc(k)}: {fmt_int(v)}" for k, v in mode_counts.most_common())
+    trans_summary = " | ".join(f"{esc(k)}: {fmt_int(v)}" for k, v in transaction_counts.most_common())
+    gov_summary = " | ".join(f"{esc(k)}: {fmt_int(v)}" for k, v in governorate_counts.most_common())
+
+    table_rows = []
+    for idx, row in enumerate(rows, start=1):
+        url = row.get("originalUrl") or row.get("searchUrl") or ""
+        table_rows.append(
+            f"""
+            <tr>
+              <td class="num">{idx}</td>
+              <td class="code">{esc(row.get('code'))}</td>
+              <td>{esc(row.get('listingMode'))}</td>
+              <td>{esc(row.get('transaction'))}</td>
+              <td>{esc(row.get('property_type'))}</td>
+              <td>{esc(row.get('governorate'))}</td>
+              <td>{esc(row.get('area'))}</td>
+              <td>{esc(row.get('priceText'))}</td>
+              <td>{esc(row.get('space'))}</td>
+              <td>{esc(row.get('publishedDate'))}</td>
+              <td class="summary">{esc(short(row.get('detailText') or row.get('summary'), 135))}</td>
+              <td><a href="{html.escape(str(url))}">فتح</a></td>
+            </tr>
+            """
+        )
+
+    logo_src = html.escape(LOGO_PATH.resolve().as_uri()) if LOGO_PATH.exists() else ""
+    html_text = f"""<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>الإعلانات المباشر والمكتب</title>
+<style>
+  @page {{ size: A4 landscape; margin: 12mm; }}
+  * {{ box-sizing: border-box; }}
+  body {{
+    margin: 0;
+    background: #f8fafc;
+    color: #0f172a;
+    font-family: Arial, Tahoma, sans-serif;
+    direction: rtl;
+    font-size: 13px;
+    line-height: 1.55;
+  }}
+  .page {{
+    width: 100%;
+    background: white;
+    padding: 20px 24px 24px;
+  }}
+  .hero {{
+    display: grid;
+    grid-template-columns: 190px 1fr;
+    gap: 24px;
+    align-items: center;
+    background: linear-gradient(135deg, #0f172a, #111827 62%, #1e293b);
+    color: white;
+    border-bottom: 6px solid #d97706;
+    padding: 22px 28px;
+    margin: -20px -24px 22px;
+  }}
+  .logo-box {{
+    background: rgba(255,255,255,.94);
+    border: 1px solid rgba(255,255,255,.55);
+    border-radius: 14px;
+    padding: 12px;
+    min-height: 78px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }}
+  .logo-box img {{ max-width: 160px; max-height: 58px; object-fit: contain; }}
+  h1 {{ margin: 0 0 8px; font-size: 28px; font-weight: 800; }}
+  .subtitle {{ margin: 0; color: #dbeafe; font-size: 15px; font-weight: 700; }}
+  .cards {{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 16px;
+  }}
+  .stat-card {{
+    border: 1px solid #cbd5e1;
+    border-right: 5px solid #1d4ed8;
+    border-radius: 10px;
+    padding: 12px 14px;
+    background: #fff;
+    box-shadow: 0 2px 6px rgba(15, 23, 42, .06);
+  }}
+  .stat-label {{ color: #334155; font-weight: 700; }}
+  .stat-value {{ font-size: 26px; font-weight: 900; margin-top: 4px; }}
+  .summary-box {{
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    padding: 12px 14px;
+    background: #f8fafc;
+    margin-bottom: 16px;
+    font-weight: 700;
+  }}
+  .summary-line {{ margin: 3px 0; }}
+  table {{ width: 100%; border-collapse: collapse; table-layout: fixed; background: white; }}
+  thead {{ display: table-header-group; }}
+  th {{
+    background: #0f172a;
+    color: white;
+    padding: 8px 6px;
+    border: 1px solid #1e293b;
+    font-size: 11px;
+    font-weight: 800;
+  }}
+  td {{
+    padding: 7px 6px;
+    border: 1px solid #cbd5e1;
+    vertical-align: top;
+    font-size: 10.5px;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+  }}
+  td.num {{ text-align: center; width: 28px; }}
+  td.code {{ color: #1d4ed8; font-weight: 900; }}
+  td.summary {{ color: #334155; line-height: 1.45; }}
+  a {{ color: #1d4ed8; font-weight: 900; text-decoration: none; }}
+  .footnote {{
+    margin-top: 10px;
+    color: #475569;
+    font-size: 11px;
+    text-align: center;
+    font-weight: 700;
+  }}
+</style>
+</head>
+<body>
+<main class="page">
+  <section class="hero">
+    <div class="logo-box">{f'<img src="{logo_src}" alt="logo">' if logo_src else ""}</div>
+    <div>
+      <h1>قائمة الإعلانات المباشر والمكتب</h1>
+      <p class="subtitle">تفصيل الإعلانات المصنفة كمباشر أو مكتب داخل سجل المنصة، مع المحافظة والمنطقة ورابط الإعلان الأصلي.</p>
+    </div>
+  </section>
+  <section class="cards">{stat_cards}</section>
+  <section class="summary-box">
+    <div class="summary-line">حسب نوع الإعلان: {mode_summary}</div>
+    <div class="summary-line">حسب نوع المعاملة: {trans_summary}</div>
+    <div class="summary-line">حسب المحافظات: {gov_summary}</div>
+  </section>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:32px">#</th>
+        <th style="width:68px">كود الإعلان</th>
+        <th style="width:88px">نوع الإعلان</th>
+        <th style="width:78px">المعاملة</th>
+        <th style="width:72px">نوع العقار</th>
+        <th style="width:98px">المحافظة</th>
+        <th style="width:108px">المنطقة</th>
+        <th style="width:82px">السعر</th>
+        <th style="width:58px">المساحة</th>
+        <th style="width:78px">تاريخ النشر</th>
+        <th>مختصر التفاصيل</th>
+        <th style="width:52px">الرابط</th>
+      </tr>
+    </thead>
+    <tbody>
+      {''.join(table_rows)}
+    </tbody>
+  </table>
+  <div class="footnote">المصدر: سجل منصة الفريج الداخلي الظاهر في لوحة الأرقام والعروض الفعلية.</div>
+</main>
+</body>
+</html>"""
+    DIRECT_OFFICE_HTML_PATH.write_text(html_text, encoding="utf-8")
+    return len(rows)
+
+
 def is_house_sale(row: dict) -> bool:
     if row["transaction_type_id"] != 1:
         return False
@@ -647,6 +902,65 @@ def governorate_table_html(rows: list[dict]) -> str:
     return f"""<table class="gov-table"><thead><tr>{header_html}</tr></thead><tbody>{"".join(row_html)}</tbody></table>"""
 
 
+def top_area_text(rows: list[dict], *, transaction_type_id: int | None = None, house_sale: bool = False, limit: int = 3) -> str:
+    filtered_rows = rows
+    if transaction_type_id is not None:
+        filtered_rows = [row for row in filtered_rows if row["transaction_type_id"] == transaction_type_id]
+    if house_sale:
+        filtered_rows = [row for row in filtered_rows if is_house_sale(row)]
+    counter = Counter(row.get("city_name") or "غير محدد" for row in filtered_rows)
+    if not counter:
+        return "لا توجد سجلات"
+    return " | ".join(f"{label}: {value}" for label, value in counter.most_common(limit))
+
+
+def governorate_detail_cards_html(metrics: dict, start_page: int) -> list[str]:
+    sections: list[str] = []
+    summary = metrics["governorate_summary"]
+    core_rows = metrics["core_rows"]
+    for page_index, offset in enumerate(range(0, len(summary), 2), start=start_page):
+        cards = []
+        for item in summary[offset : offset + 2]:
+            gov = item["label"]
+            rows = [row for row in core_rows if (row.get("governorate_name") or "غير محدد") == gov]
+            cards.append(
+                f"""
+                <article class="gov-detail-card">
+                  <h2>{html.escape(gov)}</h2>
+                  <div class="gov-mini-grid">
+                    <span><b>{fmt_int(item["total"])}</b>الحركة</span>
+                    <span><b>{fmt_int(item["sale"])}</b>للبيع</span>
+                    <span><b>{fmt_int(item["buy"])}</b>شراء</span>
+                    <span><b>{fmt_int(item["house_sale"])}</b>بيوت للبيع</span>
+                    <span><b>{fmt_int(item["rent"])}</b>إيجار</span>
+                    <span><b>{fmt_int(item["rent_request"])}</b>طلب إيجار</span>
+                  </div>
+                  <dl>
+                    <dt>أبرز مناطق الحركة</dt><dd>{html.escape(top_area_text(rows))}</dd>
+                    <dt>أبرز مناطق البيع</dt><dd>{html.escape(top_area_text(rows, transaction_type_id=1))}</dd>
+                    <dt>أبرز مناطق الشراء</dt><dd>{html.escape(top_area_text(rows, transaction_type_id=3))}</dd>
+                    <dt>أبرز مناطق البيوت للبيع</dt><dd>{html.escape(top_area_text(rows, house_sale=True))}</dd>
+                    <dt>أبرز مناطق الإيجار</dt><dd>{html.escape(top_area_text(rows, transaction_type_id=2))}</dd>
+                  </dl>
+                </article>
+                """
+            )
+        sections.append(
+            f"""
+            <section class="slide">
+              {slide_header("تفاصيل المحافظات", "تفصيل الأرقام داخل كل محافظة وأبرز المناطق")}
+              <main>
+                <div class="gov-detail-grid">
+                  {"".join(cards)}
+                </div>
+              </main>
+              {source_footer(page_index)}
+            </section>
+            """
+        )
+    return sections
+
+
 def kpi_html(title: str, value: str, unit: str, note: str = "", accent: str | None = None) -> str:
     style = f' style="border-right-color:{accent}"' if accent else ""
     note_html = f"<small>{html.escape(note)}</small>" if note else ""
@@ -848,6 +1162,8 @@ def build_report_html(metrics: dict) -> None:
         """
     )
 
+    sections.extend(governorate_detail_cards_html(metrics, 8))
+
     sections.append(
         f"""
         <section class="slide">
@@ -861,7 +1177,7 @@ def build_report_html(metrics: dict) -> None:
               <li>تم عرض الإحصائيات حسب المحافظات عند توفر المحافظة في بيانات الإعلان.</li>
             </ul>
           </main>
-          {source_footer(8)}
+          {source_footer(11)}
         </section>
         """
     )
@@ -925,6 +1241,15 @@ def build_report_html(metrics: dict) -> None:
     .gov-table th {{ background: {css_hex(BRAND["dark"])}; color: #fff; padding: 0.1in 0.05in; border: 1px solid {css_hex(BRAND["dark"])}; font-weight: 700; }}
     .gov-table td {{ background: #fff; padding: 0.085in 0.05in; border: 1px solid {css_hex(BRAND["line"])}; text-align: center; font-weight: 700; color: {css_hex(BRAND["ink"])}; }}
     .gov-table td:first-child {{ text-align: right; color: {css_hex(BRAND["muted"])}; }}
+    .gov-detail-grid {{ display: grid; grid-template-columns: 1fr 1fr; gap: 0.22in; padding-top: 0.24in; }}
+    .gov-detail-card {{ background: #fff; border: 1px solid {css_hex(BRAND["line"])}; border-right: 6px solid {css_hex(BRAND["blue"])}; border-radius: 8px; padding: 0.18in 0.2in; min-height: 4.68in; }}
+    .gov-detail-card h2 {{ margin: 0 0 0.14in; font-size: 23px; line-height: 1.22; color: {css_hex(BRAND["ink"])}; }}
+    .gov-mini-grid {{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.09in; margin-bottom: 0.16in; }}
+    .gov-mini-grid span {{ display: block; background: #f8fafc; border: 1px solid #dbe3ef; border-radius: 6px; padding: 0.08in 0.06in; font-size: 12px; color: {css_hex(BRAND["muted"])}; font-weight: 800; text-align: center; }}
+    .gov-mini-grid b {{ display: block; font-size: 23px; color: {css_hex(BRAND["ink"])}; line-height: 1.0; margin-bottom: 0.04in; }}
+    .gov-detail-card dl {{ margin: 0; display: grid; gap: 0.09in; }}
+    .gov-detail-card dt {{ margin: 0; font-size: 14px; font-weight: 800; color: {css_hex(BRAND["gold"])}; }}
+    .gov-detail-card dd {{ margin: 0; padding-bottom: 0.06in; border-bottom: 1px solid #e5edf7; font-size: 15px; line-height: 1.35; font-weight: 800; color: {css_hex(BRAND["ink"])}; }}
     .priority p {{ margin: 0 0 0.16in; font-size: 19px; line-height: 1.58; color: {css_hex(BRAND["ink"])}; }}
     .methodology {{ margin: 0.32in 0.18in 0 0; padding: 0; list-style-position: inside; font-size: 23px; line-height: 1.78; font-weight: 700; }}
     .source-box {{ margin-top: 0.34in; background: #fff; border: 1px solid {css_hex(BRAND["line"])}; border-right: 6px solid {css_hex(BRAND["gold"])}; border-radius: 7px; padding: 0.2in 0.25in; }}
@@ -1782,6 +2107,17 @@ def copy_final_files() -> None:
         shutil.copy2(src, dst)
 
 
+def copy_direct_office_to_hi1() -> Path:
+    FINAL_HI1_DIR.mkdir(parents=True, exist_ok=True)
+    try:
+        shutil.copy2(DIRECT_OFFICE_PDF_PATH, FINAL_HI1_DIRECT_OFFICE_PDF)
+        return FINAL_HI1_DIRECT_OFFICE_PDF
+    except PermissionError:
+        fallback = FINAL_HI1_DIRECT_OFFICE_PDF.with_name("03_قائمة_الإعلانات_المباشر_والمكتب_سليم.pdf")
+        shutil.copy2(DIRECT_OFFICE_PDF_PATH, fallback)
+        return fallback
+
+
 def create_manifest(metrics: dict, pdf_info: dict) -> None:
     payload = {
         "name": "director_manager_operational_statistics",
@@ -1814,16 +2150,30 @@ def main() -> None:
     metrics = build_analysis(type_names, listings)
     build_report_html(metrics)
     create_sources_html(metrics)
+    direct_office_count = create_direct_office_html()
     render_html_to_pdf(REPORT_HTML_PATH, REPORT_PDF_PATH)
     render_html_to_pdf(SOURCES_HTML_PATH, SOURCES_PDF_PATH)
+    render_html_to_pdf(DIRECT_OFFICE_HTML_PATH, DIRECT_OFFICE_PDF_PATH)
     create_pptx(metrics)
     create_excel(metrics)
     pdf_info = render_pdf_pages(REPORT_PDF_PATH)
     checks = validate(metrics)
     create_qa_md(metrics, pdf_info, checks)
     copy_final_files()
+    direct_office_final = copy_direct_office_to_hi1()
     create_manifest(metrics, pdf_info)
-    print(json.dumps({"output": str(TO_MANAGER_DIR), "metrics": MANIFEST_PATH.read_text(encoding="utf-8")}, ensure_ascii=False, indent=2))
+    print(
+        json.dumps(
+            {
+                "output": str(TO_MANAGER_DIR),
+                "direct_office_count": direct_office_count,
+                "direct_office_pdf": str(direct_office_final),
+                "metrics": MANIFEST_PATH.read_text(encoding="utf-8"),
+            },
+            ensure_ascii=False,
+            indent=2,
+        )
+    )
 
 
 if __name__ == "__main__":

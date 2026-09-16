@@ -1,7 +1,12 @@
 {
-  "generated_at": "2026-09-08T22:28:31.678641+00:00",
-  "last_synced": "2026-09-08 22:28:31 UTC",
-  "record_count": 4051,
-  "source": "supabase_market_listings",
-  "project": "https://bwspcsiazbwrrxpgoldx.supabase.co"
+  "generated_at": "2026-09-16T07:51:27.0942212Z",
+  "entrypoint": "index.html",
+  "dashboard_variant": "property-type-filter",
+  "record_count": 313,
+  "api_core_count": 313,
+  "api_all_count_including_exchange": 319,
+  "downloads": [
+    "downloads/offer-evidence.xlsx"
+  ],
+  "quality_report": "qa.html"
 }

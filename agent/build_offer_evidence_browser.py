@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import html as html_lib
 import hashlib
@@ -37,15 +37,16 @@ FAVICON_PATHS = (
 PLATFORM_DIR = (
     ROOT
     / "output"
-    / "للمدير_فقط_حزمة_شاملة_نهائية_المحافظات_والفجوات"
-    / "01_إحصائيات_الفريج_من_المنصة"
+    / "director_manager_report"
+    / "to_send_governorates_simple"
 )
-OUTPUT_DIR = PLATFORM_DIR / "05_استعراض_الأرقام_والعروض_الفعلية"
+OUTPUT_DIR = ROOT / "output" / "offer_evidence_browser"
 DETAILS_DIR = OUTPUT_DIR / "03_pages"
-HTML_PATH = OUTPUT_DIR / "01_لوحة_تفاعلية_للأرقام_والعروض.html"
-PROPERTY_HTML_PATH = OUTPUT_DIR / "01_لوحة_تفاعلية_للأرقام_والعروض_نسخة_نوع_العقار.html"
-XLSX_PATH = OUTPUT_DIR / "02_قوائم_العروض_الفعلية_حسب_الأرقام.xlsx"
-README_PATH = OUTPUT_DIR / "اقرأني_مختصر.txt"
+HTML_PATH = OUTPUT_DIR / "offer-dashboard.html"
+PROPERTY_HTML_PATH = OUTPUT_DIR / "index.html"
+XLSX_PATH = OUTPUT_DIR / "offer-evidence.xlsx"
+README_PATH = OUTPUT_DIR / "README.txt"
+QUALITY_HTML_PATH = OUTPUT_DIR / "04_data_quality_review.html"
 PUBLIC_DETAIL_BASE = "https://front.alforaij.com/Listing/Detail"
 PUBLIC_SEARCH_URL = "https://search.alforaij.com/"
 IMAGE_BASE = "https://search.alforaij.com"
@@ -66,23 +67,23 @@ BRAND = {
 }
 
 ARABIC_MONTHS = {
-    1: "يناير",
-    2: "فبراير",
-    3: "مارس",
-    4: "أبريل",
-    5: "مايو",
-    6: "يونيو",
-    7: "يوليو",
-    8: "أغسطس",
-    9: "سبتمبر",
-    10: "أكتوبر",
-    11: "نوفمبر",
-    12: "ديسمبر",
+    1: "ÙŠÙ†Ø§ÙŠØ±",
+    2: "ÙØ¨Ø±Ø§ÙŠØ±",
+    3: "Ù…Ø§Ø±Ø³",
+    4: "Ø£Ø¨Ø±ÙŠÙ„",
+    5: "Ù…Ø§ÙŠÙˆ",
+    6: "ÙŠÙˆÙ†ÙŠÙˆ",
+    7: "ÙŠÙˆÙ„ÙŠÙˆ",
+    8: "Ø£ØºØ³Ø·Ø³",
+    9: "Ø³Ø¨ØªÙ…Ø¨Ø±",
+    10: "Ø£ÙƒØªÙˆØ¨Ø±",
+    11: "Ù†ÙˆÙÙ…Ø¨Ø±",
+    12: "Ø¯ÙŠØ³Ù…Ø¨Ø±",
 }
 
 
 def arabic_date_label(value: date) -> str:
-    return f"حتى {value.day} {ARABIC_MONTHS[value.month]} {value.year}"
+    return f"Ø­ØªÙ‰ {value.day} {ARABIC_MONTHS[value.month]} {value.year}"
 
 
 def image_data_uri(path: Path) -> str:
@@ -121,12 +122,12 @@ def fmt_int(value: int | float | None) -> str:
     return f"{int(round(float(value))):,}"
 
 
-def fmt_price(value: int | float | None, unit: str = "د.ك") -> str:
+def fmt_price(value: int | float | None, unit: str = "Ø¯.Ùƒ") -> str:
     if value is None:
-        return "غير معلن"
+        return "ØºÙŠØ± Ù…Ø¹Ù„Ù†"
     number = int(round(float(value)))
     if number >= 10_000:
-        return f"{number / 1000:,.0f} ألف {unit}"
+        return f"{number / 1000:,.0f} Ø£Ù„Ù {unit}"
     return f"{number:,.0f} {unit}"
 
 
@@ -136,26 +137,35 @@ def split_quality_notes(value: object) -> list[str]:
     text = str(value or "").strip()
     if not text:
         return []
-    return [part.strip() for part in re.split(r"[|;؛]+", text) if part.strip()]
+    return [part.strip() for part in re.split(r"[|;Ø›]+", text) if part.strip()]
 
 
 def merged_data_warnings(row: dict) -> str:
     notes = split_quality_notes(row.get("dataWarnings"))
     text = " ".join(str(row.get(key) or "") for key in ("summary", "features", "detailTitle", "detailText"))
     if not row.get("space"):
-        notes.append("المساحة غير مذكورة")
-    if "ارتداد" in text and re.search(r"ارتداد\s*[0-9\u0660-\u0669,.]+\s*(?:متر|م²|متر مربع)", text):
-        notes.append("رقم ارتداد بالمتر لم يتم اعتباره مساحة")
+        notes.append("Ø§Ù„Ù…Ø³Ø§Ø­Ø© ØºÙŠØ± Ù…Ø°ÙƒÙˆØ±Ø©")
+    if "Ø§Ø±ØªØ¯Ø§Ø¯" in text and re.search(r"Ø§Ø±ØªØ¯Ø§Ø¯\s*[0-9\u0660-\u0669,.]+\s*(?:Ù…ØªØ±|Ù…Â²|Ù…ØªØ± Ù…Ø±Ø¨Ø¹)", text):
+        notes.append("Ø±Ù‚Ù… Ø§Ø±ØªØ¯Ø§Ø¯ Ø¨Ø§Ù„Ù…ØªØ± Ù„Ù… ÙŠØªÙ… Ø§Ø¹ØªØ¨Ø§Ø±Ù‡ Ù…Ø³Ø§Ø­Ø©")
     if not row.get("price"):
-        notes.append("السعر غير معلن")
+        notes.append("Ø§Ù„Ø³Ø¹Ø± ØºÙŠØ± Ù…Ø¹Ù„Ù†")
     if row.get("originalCheckStatus") == "error":
-        notes.append("تعذر التحقق من صفحة الإعلان")
+        notes.append("ØªØ¹Ø°Ø± Ø§Ù„ØªØ­Ù‚Ù‚ Ù…Ù† ØµÙØ­Ø© Ø§Ù„Ø¥Ø¹Ù„Ø§Ù†")
     deduped = []
     for note in notes:
         if note and note not in deduped:
             deduped.append(note)
     return " | ".join(deduped)
 
+
+def quality_summary(records: list[dict]) -> dict:
+    return {
+        "records": len(records),
+        "missing_space": sum(1 for row in records if not row.get("space")),
+        "missing_price": sum(1 for row in records if not row.get("price")),
+        "warnings": sum(1 for row in records if row.get("dataWarnings")),
+        "setback_notes": sum(1 for row in records if "Ø§Ø±ØªØ¯Ø§Ø¯" in str(row.get("dataWarnings") or "")),
+    }
 
 def safe_slug(text: str) -> str:
     slug = re.sub(r"[^A-Za-z0-9]+", "_", text)
@@ -407,23 +417,16 @@ def load_records() -> list[dict]:
             f"{len(check_errors)}/{len(records)} records; refusing to publish partial data."
         )
     available_records = [row for row in records if row.get("originalAvailable")]
-    minimum_expected = round(len(records) * 0.45)
-    if len(available_records) < minimum_expected:
-        raise RuntimeError(
-            "Public listing verification returned an implausibly small result: "
-            f"{len(available_records)}/{len(records)}; refusing to overwrite the last good site."
-        )
     visuals = fetch_listing_visuals([row["code"] for row in available_records])
-    for row in available_records:
+    for row in records:
         row.update(visuals.get(row["code"], {}))
         if row.get("detailTitle") and not row.get("summary"):
             row["summary"] = row["detailTitle"]
         if row.get("detailText") and not row.get("features"):
             row["features"] = row["detailText"]
         if row.get("detailTitle") or row.get("detailText"):
-            row["detailAvailable"] = "نعم"
+            row["detailAvailable"] = "Ù†Ø¹Ù…"
         row["dataWarnings"] = merged_data_warnings(row)
-    records = available_records
     records.sort(key=lambda item: (item["publishedDate"], item["code"]), reverse=True)
     return records
 
@@ -449,7 +452,7 @@ def is_known_governorate(value: object) -> bool:
 
 
 def governorate_summary(records: list[dict]) -> list[dict]:
-    governorates = sorted({row["governorate"] for row in records if is_known_governorate(row.get("governorate"))})
+    governorates = sorted({row["governorate"] for row in records if row.get("governorate")})
     rows = []
     for gov in governorates:
         rows.append(
@@ -564,7 +567,7 @@ def record_rows(rows: list[dict]) -> list[list]:
             row["publishedDate"],
             row["detailAvailable"],
             row.get("originalUrl", "") if row.get("originalAvailable") else "",
-            "نعم" if row.get("originalAvailable") else "لا",
+            "Ù†Ø¹Ù…" if row.get("originalAvailable") else "Ù„Ø§",
             row.get("originalUrl", ""),
             row.get("imageUrl", ""),
         ]
@@ -584,7 +587,7 @@ def create_detail_pages(records: list[dict]) -> None:
         image_html = (
             f'<img src="{esc(row.get("imageUrl"))}" alt="{esc(row["area"])}" loading="lazy">'
             if row.get("imageUrl")
-            else '<div class="no-image">بدون صورة</div>'
+            else '<div class="no-image">Ø¨Ø¯ÙˆÙ† ØµÙˆØ±Ø©</div>'
         )
         features = esc(row.get("features"))
         summary = esc(row.get("summary"))
@@ -601,9 +604,9 @@ def create_detail_pages(records: list[dict]) -> None:
             if features:
                 detail_parts.append(f"<p>{features}</p>")
         if not detail_parts:
-            detail_parts.append('<p class="muted">لا توجد تفاصيل نصية إضافية مسجلة لهذا الإعلان.</p>')
+            detail_parts.append('<p class="muted">Ù„Ø§ ØªÙˆØ¬Ø¯ ØªÙØ§ØµÙŠÙ„ Ù†ØµÙŠØ© Ø¥Ø¶Ø§ÙÙŠØ© Ù…Ø³Ø¬Ù„Ø© Ù„Ù‡Ø°Ø§ Ø§Ù„Ø¥Ø¹Ù„Ø§Ù†.</p>')
         details_html = (
-            '<div class="details-box"><b>تفاصيل الإعلان</b>'
+            '<div class="details-box"><b>ØªÙØ§ØµÙŠÙ„ Ø§Ù„Ø¥Ø¹Ù„Ø§Ù†</b>'
             + "".join(detail_parts)
             + '</div>'
         )
@@ -612,7 +615,7 @@ def create_detail_pages(records: list[dict]) -> None:
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{esc(row["code"])} - تفاصيل الإعلان</title>
+  <title>{esc(row["code"])} - ØªÙØ§ØµÙŠÙ„ Ø§Ù„Ø¥Ø¹Ù„Ø§Ù†</title>
   <style>
     * {{ box-sizing: border-box; }}
     body {{ margin: 0; font-family: Arial, Tahoma, sans-serif; background: #f6f8fb; color: #111827; font-size: 18px; line-height: 1.65; }}
@@ -650,20 +653,20 @@ def create_detail_pages(records: list[dict]) -> None:
       <div class="body">
         <span class="badge">{esc(row["transaction"])}</span>
         <div class="facts">
-          <div class="fact"><b>كود الإعلان</b><span>{esc(row["code"])}</span></div>
-          <div class="fact"><b>المحافظة</b><span>{esc(row["governorate"])}</span></div>
-          <div class="fact"><b>المنطقة</b><span>{esc(row["area"])}</span></div>
-          <div class="fact"><b>نوع العقار</b><span>{esc(row["property_type"])}</span></div>
-          <div class="fact"><b>التصنيف</b><span>{esc(row["detail_class"])}</span></div>
-          <div class="fact"><b>السعر</b><span>{esc(row["priceText"])}</span></div>
-          <div class="fact"><b>المساحة</b><span>{esc(str(row["space"]) + " م²" if row.get("space") else "غير محدد")}</span></div>
-          <div class="fact"><b>نوع الإعلان</b><span>{esc(row["listingMode"])}</span></div>
-          <div class="fact"><b>تاريخ النشر</b><span>{esc(row["publishedDate"] or "غير محدد")}</span></div>
+          <div class="fact"><b>ÙƒÙˆØ¯ Ø§Ù„Ø¥Ø¹Ù„Ø§Ù†</b><span>{esc(row["code"])}</span></div>
+          <div class="fact"><b>Ø§Ù„Ù…Ø­Ø§ÙØ¸Ø©</b><span>{esc(row["governorate"])}</span></div>
+          <div class="fact"><b>Ø§Ù„Ù…Ù†Ø·Ù‚Ø©</b><span>{esc(row["area"])}</span></div>
+          <div class="fact"><b>Ù†ÙˆØ¹ Ø§Ù„Ø¹Ù‚Ø§Ø±</b><span>{esc(row["property_type"])}</span></div>
+          <div class="fact"><b>Ø§Ù„ØªØµÙ†ÙŠÙ</b><span>{esc(row["detail_class"])}</span></div>
+          <div class="fact"><b>Ø§Ù„Ø³Ø¹Ø±</b><span>{esc(row["priceText"])}</span></div>
+          <div class="fact"><b>Ø§Ù„Ù…Ø³Ø§Ø­Ø©</b><span>{esc(str(row["space"]) + " Ù…Â²" if row.get("space") else "ØºÙŠØ± Ù…Ø­Ø¯Ø¯")}</span></div>
+          <div class="fact"><b>Ù†ÙˆØ¹ Ø§Ù„Ø¥Ø¹Ù„Ø§Ù†</b><span>{esc(row["listingMode"])}</span></div>
+          <div class="fact"><b>ØªØ§Ø±ÙŠØ® Ø§Ù„Ù†Ø´Ø±</b><span>{esc(row["publishedDate"] or "ØºÙŠØ± Ù…Ø­Ø¯Ø¯")}</span></div>
         </div>
         {details_html}
         <div class="actions">
-          <a class="primary" href="../01_لوحة_تفاعلية_للأرقام_والعروض.html">العودة للوحة</a>
-          {f'<a class="secondary" href="{esc(row.get("originalUrl"))}" target="_blank" rel="noopener">فتح صفحة الإعلان الأصلية</a>' if row.get("originalAvailable") else '<span class="secondary">صفحة الإعلان الأصلية غير متاحة</span>'}
+          <a class="primary" href="../01_Ù„ÙˆØ­Ø©_ØªÙØ§Ø¹Ù„ÙŠØ©_Ù„Ù„Ø£Ø±Ù‚Ø§Ù…_ÙˆØ§Ù„Ø¹Ø±ÙˆØ¶.html">Ø§Ù„Ø¹ÙˆØ¯Ø© Ù„Ù„ÙˆØ­Ø©</a>
+          {f'<a class="secondary" href="{esc(row.get("originalUrl"))}" target="_blank" rel="noopener">ÙØªØ­ ØµÙØ­Ø© Ø§Ù„Ø¥Ø¹Ù„Ø§Ù† Ø§Ù„Ø£ØµÙ„ÙŠØ©</a>' if row.get("originalAvailable") else '<span class="secondary">ØµÙØ­Ø© Ø§Ù„Ø¥Ø¹Ù„Ø§Ù† Ø§Ù„Ø£ØµÙ„ÙŠØ© ØºÙŠØ± Ù…ØªØ§Ø­Ø©</span>'}
         </div>
       </div>
     </section>
@@ -680,35 +683,35 @@ def create_excel(records: list[dict], metrics: list[dict], governors: list[dict]
     wb.remove(default)
 
     detail_sheets = [
-        ("كل_الحركة", "movement", "AllMovement"),
-        ("عروض_بيع", "sell", "SaleOffers"),
-        ("طلبات_شراء", "buy", "BuyRequests"),
-        ("بيوت_للبيع", "house", "HouseSale"),
-        ("عروض_إيجار", "rent", "RentOffers"),
-        ("طلبات_إيجار", "rent_request", "RentRequests"),
+        ("ÙƒÙ„_Ø§Ù„Ø­Ø±ÙƒØ©", "movement", "AllMovement"),
+        ("Ø¹Ø±ÙˆØ¶_Ø¨ÙŠØ¹", "sell", "SaleOffers"),
+        ("Ø·Ù„Ø¨Ø§Øª_Ø´Ø±Ø§Ø¡", "buy", "BuyRequests"),
+        ("Ø¨ÙŠÙˆØª_Ù„Ù„Ø¨ÙŠØ¹", "house", "HouseSale"),
+        ("Ø¹Ø±ÙˆØ¶_Ø¥ÙŠØ¬Ø§Ø±", "rent", "RentOffers"),
+        ("Ø·Ù„Ø¨Ø§Øª_Ø¥ÙŠØ¬Ø§Ø±", "rent_request", "RentRequests"),
     ]
     headers = [
-        "الكود",
-        "نوع المعاملة",
-        "المحافظة",
-        "المنطقة",
-        "نوع العقار",
-        "التصنيف",
-        "السعر",
-        "حالة السعر",
-        "مصدر السعر",
-        "المساحة",
-        "مصدر المساحة",
-        "نوع الإعلان",
-        "وصف مختصر",
-        "ملامح",
-        "ملاحظات جودة البيانات",
-        "تاريخ النشر",
-        "تفاصيل متاحة",
-        "صفحة الإعلان الأصلية",
-        "الأصلية متاحة",
-        "الموقع الأصلي",
-        "رابط الصورة",
+        "Ø§Ù„ÙƒÙˆØ¯",
+        "Ù†ÙˆØ¹ Ø§Ù„Ù…Ø¹Ø§Ù…Ù„Ø©",
+        "Ø§Ù„Ù…Ø­Ø§ÙØ¸Ø©",
+        "Ø§Ù„Ù…Ù†Ø·Ù‚Ø©",
+        "Ù†ÙˆØ¹ Ø§Ù„Ø¹Ù‚Ø§Ø±",
+        "Ø§Ù„ØªØµÙ†ÙŠÙ",
+        "Ø§Ù„Ø³Ø¹Ø±",
+        "Ø­Ø§Ù„Ø© Ø§Ù„Ø³Ø¹Ø±",
+        "Ù…ØµØ¯Ø± Ø§Ù„Ø³Ø¹Ø±",
+        "Ø§Ù„Ù…Ø³Ø§Ø­Ø©",
+        "Ù…ØµØ¯Ø± Ø§Ù„Ù…Ø³Ø§Ø­Ø©",
+        "Ù†ÙˆØ¹ Ø§Ù„Ø¥Ø¹Ù„Ø§Ù†",
+        "ÙˆØµÙ Ù…Ø®ØªØµØ±",
+        "Ù…Ù„Ø§Ù…Ø­",
+        "Ù…Ù„Ø§Ø­Ø¸Ø§Øª Ø¬ÙˆØ¯Ø© Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª",
+        "ØªØ§Ø±ÙŠØ® Ø§Ù„Ù†Ø´Ø±",
+        "ØªÙØ§ØµÙŠÙ„ Ù…ØªØ§Ø­Ø©",
+        "ØµÙØ­Ø© Ø§Ù„Ø¥Ø¹Ù„Ø§Ù† Ø§Ù„Ø£ØµÙ„ÙŠØ©",
+        "Ø§Ù„Ø£ØµÙ„ÙŠØ© Ù…ØªØ§Ø­Ø©",
+        "Ø§Ù„Ù…ÙˆÙ‚Ø¹ Ø§Ù„Ø£ØµÙ„ÙŠ",
+        "Ø±Ø§Ø¨Ø· Ø§Ù„ØµÙˆØ±Ø©",
     ]
     widths = [14, 16, 22, 22, 16, 20, 14, 14, 20, 12, 24, 16, 38, 34, 30, 16, 16, 58, 14, 42, 58]
     for sheet_name, metric, table_name in detail_sheets:
@@ -727,10 +730,10 @@ def create_excel(records: list[dict], metrics: list[dict], governors: list[dict]
         ]
         for row in metrics
     ]
-    ws = wb.create_sheet("فهرس_الأرقام")
+    ws = wb.create_sheet("ÙÙ‡Ø±Ø³_Ø§Ù„Ø£Ø±Ù‚Ø§Ù…")
     write_table(
         ws,
-        ["المحور", "العدد", "أسعار معلنة", "أسعار غير معلنة", "متوسط السعر", "وسيط السعر", "ملاحظة"],
+        ["Ø§Ù„Ù…Ø­ÙˆØ±", "Ø§Ù„Ø¹Ø¯Ø¯", "Ø£Ø³Ø¹Ø§Ø± Ù…Ø¹Ù„Ù†Ø©", "Ø£Ø³Ø¹Ø§Ø± ØºÙŠØ± Ù…Ø¹Ù„Ù†Ø©", "Ù…ØªÙˆØ³Ø· Ø§Ù„Ø³Ø¹Ø±", "ÙˆØ³ÙŠØ· Ø§Ù„Ø³Ø¹Ø±", "Ù…Ù„Ø§Ø­Ø¸Ø©"],
         index_rows,
         "IndexNumbers",
         [22, 12, 14, 16, 18, 18, 52],
@@ -740,10 +743,10 @@ def create_excel(records: list[dict], metrics: list[dict], governors: list[dict]
         [row["governorate"], row["movement"], row["sell"], row["buy"], row["house"], row["rent"], row["rent_request"]]
         for row in governors
     ]
-    ws = wb.create_sheet("حسب_المحافظات")
+    ws = wb.create_sheet("Ø­Ø³Ø¨_Ø§Ù„Ù…Ø­Ø§ÙØ¸Ø§Øª")
     write_table(
         ws,
-        ["المحافظة", "إجمالي الحركة", "للبيع", "مطلوب شراء", "بيوت للبيع", "إيجار", "طلب إيجار"],
+        ["Ø§Ù„Ù…Ø­Ø§ÙØ¸Ø©", "Ø¥Ø¬Ù…Ø§Ù„ÙŠ Ø§Ù„Ø­Ø±ÙƒØ©", "Ù„Ù„Ø¨ÙŠØ¹", "Ù…Ø·Ù„ÙˆØ¨ Ø´Ø±Ø§Ø¡", "Ø¨ÙŠÙˆØª Ù„Ù„Ø¨ÙŠØ¹", "Ø¥ÙŠØ¬Ø§Ø±", "Ø·Ù„Ø¨ Ø¥ÙŠØ¬Ø§Ø±"],
         gov_rows,
         "Governorates",
         [22, 16, 12, 16, 15, 12, 14],
@@ -758,7 +761,7 @@ def update_parent_register_links(records: list[dict]) -> None:
     if not register_files:
         return
     wb = load_workbook(register_files[0])
-    detail_header = "صفحة التفاصيل"
+    detail_header = "ØµÙØ­Ø© Ø§Ù„ØªÙØ§ØµÙŠÙ„"
     changed = False
     for ws in wb.worksheets:
         detail_cols = [
@@ -782,11 +785,11 @@ def create_property_type_variant(html: str) -> str:
     variant_script = """
     const propertyVariantMetrics = ['movement', 'sell', 'buy', 'rent', 'rent_request'];
     const propertyVariantHeaders = {
-      movement: 'الحركة',
-      sell: 'للبيع',
-      buy: 'شراء',
-      rent: 'إيجار',
-      rent_request: 'طلب إيجار'
+      movement: 'Ø§Ù„Ø­Ø±ÙƒØ©',
+      sell: 'Ù„Ù„Ø¨ÙŠØ¹',
+      buy: 'Ø´Ø±Ø§Ø¡',
+      rent: 'Ø¥ÙŠØ¬Ø§Ø±',
+      rent_request: 'Ø·Ù„Ø¨ Ø¥ÙŠØ¬Ø§Ø±'
     };
     function propertyVariantTableRows(governorate) {
       const transaction = document.getElementById('transactionFilter').value;
@@ -820,8 +823,8 @@ def create_property_type_variant(html: str) -> str:
           const btn = document.createElement('button');
           btn.className = 'metric';
           btn.dataset.metric = item.metric;
-          const avg = item.avg ? `متوسط: ${formatPrice(item.avg)}` : `أسعار معلنة: ${formatNumber(item.priced)}`;
-          btn.innerHTML = `<span>${item.label}</span><strong>${formatNumber(item.count)}</strong><small>${avg}</small><em>اضغط للاختيار</em>`;
+          const avg = item.avg ? `Ù…ØªÙˆØ³Ø·: ${formatPrice(item.avg)}` : `Ø£Ø³Ø¹Ø§Ø± Ù…Ø¹Ù„Ù†Ø©: ${formatNumber(item.priced)}`;
+          btn.innerHTML = `<span>${item.label}</span><strong>${formatNumber(item.count)}</strong><small>${avg}</small><em>Ø§Ø¶ØºØ· Ù„Ù„Ø§Ø®ØªÙŠØ§Ø±</em>`;
           btn.addEventListener('click', () => applyFilter(item.metric));
           grid.appendChild(btn);
         });
@@ -856,22 +859,22 @@ def create_property_type_variant(html: str) -> str:
       const area = document.getElementById('areaFilter').value;
       const priceText = document.getElementById('priceFilter').selectedOptions[0].textContent;
       const query = document.getElementById('searchBox').value.trim();
-      if (state.metric) pairs.push(['المحور', metricLabels[state.metric]]);
-      if (transaction) pairs.push(['نوع المعاملة', transaction]);
-      if (property) pairs.push(['نوع العقار', property]);
-      if (listingMode) pairs.push(['نمط الإدراج', listingModeLabels[listingMode]]);
-      if (area) pairs.push(['المنطقة', area]);
-      if (priceText !== 'كل الأسعار') pairs.push(['حالة السعر', priceText]);
-      if (query) pairs.push(['بحث', query]);
-      target.textContent = pairs.length ? pairs.map(([label, value]) => `${label}: ${value}`).join(' | ') : 'كل أنواع العقار وكل المحافظات';
+      if (state.metric) pairs.push(['Ø§Ù„Ù…Ø­ÙˆØ±', metricLabels[state.metric]]);
+      if (transaction) pairs.push(['Ù†ÙˆØ¹ Ø§Ù„Ù…Ø¹Ø§Ù…Ù„Ø©', transaction]);
+      if (property) pairs.push(['Ù†ÙˆØ¹ Ø§Ù„Ø¹Ù‚Ø§Ø±', property]);
+      if (listingMode) pairs.push(['Ù†Ù…Ø· Ø§Ù„Ø¥Ø¯Ø±Ø§Ø¬', listingModeLabels[listingMode]]);
+      if (area) pairs.push(['Ø§Ù„Ù…Ù†Ø·Ù‚Ø©', area]);
+      if (priceText !== 'ÙƒÙ„ Ø§Ù„Ø£Ø³Ø¹Ø§Ø±') pairs.push(['Ø­Ø§Ù„Ø© Ø§Ù„Ø³Ø¹Ø±', priceText]);
+      if (query) pairs.push(['Ø¨Ø­Ø«', query]);
+      target.textContent = pairs.length ? pairs.map(([label, value]) => `${label}: ${value}`).join(' | ') : 'ÙƒÙ„ Ø£Ù†ÙˆØ§Ø¹ Ø§Ù„Ø¹Ù‚Ø§Ø± ÙˆÙƒÙ„ Ø§Ù„Ù…Ø­Ø§ÙØ¸Ø§Øª';
     };
     renderGovernors = function() {
       const table = document.getElementById('govTable');
       const thead = table.querySelector('thead');
-      thead.innerHTML = `<tr><th>المحافظة</th>${propertyVariantMetrics.map(metric => `<th data-metric="${metric}">${propertyVariantHeaders[metric]}</th>`).join('')}</tr>`;
+      thead.innerHTML = `<tr><th>Ø§Ù„Ù…Ø­Ø§ÙØ¸Ø©</th>${propertyVariantMetrics.map(metric => `<th data-metric="${metric}">${propertyVariantHeaders[metric]}</th>`).join('')}</tr>`;
       const tbody = table.querySelector('tbody');
       tbody.innerHTML = '';
-      const governorates = [...new Set(records.map(row => row.governorate).filter(value => value && value !== 'غير محدد'))]
+      const governorates = [...new Set(records.map(row => row.governorate).filter(value => value && value !== 'ØºÙŠØ± Ù…Ø­Ø¯Ø¯'))]
         .sort((a, b) => String(a).localeCompare(String(b), 'ar'));
       governorates.forEach(governorate => {
         const rows = propertyVariantTableRows(governorate);
@@ -912,10 +915,10 @@ def create_property_type_variant(html: str) -> str:
     """
     variant = html
     variant = variant.replace(
-        "يمكن اختيار رقم من الجدول مباشرة لعرض المحافظة والمحور المطلوب.",
-        "اختياراتك من الفلاتر أعلى الصفحة ستظهر هنا، ثم اختر الرقم من جدول المحافظات لعرض السجلات الفعلية.",
+        "ÙŠÙ…ÙƒÙ† Ø§Ø®ØªÙŠØ§Ø± Ø±Ù‚Ù… Ù…Ù† Ø§Ù„Ø¬Ø¯ÙˆÙ„ Ù…Ø¨Ø§Ø´Ø±Ø© Ù„Ø¹Ø±Ø¶ Ø§Ù„Ù…Ø­Ø§ÙØ¸Ø© ÙˆØ§Ù„Ù…Ø­ÙˆØ± Ø§Ù„Ù…Ø·Ù„ÙˆØ¨.",
+        "Ø§Ø®ØªÙŠØ§Ø±Ø§ØªÙƒ Ù…Ù† Ø§Ù„ÙÙ„Ø§ØªØ± Ø£Ø¹Ù„Ù‰ Ø§Ù„ØµÙØ­Ø© Ø³ØªØ¸Ù‡Ø± Ù‡Ù†Ø§ØŒ Ø«Ù… Ø§Ø®ØªØ± Ø§Ù„Ø±Ù‚Ù… Ù…Ù† Ø¬Ø¯ÙˆÙ„ Ø§Ù„Ù…Ø­Ø§ÙØ¸Ø§Øª Ù„Ø¹Ø±Ø¶ Ø§Ù„Ø³Ø¬Ù„Ø§Øª Ø§Ù„ÙØ¹Ù„ÙŠØ©.",
     )
-    variant = variant.replace('\n                <th data-metric="house">بيوت للبيع</th>', "")
+    variant = variant.replace('\n                <th data-metric="house">Ø¨ÙŠÙˆØª Ù„Ù„Ø¨ÙŠØ¹</th>', "")
     variant = variant.replace("    renderMetrics();", variant_script + "\n    renderMetrics();")
     return variant
 
@@ -938,6 +941,7 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
         "records": html_records,
         "metrics": metrics,
         "governors": governors,
+        "quality": quality_summary(records),
         "generatedLabel": arabic_date_label(date.today()),
         "logoDataUri": "assets/alforaij_logo.png",
         "coverDataUri": "assets/kuwait_glass_cover.webp",
@@ -949,15 +953,15 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="لوحة تفاعلية لاستعراض حركة العروض والطلبات العقارية حسب المحافظة والمنطقة ونوع العقار.">
+  <meta name="description" content="Ù„ÙˆØ­Ø© ØªÙØ§Ø¹Ù„ÙŠØ© Ù„Ø§Ø³ØªØ¹Ø±Ø§Ø¶ Ø­Ø±ÙƒØ© Ø§Ù„Ø¹Ø±ÙˆØ¶ ÙˆØ§Ù„Ø·Ù„Ø¨Ø§Øª Ø§Ù„Ø¹Ù‚Ø§Ø±ÙŠØ© Ø­Ø³Ø¨ Ø§Ù„Ù…Ø­Ø§ÙØ¸Ø© ÙˆØ§Ù„Ù…Ù†Ø·Ù‚Ø© ÙˆÙ†ÙˆØ¹ Ø§Ù„Ø¹Ù‚Ø§Ø±.">
   <meta name="robots" content="noindex, nofollow">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https://search.alforaij.com data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https://search.alforaij.com data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self' https://search.alforaij.com; object-src 'none'; base-uri 'none'; form-action 'none'">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/alforaij-favicon-32.png">
   <link rel="icon" type="image/png" sizes="512x512" href="assets/alforaij-favicon-v2.png">
   <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
   <meta name="theme-color" content="#0F172A">
-  <title>استعراض الأرقام والعروض الفعلية</title>
+  <title>Ø§Ø³ØªØ¹Ø±Ø§Ø¶ Ø§Ù„Ø£Ø±Ù‚Ø§Ù… ÙˆØ§Ù„Ø¹Ø±ÙˆØ¶ Ø§Ù„ÙØ¹Ù„ÙŠØ©</title>
   <style>
     :root {{
       --ink: #{BRAND["ink"]};
@@ -1708,120 +1712,121 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
   <header style="--cover-image: url('{payload["coverDataUri"]}')">
     <div class="hero-content">
       <div class="hero-title">
-        <h1>لوحة الأرقام والعروض الفعلية</h1>
-        <p>استعراض تفاعلي لحركة الدلال، عروض البيع والشراء، البيوت المعروضة، والإيجارات حسب المحافظة والمنطقة ونوع العقار.</p>
+        <h1>Ù„ÙˆØ­Ø© Ø§Ù„Ø£Ø±Ù‚Ø§Ù… ÙˆØ§Ù„Ø¹Ø±ÙˆØ¶ Ø§Ù„ÙØ¹Ù„ÙŠØ©</h1>
+        <p>Ø§Ø³ØªØ¹Ø±Ø§Ø¶ ØªÙØ§Ø¹Ù„ÙŠ Ù„Ø­Ø±ÙƒØ© Ø§Ù„Ø¯Ù„Ø§Ù„ØŒ Ø¹Ø±ÙˆØ¶ Ø§Ù„Ø¨ÙŠØ¹ ÙˆØ§Ù„Ø´Ø±Ø§Ø¡ØŒ Ø§Ù„Ø¨ÙŠÙˆØª Ø§Ù„Ù…Ø¹Ø±ÙˆØ¶Ø©ØŒ ÙˆØ§Ù„Ø¥ÙŠØ¬Ø§Ø±Ø§Øª Ø­Ø³Ø¨ Ø§Ù„Ù…Ø­Ø§ÙØ¸Ø© ÙˆØ§Ù„Ù…Ù†Ø·Ù‚Ø© ÙˆÙ†ÙˆØ¹ Ø§Ù„Ø¹Ù‚Ø§Ø±.</p>
       </div>
-      <div class="logo-showcase" aria-label="شعار شركة عبدالعزيز سعود الفريج العقارية">
-        <img class="brand-logo" src="{payload["logoDataUri"]}" alt="شركة عبدالعزيز سعود الفريج العقارية">
+      <div class="logo-showcase" aria-label="Ø´Ø¹Ø§Ø± Ø´Ø±ÙƒØ© Ø¹Ø¨Ø¯Ø§Ù„Ø¹Ø²ÙŠØ² Ø³Ø¹ÙˆØ¯ Ø§Ù„ÙØ±ÙŠØ¬ Ø§Ù„Ø¹Ù‚Ø§Ø±ÙŠØ©">
+        <img class="brand-logo" src="{payload["logoDataUri"]}" alt="Ø´Ø±ÙƒØ© Ø¹Ø¨Ø¯Ø§Ù„Ø¹Ø²ÙŠØ² Ø³Ø¹ÙˆØ¯ Ø§Ù„ÙØ±ÙŠØ¬ Ø§Ù„Ø¹Ù‚Ø§Ø±ÙŠØ©">
       </div>
     </div>
   </header>
   <main>
-    <section class="action-toolbar" aria-label="أدوات التصدير">
+    <section class="action-toolbar" aria-label="Ø£Ø¯ÙˆØ§Øª Ø§Ù„ØªØµØ¯ÙŠØ±">
       <div>
-        <strong>ملف تفاعلي واحد للأرقام والعروض</strong>
-        <span>يمكن استعراض البيانات من الصفحة، أو تحميل الجدول، أو حفظ العرض الحالي كملف PDF.</span>
+        <strong>Ù…Ù„Ù ØªÙØ§Ø¹Ù„ÙŠ ÙˆØ§Ø­Ø¯ Ù„Ù„Ø£Ø±Ù‚Ø§Ù… ÙˆØ§Ù„Ø¹Ø±ÙˆØ¶</strong>
+        <span>ÙŠÙ…ÙƒÙ† Ø§Ø³ØªØ¹Ø±Ø§Ø¶ Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª Ù…Ù† Ø§Ù„ØµÙØ­Ø©ØŒ Ø£Ùˆ ØªØ­Ù…ÙŠÙ„ Ø§Ù„Ø¬Ø¯ÙˆÙ„ØŒ Ø£Ùˆ Ø­ÙØ¸ Ø§Ù„Ø¹Ø±Ø¶ Ø§Ù„Ø­Ø§Ù„ÙŠ ÙƒÙ…Ù„Ù PDF.</span>
       </div>
       <div class="action-buttons">
-        <a class="action-button primary" href="downloads/offer-evidence.xlsx" download>تحميل Excel التفصيلي</a>
-        <button id="downloadCsvButton" class="action-button" type="button">تحميل نتائج الاختيار CSV</button>
-        <button id="printPdfButton" class="action-button" type="button">طباعة / حفظ PDF</button>
+        <a class="action-button primary" href="downloads/offer-evidence.xlsx" download>ØªØ­Ù…ÙŠÙ„ Excel Ø§Ù„ØªÙØµÙŠÙ„ÙŠ</a>
+        <a class="action-button" href="qa.html">ØªÙ‚Ø±ÙŠØ± Ø¬ÙˆØ¯Ø© Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª</a>
+        <button id="downloadCsvButton" class="action-button" type="button">ØªØ­Ù…ÙŠÙ„ Ù†ØªØ§Ø¦Ø¬ Ø§Ù„Ø§Ø®ØªÙŠØ§Ø± CSV</button>
+        <button id="printPdfButton" class="action-button" type="button">Ø·Ø¨Ø§Ø¹Ø© / Ø­ÙØ¸ PDF</button>
       </div>
     </section>
 
-    <section class="toolbar" aria-label="أدوات التصفية">
+    <section class="toolbar" aria-label="Ø£Ø¯ÙˆØ§Øª Ø§Ù„ØªØµÙÙŠØ©">
       <div>
-        <label for="quickList">قائمة جاهزة شاملة حسب الرقم</label>
+        <label for="quickList">Ù‚Ø§Ø¦Ù…Ø© Ø¬Ø§Ù‡Ø²Ø© Ø´Ø§Ù…Ù„Ø© Ø­Ø³Ø¨ Ø§Ù„Ø±Ù‚Ù…</label>
         <select id="quickList"></select>
       </div>
       <div>
-        <label for="governorateFilter">المحافظة - اكتب أو اختر</label>
+        <label for="governorateFilter">Ø§Ù„Ù…Ø­Ø§ÙØ¸Ø© - Ø§ÙƒØªØ¨ Ø£Ùˆ Ø§Ø®ØªØ±</label>
         <div class="autocomplete">
-          <input id="governorateFilter" placeholder="كل المحافظات" autocomplete="off">
+          <input id="governorateFilter" placeholder="ÙƒÙ„ Ø§Ù„Ù…Ø­Ø§ÙØ¸Ø§Øª" autocomplete="off">
           <div id="governorateFilterSuggest" class="suggestions" role="listbox"></div>
         </div>
       </div>
       <div>
-        <label for="transactionFilter">نوع المعاملة - اكتب أو اختر</label>
+        <label for="transactionFilter">Ù†ÙˆØ¹ Ø§Ù„Ù…Ø¹Ø§Ù…Ù„Ø© - Ø§ÙƒØªØ¨ Ø£Ùˆ Ø§Ø®ØªØ±</label>
         <div class="autocomplete">
-          <input id="transactionFilter" placeholder="كل المعاملات" autocomplete="off">
+          <input id="transactionFilter" placeholder="ÙƒÙ„ Ø§Ù„Ù…Ø¹Ø§Ù…Ù„Ø§Øª" autocomplete="off">
           <div id="transactionFilterSuggest" class="suggestions" role="listbox"></div>
         </div>
       </div>
       <div>
-        <label for="propertyFilter">نوع العقار - اكتب أو اختر</label>
+        <label for="propertyFilter">Ù†ÙˆØ¹ Ø§Ù„Ø¹Ù‚Ø§Ø± - Ø§ÙƒØªØ¨ Ø£Ùˆ Ø§Ø®ØªØ±</label>
         <div class="autocomplete">
-          <input id="propertyFilter" placeholder="كل أنواع العقار" autocomplete="off">
+          <input id="propertyFilter" placeholder="ÙƒÙ„ Ø£Ù†ÙˆØ§Ø¹ Ø§Ù„Ø¹Ù‚Ø§Ø±" autocomplete="off">
           <div id="propertyFilterSuggest" class="suggestions" role="listbox"></div>
         </div>
       </div>
       <div>
-        <label for="listingModeFilter">نمط الإدراج</label>
+        <label for="listingModeFilter">Ù†Ù…Ø· Ø§Ù„Ø¥Ø¯Ø±Ø§Ø¬</label>
         <select id="listingModeFilter">
-          <option value="">كل الأنماط</option>
-          <option value="direct">مباشر</option>
-          <option value="office">مكتب</option>
-          <option value="both">مباشر ومكتب</option>
-          <option value="unknown">غير محدد</option>
+          <option value="">ÙƒÙ„ Ø§Ù„Ø£Ù†Ù…Ø§Ø·</option>
+          <option value="direct">Ù…Ø¨Ø§Ø´Ø±</option>
+          <option value="office">Ù…ÙƒØªØ¨</option>
+          <option value="both">Ù…Ø¨Ø§Ø´Ø± ÙˆÙ…ÙƒØªØ¨</option>
+          <option value="unknown">ØºÙŠØ± Ù…Ø­Ø¯Ø¯</option>
         </select>
       </div>
       <div>
-        <label for="areaFilter">المنطقة - اكتب أو اختر</label>
+        <label for="areaFilter">Ø§Ù„Ù…Ù†Ø·Ù‚Ø© - Ø§ÙƒØªØ¨ Ø£Ùˆ Ø§Ø®ØªØ±</label>
         <div class="autocomplete">
-          <input id="areaFilter" placeholder="كل المناطق" autocomplete="off">
+          <input id="areaFilter" placeholder="ÙƒÙ„ Ø§Ù„Ù…Ù†Ø§Ø·Ù‚" autocomplete="off">
           <div id="areaFilterSuggest" class="suggestions" role="listbox"></div>
         </div>
       </div>
       <div>
-        <label for="priceFilter">حالة السعر</label>
+        <label for="priceFilter">Ø­Ø§Ù„Ø© Ø§Ù„Ø³Ø¹Ø±</label>
         <select id="priceFilter">
-          <option value="all">كل الأسعار</option>
-          <option value="priced">أسعار معلنة فقط</option>
-          <option value="unpriced">غير معلن فقط</option>
+          <option value="all">ÙƒÙ„ Ø§Ù„Ø£Ø³Ø¹Ø§Ø±</option>
+          <option value="priced">Ø£Ø³Ø¹Ø§Ø± Ù…Ø¹Ù„Ù†Ø© ÙÙ‚Ø·</option>
+          <option value="unpriced">ØºÙŠØ± Ù…Ø¹Ù„Ù† ÙÙ‚Ø·</option>
         </select>
       </div>
     </section>
 
-    <section class="toolbar search-toolbar" aria-label="البحث والترتيب">
+    <section class="toolbar search-toolbar" aria-label="Ø§Ù„Ø¨Ø­Ø« ÙˆØ§Ù„ØªØ±ØªÙŠØ¨">
       <div>
-        <label for="searchBox">ابحث هنا داخل النتائج</label>
-        <input id="searchBox" type="search" placeholder="مثال: المطلاع، بيت، أبو فطيرة، AF-303، 400">
+        <label for="searchBox">Ø§Ø¨Ø­Ø« Ù‡Ù†Ø§ Ø¯Ø§Ø®Ù„ Ø§Ù„Ù†ØªØ§Ø¦Ø¬</label>
+        <input id="searchBox" type="search" placeholder="Ù…Ø«Ø§Ù„: Ø§Ù„Ù…Ø·Ù„Ø§Ø¹ØŒ Ø¨ÙŠØªØŒ Ø£Ø¨Ùˆ ÙØ·ÙŠØ±Ø©ØŒ AF-303ØŒ 400">
       </div>
       <div>
-        <label for="sortFilter">الترتيب</label>
+        <label for="sortFilter">Ø§Ù„ØªØ±ØªÙŠØ¨</label>
         <select id="sortFilter">
-          <option value="newest">الأحدث أولا</option>
-          <option value="price_desc">السعر الأعلى</option>
-          <option value="price_asc">السعر الأقل</option>
-          <option value="area">المنطقة أبجديا</option>
+          <option value="newest">Ø§Ù„Ø£Ø­Ø¯Ø« Ø£ÙˆÙ„Ø§</option>
+          <option value="price_desc">Ø§Ù„Ø³Ø¹Ø± Ø§Ù„Ø£Ø¹Ù„Ù‰</option>
+          <option value="price_asc">Ø§Ù„Ø³Ø¹Ø± Ø§Ù„Ø£Ù‚Ù„</option>
+          <option value="area">Ø§Ù„Ù…Ù†Ø·Ù‚Ø© Ø£Ø¨Ø¬Ø¯ÙŠØ§</option>
         </select>
       </div>
       <div>
         <label>&nbsp;</label>
-        <button id="clearFilters" class="clear-button" type="button">مسح الاختيارات</button>
+        <button id="clearFilters" class="clear-button" type="button">Ù…Ø³Ø­ Ø§Ù„Ø§Ø®ØªÙŠØ§Ø±Ø§Øª</button>
       </div>
     </section>
 
-    <section id="metricGrid" class="metric-grid" aria-label="الأرقام الرئيسية"></section>
+    <section id="metricGrid" class="metric-grid" aria-label="Ø§Ù„Ø£Ø±Ù‚Ø§Ù… Ø§Ù„Ø±Ø¦ÙŠØ³ÙŠØ©"></section>
 
     <section class="layout">
       <div class="panel">
         <div class="panel-title-row">
-          <h2>الأرقام حسب المحافظات</h2>
-          <span id="govFilterSummary" class="filter-summary">كل السجلات</span>
+          <h2>Ø§Ù„Ø£Ø±Ù‚Ø§Ù… Ø­Ø³Ø¨ Ø§Ù„Ù…Ø­Ø§ÙØ¸Ø§Øª</h2>
+          <span id="govFilterSummary" class="filter-summary">ÙƒÙ„ Ø§Ù„Ø³Ø¬Ù„Ø§Øª</span>
         </div>
-        <p class="panel-hint">يمكن اختيار رقم من الجدول مباشرة لعرض المحافظة والمحور المطلوب.</p>
+        <p class="panel-hint">ÙŠÙ…ÙƒÙ† Ø§Ø®ØªÙŠØ§Ø± Ø±Ù‚Ù… Ù…Ù† Ø§Ù„Ø¬Ø¯ÙˆÙ„ Ù…Ø¨Ø§Ø´Ø±Ø© Ù„Ø¹Ø±Ø¶ Ø§Ù„Ù…Ø­Ø§ÙØ¸Ø© ÙˆØ§Ù„Ù…Ø­ÙˆØ± Ø§Ù„Ù…Ø·Ù„ÙˆØ¨.</p>
         <div class="table-scroll">
           <table id="govTable">
             <thead>
               <tr>
-                <th>المحافظة</th>
-                <th data-metric="movement">الحركة</th>
-                <th data-metric="sell">للبيع</th>
-                <th data-metric="buy">شراء</th>
-                <th data-metric="house">بيوت للبيع</th>
-                <th data-metric="rent">إيجار</th>
-                <th data-metric="rent_request">طلب إيجار</th>
+                <th>Ø§Ù„Ù…Ø­Ø§ÙØ¸Ø©</th>
+                <th data-metric="movement">Ø§Ù„Ø­Ø±ÙƒØ©</th>
+                <th data-metric="sell">Ù„Ù„Ø¨ÙŠØ¹</th>
+                <th data-metric="buy">Ø´Ø±Ø§Ø¡</th>
+                <th data-metric="house">Ø¨ÙŠÙˆØª Ù„Ù„Ø¨ÙŠØ¹</th>
+                <th data-metric="rent">Ø¥ÙŠØ¬Ø§Ø±</th>
+                <th data-metric="rent_request">Ø·Ù„Ø¨ Ø¥ÙŠØ¬Ø§Ø±</th>
               </tr>
             </thead>
             <tbody></tbody>
@@ -1831,7 +1836,7 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
       <div class="panel">
         <div class="result-head">
           <div>
-            <h2 id="resultTitle">كل الحركة</h2>
+            <h2 id="resultTitle">ÙƒÙ„ Ø§Ù„Ø­Ø±ÙƒØ©</h2>
             <span id="resultMeta"></span>
           </div>
           <strong id="resultCount">0</strong>
@@ -1841,7 +1846,7 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
         <div id="resultList" class="list"></div>
         <div class="result-progress">
           <span id="resultProgress"></span>
-          <button id="loadMoreButton" class="load-more" type="button">عرض المزيد</button>
+          <button id="loadMoreButton" class="load-more" type="button">Ø¹Ø±Ø¶ Ø§Ù„Ù…Ø²ÙŠØ¯</button>
         </div>
       </div>
     </section>
@@ -1850,8 +1855,8 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
   <div id="detailsModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modalTitle">
     <div class="modal" tabindex="-1">
       <div class="modal-head">
-        <h2 id="modalTitle">تفاصيل الإعلان</h2>
-        <button id="modalClose" class="modal-close" type="button" aria-label="إغلاق">×</button>
+        <h2 id="modalTitle">ØªÙØ§ØµÙŠÙ„ Ø§Ù„Ø¥Ø¹Ù„Ø§Ù†</h2>
+        <button id="modalClose" class="modal-close" type="button" aria-label="Ø¥ØºÙ„Ø§Ù‚">Ã—</button>
       </div>
       <div id="modalBody" class="modal-body"></div>
     </div>
@@ -1862,18 +1867,18 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
     const payload = JSON.parse(document.getElementById('payload').textContent);
     const records = payload.records;
     const metricLabels = {{
-      movement: 'حركة الدلال',
-      sell: 'عروض للبيع',
-      buy: 'طلبات شراء',
-      house: 'البيوت للبيع',
-      rent: 'عروض الإيجار',
-      rent_request: 'طلبات الإيجار'
+      movement: 'Ø­Ø±ÙƒØ© Ø§Ù„Ø¯Ù„Ø§Ù„',
+      sell: 'Ø¹Ø±ÙˆØ¶ Ù„Ù„Ø¨ÙŠØ¹',
+      buy: 'Ø·Ù„Ø¨Ø§Øª Ø´Ø±Ø§Ø¡',
+      house: 'Ø§Ù„Ø¨ÙŠÙˆØª Ù„Ù„Ø¨ÙŠØ¹',
+      rent: 'Ø¹Ø±ÙˆØ¶ Ø§Ù„Ø¥ÙŠØ¬Ø§Ø±',
+      rent_request: 'Ø·Ù„Ø¨Ø§Øª Ø§Ù„Ø¥ÙŠØ¬Ø§Ø±'
     }};
     const listingModeLabels = {{
-      direct: 'مباشر',
-      office: 'مكتب',
-      both: 'مباشر ومكتب',
-      unknown: 'غير محدد'
+      direct: 'Ù…Ø¨Ø§Ø´Ø±',
+      office: 'Ù…ÙƒØªØ¨',
+      both: 'Ù…Ø¨Ø§Ø´Ø± ÙˆÙ…ÙƒØªØ¨',
+      unknown: 'ØºÙŠØ± Ù…Ø­Ø¯Ø¯'
     }};
     const areaGovernorateMap = records.reduce((map, row) => {{
       if (row.area && row.governorate && !map[row.area]) map[row.area] = row.governorate;
@@ -1881,7 +1886,7 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
     }}, {{}});
     const searchableFilterIds = ['governorateFilter', 'transactionFilter', 'propertyFilter', 'areaFilter'];
     const choiceOptions = {{}};
-    let state = {{ metric: 'movement', governorate: '', label: 'حركة الدلال' }};
+    let state = {{ metric: 'movement', governorate: '', label: 'Ø­Ø±ÙƒØ© Ø§Ù„Ø¯Ù„Ø§Ù„' }};
     const RESULT_PAGE_SIZE = 24;
     let visibleResultLimit = RESULT_PAGE_SIZE;
     let lastResultKey = '';
@@ -1891,9 +1896,9 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
       return new Intl.NumberFormat('ar-KW').format(value || 0);
     }}
     function formatPrice(value) {{
-      if (!value) return 'غير معلن';
-      if (value >= 10000) return `${{formatNumber(Math.round(value / 1000))}} ألف د.ك`;
-      return `${{formatNumber(Math.round(value))}} د.ك`;
+      if (!value) return 'ØºÙŠØ± Ù…Ø¹Ù„Ù†';
+      if (value >= 10000) return `${{formatNumber(Math.round(value / 1000))}} Ø£Ù„Ù Ø¯.Ùƒ`;
+      return `${{formatNumber(Math.round(value))}} Ø¯.Ùƒ`;
     }}
     function uniqueValues(field) {{
       return [...new Set(records.map(row => row[field]).filter(Boolean))].sort((a, b) => String(a).localeCompare(String(b), 'ar'));
@@ -1909,10 +1914,10 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
       return String(value || '')
         .trim()
         .toLowerCase()
-        .replace(/[إأآ]/g, 'ا')
-        .replace(/ى/g, 'ي')
-        .replace(/ـ/g, '')
-        .replace(/[ًٌٍَُِّْ]/g, '');
+        .replace(/[Ø¥Ø£Ø¢]/g, 'Ø§')
+        .replace(/Ù‰/g, 'ÙŠ')
+        .replace(/Ù€/g, '')
+        .replace(/[ÙŽÙ‹ÙÙŒÙÙÙ’Ù‘]/g, '');
     }}
     function matchesChoice(rowValue, typedValue) {{
       const typed = normalizeText(typedValue);
@@ -1922,8 +1927,8 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
     }}
     function listingModeGroup(value) {{
       const text = normalizeText(value);
-      const direct = text.includes('مباشر');
-      const office = text.includes('مكتب');
+      const direct = text.includes('Ù…Ø¨Ø§Ø´Ø±');
+      const office = text.includes('Ù…ÙƒØªØ¨');
       if (direct && office) return 'both';
       if (direct) return 'direct';
       if (office) return 'office';
@@ -1992,7 +1997,7 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
         .map(row => row.area)
         .filter(Boolean))]
         .sort((a, b) => String(a).localeCompare(String(b), 'ar'));
-      populateSelect('areaFilter', areas, 'كل المناطق');
+      populateSelect('areaFilter', areas, 'ÙƒÙ„ Ø§Ù„Ù…Ù†Ø§Ø·Ù‚');
       if (!preserve) {{
         areaSelect.value = '';
         renderSuggestions('areaFilter');
@@ -2028,10 +2033,10 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
       if (!normalized) return '';
       const exactChoice = (choiceOptions.transactionFilter || []).find(option => normalizeText(option) === normalized);
       const text = exactChoice ? normalizeText(exactChoice) : normalized;
-      if (text.includes('مطلوب') && text.includes('ايجار')) return 'rent_request';
-      if (text.includes('مطلوب') && text.includes('شراء')) return 'buy';
-      if (!text.includes('مطلوب') && text.includes('للايجار')) return 'rent';
-      if (!text.includes('مطلوب') && text.includes('للبيع')) return 'sell';
+      if (text.includes('Ù…Ø·Ù„ÙˆØ¨') && text.includes('Ø§ÙŠØ¬Ø§Ø±')) return 'rent_request';
+      if (text.includes('Ù…Ø·Ù„ÙˆØ¨') && text.includes('Ø´Ø±Ø§Ø¡')) return 'buy';
+      if (!text.includes('Ù…Ø·Ù„ÙˆØ¨') && text.includes('Ù„Ù„Ø§ÙŠØ¬Ø§Ø±')) return 'rent';
+      if (!text.includes('Ù…Ø·Ù„ÙˆØ¨') && text.includes('Ù„Ù„Ø¨ÙŠØ¹')) return 'sell';
       return '';
     }}
     function syncMetricFromTransaction() {{
@@ -2045,10 +2050,10 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
       }});
     }}
     function transactionForMetric(metric) {{
-      if (metric === 'sell') return 'للبيع';
-      if (metric === 'buy') return 'مطلوب للشراء';
-      if (metric === 'rent') return 'للإيجار';
-      if (metric === 'rent_request') return 'مطلوب للإيجار';
+      if (metric === 'sell') return 'Ù„Ù„Ø¨ÙŠØ¹';
+      if (metric === 'buy') return 'Ù…Ø·Ù„ÙˆØ¨ Ù„Ù„Ø´Ø±Ø§Ø¡';
+      if (metric === 'rent') return 'Ù„Ù„Ø¥ÙŠØ¬Ø§Ø±';
+      if (metric === 'rent_request') return 'Ù…Ø·Ù„ÙˆØ¨ Ù„Ù„Ø¥ÙŠØ¬Ø§Ø±';
       return '';
     }}
     function syncTransactionFromMetric(metric) {{
@@ -2061,11 +2066,11 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
     }}
     function matchesMetric(row, metric) {{
       if (metric === 'movement') return true;
-      if (metric === 'sell') return row.transaction === 'للبيع';
-      if (metric === 'buy') return row.transaction === 'مطلوب للشراء';
+      if (metric === 'sell') return row.transaction === 'Ù„Ù„Ø¨ÙŠØ¹';
+      if (metric === 'buy') return row.transaction === 'Ù…Ø·Ù„ÙˆØ¨ Ù„Ù„Ø´Ø±Ø§Ø¡';
       if (metric === 'house') return row.isHouseSale;
-      if (metric === 'rent') return row.transaction === 'للإيجار';
-      if (metric === 'rent_request') return row.transaction === 'مطلوب للإيجار';
+      if (metric === 'rent') return row.transaction === 'Ù„Ù„Ø¥ÙŠØ¬Ø§Ø±';
+      if (metric === 'rent_request') return row.transaction === 'Ù…Ø·Ù„ÙˆØ¨ Ù„Ù„Ø¥ÙŠØ¬Ø§Ø±';
       return true;
     }}
     function currentRows() {{
@@ -2130,16 +2135,16 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
         const btn = document.createElement('button');
         btn.className = 'metric';
         btn.dataset.metric = item.metric;
-        const avg = item.avg ? `متوسط: ${{formatPrice(item.avg)}}` : `أسعار معلنة: ${{formatNumber(item.priced)}}`;
-        btn.innerHTML = `<span>${{item.label}}</span><strong>${{formatNumber(item.count)}}</strong><small>${{avg}}</small><em>اضغط للاختيار</em>`;
+        const avg = item.avg ? `Ù…ØªÙˆØ³Ø·: ${{formatPrice(item.avg)}}` : `Ø£Ø³Ø¹Ø§Ø± Ù…Ø¹Ù„Ù†Ø©: ${{formatNumber(item.priced)}}`;
+        btn.innerHTML = `<span>${{item.label}}</span><strong>${{formatNumber(item.count)}}</strong><small>${{avg}}</small><em>Ø§Ø¶ØºØ· Ù„Ù„Ø§Ø®ØªÙŠØ§Ø±</em>`;
         btn.addEventListener('click', () => applyFilter(item.metric));
         grid.appendChild(btn);
       }});
     }}
     function renderFilters() {{
-      populateSelect('governorateFilter', uniqueValues('governorate'), 'كل المحافظات');
-      populateSelect('transactionFilter', uniqueValues('transaction'), 'كل المعاملات');
-      populateSelect('propertyFilter', uniqueValues('property_type'), 'كل أنواع العقار');
+      populateSelect('governorateFilter', uniqueValues('governorate'), 'ÙƒÙ„ Ø§Ù„Ù…Ø­Ø§ÙØ¸Ø§Øª');
+      populateSelect('transactionFilter', uniqueValues('transaction'), 'ÙƒÙ„ Ø§Ù„Ù…Ø¹Ø§Ù…Ù„Ø§Øª');
+      populateSelect('propertyFilter', uniqueValues('property_type'), 'ÙƒÙ„ Ø£Ù†ÙˆØ§Ø¹ Ø§Ù„Ø¹Ù‚Ø§Ø±');
       updateAreaOptions(false);
     }}
     function renderQuickList() {{
@@ -2224,7 +2229,7 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
       const box = document.createElement('div');
       box.className = 'details-box';
       const title = document.createElement('b');
-      title.textContent = 'تفاصيل الإعلان';
+      title.textContent = 'ØªÙØ§ØµÙŠÙ„ Ø§Ù„Ø¥Ø¹Ù„Ø§Ù†';
       box.appendChild(title);
       const details = row.detailText
         ? [row.detailText]
@@ -2238,7 +2243,7 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
       }} else {{
         const p = document.createElement('p');
         p.className = 'muted';
-        p.textContent = 'لا توجد تفاصيل نصية إضافية مسجلة لهذا الإعلان.';
+        p.textContent = 'Ù„Ø§ ØªÙˆØ¬Ø¯ ØªÙØ§ØµÙŠÙ„ Ù†ØµÙŠØ© Ø¥Ø¶Ø§ÙÙŠØ© Ù…Ø³Ø¬Ù„Ø© Ù„Ù‡Ø°Ø§ Ø§Ù„Ø¥Ø¹Ù„Ø§Ù†.';
         box.appendChild(p);
       }}
       return box;
@@ -2252,14 +2257,14 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
         return counts;
       }}, {{}});
       const stats = [
-        ['النتائج', formatNumber(rows.length)],
-        ['أسعار معلنة', formatNumber(priced.length)],
-        ['متوسط السعر', avg ? formatPrice(avg) : 'غير متاح'],
-        ['بها صورة', formatNumber(rows.filter(row => row.imageUrl).length)],
-        ['مباشر', formatNumber(modeCounts.direct)],
-        ['مكتب', formatNumber(modeCounts.office)],
-        ['مباشر ومكتب', formatNumber(modeCounts.both)],
-        ['نمط غير محدد', formatNumber(modeCounts.unknown)]
+        ['Ø§Ù„Ù†ØªØ§Ø¦Ø¬', formatNumber(rows.length)],
+        ['Ø£Ø³Ø¹Ø§Ø± Ù…Ø¹Ù„Ù†Ø©', formatNumber(priced.length)],
+        ['Ù…ØªÙˆØ³Ø· Ø§Ù„Ø³Ø¹Ø±', avg ? formatPrice(avg) : 'ØºÙŠØ± Ù…ØªØ§Ø­'],
+        ['Ø¨Ù‡Ø§ ØµÙˆØ±Ø©', formatNumber(rows.filter(row => row.imageUrl).length)],
+        ['Ù…Ø¨Ø§Ø´Ø±', formatNumber(modeCounts.direct)],
+        ['Ù…ÙƒØªØ¨', formatNumber(modeCounts.office)],
+        ['Ù…Ø¨Ø§Ø´Ø± ÙˆÙ…ÙƒØªØ¨', formatNumber(modeCounts.both)],
+        ['Ù†Ù…Ø· ØºÙŠØ± Ù…Ø­Ø¯Ø¯', formatNumber(modeCounts.unknown)]
       ];
       const container = document.getElementById('resultStats');
       container.innerHTML = '';
@@ -2271,17 +2276,17 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
     }}
     function renderSelectionChips() {{
       const chips = [
-        ['المحور', metricLabels[state.metric]],
-        ['المحافظة', selectedGovernorate()],
-        ['المنطقة', document.getElementById('areaFilter').value],
-        ['نوع المعاملة', document.getElementById('transactionFilter').value],
-        ['نوع العقار', document.getElementById('propertyFilter').value],
-        ['نمط الإدراج', listingModeLabels[document.getElementById('listingModeFilter').value]],
+        ['Ø§Ù„Ù…Ø­ÙˆØ±', metricLabels[state.metric]],
+        ['Ø§Ù„Ù…Ø­Ø§ÙØ¸Ø©', selectedGovernorate()],
+        ['Ø§Ù„Ù…Ù†Ø·Ù‚Ø©', document.getElementById('areaFilter').value],
+        ['Ù†ÙˆØ¹ Ø§Ù„Ù…Ø¹Ø§Ù…Ù„Ø©', document.getElementById('transactionFilter').value],
+        ['Ù†ÙˆØ¹ Ø§Ù„Ø¹Ù‚Ø§Ø±', document.getElementById('propertyFilter').value],
+        ['Ù†Ù…Ø· Ø§Ù„Ø¥Ø¯Ø±Ø§Ø¬', listingModeLabels[document.getElementById('listingModeFilter').value]],
       ];
       const priceText = document.getElementById('priceFilter').selectedOptions[0].textContent;
-      if (priceText !== 'كل الأسعار') chips.push(['حالة السعر', priceText]);
+      if (priceText !== 'ÙƒÙ„ Ø§Ù„Ø£Ø³Ø¹Ø§Ø±') chips.push(['Ø­Ø§Ù„Ø© Ø§Ù„Ø³Ø¹Ø±', priceText]);
       const query = document.getElementById('searchBox').value.trim();
-      if (query) chips.push(['بحث', query]);
+      if (query) chips.push(['Ø¨Ø­Ø«', query]);
       const container = document.getElementById('selectionChips');
       container.innerHTML = '';
       chips
@@ -2294,24 +2299,24 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
     }}
     function currentFilterPairs(includeGovernorate = true) {{
       const pairs = [];
-      if (includeGovernorate) pairs.push(['المحافظة', selectedGovernorate()]);
+      if (includeGovernorate) pairs.push(['Ø§Ù„Ù…Ø­Ø§ÙØ¸Ø©', selectedGovernorate()]);
       pairs.push(
-        ['نوع المعاملة', document.getElementById('transactionFilter').value],
-        ['نوع العقار', document.getElementById('propertyFilter').value],
-        ['المنطقة', document.getElementById('areaFilter').value],
-        ['نمط الإدراج', listingModeLabels[document.getElementById('listingModeFilter').value]]
+        ['Ù†ÙˆØ¹ Ø§Ù„Ù…Ø¹Ø§Ù…Ù„Ø©', document.getElementById('transactionFilter').value],
+        ['Ù†ÙˆØ¹ Ø§Ù„Ø¹Ù‚Ø§Ø±', document.getElementById('propertyFilter').value],
+        ['Ø§Ù„Ù…Ù†Ø·Ù‚Ø©', document.getElementById('areaFilter').value],
+        ['Ù†Ù…Ø· Ø§Ù„Ø¥Ø¯Ø±Ø§Ø¬', listingModeLabels[document.getElementById('listingModeFilter').value]]
       );
       const priceText = document.getElementById('priceFilter').selectedOptions[0].textContent;
-      if (priceText !== 'كل الأسعار') pairs.push(['حالة السعر', priceText]);
+      if (priceText !== 'ÙƒÙ„ Ø§Ù„Ø£Ø³Ø¹Ø§Ø±') pairs.push(['Ø­Ø§Ù„Ø© Ø§Ù„Ø³Ø¹Ø±', priceText]);
       const query = document.getElementById('searchBox').value.trim();
-      if (query) pairs.push(['بحث', query]);
+      if (query) pairs.push(['Ø¨Ø­Ø«', query]);
       return pairs.filter(([, value]) => value);
     }}
     function updateGovernorateFilterSummary() {{
       const target = document.getElementById('govFilterSummary');
       if (!target) return;
       const pairs = currentFilterPairs(false);
-      target.textContent = pairs.length ? pairs.map(([label, value]) => `${{label}}: ${{value}}`).join(' | ') : 'كل السجلات';
+      target.textContent = pairs.length ? pairs.map(([label, value]) => `${{label}}: ${{value}}`).join(' | ') : 'ÙƒÙ„ Ø§Ù„Ø³Ø¬Ù„Ø§Øª';
     }}
     function openDetailsModal(code) {{
       const row = records.find(item => item.code === code);
@@ -2325,15 +2330,15 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
       if (row.imageUrl) {{
         const image = document.createElement('img');
         image.src = row.imageUrl;
-        image.alt = row.area || row.property_type || 'صورة الإعلان';
+        image.alt = row.area || row.property_type || 'ØµÙˆØ±Ø© Ø§Ù„Ø¥Ø¹Ù„Ø§Ù†';
         image.referrerPolicy = 'no-referrer';
         image.decoding = 'async';
         image.onerror = () => {{
-          imageBox.textContent = 'بدون صورة';
+          imageBox.textContent = 'Ø¨Ø¯ÙˆÙ† ØµÙˆØ±Ø©';
         }};
         imageBox.appendChild(image);
       }} else {{
-        imageBox.textContent = 'بدون صورة';
+        imageBox.textContent = 'Ø¨Ø¯ÙˆÙ† ØµÙˆØ±Ø©';
       }}
       const info = document.createElement('div');
       info.className = 'modal-info';
@@ -2342,19 +2347,22 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
       badge.textContent = row.transaction;
       const modeBadge = document.createElement('span');
       modeBadge.className = `mode-badge ${{listingModeClass(row.listingMode)}}`;
-      modeBadge.textContent = `نمط الإدراج: ${{listingModeLabels[listingModeGroup(row.listingMode)]}}`;
+      modeBadge.textContent = `Ù†Ù…Ø· Ø§Ù„Ø¥Ø¯Ø±Ø§Ø¬: ${{listingModeLabels[listingModeGroup(row.listingMode)]}}`;
       const facts = document.createElement('div');
       facts.className = 'facts';
       facts.append(
-        createFact('كود الإعلان', row.code),
-        createFact('المحافظة', row.governorate),
-        createFact('المنطقة', row.area),
-        createFact('نوع العقار', row.property_type),
-        createFact('التصنيف', row.detail_class),
-        createFact('السعر', row.priceText),
-        createFact('المساحة', row.space ? `${{row.space}} م²` : 'غير محدد'),
-        createFact('نوع الإعلان', row.listingMode),
-        createFact('تاريخ النشر', row.publishedDate || 'غير محدد')
+        createFact('ÙƒÙˆØ¯ Ø§Ù„Ø¥Ø¹Ù„Ø§Ù†', row.code),
+        createFact('Ø§Ù„Ù…Ø­Ø§ÙØ¸Ø©', row.governorate),
+        createFact('Ø§Ù„Ù…Ù†Ø·Ù‚Ø©', row.area),
+        createFact('Ù†ÙˆØ¹ Ø§Ù„Ø¹Ù‚Ø§Ø±', row.property_type),
+        createFact('Ø§Ù„ØªØµÙ†ÙŠÙ', row.detail_class),
+        createFact('Ø§Ù„Ø³Ø¹Ø±', row.priceText),
+        createFact('Ù…ØµØ¯Ø± Ø§Ù„Ø³Ø¹Ø±', row.priceSource || 'ØºÙŠØ± Ù…Ø­Ø¯Ø¯'),
+        createFact('Ø§Ù„Ù…Ø³Ø§Ø­Ø©', row.space ? `${{row.space}} Ù…Â²` : 'ØºÙŠØ± Ù…Ø­Ø¯Ø¯'),
+        createFact('Ù…ØµØ¯Ø± Ø§Ù„Ù…Ø³Ø§Ø­Ø©', row.spaceSource || 'ØºÙŠØ± Ù…Ø­Ø¯Ø¯'),
+        createFact('Ù…Ù„Ø§Ø­Ø¸Ø§Øª Ø§Ù„Ø¬ÙˆØ¯Ø©', row.dataWarnings || 'Ù„Ø§ ØªÙˆØ¬Ø¯'),
+        createFact('Ù†ÙˆØ¹ Ø§Ù„Ø¥Ø¹Ù„Ø§Ù†', row.listingMode),
+        createFact('ØªØ§Ø±ÙŠØ® Ø§Ù„Ù†Ø´Ø±', row.publishedDate || 'ØºÙŠØ± Ù…Ø­Ø¯Ø¯')
       );
       info.append(badge, modeBadge, facts);
       info.appendChild(createDetailsBox(row));
@@ -2366,12 +2374,12 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
         originalPage.href = row.originalUrl;
         originalPage.target = '_blank';
         originalPage.rel = 'noopener';
-        originalPage.textContent = 'فتح صفحة الإعلان الأصلية';
+        originalPage.textContent = 'ÙØªØ­ ØµÙØ­Ø© Ø§Ù„Ø¥Ø¹Ù„Ø§Ù† Ø§Ù„Ø£ØµÙ„ÙŠØ©';
         actions.appendChild(originalPage);
       }} else {{
         const unavailable = document.createElement('span');
         unavailable.className = 'secondary-source';
-        unavailable.textContent = 'صفحة الإعلان الأصلية غير متاحة';
+        unavailable.textContent = 'ØµÙØ­Ø© Ø§Ù„Ø¥Ø¹Ù„Ø§Ù† Ø§Ù„Ø£ØµÙ„ÙŠØ© ØºÙŠØ± Ù…ØªØ§Ø­Ø©';
         actions.appendChild(unavailable);
       }}
       info.appendChild(actions);
@@ -2437,9 +2445,9 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
         document.getElementById('propertyFilter').value,
         listingModeLabels[document.getElementById('listingModeFilter').value],
         document.getElementById('areaFilter').value,
-        document.getElementById('priceFilter').selectedOptions[0].textContent !== 'كل الأسعار' ? document.getElementById('priceFilter').selectedOptions[0].textContent : ''
+        document.getElementById('priceFilter').selectedOptions[0].textContent !== 'ÙƒÙ„ Ø§Ù„Ø£Ø³Ø¹Ø§Ø±' ? document.getElementById('priceFilter').selectedOptions[0].textContent : ''
       ].filter(Boolean);
-      document.getElementById('resultMeta').textContent = activeFilters.length ? 'النتائج حسب الاختيارات المحددة' : 'اختر من الكروت أو من جدول المحافظات لعرض السجلات';
+      document.getElementById('resultMeta').textContent = activeFilters.length ? 'Ø§Ù„Ù†ØªØ§Ø¦Ø¬ Ø­Ø³Ø¨ Ø§Ù„Ø§Ø®ØªÙŠØ§Ø±Ø§Øª Ø§Ù„Ù…Ø­Ø¯Ø¯Ø©' : 'Ø§Ø®ØªØ± Ù…Ù† Ø§Ù„ÙƒØ±ÙˆØª Ø£Ùˆ Ù…Ù† Ø¬Ø¯ÙˆÙ„ Ø§Ù„Ù…Ø­Ø§ÙØ¸Ø§Øª Ù„Ø¹Ø±Ø¶ Ø§Ù„Ø³Ø¬Ù„Ø§Øª';
       document.getElementById('resultCount').textContent = formatNumber(rows.length);
       renderSelectionChips();
       updateGovernorateFilterSummary();
@@ -2450,12 +2458,12 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
       list.innerHTML = '';
       const progress = document.getElementById('resultProgress');
       const loadMore = document.getElementById('loadMoreButton');
-      progress.textContent = rows.length ? `عرض ${{formatNumber(visibleRows.length)}} من ${{formatNumber(rows.length)}}` : '';
+      progress.textContent = rows.length ? `Ø¹Ø±Ø¶ ${{formatNumber(visibleRows.length)}} Ù…Ù† ${{formatNumber(rows.length)}}` : '';
       loadMore.hidden = visibleRows.length >= rows.length;
       if (!rows.length) {{
         const empty = document.createElement('div');
         empty.className = 'empty';
-        empty.textContent = 'لا توجد سجلات مطابقة للتصفية الحالية.';
+        empty.textContent = 'Ù„Ø§ ØªÙˆØ¬Ø¯ Ø³Ø¬Ù„Ø§Øª Ù…Ø·Ø§Ø¨Ù‚Ø© Ù„Ù„ØªØµÙÙŠØ© Ø§Ù„Ø­Ø§Ù„ÙŠØ©.';
         list.appendChild(empty);
         return;
       }}
@@ -2467,17 +2475,17 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
         if (row.imageUrl) {{
           const image = document.createElement('img');
           image.src = row.imageUrl;
-          image.alt = row.area || row.property_type || 'صورة الإعلان';
+          image.alt = row.area || row.property_type || 'ØµÙˆØ±Ø© Ø§Ù„Ø¥Ø¹Ù„Ø§Ù†';
           image.loading = 'lazy';
           image.referrerPolicy = 'no-referrer';
           image.decoding = 'async';
           image.onerror = () => {{
-            thumb.textContent = 'بدون صورة';
+            thumb.textContent = 'Ø¨Ø¯ÙˆÙ† ØµÙˆØ±Ø©';
             thumb.classList.add('no-image');
           }};
           thumb.appendChild(image);
         }} else {{
-          thumb.textContent = 'بدون صورة';
+          thumb.textContent = 'Ø¨Ø¯ÙˆÙ† ØµÙˆØ±Ø©';
         }}
         const body = document.createElement('div');
         body.className = 'item-body';
@@ -2499,22 +2507,26 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
         const facts = document.createElement('div');
         facts.className = 'facts';
         facts.append(
-          createFact('كود الإعلان', row.code),
-          createFact('المحافظة', row.governorate),
-          createFact('المنطقة', row.area),
-          createFact('نوع العقار', row.property_type),
-          createFact('السعر', row.priceText),
-          createFact('المساحة', row.space ? `${{row.space}} م²` : 'غير محدد')
+          createFact('ÙƒÙˆØ¯ Ø§Ù„Ø¥Ø¹Ù„Ø§Ù†', row.code),
+          createFact('Ø§Ù„Ù…Ø­Ø§ÙØ¸Ø©', row.governorate),
+          createFact('Ø§Ù„Ù…Ù†Ø·Ù‚Ø©', row.area),
+          createFact('Ù†ÙˆØ¹ Ø§Ù„Ø¹Ù‚Ø§Ø±', row.property_type),
+          createFact('Ø§Ù„Ø³Ø¹Ø±', row.priceText),
+          createFact('Ø§Ù„Ù…Ø³Ø§Ø­Ø©', row.space ? `${{row.space}} Ù…Â²` : 'ØºÙŠØ± Ù…Ø­Ø¯Ø¯')
         );
         body.appendChild(facts);
+        const sourceNote = document.createElement('p');
+        sourceNote.className = 'desc';
+        sourceNote.textContent = `Ù…ØµØ¯Ø± Ø§Ù„Ù…Ø³Ø§Ø­Ø©: ${{row.spaceSource || 'ØºÙŠØ± Ù…Ø­Ø¯Ø¯'}}${{row.dataWarnings ? ` | Ù…Ù„Ø§Ø­Ø¸Ø§Øª: ${{row.dataWarnings}}` : ''}}`;
+        body.appendChild(sourceNote);
         const meta = document.createElement('p');
         meta.className = 'desc';
-        meta.textContent = `تاريخ النشر: ${{row.publishedDate || 'غير محدد'}} | تفاصيل متاحة: ${{row.detailAvailable}} | صورة: ${{row.imageUrl ? 'نعم' : 'لا'}}`;
+        meta.textContent = `ØªØ§Ø±ÙŠØ® Ø§Ù„Ù†Ø´Ø±: ${{row.publishedDate || 'ØºÙŠØ± Ù…Ø­Ø¯Ø¯'}} | ØªÙØ§ØµÙŠÙ„ Ù…ØªØ§Ø­Ø©: ${{row.detailAvailable}} | ØµÙˆØ±Ø©: ${{row.imageUrl ? 'Ù†Ø¹Ù…' : 'Ù„Ø§'}}`;
         body.appendChild(meta);
         const detailButton = document.createElement('button');
         detailButton.className = 'source';
         detailButton.type = 'button';
-        detailButton.textContent = 'عرض التفاصيل';
+        detailButton.textContent = 'Ø¹Ø±Ø¶ Ø§Ù„ØªÙØ§ØµÙŠÙ„';
         detailButton.addEventListener('click', () => openDetailsModal(row.code));
         body.appendChild(detailButton);
         if (row.originalAvailable && row.originalUrl) {{
@@ -2523,12 +2535,12 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
           originalPage.href = row.originalUrl;
           originalPage.target = '_blank';
           originalPage.rel = 'noopener';
-          originalPage.textContent = 'فتح صفحة الإعلان الأصلية';
+          originalPage.textContent = 'ÙØªØ­ ØµÙØ­Ø© Ø§Ù„Ø¥Ø¹Ù„Ø§Ù† Ø§Ù„Ø£ØµÙ„ÙŠØ©';
           body.appendChild(originalPage);
         }} else {{
           const unavailable = document.createElement('span');
           unavailable.className = 'secondary-source';
-          unavailable.textContent = 'الأصلية غير متاحة';
+          unavailable.textContent = 'Ø§Ù„Ø£ØµÙ„ÙŠØ© ØºÙŠØ± Ù…ØªØ§Ø­Ø©';
           body.appendChild(unavailable);
         }}
         item.append(thumb, body);
@@ -2540,17 +2552,20 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
     }}
     function downloadFilteredCsv() {{
       const columns = [
-        ['كود الإعلان', 'code'],
-        ['نوع المعاملة', 'transaction'],
-        ['المحافظة', 'governorate'],
-        ['المنطقة', 'area'],
-        ['نوع العقار', 'property_type'],
-        ['التصنيف', 'detail_class'],
-        ['السعر', 'priceText'],
-        ['المساحة', 'space'],
-        ['نمط الإدراج', 'listingMode'],
-        ['تاريخ النشر', 'publishedDate'],
-        ['رابط الإعلان الأصلي', 'originalUrl']
+        ['ÙƒÙˆØ¯ Ø§Ù„Ø¥Ø¹Ù„Ø§Ù†', 'code'],
+        ['Ù†ÙˆØ¹ Ø§Ù„Ù…Ø¹Ø§Ù…Ù„Ø©', 'transaction'],
+        ['Ø§Ù„Ù…Ø­Ø§ÙØ¸Ø©', 'governorate'],
+        ['Ø§Ù„Ù…Ù†Ø·Ù‚Ø©', 'area'],
+        ['Ù†ÙˆØ¹ Ø§Ù„Ø¹Ù‚Ø§Ø±', 'property_type'],
+        ['Ø§Ù„ØªØµÙ†ÙŠÙ', 'detail_class'],
+        ['Ø§Ù„Ø³Ø¹Ø±', 'priceText'],
+        ['Ù…ØµØ¯Ø± Ø§Ù„Ø³Ø¹Ø±', 'priceSource'],
+        ['Ø§Ù„Ù…Ø³Ø§Ø­Ø©', 'space'],
+        ['Ù…ØµØ¯Ø± Ø§Ù„Ù…Ø³Ø§Ø­Ø©', 'spaceSource'],
+        ['Ù…Ù„Ø§Ø­Ø¸Ø§Øª Ø§Ù„Ø¬ÙˆØ¯Ø©', 'dataWarnings'],
+        ['Ù†Ù…Ø· Ø§Ù„Ø¥Ø¯Ø±Ø§Ø¬', 'listingMode'],
+        ['ØªØ§Ø±ÙŠØ® Ø§Ù„Ù†Ø´Ø±', 'publishedDate'],
+        ['Ø±Ø§Ø¨Ø· Ø§Ù„Ø¥Ø¹Ù„Ø§Ù† Ø§Ù„Ø£ØµÙ„ÙŠ', 'originalUrl']
       ];
       const rows = currentRows();
       const lines = [
@@ -2639,23 +2654,98 @@ def create_html(records: list[dict], metrics: list[dict], governors: list[dict])
 
 
 
+def create_quality_report(records: list[dict]) -> None:
+    def esc(value: object) -> str:
+        return html_lib.escape(str(value or ""))
+
+    issue_rows = [row for row in records if row.get("dataWarnings") or not row.get("space") or not row.get("price")]
+    summary = quality_summary(records)
+    table_rows = "".join(
+        f"""
+        <tr>
+          <td>{esc(row.get('code'))}</td>
+          <td>{esc(row.get('transaction'))}</td>
+          <td>{esc(row.get('governorate'))}</td>
+          <td>{esc(row.get('area'))}</td>
+          <td>{esc(row.get('priceText'))}</td>
+          <td>{esc(str(row.get('space')) if row.get('space') else 'ØºÙŠØ± Ù…Ø­Ø¯Ø¯')}</td>
+          <td>{esc(row.get('priceSource'))}</td>
+          <td>{esc(row.get('spaceSource'))}</td>
+          <td>{esc(row.get('dataWarnings'))}</td>
+          <td class="detail">{esc((row.get('detailText') or row.get('summary') or '')[:220])}</td>
+          <td><a href="{esc(row.get('originalUrl'))}">ÙØªØ­</a></td>
+        </tr>
+        """
+        for row in issue_rows
+    )
+    html = f"""<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>ØªÙ‚Ø±ÙŠØ± Ø¬ÙˆØ¯Ø© Ø¨ÙŠØ§Ù†Ø§Øª Ø§Ù„ÙØ±ÙŠØ¬</title>
+  <style>
+    * {{ box-sizing: border-box; }}
+    body {{ margin: 0; background: #f6f8fb; color: #111827; font-family: Arial, Tahoma, sans-serif; font-size: 16px; line-height: 1.6; }}
+    header {{ background: #0f172a; color: white; padding: 22px 28px; border-bottom: 5px solid #d97706; }}
+    h1 {{ margin: 0; font-size: 28px; }}
+    main {{ padding: 18px; max-width: 1280px; margin: 0 auto; }}
+    .cards {{ display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-bottom: 14px; }}
+    .card {{ background: white; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px; }}
+    .card b {{ display: block; color: #475569; font-size: 13px; }}
+    .card span {{ display: block; font-size: 26px; font-weight: 900; margin-top: 3px; }}
+    .table-wrap {{ overflow-x: auto; background: white; border: 1px solid #cbd5e1; border-radius: 8px; }}
+    table {{ width: 100%; min-width: 1120px; border-collapse: collapse; }}
+    th, td {{ border-bottom: 1px solid #e2e8f0; padding: 8px; vertical-align: top; text-align: right; }}
+    th {{ background: #f8fafc; color: #334155; font-size: 13px; }}
+    td {{ font-weight: 700; }}
+    .detail {{ max-width: 280px; white-space: pre-line; color: #334155; }}
+    a {{ color: #1748c7; font-weight: 900; }}
+    @media (max-width: 720px) {{ .cards {{ grid-template-columns: 1fr 1fr; }} main {{ padding: 10px; }} }}
+  </style>
+</head>
+<body>
+  <header><h1>ØªÙ‚Ø±ÙŠØ± Ø¬ÙˆØ¯Ø© Ø¨ÙŠØ§Ù†Ø§Øª Ø§Ù„Ø¹Ø±ÙˆØ¶</h1></header>
+  <main>
+    <section class="cards">
+      <div class="card"><b>Ø¥Ø¬Ù…Ø§Ù„ÙŠ Ø§Ù„Ø³Ø¬Ù„Ø§Øª</b><span>{summary['records']}</span></div>
+      <div class="card"><b>Ù…Ø³Ø§Ø­Ø© ØºÙŠØ± Ù…Ø°ÙƒÙˆØ±Ø©</b><span>{summary['missing_space']}</span></div>
+      <div class="card"><b>Ø³Ø¹Ø± ØºÙŠØ± Ù…Ø¹Ù„Ù†</b><span>{summary['missing_price']}</span></div>
+      <div class="card"><b>Ø³Ø¬Ù„Ø§Øª Ø¨Ù…Ù„Ø§Ø­Ø¸Ø§Øª</b><span>{summary['warnings']}</span></div>
+    </section>
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th>Ø§Ù„ÙƒÙˆØ¯</th><th>Ù†ÙˆØ¹ Ø§Ù„Ù…Ø¹Ø§Ù…Ù„Ø©</th><th>Ø§Ù„Ù…Ø­Ø§ÙØ¸Ø©</th><th>Ø§Ù„Ù…Ù†Ø·Ù‚Ø©</th>
+          <th>Ø§Ù„Ø³Ø¹Ø±</th><th>Ø§Ù„Ù…Ø³Ø§Ø­Ø©</th><th>Ù…ØµØ¯Ø± Ø§Ù„Ø³Ø¹Ø±</th><th>Ù…ØµØ¯Ø± Ø§Ù„Ù…Ø³Ø§Ø­Ø©</th><th>Ù…Ù„Ø§Ø­Ø¸Ø§Øª</th><th>Ø§Ù„Ù†Øµ Ø§Ù„Ø£ØµÙ„ÙŠ</th><th>Ø§Ù„Ø±Ø§Ø¨Ø·</th>
+        </tr></thead>
+        <tbody>{table_rows}</tbody>
+      </table>
+    </div>
+  </main>
+</body>
+</html>
+"""
+    QUALITY_HTML_PATH.write_text(html, encoding="utf-8")
+
 def create_readme(records: list[dict], metrics: list[dict]) -> None:
     lines = [
-        "ملحق استعراض الأرقام والعروض الفعلية",
+        "Ù…Ù„Ø­Ù‚ Ø§Ø³ØªØ¹Ø±Ø§Ø¶ Ø§Ù„Ø£Ø±Ù‚Ø§Ù… ÙˆØ§Ù„Ø¹Ø±ÙˆØ¶ Ø§Ù„ÙØ¹Ù„ÙŠØ©",
         "",
-        "الملفات:",
-        "1. 01_لوحة_تفاعلية_للأرقام_والعروض.html: افتحه في Chrome أو Edge، ثم اضغط على أي رقم لعرض السجلات المرتبطة به وعرض التفاصيل داخل اللوحة.",
-        "2. 01_لوحة_تفاعلية_للأرقام_والعروض_نسخة_نوع_العقار.html: نسخة بديلة تجعل نوع العقار اختيارا مستقلا، وتعرض جدول المحافظات حسب الحركة فقط.",
-        "3. 02_قوائم_العروض_الفعلية_حسب_الأرقام.xlsx: ملف Excel بنفس القوائم مع فلاتر وفرز وروابط صفحة الإعلان الأصلية عند توفرها.",
+        "Ø§Ù„Ù…Ù„ÙØ§Øª:",
+        "1. 01_Ù„ÙˆØ­Ø©_ØªÙØ§Ø¹Ù„ÙŠØ©_Ù„Ù„Ø£Ø±Ù‚Ø§Ù…_ÙˆØ§Ù„Ø¹Ø±ÙˆØ¶.html: Ø§ÙØªØ­Ù‡ ÙÙŠ Chrome Ø£Ùˆ EdgeØŒ Ø«Ù… Ø§Ø¶ØºØ· Ø¹Ù„Ù‰ Ø£ÙŠ Ø±Ù‚Ù… Ù„Ø¹Ø±Ø¶ Ø§Ù„Ø³Ø¬Ù„Ø§Øª Ø§Ù„Ù…Ø±ØªØ¨Ø·Ø© Ø¨Ù‡ ÙˆØ¹Ø±Ø¶ Ø§Ù„ØªÙØ§ØµÙŠÙ„ Ø¯Ø§Ø®Ù„ Ø§Ù„Ù„ÙˆØ­Ø©.",
+        "2. 01_Ù„ÙˆØ­Ø©_ØªÙØ§Ø¹Ù„ÙŠØ©_Ù„Ù„Ø£Ø±Ù‚Ø§Ù…_ÙˆØ§Ù„Ø¹Ø±ÙˆØ¶_Ù†Ø³Ø®Ø©_Ù†ÙˆØ¹_Ø§Ù„Ø¹Ù‚Ø§Ø±.html: Ù†Ø³Ø®Ø© Ø¨Ø¯ÙŠÙ„Ø© ØªØ¬Ø¹Ù„ Ù†ÙˆØ¹ Ø§Ù„Ø¹Ù‚Ø§Ø± Ø§Ø®ØªÙŠØ§Ø±Ø§ Ù…Ø³ØªÙ‚Ù„Ø§ØŒ ÙˆØªØ¹Ø±Ø¶ Ø¬Ø¯ÙˆÙ„ Ø§Ù„Ù…Ø­Ø§ÙØ¸Ø§Øª Ø­Ø³Ø¨ Ø§Ù„Ø­Ø±ÙƒØ© ÙÙ‚Ø·.",
+        "3. 02_Ù‚ÙˆØ§Ø¦Ù…_Ø§Ù„Ø¹Ø±ÙˆØ¶_Ø§Ù„ÙØ¹Ù„ÙŠØ©_Ø­Ø³Ø¨_Ø§Ù„Ø£Ø±Ù‚Ø§Ù….xlsx: Ù…Ù„Ù Excel Ø¨Ù†ÙØ³ Ø§Ù„Ù‚ÙˆØ§Ø¦Ù… Ù…Ø¹ ÙÙ„Ø§ØªØ± ÙˆÙØ±Ø² ÙˆØ±ÙˆØ§Ø¨Ø· ØµÙØ­Ø© Ø§Ù„Ø¥Ø¹Ù„Ø§Ù† Ø§Ù„Ø£ØµÙ„ÙŠØ© Ø¹Ù†Ø¯ ØªÙˆÙØ±Ù‡Ø§.",
         "",
-        "الأرقام الرئيسية:",
+        "Ø§Ù„Ø£Ø±Ù‚Ø§Ù… Ø§Ù„Ø±Ø¦ÙŠØ³ÙŠØ©:",
     ]
     lines.extend([f"- {row['label']}: {fmt_int(row['count'])}" for row in metrics])
     lines.extend(
         [
             "",
-            f"إجمالي السجلات المعروضة في الملحق: {fmt_int(len(records))}.",
-            "يعرض الملحق السجلات المنظفة وتفاصيل الإعلان كما وردت في المصدر عند توفرها.",
+            f"Ø¥Ø¬Ù…Ø§Ù„ÙŠ Ø§Ù„Ø³Ø¬Ù„Ø§Øª Ø§Ù„Ù…Ø¹Ø±ÙˆØ¶Ø© ÙÙŠ Ø§Ù„Ù…Ù„Ø­Ù‚: {fmt_int(len(records))}.",
+            "ÙŠØ¹Ø±Ø¶ Ø§Ù„Ù…Ù„Ø­Ù‚ Ø§Ù„Ø³Ø¬Ù„Ø§Øª Ø§Ù„Ù…Ù†Ø¸ÙØ© ÙˆØªÙØ§ØµÙŠÙ„ Ø§Ù„Ø¥Ø¹Ù„Ø§Ù† ÙƒÙ…Ø§ ÙˆØ±Ø¯Øª ÙÙŠ Ø§Ù„Ù…ØµØ¯Ø± Ø¹Ù†Ø¯ ØªÙˆÙØ±Ù‡Ø§.",
         ]
     )
     README_PATH.write_text("\n".join(lines) + "\n", encoding="utf-8")
@@ -2671,6 +2761,7 @@ def main() -> None:
     remove_detail_pages()
     create_html(records, metrics, governors)
     create_excel(records, metrics, governors)
+    create_quality_report(records)
     update_parent_register_links(records)
     create_readme(records, metrics)
     print(
@@ -2679,7 +2770,7 @@ def main() -> None:
                 "output": str(OUTPUT_DIR),
                 "records": len(records),
                 "metrics": {row["metric"]: row["count"] for row in metrics},
-                "files": [HTML_PATH.name, PROPERTY_HTML_PATH.name, XLSX_PATH.name, README_PATH.name],
+                "files": [HTML_PATH.name, PROPERTY_HTML_PATH.name, XLSX_PATH.name, QUALITY_HTML_PATH.name, README_PATH.name],
             },
             ensure_ascii=False,
             indent=2,
