@@ -29,6 +29,58 @@ const recentAreasKey = "alforaij_recent_areas_v2";
 const $ = (id) => document.getElementById(id);
 const API_BASE = String(window.ALFORAIJ_API_BASE || localStorage.getItem("ALFORAIJ_API_BASE") || "").replace(/\/$/, "");
 const STATIC_SNAPSHOT_MODE = !API_BASE;
+const LIVE_SUPABASE_URL = "https://bwspcsiazbwrrxpgoldx.supabase.co";
+const LIVE_SUPABASE_ANON_KEY = "sb_publishable_c84oHQS94osRqw_SiTIqMg_8icxvatZ";
+
+function parseContentRangeTotal(contentRange) {
+  const match = String(contentRange || "").match(/\/(\d+)$/);
+  return match ? Number(match[1]) : 0;
+}
+
+async function fetchLiveMarketListingsCount() {
+  const response = await fetch(`${LIVE_SUPABASE_URL}/rest/v1/market_listings?select=id&limit=1`, {
+    headers: {
+      apikey: LIVE_SUPABASE_ANON_KEY,
+      Authorization: `Bearer ${LIVE_SUPABASE_ANON_KEY}`,
+      Prefer: "count=exact",
+    },
+    cache: "no-store",
+  });
+  if (!response.ok) throw new Error(`Supabase count failed: ${response.status}`);
+  return parseContentRangeTotal(response.headers.get("content-range"));
+}
+
+function localListingsCountFromHealth(health) {
+  return Number(
+    health?.localRecords ||
+    health?.records ||
+    0
+  );
+}
+
+async function fetchLocalAlforaijListingsCount() {
+  const summary = await getJson("/api/dashboard/summary");
+  const records = Array.isArray(summary?.records) ? summary.records : [];
+  return records.filter((record) => String(record?.source || "") === "الفريج").length;
+}
+
+async function renderLiveHealthStatus(health) {
+  let localCount = localListingsCountFromHealth(health);
+  let marketCount = Number(health?.externalRecords || 0);
+  try {
+    localCount = await fetchLocalAlforaijListingsCount();
+  } catch (error) {
+    console.warn("[Live Status] Local alforaij count fallback:", error.message);
+  }
+  try {
+    marketCount = await fetchLiveMarketListingsCount();
+  } catch (error) {
+    console.warn("[Live Status] Supabase live count fallback:", error.message);
+  }
+  const total = localCount + marketCount;
+  const aiStatus = health.aiAnalysis ? "التحليل الذكي متاح" : "تحليل محلي";
+  setStatus(`البيانات: ${total.toLocaleString("ar-EG")} إعلان مباشر | السوق الخارجي: ${marketCount.toLocaleString("ar-EG")} | الفريج: ${localCount.toLocaleString("ar-EG")} | قاعدة البيانات: ${health.supabase ? "متصلة" : "غير مضبوطة"} | ${aiStatus}`);
+}
 const STATIC_DATA_MAP = {
   "/api/health": "health.json",
   "/api/sources": "sources.json",
@@ -2755,8 +2807,7 @@ async function boot() {
   }, 5 * 60 * 1000);
   try {
     const health = await getJson("/api/health");
-    const aiStatus = health.aiAnalysis ? "التحليل الذكي متاح" : "تحليل محلي";
-    setStatus(`الكل 1,218 | الفريج 182 | السوق 1,036 إعلان | قاعدة البيانات: ${health.supabase ? "متصلة" : "غير مضبوطة"} | ${aiStatus}`);
+    await renderLiveHealthStatus(health);
   } catch {
     setStatus("تعذر فحص البيانات");
   }
@@ -2779,18 +2830,18 @@ async function updateLiveStatus() {
   
   try {
     // فحص الاتصال
-    const countResp = await fetch(SUPABASE_URL + '/rest/v1/market_listings?select=count', {
+    const countResp = await fetch(SUPABASE_URL + '/rest/v1/market_listings?select=id&limit=1', {
       headers: {
         'apikey': ANON_KEY,
         'Authorization': 'Bearer ' + ANON_KEY,
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Prefer': 'count=exact'
       },
       signal: AbortSignal.timeout(8000)
     });
     
     if (countResp.ok) {
-      const countData = await countResp.json();
-      const total = Array.isArray(countData) ? countData.length : (countData?.count || 0);
+      const total = parseContentRangeTotal(countResp.headers.get('content-range'));
       
       dbStatusEl.innerHTML = '<span class="status-dot"></span><span>متصل بـ Supabase (' + total.toLocaleString('ar-EG') + ' إعلان)</span>';
       dbStatusEl.className = 'status-pill status-live';
