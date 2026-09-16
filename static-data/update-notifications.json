@@ -1,0 +1,149 @@
+{
+  "generatedAt": "2026-09-15T06:02:56",
+  "hasPrevious": true,
+  "counts": {
+    "added": 16,
+    "removed": 17,
+    "priceDrops": 0
+  },
+  "officialTransactions": {
+    "importStatus": "skipped",
+    "importCount": 0,
+    "storedCount": 0,
+    "note": "لا يوجد مصدر صفقات رسمي مضبوط لهذا التشغيل."
+  },
+  "officialIndicators": {
+    "storedCount": 53,
+    "status": "ok"
+  },
+  "candidatePlatforms": {
+    "count": 5,
+    "reachable": 0,
+    "blocked": 4,
+    "discontinued": 1,
+    "sources": [
+      {
+        "id": "aqarmap_kw",
+        "name": "Aqarmap Kuwait",
+        "kind": "marketplace",
+        "status": "discontinued",
+        "detail": "الموقع يعيد بوابة مصر حاليًا (النسخة الكويتية متوقفة)"
+      },
+      {
+        "id": "bayut_kw",
+        "name": "Bayut Kuwait",
+        "kind": "marketplace",
+        "status": "unreachable",
+        "detail": "HTTP Error 401: Unauthorized"
+      },
+      {
+        "id": "paci_kuwait_finder",
+        "name": "Kuwait Finder (PACI)",
+        "kind": "official",
+        "status": "unreachable",
+        "detail": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1028)>"
+      },
+      {
+        "id": "propertyfinder_kw",
+        "name": "Property Finder Kuwait",
+        "kind": "marketplace",
+        "status": "unreachable",
+        "detail": "<urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>"
+      },
+      {
+        "id": "e_gov_kw_portal",
+        "name": "بوابة الكويت العقارية (e.gov.kw)",
+        "kind": "official",
+        "status": "unreachable",
+        "detail": "HTTP Error 403: Forbidden"
+      }
+    ],
+    "newlyAvailable": []
+  },
+  "top": {
+    "priceDrops": [],
+    "added": [
+      {
+        "code": "AF-278",
+        "area": "بيان",
+        "propertyType": "بيت",
+        "price": 270000.0,
+        "priceText": "270 ألف د.ك",
+        "oldPrice": null,
+        "oldPriceText": null,
+        "valuationLabel": "لقطة ممتازة",
+        "source": "الفريج",
+        "url": "https://front.alforaij.com/Listing/Detail/278",
+        "guidance": "فرصة جديدة في السوق — راسل العملاء المطابقين فورًا قبل المنافسين."
+      },
+      {
+        "code": "BU3-7776",
+        "area": "صباح الاحمد السكنية",
+        "propertyType": "أرض",
+        "price": 330000.0,
+        "priceText": "330,000 د.ك",
+        "oldPrice": null,
+        "oldPriceText": null,
+        "valuationLabel": "لقطة ممتازة",
+        "source": "بوعقار / بوشملان (Bu3qar)",
+        "url": "https://www.bu3qar.com/product-details/7776/%D9%82%D8%B3%D9%8A%D9%85%D8%A9-%D9%84%D9%84%D8%A8%D9%8A%D8%B9-%D9%81%D9%89-%D8%B5%D8%A8%D8%A7%D8%AD-%D8%A7%D9%84%D8%A3%D8%AD%D9%85%D8%AF-%D8%A7%D9%84%D8%B3%D9%83%D9%86%D9%8A%D8%A9-%D8%B2%D8%A7%D9%88%D9%8A%D8%A9",
+        "guidance": "فرصة جديدة في السوق — راسل العملاء المطابقين فورًا قبل المنافسين."
+      },
+      {
+        "code": "BU3-8151",
+        "area": "صباح الاحمد السكنية",
+        "propertyType": "بيت",
+        "price": 240000.0,
+        "priceText": "240,000 د.ك",
+        "oldPrice": null,
+        "oldPriceText": null,
+        "valuationLabel": "لقطة ممتازة",
+        "source": "بوعقار / بوشملان (Bu3qar)",
+        "url": "https://www.bu3qar.com/product-details/8151/%D9%81%D9%8A%D9%84%D8%A7-%D9%84%D9%84%D8%A8%D9%8A%D8%B9-%D9%81%D9%8A-%D8%B5%D8%A8%D8%A7%D8%AD-%D8%A7%D9%84%D8%A7%D8%AD%D9%85%D8%AF-%D8%A7%D9%84%D8%B3%D9%83%D9%86%D9%8A%D8%A9-%D9%85%D9%86-%D8%AF%D9%88%D8%B1%D9%8A%D9%86",
+        "guidance": "فرصة جديدة في السوق — راسل العملاء المطابقين فورًا قبل المنافسين."
+      }
+    ],
+    "removed": [
+      {
+        "code": "BU3-8155",
+        "area": "الخيران",
+        "propertyType": "أرض",
+        "price": 130000.0,
+        "priceText": "130,000 د.ك",
+        "oldPrice": null,
+        "oldPriceText": null,
+        "valuationLabel": "لقطة ممتازة",
+        "source": "بوعقار / بوشملان (Bu3qar)",
+        "url": "https://www.bu3qar.com/product-details/8155/%D9%84%D9%84%D8%A8%D9%8A%D8%B9-%D8%A7%D8%B1%D8%B6-%D9%81%D9%8A-%D8%A7%D9%84%D8%AE%D9%8A%D8%B1%D8%A7%D9%86-%D8%B9%D9%84%D9%8A-%D8%B1%D9%88%D8%A7%D9%82-%D8%A7%D9%84%D9%85%D9%86%D8%B7%D9%82%D8%A9",
+        "guidance": "اختفى الإعلان من السوق — أزله من العروض المرسلة وأبلغ العملاء المهتمين (قد يكون حُجز أو سُحب)."
+      },
+      {
+        "code": "BU3-8021",
+        "area": "الرميثية",
+        "propertyType": "بيت",
+        "price": 330000.0,
+        "priceText": "330,000 د.ك",
+        "oldPrice": null,
+        "oldPriceText": null,
+        "valuationLabel": "لقطة ممتازة",
+        "source": "بوعقار / بوشملان (Bu3qar)",
+        "url": "https://www.bu3qar.com/product-details/8021/%D8%A8%D9%8A%D8%AA-%D8%AD%D9%83%D9%88%D9%85%D8%A9-%D9%84%D9%84%D8%A8%D9%8A%D8%B9-%D9%81%D9%89-%D8%A7%D9%84%D8%B1%D9%85%D9%8A%D8%AB%D9%8A%D9%87-%D9%82%D8%B7%D8%B9%D8%A9-4",
+        "guidance": "اختفى الإعلان من السوق — أزله من العروض المرسلة وأبلغ العملاء المهتمين (قد يكون حُجز أو سُحب)."
+      },
+      {
+        "code": "OS-287067706",
+        "area": "السالمية",
+        "propertyType": "عمارة",
+        "price": 4000000.0,
+        "priceText": "4,000,000 د.ك",
+        "oldPrice": null,
+        "oldPriceText": null,
+        "valuationLabel": "لقطة ممتازة (أقل من السوق بوضوح)",
+        "source": "OpenSooq",
+        "url": "https://kw.opensooq.com/search/287067706",
+        "guidance": "اختفى الإعلان من السوق — أزله من العروض المرسلة وأبلغ العملاء المهتمين (قد يكون حُجز أو سُحب)."
+      }
+    ]
+  },
+  "staticSnapshot": true
+}

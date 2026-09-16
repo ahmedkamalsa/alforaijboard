@@ -1,0 +1,11 @@
+{
+  "installed": false,
+  "running": false,
+  "pid": null,
+  "gateway_state": "not_installed",
+  "kind": "hermes-gateway",
+  "version": "",
+  "updated_at": "",
+  "hermes_home": "/home/runner/AppData/Local/hermes",
+  "source": "none"
+}

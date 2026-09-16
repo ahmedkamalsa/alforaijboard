@@ -1,0 +1,202 @@
+{
+  "dates": [],
+  "series": [
+    {
+      "area": "ميدان حولي",
+      "points": [
+        {
+          "date": "",
+          "value": 84778.0
+        }
+      ],
+      "first": 84778.0,
+      "latest": 84778.0,
+      "changePercent": 0.0,
+      "direction": "مستقر"
+    },
+    {
+      "area": "القرين",
+      "points": [
+        {
+          "date": "",
+          "value": 66250.0
+        }
+      ],
+      "first": 66250.0,
+      "latest": 66250.0,
+      "changePercent": 0.0,
+      "direction": "مستقر"
+    },
+    {
+      "area": "المسايل",
+      "points": [
+        {
+          "date": "",
+          "value": 9600.0
+        }
+      ],
+      "first": 9600.0,
+      "latest": 9600.0,
+      "changePercent": 0.0,
+      "direction": "مستقر"
+    },
+    {
+      "area": "خيران السكنية",
+      "points": [
+        {
+          "date": "",
+          "value": 6383.0
+        }
+      ],
+      "first": 6383.0,
+      "latest": 6383.0,
+      "changePercent": 0.0,
+      "direction": "مستقر"
+    },
+    {
+      "area": "الشامية",
+      "points": [
+        {
+          "date": "",
+          "value": 4000.0
+        }
+      ],
+      "first": 4000.0,
+      "latest": 4000.0,
+      "changePercent": 0.0,
+      "direction": "مستقر"
+    },
+    {
+      "area": "الشرق",
+      "points": [
+        {
+          "date": "",
+          "value": 3689.8
+        }
+      ],
+      "first": 3689.8,
+      "latest": 3689.8,
+      "changePercent": 0.0,
+      "direction": "مستقر"
+    },
+    {
+      "area": "حولي",
+      "points": [
+        {
+          "date": "",
+          "value": 2606.7
+        }
+      ],
+      "first": 2606.7,
+      "latest": 2606.7,
+      "changePercent": 0.0,
+      "direction": "مستقر"
+    },
+    {
+      "area": "الدسمة",
+      "points": [
+        {
+          "date": "",
+          "value": 2518.9
+        }
+      ],
+      "first": 2518.9,
+      "latest": 2518.9,
+      "changePercent": 0.0,
+      "direction": "مستقر"
+    },
+    {
+      "area": "الشهداء",
+      "points": [
+        {
+          "date": "",
+          "value": 2000.0
+        }
+      ],
+      "first": 2000.0,
+      "latest": 2000.0,
+      "changePercent": 0.0,
+      "direction": "مستقر"
+    },
+    {
+      "area": "النهضة",
+      "points": [
+        {
+          "date": "",
+          "value": 1883.3
+        }
+      ],
+      "first": 1883.3,
+      "latest": 1883.3,
+      "changePercent": 0.0,
+      "direction": "مستقر"
+    },
+    {
+      "area": "الفيحاء",
+      "points": [
+        {
+          "date": "",
+          "value": 1875.0
+        }
+      ],
+      "first": 1875.0,
+      "latest": 1875.0,
+      "changePercent": 0.0,
+      "direction": "مستقر"
+    },
+    {
+      "area": "بنيد القار",
+      "points": [
+        {
+          "date": "",
+          "value": 1835.2
+        }
+      ],
+      "first": 1835.2,
+      "latest": 1835.2,
+      "changePercent": 0.0,
+      "direction": "مستقر"
+    },
+    {
+      "area": "عبدالله السالم",
+      "points": [
+        {
+          "date": "",
+          "value": 1800.0
+        }
+      ],
+      "first": 1800.0,
+      "latest": 1800.0,
+      "changePercent": 0.0,
+      "direction": "مستقر"
+    },
+    {
+      "area": "الشعب",
+      "points": [
+        {
+          "date": "",
+          "value": 1500.0
+        }
+      ],
+      "first": 1500.0,
+      "latest": 1500.0,
+      "changePercent": 0.0,
+      "direction": "مستقر"
+    },
+    {
+      "area": "السرة",
+      "points": [
+        {
+          "date": "",
+          "value": 1466.7
+        }
+      ],
+      "first": 1466.7,
+      "latest": 1466.7,
+      "changePercent": 0.0,
+      "direction": "مستقر"
+    }
+  ],
+  "snapshotCount": 1,
+  "staticSnapshot": true
+}
