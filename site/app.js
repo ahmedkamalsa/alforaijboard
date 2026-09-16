@@ -2796,18 +2796,21 @@ async function updateLiveStatus() {
   
   try {
     // فحص الاتصال
-    const countResp = await fetch(SUPABASE_URL + '/rest/v1/market_listings?select=count', {
+    const countResp = await fetch(SUPABASE_URL + '/rest/v1/market_listings?select=id&limit=10000', {
       headers: {
         'apikey': ANON_KEY,
         'Authorization': 'Bearer ' + ANON_KEY,
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Prefer': 'count=exact'
       },
       signal: AbortSignal.timeout(8000)
     });
     
     if (countResp.ok) {
-      const countData = await countResp.json();
-      const total = Array.isArray(countData) && countData[0]?.count ? countData[0].count : (countData?.count || (Array.isArray(countData) ? countData.length : 4821));
+      const countRange = countResp.headers.get('content-range') || '';
+      const rangeTotal = Number((countRange.match(/\/(\d+)$/) || [])[1] || 0);
+      const countData = rangeTotal ? [] : await countResp.json().catch(() => []);
+      const total = rangeTotal || (Array.isArray(countData) ? countData.length : 4821);
       
       dbStatusEl.innerHTML = '<span class="status-dot"></span><span>متصل بـ Supabase (' + total.toLocaleString('ar-EG') + ' إعلان)</span>';
       dbStatusEl.className = 'status-pill status-live';
