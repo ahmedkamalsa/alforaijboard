@@ -2,5 +2,8 @@
   publish = "site"
   command = "echo Static dashboard ready"
 
+[functions]
+  directory = "netlify/functions"
+
 [build.processing]
   skip_processing = true

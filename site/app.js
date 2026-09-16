@@ -81,7 +81,31 @@ async function fetchLiveAlforaijListingsCount() {
   return totals.reduce((sum, value) => sum + Number(value || 0), 0);
 }
 
+async function fetchNetlifyLiveCounts() {
+  const response = await fetch("/.netlify/functions/live-counts", { cache: "no-store" });
+  if (!response.ok) throw new Error(`Live counts function failed: ${response.status}`);
+  const payload = await response.json();
+  if (!payload?.ok) throw new Error(payload?.error || "Live counts function returned invalid payload");
+  return {
+    local: Number(payload.local || 0),
+    external: Number(payload.external || 0),
+    total: Number(payload.total || 0),
+    cached: Boolean(payload.cached),
+  };
+}
+
 async function renderLiveHealthStatus(health) {
+  const aiStatus = health.aiAnalysis ? "التحليل الذكي متاح" : "تحليل محلي";
+  try {
+    const live = await fetchNetlifyLiveCounts();
+    if (live.total > 0) {
+      setStatus(`البيانات: ${live.total.toLocaleString("ar-EG")} إعلان مباشر | السوق الخارجي: ${live.external.toLocaleString("ar-EG")} | الفريج: ${live.local.toLocaleString("ar-EG")} | قاعدة البيانات: متصلة | ${aiStatus}${live.cached ? " | cache" : ""}`);
+      return;
+    }
+  } catch (functionError) {
+    console.warn("[Live Status] Netlify live-counts fallback:", functionError.message);
+  }
+
   let localCount = localListingsCountFromHealth(health);
   let marketCount = Number(health?.externalRecords || 0);
   try {
@@ -100,7 +124,6 @@ async function renderLiveHealthStatus(health) {
     console.warn("[Live Status] Supabase live count fallback:", error.message);
   }
   const total = localCount + marketCount;
-  const aiStatus = health.aiAnalysis ? "التحليل الذكي متاح" : "تحليل محلي";
   setStatus(`البيانات: ${total.toLocaleString("ar-EG")} إعلان مباشر | السوق الخارجي: ${marketCount.toLocaleString("ar-EG")} | الفريج: ${localCount.toLocaleString("ar-EG")} | قاعدة البيانات: ${health.supabase ? "متصلة" : "غير مضبوطة"} | ${aiStatus}`);
 }
 const STATIC_DATA_MAP = {
