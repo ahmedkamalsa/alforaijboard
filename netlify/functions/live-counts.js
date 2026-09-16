@@ -88,7 +88,7 @@ async function fetchExternalTotal() {
   return match ? Number(match[1]) : 0;
 }
 
-exports.handler = async (event) => {
+export const handler = async (event) => {
   if (event.httpMethod === "OPTIONS") return json(200, { ok: true });
 
   const limited = await checkRateLimit(event).catch(() => ({ allowed: true, source: "error" }));
