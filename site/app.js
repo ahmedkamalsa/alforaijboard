@@ -64,13 +64,35 @@ async function fetchLocalAlforaijListingsCount() {
   return records.filter((record) => String(record?.source || "") === "الفريج").length;
 }
 
+async function fetchLiveAlforaijListingsCount() {
+  const types = [1, 2, 3, 4, 5];
+  const base = "https://search.alforaij.com/api/internallistings/search";
+  const totals = await Promise.all(types.map(async (typeId) => {
+    const response = await fetch(`${base}?page=1&pageSize=1&transactionType=${typeId}`, {
+      headers: { Accept: "application/json,text/plain,*/*" },
+      cache: "no-store",
+    });
+    if (!response.ok) return 0;
+    const payload = await response.json().catch(() => null);
+    const metaTotal = Number(payload?.meta?.total || 0);
+    if (metaTotal) return metaTotal;
+    return Array.isArray(payload?.data) ? payload.data.length : 0;
+  }));
+  return totals.reduce((sum, value) => sum + Number(value || 0), 0);
+}
+
 async function renderLiveHealthStatus(health) {
   let localCount = localListingsCountFromHealth(health);
   let marketCount = Number(health?.externalRecords || 0);
   try {
-    localCount = await fetchLocalAlforaijListingsCount();
+    localCount = await fetchLiveAlforaijListingsCount();
   } catch (error) {
-    console.warn("[Live Status] Local alforaij count fallback:", error.message);
+    console.warn("[Live Status] Live alforaij count fallback:", error.message);
+    try {
+      localCount = await fetchLocalAlforaijListingsCount();
+    } catch (snapshotError) {
+      console.warn("[Live Status] Local alforaij snapshot fallback:", snapshotError.message);
+    }
   }
   try {
     marketCount = await fetchLiveMarketListingsCount();
