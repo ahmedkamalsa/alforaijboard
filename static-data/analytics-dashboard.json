@@ -1,0 +1,853 @@
+{
+  "generatedAt": "2026-09-16 08:07:47",
+  "overview": {
+    "totalSearches": 200,
+    "totalMarketListings": 200,
+    "uniqueAreas": 62,
+    "avgSearchPrice": 271055.3,
+    "totalSearchPriceRecords": 199
+  },
+  "searchPatterns": {
+    "topQueries": [
+      {
+        "query": "بيت للبيع في الفردوس 300 متر",
+        "count": 66
+      },
+      {
+        "query": "بيع بيت في صباح الناصر",
+        "count": 55
+      },
+      {
+        "query": "بيت في الفردوس",
+        "count": 13
+      },
+      {
+        "query": "بيت 300 متر في الفردوس",
+        "count": 8
+      },
+      {
+        "query": "بيت 400م في ابو فطيرة",
+        "count": 5
+      },
+      {
+        "query": "??? 400? ?? ???????? ????? 250000 ?????",
+        "count": 4
+      },
+      {
+        "query": "أبحث عن بيت للبيع في منطقة السالمية",
+        "count": 4
+      },
+      {
+        "query": "بيت المطباع 400 متر",
+        "count": 3
+      },
+      {
+        "query": "بيت 400م في السالمية بحدود 250000 دينار",
+        "count": 2
+      },
+      {
+        "query": "??? 400? ?? ???????",
+        "count": 2
+      },
+      {
+        "query": "??? 300 ??? ?? ???????",
+        "count": 2
+      },
+      {
+        "query": "??? 400 ???",
+        "count": 2
+      },
+      {
+        "query": "أبحث عن شقة للبيع في السالمية",
+        "count": 2
+      },
+      {
+        "query": "بيت 400م في النهضة",
+        "count": 2
+      },
+      {
+        "query": "بيت 400م في النهضة تشطيب سوبر ديلوكس",
+        "count": 2
+      }
+    ],
+    "topAreas": [
+      {
+        "area": "الفردوس",
+        "count": 88
+      },
+      {
+        "area": "صباح الناصر",
+        "count": 55
+      },
+      {
+        "area": "السالمية",
+        "count": 34
+      },
+      {
+        "area": "حولي",
+        "count": 17
+      },
+      {
+        "area": "المطلاع",
+        "count": 9
+      },
+      {
+        "area": "خيطان",
+        "count": 9
+      },
+      {
+        "area": "المهبولة",
+        "count": 8
+      },
+      {
+        "area": "النهضة",
+        "count": 6
+      },
+      {
+        "area": "جابر الأحمد",
+        "count": 6
+      },
+      {
+        "area": "ضاحية عبدالله السالم",
+        "count": 6
+      },
+      {
+        "area": "ابو فطيرة",
+        "count": 5
+      },
+      {
+        "area": "الفروانية",
+        "count": 5
+      },
+      {
+        "area": "المنقف",
+        "count": 5
+      },
+      {
+        "area": "الزهراء",
+        "count": 5
+      },
+      {
+        "area": "الجهراء",
+        "count": 4
+      }
+    ],
+    "propertyTypes": [
+      {
+        "type": "بيت",
+        "count": 165
+      },
+      {
+        "type": "شقة",
+        "count": 4
+      }
+    ],
+    "transactionTypes": [
+      {
+        "type": "للبيع",
+        "count": 166
+      },
+      {
+        "type": "مطلوب للشراء",
+        "count": 1
+      }
+    ]
+  },
+  "marketStats": {
+    "topAreas": [
+      {
+        "area": "السالمية",
+        "count": 23
+      },
+      {
+        "area": "حولي",
+        "count": 17
+      },
+      {
+        "area": "خيطان",
+        "count": 9
+      },
+      {
+        "area": "المهبولة",
+        "count": 8
+      },
+      {
+        "area": "المطلاع",
+        "count": 6
+      },
+      {
+        "area": "جابر الأحمد",
+        "count": 6
+      },
+      {
+        "area": "ضاحية عبدالله السالم",
+        "count": 6
+      },
+      {
+        "area": "الفروانية",
+        "count": 5
+      },
+      {
+        "area": "المنقف",
+        "count": 5
+      },
+      {
+        "area": "الزهراء",
+        "count": 5
+      },
+      {
+        "area": "الجهراء",
+        "count": 4
+      },
+      {
+        "area": "المسايل",
+        "count": 4
+      },
+      {
+        "area": "الفحيحيل",
+        "count": 4
+      },
+      {
+        "area": "صباح الأحمد",
+        "count": 3
+      },
+      {
+        "area": "صباح السالم",
+        "count": 3
+      }
+    ],
+    "topSources": [
+      {
+        "source": "OpenSooq",
+        "count": 129
+      },
+      {
+        "source": "4Sale",
+        "count": 40
+      },
+      {
+        "source": "Mourjan",
+        "count": 22
+      },
+      {
+        "source": "بوعقار / بوشملان (Bu3qar)",
+        "count": 7
+      },
+      {
+        "source": "الحسبة - الصفقات المسجلة العامة",
+        "count": 2
+      }
+    ],
+    "propertyTypes": [
+      {
+        "type": "شقة",
+        "count": 70
+      },
+      {
+        "type": "عقارات",
+        "count": 40
+      },
+      {
+        "type": "أرض",
+        "count": 34
+      },
+      {
+        "type": "بيت",
+        "count": 28
+      },
+      {
+        "type": "عمارة",
+        "count": 28
+      }
+    ],
+    "areaPrices": {
+      "السالمية": {
+        "avg": 530986.0,
+        "median": 640.0,
+        "min": 30.0,
+        "max": 4000000.0,
+        "count": 20
+      },
+      "حولي": {
+        "avg": 236.2,
+        "median": 177.5,
+        "min": 30.0,
+        "max": 900.0,
+        "count": 16
+      },
+      "المهبولة": {
+        "avg": 168303.1,
+        "median": 300.0,
+        "min": 40.0,
+        "max": 1300000.0,
+        "count": 8
+      },
+      "خيطان": {
+        "avg": 161562.9,
+        "median": 500.0,
+        "min": 60.0,
+        "max": 800000.0,
+        "count": 7
+      },
+      "جابر الأحمد": {
+        "avg": 67125.0,
+        "median": 575.0,
+        "min": 350.0,
+        "max": 400000.0,
+        "count": 6
+      },
+      "الفروانية": {
+        "avg": 82265.6,
+        "median": 1000.0,
+        "min": 78.0,
+        "max": 350000.0,
+        "count": 5
+      },
+      "المنقف": {
+        "avg": 645064.0,
+        "median": 425000.0,
+        "min": 40.0,
+        "max": 2000000.0,
+        "count": 5
+      },
+      "الزهراء": {
+        "avg": 500000.0,
+        "median": 500000.0,
+        "min": 400000.0,
+        "max": 600000.0,
+        "count": 5
+      },
+      "المطلاع": {
+        "avg": 65222.5,
+        "median": 400.0,
+        "min": 90.0,
+        "max": 260000.0,
+        "count": 4
+      },
+      "المسايل": {
+        "avg": 197645.0,
+        "median": 197715.0,
+        "min": 150.0,
+        "max": 395000.0,
+        "count": 4
+      },
+      "الفحيحيل": {
+        "avg": 2882510.0,
+        "median": 715000.0,
+        "min": 40.0,
+        "max": 10100000.0,
+        "count": 4
+      },
+      "صباح الأحمد": {
+        "avg": 228483.3,
+        "median": 185000.0,
+        "min": 450.0,
+        "max": 500000.0,
+        "count": 3
+      },
+      "الجهراء": {
+        "avg": 233.3,
+        "median": 200.0,
+        "min": 200.0,
+        "max": 300.0,
+        "count": 3
+      },
+      "صباح السالم": {
+        "avg": 120213.3,
+        "median": 440.0,
+        "min": 200.0,
+        "max": 360000.0,
+        "count": 3
+      },
+      "عبدالله المبارك": {
+        "avg": 140510.0,
+        "median": 1300.0,
+        "min": 230.0,
+        "max": 420000.0,
+        "count": 3
+      }
+    }
+  },
+  "priceTrends": {
+    "السالمية": [
+      {
+        "month": "2026-09",
+        "median": 300.0,
+        "count": 0,
+        "property_type": "شقة",
+        "transaction": "مطلوب للشراء"
+      },
+      {
+        "month": "2026-09",
+        "median": 1400.0,
+        "count": 0,
+        "property_type": "عقارات",
+        "transaction": "مطلوب للإيجار"
+      },
+      {
+        "month": "2026-09",
+        "median": 12000.0,
+        "count": 0,
+        "property_type": "عقارات",
+        "transaction": "مطلوب للشراء"
+      },
+      {
+        "month": "2026-09",
+        "median": 9000.0,
+        "count": 0,
+        "property_type": "عقارات",
+        "transaction": "للبيع"
+      },
+      {
+        "month": "2026-09",
+        "median": 2000000.0,
+        "count": 0,
+        "property_type": "عمارة",
+        "transaction": "للبيع"
+      },
+      {
+        "month": "2026-09",
+        "median": 1045000.0,
+        "count": 0,
+        "property_type": "بيت",
+        "transaction": "للبيع"
+      },
+      {
+        "month": "2026-09",
+        "median": 350.0,
+        "count": 0,
+        "property_type": "شقة",
+        "transaction": "للإيجار"
+      },
+      {
+        "month": "2026-09",
+        "median": 3300000.0,
+        "count": 0,
+        "property_type": "أرض",
+        "transaction": "للبيع"
+      },
+      {
+        "month": "2026-09",
+        "median": 385.0,
+        "count": 0,
+        "property_type": "عمارة",
+        "transaction": "للإيجار"
+      },
+      {
+        "month": "2026-09",
+        "median": 30.0,
+        "count": 0,
+        "property_type": "أرض",
+        "transaction": "للإيجار"
+      },
+      {
+        "month": "2026-09",
+        "median": 2650000.0,
+        "count": 0,
+        "property_type": "بناية",
+        "transaction": "للبيع"
+      }
+    ],
+    "الفنطاس": [
+      {
+        "month": "2026-09",
+        "median": 34000.0,
+        "count": 0,
+        "property_type": "عمارة",
+        "transaction": "للإيجار"
+      },
+      {
+        "month": "2026-09",
+        "median": 450.0,
+        "count": 0,
+        "property_type": "شقة",
+        "transaction": "مطلوب للإيجار"
+      },
+      {
+        "month": "2026-09",
+        "median": 35.0,
+        "count": 0,
+        "property_type": "شقة",
+        "transaction": "للإيجار"
+      },
+      {
+        "month": "2026-09",
+        "median": 800000.0,
+        "count": 0,
+        "property_type": "بيت",
+        "transaction": "للبيع"
+      },
+      {
+        "month": "2026-09",
+        "median": 65000.0,
+        "count": 0,
+        "property_type": "شقة",
+        "transaction": "للبيع"
+      },
+      {
+        "month": "2026-09",
+        "median": 1200000.0,
+        "count": 0,
+        "property_type": "أرض",
+        "transaction": "للبيع"
+      },
+      {
+        "month": "2026-09",
+        "median": 160000.0,
+        "count": 0,
+        "property_type": "عقارات",
+        "transaction": "للإيجار"
+      },
+      {
+        "month": "2026-09",
+        "median": 1000000.0,
+        "count": 0,
+        "property_type": "عمارة",
+        "transaction": "للبيع"
+      },
+      {
+        "month": "2026-09",
+        "median": 1000.0,
+        "count": 0,
+        "property_type": "بيت",
+        "transaction": "مطلوب للشراء"
+      }
+    ],
+    "الجابرية": [
+      {
+        "month": "2026-09",
+        "median": 1500.0,
+        "count": 0,
+        "property_type": "عمارة",
+        "transaction": "مطلوب للإيجار"
+      },
+      {
+        "month": "2026-09",
+        "median": 1000.0,
+        "count": 0,
+        "property_type": "عقارات",
+        "transaction": "مطلوب للإيجار"
+      },
+      {
+        "month": "2026-09",
+        "median": 360000.0,
+        "count": 0,
+        "property_type": "أرض",
+        "transaction": "للبيع"
+      },
+      {
+        "month": "2026-09",
+        "median": 760000.0,
+        "count": 0,
+        "property_type": "بيت",
+        "transaction": "للبيع"
+      },
+      {
+        "month": "2026-09",
+        "median": 7000.0,
+        "count": 0,
+        "property_type": "شقة",
+        "transaction": "للبيع"
+      },
+      {
+        "month": "2026-09",
+        "median": 650.0,
+        "count": 0,
+        "property_type": "شقة",
+        "transaction": "للإيجار"
+      },
+      {
+        "month": "2026-09",
+        "median": 3000000.0,
+        "count": 0,
+        "property_type": "عمارة",
+        "transaction": "للبيع"
+      },
+      {
+        "month": "2026-09",
+        "median": 12500.0,
+        "count": 0,
+        "property_type": "عقارات",
+        "transaction": "للبيع"
+      }
+    ],
+    "الشرق": [
+      {
+        "month": "2026-09",
+        "median": 1100.0,
+        "count": 0,
+        "property_type": "شقة",
+        "transaction": "مطلوب للشراء"
+      },
+      {
+        "month": "2026-09",
+        "median": 5300000.0,
+        "count": 0,
+        "property_type": "عقارات",
+        "transaction": "للبيع"
+      },
+      {
+        "month": "2026-09",
+        "median": 130000.0,
+        "count": 0,
+        "property_type": "أرض",
+        "transaction": "للبيع"
+      },
+      {
+        "month": "2026-09",
+        "median": 230000.0,
+        "count": 0,
+        "property_type": "بيت",
+        "transaction": "للإيجار"
+      },
+      {
+        "month": "2026-09",
+        "median": 4500000.0,
+        "count": 0,
+        "property_type": "عمارة",
+        "transaction": "للبيع"
+      },
+      {
+        "month": "2026-09",
+        "median": 125300.0,
+        "count": 0,
+        "property_type": "عقارات",
+        "transaction": "للإيجار"
+      },
+      {
+        "month": "2026-09",
+        "median": 550.0,
+        "count": 0,
+        "property_type": "شقة",
+        "transaction": "للإيجار"
+      }
+    ],
+    "أبو حليفة": [
+      {
+        "month": "2026-09",
+        "median": 44500.0,
+        "count": 0,
+        "property_type": "شقة",
+        "transaction": "للبيع"
+      },
+      {
+        "month": "2026-09",
+        "median": 60.0,
+        "count": 0,
+        "property_type": "بيت",
+        "transaction": "للإيجار"
+      },
+      {
+        "month": "2026-09",
+        "median": 6000000.0,
+        "count": 0,
+        "property_type": "عمارة",
+        "transaction": "للبيع"
+      },
+      {
+        "month": "2026-09",
+        "median": 20000.0,
+        "count": 0,
+        "property_type": "عقارات",
+        "transaction": "للبيع"
+      },
+      {
+        "month": "2026-09",
+        "median": 470.0,
+        "count": 0,
+        "property_type": "عقارات",
+        "transaction": "للإيجار"
+      }
+    ],
+    "الأندلس": [
+      {
+        "month": "2026-09",
+        "median": 1000000.0,
+        "count": 0,
+        "property_type": "عقارات",
+        "transaction": "للإيجار"
+      },
+      {
+        "month": "2026-09",
+        "median": 275000.0,
+        "count": 0,
+        "property_type": "أرض",
+        "transaction": "للبيع"
+      },
+      {
+        "month": "2026-09",
+        "median": 340000.0,
+        "count": 0,
+        "property_type": "بيت",
+        "transaction": "للبيع"
+      },
+      {
+        "month": "2026-09",
+        "median": 550.0,
+        "count": 0,
+        "property_type": "شقة",
+        "transaction": "للإيجار"
+      },
+      {
+        "month": "2026-09",
+        "median": 650.0,
+        "count": 0,
+        "property_type": "أرض",
+        "transaction": "للإيجار"
+      }
+    ],
+    "الفروانية": [
+      {
+        "month": "2026-09",
+        "median": 650.0,
+        "count": 0,
+        "property_type": "أرض",
+        "transaction": "للإيجار"
+      },
+      {
+        "month": "2026-09",
+        "median": 10750.0,
+        "count": 0,
+        "property_type": "عقارات",
+        "transaction": "للبيع"
+      },
+      {
+        "month": "2026-09",
+        "median": 1320000.0,
+        "count": 0,
+        "property_type": "عمارة",
+        "transaction": "للبيع"
+      },
+      {
+        "month": "2026-09",
+        "median": 500.0,
+        "count": 0,
+        "property_type": "شقة",
+        "transaction": "مطلوب للشراء"
+      },
+      {
+        "month": "2026-09",
+        "median": 1800.0,
+        "count": 0,
+        "property_type": "عمارة",
+        "transaction": "مطلوب للإيجار"
+      }
+    ],
+    "أبو فطيرة": [
+      {
+        "month": "2026-09",
+        "median": 425.0,
+        "count": 0,
+        "property_type": "شقة",
+        "transaction": "للإيجار"
+      },
+      {
+        "month": "2026-09",
+        "median": 7000.0,
+        "count": 0,
+        "property_type": "عقارات",
+        "transaction": "للبيع"
+      },
+      {
+        "month": "2026-09",
+        "median": 390000.0,
+        "count": 0,
+        "property_type": "أرض",
+        "transaction": "للبيع"
+      },
+      {
+        "month": "2026-09",
+        "median": 480000.0,
+        "count": 0,
+        "property_type": "بيت",
+        "transaction": "للبيع"
+      }
+    ],
+    "الجهراء": [
+      {
+        "month": "2026-09",
+        "median": 300.0,
+        "count": 0,
+        "property_type": "عقارات",
+        "transaction": "للإيجار"
+      },
+      {
+        "month": "2026-09",
+        "median": 4225000.0,
+        "count": 0,
+        "property_type": "عمارة",
+        "transaction": "للبيع"
+      },
+      {
+        "month": "2026-09",
+        "median": 200.0,
+        "count": 0,
+        "property_type": "شقة",
+        "transaction": "للإيجار"
+      },
+      {
+        "month": "2026-09",
+        "median": 450000.0,
+        "count": 0,
+        "property_type": "أرض",
+        "transaction": "للبيع"
+      }
+    ],
+    "الفحيحيل": [
+      {
+        "month": "2026-09",
+        "median": 30000.0,
+        "count": 0,
+        "property_type": "شقة",
+        "transaction": "للإيجار"
+      },
+      {
+        "month": "2026-09",
+        "median": 1620000.0,
+        "count": 0,
+        "property_type": "عمارة",
+        "transaction": "للبيع"
+      },
+      {
+        "month": "2026-09",
+        "median": 550450350.0,
+        "count": 0,
+        "property_type": "بيت",
+        "transaction": "للإيجار"
+      },
+      {
+        "month": "2026-09",
+        "median": 40.0,
+        "count": 0,
+        "property_type": "عقارات",
+        "transaction": "للإيجار"
+      }
+    ]
+  },
+  "dailyActivity": {
+    "dates": [
+      "2026-08-17",
+      "2026-08-26",
+      "2026-08-27",
+      "2026-08-28",
+      "2026-08-29",
+      "2026-08-31"
+    ],
+    "searches": [
+      10,
+      2,
+      2,
+      5,
+      29,
+      6
+    ]
+  },
+  "priceOverview": {
+    "avg": 271055.3,
+    "median": 220000.0,
+    "min": 65000.0,
+    "max": 1850000.1,
+    "count": 199
+  },
+  "staticSnapshot": true
+}
