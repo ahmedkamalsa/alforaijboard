@@ -2784,6 +2784,23 @@ boot();
 // ============================================================================
 // دالة التحديث الحي: عرض حالة الاتصال بال Supabase وتحليل الذكاء
 // ============================================================================
+async function fetchLiveAlforaijCountForStatus() {
+  const types = [1, 2, 3, 4, 5];
+  const base = 'https://search.alforaij.com/api/internallistings/search';
+  const totals = await Promise.all(types.map(async (typeId) => {
+    const response = await fetch(base + '?page=1&pageSize=1&transactionType=' + typeId, {
+      headers: { 'Accept': 'application/json,text/plain,*/*' },
+      signal: AbortSignal.timeout(8000)
+    });
+    if (!response.ok) return 0;
+    const payload = await response.json().catch(() => null);
+    const metaTotal = Number(payload?.meta?.total || 0);
+    if (metaTotal) return metaTotal;
+    return Array.isArray(payload?.data) ? payload.data.length : 0;
+  }));
+  return totals.reduce((sum, value) => sum + Number(value || 0), 0);
+}
+
 async function updateLiveStatus() {
   const dbStatusEl = document.getElementById('dbStatus');
   const aiStatusEl = document.getElementById('aiStatus');
@@ -2810,9 +2827,14 @@ async function updateLiveStatus() {
       const countRange = countResp.headers.get('content-range') || '';
       const rangeTotal = Number((countRange.match(/\/(\d+)$/) || [])[1] || 0);
       const countData = rangeTotal ? [] : await countResp.json().catch(() => []);
-      const total = rangeTotal || (Array.isArray(countData) ? countData.length : 4821);
+      const externalTotal = rangeTotal || (Array.isArray(countData) ? countData.length : 4821);
+      const localTotal = await fetchLiveAlforaijCountForStatus().catch(() => 0);
+      const total = externalTotal + localTotal;
+      const statusText = localTotal
+        ? 'متصل: ' + total.toLocaleString('ar-EG') + ' إعلان (الفريج ' + localTotal.toLocaleString('ar-EG') + ' + خارجي ' + externalTotal.toLocaleString('ar-EG') + ')'
+        : 'متصل بـ Supabase (' + externalTotal.toLocaleString('ar-EG') + ' إعلان)';
       
-      dbStatusEl.innerHTML = '<span class="status-dot"></span><span>متصل بـ Supabase (' + total.toLocaleString('ar-EG') + ' إعلان)</span>';
+      dbStatusEl.innerHTML = '<span class="status-dot"></span><span>' + statusText + '</span>';
       dbStatusEl.className = 'status-pill status-live';
       
       aiStatusEl.innerHTML = '<span class="status-dot"></span><span>تحليل ذكي: نشط (Gemini 3.8)</span>';
