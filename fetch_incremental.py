@@ -8,6 +8,7 @@ import json
 import os
 import sys
 import urllib.request
+import urllib.parse
 from datetime import datetime, timezone, timedelta
 
 SUPABASE_URL = "https://bwspcsiazbwrrxpgoldx.supabase.co"
@@ -62,13 +63,12 @@ def fetch_incremental_listings():
     if last_sync:
         print(f"[INCREMENTAL] Last sync: {last_sync}")
         print("[INCREMENTAL] Fetching only changed listings...")
-        last_sync_clean = last_sync.replace(' ', 'T')
-        # Supabase REST API: update_at filter expects ISO 8601 with space not T
-        url = f"{SUPABASE_URL}/rest/v1/market_listings?select=*&updated_at=gt.{last_sync}&order=updated_at.asc&limit=500"
+        last_sync_enc = urllib.parse.quote(last_sync, safe='')
+        url = f"{SUPABASE_URL}/rest/v1/market_listings?select=*&created_at=gt.{last_sync_enc}&order=created_at.asc&limit=500"
         offset = 0
         limit = 500
         while True:
-            fetch_url = f"{SUPABASE_URL}/rest/v1/market_listings?select=*&updated_at=gt.{last_sync}&limit={limit}&offset={offset}"
+            fetch_url = f"{SUPABASE_URL}/rest/v1/market_listings?select=*&created_at=gt.{last_sync_enc}&limit={limit}&offset={offset}"
             try:
                 data = fetch(fetch_url)
             except Exception as e:
@@ -230,7 +230,7 @@ def main():
     if listings:
         latest_ts = None
         for row in listings:
-            ts = row.get("updated_at") or row.get("created_at")
+            ts = row.get("created_at")
             if ts:
                 if latest_ts is None or ts > latest_ts:
                     latest_ts = ts
