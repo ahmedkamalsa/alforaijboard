@@ -195,6 +195,9 @@ def main():
     # 1. Fetch listings
     print("\n1. Fetching listings...")
     listings = fetch_incremental_listings()
+    if not listings:
+        print("  Incremental fetch returned empty — doing full fetch")
+        listings = fetch_full_listings()
     print(f"   Total: {len(listings)}")
 
     # 2. Fetch developments
@@ -253,6 +256,29 @@ def main():
     print(f"Price undisclosed: {analysis['price_undisclosed']} ({analysis['price_undisclosed_pct']}%)")
     print(f"Average price: {analysis['average_price']:,} KD")
     print(f"Highest price: {analysis['highest_price']:,} KD")
+
+
+def fetch_full_listings():
+    """Fetch all listings (full sync)."""
+    print("[FULL] Doing full initial fetch")
+    offset = 0
+    limit = 1000
+    all_rows = []
+    while True:
+        fetch_url = f"{SUPABASE_URL}/rest/v1/market_listings?select=*&order=id.asc&limit={limit}&offset={offset}"
+        try:
+            data = fetch(fetch_url)
+        except Exception as e:
+            print(f"ERROR at offset {offset}: {e}")
+            break
+        if not data:
+            break
+        all_rows.extend(data)
+        print(f"  Fetched {len(data)} rows (offset {offset}, total {len(all_rows)})")
+        offset += limit
+        if len(data) < limit:
+            break
+    return all_rows
 
 
 if __name__ == "__main__":
