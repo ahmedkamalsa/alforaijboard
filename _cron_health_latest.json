@@ -1,14 +1,17 @@
 {
-  "timestamp": "2026-09-19T19:00:00+03:00",
-  "timestamp_kt": "2026-09-19 22:00 UTC+03:00",
-  "report": "[DOCKER] DOWN — daemon not responding (npipe not found)\n  Docker Desktop is installed (v29.0.1) but not running.\n  Cannot restart from cron — requires interactive login or manual start.\n[RAM] OK — 2107 MB free / 16.3 GB total\n[AGENTS] ACTIVE — Python (4 processes) + Node (8 processes) running — Hermes infrastructure active\n[DISK C:] WARNING — 22 GB free (11.2%) / 196 GB total\n  Only 22 GB left — approaching critical threshold (<10%)\n[GIT] DIRTY — 20 uncommitted changes + 4 untracked files\n  Deletions: 14 files (cron_results/, health reports, live-dashboard.html, etc.)\n  Modified: site/last-updated.json, site/static-data/live-db.json\n  Untracked: _cron_health_latest.json, e2e-test-report.json, health.json, supabase/.temp/\n\n[SUPA] bwspcsiazbwrrxpgoldx — Egress 6.78/5 GB (136%), grace period expired 2026-09-17\n  DB 0.198/0.5 GB, Edge Functions 2/500K, Storage 0/1 GB, MAU 0\n  Dashboard live: static-data/health.json shows connected_live (3376 records)\n\n!!! HEALTH ALERT: 3 issue(s)\n  ! Docker daemon DOWN — manual restart required\n  ! Git repo has 20 uncommitted changes — commit or stash before pushing\n  ~ Disk C: only 11.2% free (22 GB) — monitor closely, approaching critical\n  ~ Supabase Egress quota expired — pushing new cron results may fail",
-  "alerts": [
-    "Docker daemon DOWN — manual restart required",
-    "Git repo has 20 uncommitted changes — commit or stash before pushing"
-  ],
-  "warnings": [
-    "Disk C: only 11.2% free (22 GB) — approaching critical threshold",
-    "Supabase Egress quota expired — pushing new cron results may fail"
-  ],
-  "status": "degraded"
+  "timestamp": "2026-09-23T17:40:52Z",
+  "checks": {
+    "docker": "STOPPED",
+    "ram_total_mb": 16263,
+    "ram_free_mb": 4173,
+    "ram_ok": "yes",
+    "disk_total_gb": 196,
+    "disk_free_gb": 22,
+    "disk_used_pct": 89,
+    "disk_warn": "no",
+    "hermes_agents": "None detected (cron job runs inside Hermes environment)",
+    "git_uncommitted": unclean,
+    "git_modified_count": 0,
+    "git_untracked_count": 82
+  }
 }

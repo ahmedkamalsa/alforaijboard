@@ -11,3 +11,33 @@ distress_output/
 *.distress.json
 *.distress.html
 site/distress_data.js
+# health check artifacts — tracked in cron_results, never committed
+_health_check_now.py
+check_disk.py
+check_ram.py
+check_schema.py
+fix_timestamp.py
+health_check_final.py
+health_check_v2.py
+health_report.json
+health_report.txt
+push_cron_supabase.py
+push_health_supabase.py
+read_cron.py
+run_health_check.py
+test_status.py
+verify_git.py
+verify_git2.py
+verify_git3.py
+verify_git4.py
+static-data/health-check-latest.json
+# script shell helpers — generated/scratch
+scripts/build_health_report_linux.py
+scripts/build_health_report_windows.py
+scripts/full_health_check.sh
+scripts/health_check_final.sh
+scripts/health_check_full.sh
+scripts/health_check_hourly.py
+scripts/health_check_hourly.sh
+scripts/health_report_push.sh
+scripts/push_health_supabase.py

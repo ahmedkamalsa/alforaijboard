@@ -13,12 +13,12 @@
       "ram": {
         "status": "OK",
         "severity": "info",
-        "details": "3223.2 MB free / 16263.4 MB total (19.8%) — threshold: 500 MB"
+        "details": "3223.2 MB free / 16263.4 MB total (19.8%) \u2014 threshold: 500 MB"
       },
       "disk": {
         "status": "OK",
         "severity": "warning",
-        "details": "21 GB free / 196 GB total (10.7% free) — threshold: 10.0%"
+        "details": "21 GB free / 196 GB total (10.7% free) \u2014 threshold: 10.0%"
       },
       "hermes_agents": {
         "status": "OK",
@@ -42,7 +42,7 @@
     "git_modified": "site/static-data/live-db.json",
     "git_untracked_count": 21,
     "git_status": "UNCOMMITTED_CHANGES",
-    "details": "{\n  \"docker\": {\n    \"status\": \"RUNNING\",\n    \"severity\": \"info\",\n    \"details\": \"Docker Desktop daemon running.\"\n  },\n  \"ram\": {\n    \"status\": \"OK\",\n    \"severity\": \"info\",\n    \"details\": \"3223.2 MB free / 16263.4 MB total (19.8%) — threshold: 500 MB\"\n  },\n  \"disk\": {\n    \"status\": \"OK\",\n    \"severity\": \"warning\",\n    \"details\": \"21 GB free / 196 GB total (10.7% free) — threshold: 10.0%\"\n  },\n  \"hermes_agents\": {\n    \"status\": \"OK\",\n    \"severity\": \"info\",\n    \"details\": \"4 Hermes agents running (PIDs: 3668, 19360, 1160, 13656)\"\n  },\n  \"git\": {\n    \"status\": \"UNCOMMITTED_CHANGES\",\n    \"severity\": \"warning\",\n    \"details\": \"Modified: ['site/static-data/live-db.json']. Untracked: 21 files\"\n  }\n}"
+    "details": "{\n  \"docker\": {\n    \"status\": \"RUNNING\",\n    \"severity\": \"info\",\n    \"details\": \"Docker Desktop daemon running.\"\n  },\n  \"ram\": {\n    \"status\": \"OK\",\n    \"severity\": \"info\",\n    \"details\": \"3223.2 MB free / 16263.4 MB total (19.8%) \u2014 threshold: 500 MB\"\n  },\n  \"disk\": {\n    \"status\": \"OK\",\n    \"severity\": \"warning\",\n    \"details\": \"21 GB free / 196 GB total (10.7% free) \u2014 threshold: 10.0%\"\n  },\n  \"hermes_agents\": {\n    \"status\": \"OK\",\n    \"severity\": \"info\",\n    \"details\": \"4 Hermes agents running (PIDs: 3668, 19360, 1160, 13656)\"\n  },\n  \"git\": {\n    \"status\": \"UNCOMMITTED_CHANGES\",\n    \"severity\": \"warning\",\n    \"details\": \"Modified: ['site/static-data/live-db.json']. Untracked: 21 files\"\n  }\n}"
   },
   {
     "cron_id": "cron_health_20260907_1304",
@@ -58,12 +58,12 @@
       "ram": {
         "status": "OK",
         "severity": "info",
-        "details": "5519 MB free / 16263 MB total (33.9%) — threshold: 500 MB"
+        "details": "5519 MB free / 16263 MB total (33.9%) \u2014 threshold: 500 MB"
       },
       "disk": {
         "status": "OK",
         "severity": "info",
-        "details": "29 GB free / 196 GB total (14.8% free) — threshold: 10.0%"
+        "details": "29 GB free / 196 GB total (14.8% free) \u2014 threshold: 10.0%"
       },
       "hermes_agents": {
         "status": "OK",
@@ -88,5 +88,493 @@
     "git_untracked_count": 14,
     "git_status": "UNCOMMITTED_CHANGES",
     "details": "{\"docker\": {\"status\": \"RUNNING\", \"severity\": \"info\", \"details\": \"Docker Desktop daemon running. 0 containers.\"}, \"ram\": {\"status\": \"OK\", \"severity\": \"info\", \"details\": \"5519 MB free / 16263 MB total (33.9%) \\u2014 threshold: 500 MB\"}, \"disk\": {\"status\": \"OK\", \"severity\": \"info\", \"details\": \"29 GB free / 196 GB total (14.8% free) \\u2014 threshold: 10.0%\"}, \"hermes_agents\": {\"status\": \"OK\", \"severity\": \"info\", \"details\": \"5 Hermes agents running (PIDs: 2892, 3668, 19360, 1160, 13656)\"}, \"git\": {\"status\": \"UNCOMMITTED_CHANGES\", \"severity\": \"warning\", \"details\": \"Modified: ['site/last-updated.json', 'site/static-data/live-db.json']. Untracked: 14 files\"}}"
+  },
+  {
+    "cron_id": "cron_health_20260922_1104",
+    "host": "DESKTOP-2U21BL4",
+    "timestamp": "2026-09-22T11:04:00.038933+03:00",
+    "overall": "NEEDS_ATTENTION",
+    "checks": {
+      "docker": {
+        "status": "DOWN",
+        "severity": "error",
+        "details": "failed to connect to the docker API at npipe:////./pipe/dockerDesktopLinuxEngine; check if the path is correct and if the daemon is running: open //./pipe/dockerDesktopLinuxEngine: The system cannot f"
+      },
+      "ram": {
+        "status": "OK",
+        "severity": "info",
+        "details": "4482 MB free / 15.88 GB total \u2014 threshold: 500 MB"
+      },
+      "disk": {
+        "status": "OK",
+        "severity": "info",
+        "details": "23 GB free / 195 GB total (12.2% free) \u2014 threshold: 10%"
+      },
+      "hermes_agents": {
+        "status": "OK",
+        "severity": "info",
+        "details": "45 processes: []"
+      },
+      "git": {
+        "status": "DIRTY",
+        "severity": "warning",
+        "details": "21 changes: ['M .gitignore', 'M _cron_health_latest.json', 'M site/last-updated.json', 'M site/static-data/live-db.json', '?? HEALTH_REPORT_20260922_0438.md']"
+      }
+    },
+    "docker_status": "DOWN",
+    "ram_free_mb": 4482.0,
+    "ram_total_mb": 16261.1,
+    "disk_free_gb": 23.0,
+    "disk_total_gb": 195.0,
+    "disk_free_pct": 12.2,
+    "hermes_agent_count": 45,
+    "hermes_pids": "",
+    "git_status": "DIRTY",
+    "git_changes": [
+      "M .gitignore",
+      "M _cron_health_latest.json",
+      "M site/last-updated.json",
+      "M site/static-data/live-db.json",
+      "?? HEALTH_REPORT_20260922_0438.md",
+      "?? HEALTH_REPORT_20260922_0442.md",
+      "?? HEALTH_REPORT_20260922_0642.md",
+      "?? _done_health_report.txt",
+      "?? append_cron_result_final2.py",
+      "?? append_cron_result_live.py",
+      "?? health_check_v3.py",
+      "?? scripts/do_health_check_now.py",
+      "?? scripts/health_cron_run.py",
+      "?? scripts/health_push_final.py",
+      "?? scripts/key_test.py"
+    ]
+  },
+  {
+    "cron_id": "cron_health_20260922_1219",
+    "host": "DESKTOP-2U21BL4",
+    "timestamp": "2026-09-22T12:19:26.150652+00:00",
+    "overall": "NEEDS_ATTENTION",
+    "docker_status": "NOT_RUNNING",
+    "ram_free_mb": 4584.6,
+    "ram_total_mb": 16263.4,
+    "disk_free_gb": 0.0,
+    "disk_total_gb": 0.0,
+    "disk_free_pct": 0,
+    "cpu_load_pct": 62,
+    "hermes_agent_count": 54,
+    "hermes_pids": "15844, 15916, 15332, 2164, 16620, 20756, 3744, 20892, 21080, 6532",
+    "git_status": "CLEAN",
+    "git_modified_count": 0,
+    "git_untracked_count": 0,
+    "git_modified": "",
+    "git_untracked": "",
+    "details": "{\"docker\": {\"status\": \"NOT_RUNNING\", \"severity\": \"info\", \"details\": \"Docker daemon down: failed to connect to the docker API at npipe:////./pipe/dockerDesktopLinuxEngine; check if the path is correct and if the daemon is running: open //./pipe/dockerDesktopLinuxEngine: The system cannot f\"}, \"ram\": {\"status\": \"OK\", \"severity\": \"info\", \"details\": \"4584.6 MB free / 16263.4 MB total (28.2% free) \u2014 threshold: 500 MB\"}, \"cpu\": {\"status\": \"OK\", \"severity\": \"info\", \"details\": \"CPU load: 62%\"}, \"hermes_agents\": {\"status\": \"OK\", \"severity\": \"info\", \"details\": \"54 Hermes-related process(es) found. PIDs: 15844, 15916, 15332, 2164, 16620, 20756, 3744, 20892, 21080, 6532\"}, \"disk\": {\"status\": \"CRITICAL\", \"severity\": \"info\", \"details\": \"0.0 GB free (0%) / 0.0 GB total \u2014 threshold: 10% free\"}, \"git\": {\"status\": \"CLEAN\", \"severity\": \"info\", \"details\": \"0 modified, 0 untracked\"}}"
+  },
+  {
+    "cron_id": "cron_health_20260922_1221",
+    "host": "DESKTOP-2U21BL4",
+    "timestamp": "2026-09-22T12:21:07.485853+00:00",
+    "overall": "NEEDS_ATTENTION",
+    "docker_status": "NOT_RUNNING",
+    "ram_free_mb": 4625.5,
+    "ram_total_mb": 16263.4,
+    "disk_free_gb": 23.9,
+    "disk_total_gb": 195.9,
+    "disk_free_pct": 12.2,
+    "cpu_load_pct": 64,
+    "hermes_agent_count": 54,
+    "hermes_pids": "15844, 15916, 15332, 2164, 16620, 20756, 3744, 20892, 21080, 6532",
+    "git_status": "CLEAN",
+    "git_modified_count": 0,
+    "git_untracked_count": 0,
+    "git_modified": "",
+    "git_untracked": "",
+    "details": "{\"docker\": {\"status\": \"NOT_RUNNING\", \"severity\": \"info\", \"details\": \"Docker daemon down: failed to connect to the docker API at npipe:////./pipe/dockerDesktopLinuxEngine; check if the path is correct and if the daemon is running: open //./pipe/dockerDesktopLinuxEngine: The system cannot f\"}, \"ram\": {\"status\": \"OK\", \"severity\": \"info\", \"details\": \"4625.5 MB free / 16263.4 MB total (28.4% free) \u2014 threshold: 500 MB\"}, \"cpu\": {\"status\": \"OK\", \"severity\": \"info\", \"details\": \"CPU load: 64%\"}, \"hermes_agents\": {\"status\": \"OK\", \"severity\": \"info\", \"details\": \"54 Hermes-related process(es) found. PIDs: 15844, 15916, 15332, 2164, 16620, 20756, 3744, 20892, 21080, 6532\"}, \"disk\": {\"status\": \"OK\", \"severity\": \"info\", \"details\": \"23.9 GB free (12.2%) / 195.9 GB total \u2014 threshold: 10% free\"}, \"git\": {\"status\": \"CLEAN\", \"severity\": \"info\", \"details\": \"0 modified, 0 untracked\"}}"
+  },
+  {
+    "cron_id": "cron_health_20260922_1223",
+    "host": "DESKTOP-2U21BL4",
+    "timestamp": "2026-09-22T12:23:28.470325+00:00",
+    "overall": "NEEDS_ATTENTION",
+    "docker_status": "NOT_RUNNING",
+    "ram_free_mb": 4575.8,
+    "ram_total_mb": 16263.4,
+    "disk_free_gb": 23.9,
+    "disk_total_gb": 195.9,
+    "disk_free_pct": 12.2,
+    "cpu_load_pct": 63,
+    "hermes_agent_count": 54,
+    "hermes_pids": "15844, 15916, 15332, 2164, 16620, 20756, 3744, 20892, 21080, 6532",
+    "git_status": "CLEAN",
+    "git_modified_count": 0,
+    "git_untracked_count": 0,
+    "git_modified": "",
+    "git_untracked": "",
+    "details": "{\"docker\": {\"status\": \"NOT_RUNNING\", \"severity\": \"info\", \"details\": \"Docker daemon down: failed to connect to the docker API at npipe:////./pipe/dockerDesktopLinuxEngine; check if the path is correct and if the daemon is running: open //./pipe/dockerDesktopLinuxEngine: The system cannot f\"}, \"ram\": {\"status\": \"OK\", \"severity\": \"info\", \"details\": \"4575.8 MB free / 16263.4 MB total (28.1% free) \u2014 threshold: 500 MB\"}, \"cpu\": {\"status\": \"OK\", \"severity\": \"info\", \"details\": \"CPU load: 63%\"}, \"hermes_agents\": {\"status\": \"OK\", \"severity\": \"info\", \"details\": \"54 Hermes-related process(es) found. PIDs: 15844, 15916, 15332, 2164, 16620, 20756, 3744, 20892, 21080, 6532\"}, \"disk\": {\"status\": \"OK\", \"severity\": \"info\", \"details\": \"23.9 GB free (12.2%) / 195.9 GB total \u2014 threshold: 10% free\"}, \"git\": {\"status\": \"CLEAN\", \"severity\": \"info\", \"details\": \"0 modified, 0 untracked\"}}"
+  },
+  {
+    "timestamp": "2026-09-22T23:28:39+00:00",
+    "status": "CRITICAL",
+    "checks": {
+      "docker": {
+        "status": "NOT_RUNNING",
+        "detail": "Daemon down: failed to connect to the docker API at npipe:////./pipe/dockerDesktopLinuxEngine; check if the path is correct and if the daemon is running: open //./pipe/dockerDesktopLinuxEngine: The system cannot f | Restart failed: "
+      },
+      "ram": {
+        "status": "OK",
+        "detail": "6111.9 MB free / 16263.4 MB total (37.6% free)"
+      },
+      "agents": {
+        "status": "CRITICAL",
+        "detail": "No hermes.exe process found; 18 related processes (node.exe/supabase/cron): node.exe, node.exe, node.exe, node.exe, node.exe, node.exe, node.exe, node.exe..."
+      },
+      "disk": {
+        "status": "OK",
+        "detail": "C: 21.96 GB free (11.2%) / 195.9 GB total"
+      },
+      "git": {
+        "status": "WARNING",
+        "detail": "41 uncommitted change(s): ['M .gitignore', 'M _cron_health_latest.json', 'M cron_results_local.json', 'M site/last-updated.json', 'M site/static-data/live-db.json', '?? HEALTH_REPORT_20260922_0438.md', '?? HEALTH_REPORT_20260922_0442.md', '?? HEALTH_REPORT_20260922_0642.md']..."
+      }
+    },
+    "alerts": [
+      "DOCKER DOWN \u2014 Daemon down: failed to connect to the docker API at npipe:////./pipe/dockerDesktopLinuxEngine; check if the path is correct and if the daemon is running: open //./pipe/dockerDesktopLinuxEngine: The system cannot f | Restart failed: ",
+      "HERMES AGENTS CRITICAL \u2014 No hermes.exe process found; 18 related processes (node.exe/supabase/cron): node.exe, node.exe, node.exe, node.exe, node.exe, node.exe, node.exe, node.exe...",
+      "GIT UNCOMMITTED \u2014 41 file(s) changed on main"
+    ],
+    "warnings": [],
+    "counts": {
+      "docker_containers": 0,
+      "hermes_processes": 0,
+      "node_repls": 12,
+      "python_procs": 3,
+      "git_uncommitted": 41
+    },
+    "db_status": "PUSH_FAILED"
+  },
+  {
+    "timestamp": "2026-09-22T23:30:30+00:00",
+    "status": "CRITICAL",
+    "checks": {
+      "docker": {
+        "status": "NOT_RUNNING",
+        "detail": "Daemon down: failed to connect to the docker API at npipe:////./pipe/dockerDesktopLinuxEngine; check if the path is correct and if the daemon is running: open //./pipe/dockerDesktopLinuxEngine: The system cannot f | Restart failed: "
+      },
+      "ram": {
+        "status": "OK",
+        "detail": "5949.6 MB free / 16263.4 MB total (36.6% free)"
+      },
+      "agents": {
+        "status": "CRITICAL",
+        "detail": "No hermes.exe process found; 18 related processes (node.exe/supabase/cron): node.exe, node.exe, node.exe, node.exe, node.exe, node.exe, node.exe, node.exe..."
+      },
+      "disk": {
+        "status": "OK",
+        "detail": "C: 21.96 GB free (11.2%) / 195.9 GB total"
+      },
+      "git": {
+        "status": "WARNING",
+        "detail": "43 uncommitted change(s): ['M .gitignore', 'M _cron_health_latest.json', 'M cron_results_local.json', 'M site/last-updated.json', 'M site/static-data/live-db.json', '?? HEALTH_REPORT_20260922_0438.md', '?? HEALTH_REPORT_20260922_0442.md', '?? HEALTH_REPORT_20260922_0642.md']..."
+      }
+    },
+    "alerts": [
+      "DOCKER DOWN \u2014 Daemon down: failed to connect to the docker API at npipe:////./pipe/dockerDesktopLinuxEngine; check if the path is correct and if the daemon is running: open //./pipe/dockerDesktopLinuxEngine: The system cannot f | Restart failed: ",
+      "HERMES AGENTS CRITICAL \u2014 No hermes.exe process found; 18 related processes (node.exe/supabase/cron): node.exe, node.exe, node.exe, node.exe, node.exe, node.exe, node.exe, node.exe...",
+      "GIT UNCOMMITTED \u2014 43 file(s) changed on main"
+    ],
+    "warnings": [],
+    "counts": {
+      "docker_containers": 0,
+      "hermes_processes": 0,
+      "node_repls": 12,
+      "python_procs": 3,
+      "git_uncommitted": 43
+    },
+    "db_status": "PUSH_FAILED"
+  },
+  {
+    "cron_id": "cron_health_20260923_1140",
+    "host": "DESKTOP-2U21BL4",
+    "timestamp": "2026-09-23T11:40:16.549528+03:00",
+    "overall": "NEEDS_ATTENTION",
+    "checks": {
+      "docker": {
+        "status": "DOWN",
+        "severity": "error",
+        "details": "failed to connect to the docker API at npipe:////./pipe/dockerDesktopLinuxEngine; check if the path is correct and if the daemon is running: open //./pipe/dockerDesktopLinuxEngine: The system cannot f"
+      },
+      "ram": {
+        "status": "OK",
+        "severity": "info",
+        "details": "4634 MB free / 15.88 GB total \u2014 threshold: 500 MB"
+      },
+      "disk": {
+        "status": "OK",
+        "severity": "info",
+        "details": "21 GB free / 195 GB total (11.1% free) \u2014 threshold: 10%"
+      },
+      "hermes_agents": {
+        "status": "OK",
+        "severity": "info",
+        "details": "16 processes: []"
+      },
+      "git": {
+        "status": "DIRTY",
+        "severity": "warning",
+        "details": "65 changes: ['M .gitignore', 'M _cron_health_latest.json', 'M cron_results_local.json', 'M site/last-updated.json', 'M site/static-data/live-db.json']"
+      }
+    },
+    "docker_status": "DOWN",
+    "ram_free_mb": 4634.0,
+    "ram_total_mb": 16261.1,
+    "disk_free_gb": 21.0,
+    "disk_total_gb": 195.0,
+    "disk_free_pct": 11.1,
+    "hermes_agent_count": 16,
+    "hermes_pids": "",
+    "git_status": "DIRTY",
+    "git_changes": [
+      "M .gitignore",
+      "M _cron_health_latest.json",
+      "M cron_results_local.json",
+      "M site/last-updated.json",
+      "M site/static-data/live-db.json",
+      "?? HEALTH_REPORT_20260922_0438.md",
+      "?? HEALTH_REPORT_20260922_0442.md",
+      "?? HEALTH_REPORT_20260922_0642.md",
+      "?? _done_health_report.txt",
+      "?? _health_dist.py",
+      "?? _health_trend.py",
+      "?? _show_latest_cron.py",
+      "?? append_cron_result_final2.py",
+      "?? append_cron_result_live.py",
+      "?? cron_results/"
+    ]
+  },
+  {
+    "cron_id": "cron_health_20260923_1141",
+    "host": "DESKTOP-2U21BL4",
+    "timestamp": "2026-09-23T11:41:12.084953+03:00",
+    "overall": "NEEDS_ATTENTION",
+    "checks": {
+      "docker": {
+        "status": "DOWN",
+        "severity": "error",
+        "details": "failed to connect to the docker API at npipe:////./pipe/dockerDesktopLinuxEngine; check if the path is correct and if the daemon is running: open //./pipe/dockerDesktopLinuxEngine: The system cannot f"
+      },
+      "ram": {
+        "status": "OK",
+        "severity": "info",
+        "details": "4593 MB free / 15.88 GB total \u2014 threshold: 500 MB"
+      },
+      "disk": {
+        "status": "OK",
+        "severity": "info",
+        "details": "21 GB free / 195 GB total (11.1% free) \u2014 threshold: 10%"
+      },
+      "hermes_agents": {
+        "status": "OK",
+        "severity": "info",
+        "details": "16 processes: []"
+      },
+      "git": {
+        "status": "DIRTY",
+        "severity": "warning",
+        "details": "65 changes: ['M .gitignore', 'M _cron_health_latest.json', 'M cron_results_local.json', 'M site/last-updated.json', 'M site/static-data/live-db.json']"
+      }
+    },
+    "docker_status": "DOWN",
+    "ram_free_mb": 4593.0,
+    "ram_total_mb": 16261.1,
+    "disk_free_gb": 21.0,
+    "disk_total_gb": 195.0,
+    "disk_free_pct": 11.1,
+    "hermes_agent_count": 16,
+    "hermes_pids": "",
+    "git_status": "DIRTY",
+    "git_changes": [
+      "M .gitignore",
+      "M _cron_health_latest.json",
+      "M cron_results_local.json",
+      "M site/last-updated.json",
+      "M site/static-data/live-db.json",
+      "?? HEALTH_REPORT_20260922_0438.md",
+      "?? HEALTH_REPORT_20260922_0442.md",
+      "?? HEALTH_REPORT_20260922_0642.md",
+      "?? _done_health_report.txt",
+      "?? _health_dist.py",
+      "?? _health_trend.py",
+      "?? _show_latest_cron.py",
+      "?? append_cron_result_final2.py",
+      "?? append_cron_result_live.py",
+      "?? cron_results/"
+    ]
+  },
+  {
+    "cron_id": "cron_health_20260923_1058",
+    "host": "DESKTOP-2U21BL4",
+    "timestamp": "2026-09-23T10:58:09.668187+00:00",
+    "overall": "NEEDS_ATTENTION",
+    "docker_status": "NOT_RUNNING",
+    "ram_free_mb": 4070.5,
+    "ram_total_mb": 16263.4,
+    "disk_free_gb": 21.8,
+    "disk_total_gb": 195.9,
+    "disk_free_pct": 11.1,
+    "cpu_load_pct": 18,
+    "hermes_agent_count": 24,
+    "hermes_pids": "15332, 2164, 16620, 20756, 3744, 21080, 18804, 19348, 10620, 27580",
+    "git_status": "CLEAN",
+    "git_modified_count": 0,
+    "git_untracked_count": 0,
+    "git_modified": "",
+    "git_untracked": "",
+    "details": "{\"docker\": {\"status\": \"NOT_RUNNING\", \"severity\": \"info\", \"details\": \"Docker daemon down: failed to connect to the docker API at npipe:////./pipe/dockerDesktopLinuxEngine; check if the path is correct and if the daemon is running: open //./pipe/dockerDesktopLinuxEngine: The system cannot f\"}, \"ram\": {\"status\": \"OK\", \"severity\": \"info\", \"details\": \"4070.5 MB free / 16263.4 MB total (25.0% free) \u2014 threshold: 500 MB\"}, \"cpu\": {\"status\": \"OK\", \"severity\": \"info\", \"details\": \"CPU load: 18%\"}, \"hermes_agents\": {\"status\": \"OK\", \"severity\": \"info\", \"details\": \"24 Hermes-related process(es) found. PIDs: 15332, 2164, 16620, 20756, 3744, 21080, 18804, 19348, 10620, 27580\"}, \"disk\": {\"status\": \"OK\", \"severity\": \"info\", \"details\": \"21.8 GB free (11.1%) / 195.9 GB total \u2014 threshold: 10% free\"}, \"git\": {\"status\": \"CLEAN\", \"severity\": \"info\", \"details\": \"0 modified, 0 untracked\"}}"
+  },
+  {
+    "id": "2026-09-23T14:23:50.974117+00:00",
+    "name": "health_check_20260923_1426",
+    "status": "warning",
+    "message": "[DOCKER] DOWN - Docker daemon not running\n[RAM] OK - 2759 MB free / 15.88 GB total\n[AGENTS] INFO - No separate Hermes processes (this cron job IS the agent)\n[DISK C:] OK - 21.84 GB free (11.2%) / 195.90 GB total\n[GIT] DIRTY - 74 changes: 5 modified, 69 untracked\n\n!!! HEALTH ALERTS (2):\n  \u26a0 Docker daemon is DOWN - Docker Desktop may need to be started\n  \u26a0 Git repo has uncommitted changes: 74 changes: 5 modified, 69 untracked",
+    "duration_ms": null,
+    "records_affected": null,
+    "created_at": "2026-09-23T14:26:11.363434+00:00",
+    "project": "alforaijboard",
+    "checks": {
+      "docker": {
+        "status": "down",
+        "detail": "Docker daemon not running"
+      },
+      "ram": {
+        "status": "ok",
+        "detail": "2759 MB free / 15.88 GB total"
+      },
+      "agents": {
+        "status": "none",
+        "detail": "No separate Hermes processes (this cron job IS the agent)"
+      },
+      "disk": {
+        "status": "ok",
+        "detail": "21.84 GB free (11.2%) / 195.90 GB total"
+      },
+      "git": {
+        "status": "dirty",
+        "detail": "74 changes: 5 modified, 69 untracked",
+        "dirty_count": 74
+      }
+    },
+    "alerts_count": 2,
+    "warnings_count": 0
+  },
+  {
+    "timestamp_utc": "2026-09-23T16:30:53Z",
+    "docker_running": false,
+    "docker_status": "STOPPED \u2014 restart needed",
+    "ram_free_mb": 2857.1,
+    "ram_total_mb": 16263.4,
+    "ram_status": "OK",
+    "disk_free_pct": 11.2,
+    "disk_status": "OK",
+    "git_dirty": false,
+    "git_status": "clean",
+    "hermes_agents_running": 0,
+    "hermes_agents_status": "NONE DETECTED",
+    "repo": "ahmedkamalsa/alforaijboard-gh",
+    "host": "DESKTOP-2U21BL4"
+  },
+  {
+    "timestamp_utc": "2026-09-23T16:32:00Z",
+    "docker_running": false,
+    "docker_status": "STOPPED \u2014 restart needed",
+    "ram_free_mb": 2857.1,
+    "ram_total_mb": 16263.4,
+    "ram_status": "OK",
+    "disk_free_pct": 11.2,
+    "disk_status": "OK",
+    "git_dirty": false,
+    "git_status": "clean",
+    "hermes_agents_running": 0,
+    "hermes_agents_status": "NONE DETECTED",
+    "repo": "ahmedkamalsa/alforaijboard-gh",
+    "host": "DESKTOP-2U21BL4"
+  },
+  {
+    "timestamp_utc": "2026-09-23T16:33:39Z",
+    "docker_running": false,
+    "docker_status": "STOPPED \u2014 restart needed",
+    "ram_free_mb": 2857.1,
+    "ram_total_mb": 16263.4,
+    "ram_status": "OK",
+    "disk_free_pct": 11.2,
+    "disk_status": "OK",
+    "git_dirty": false,
+    "git_status": "clean",
+    "hermes_agents_running": 0,
+    "hermes_agents_status": "NONE DETECTED",
+    "repo": "ahmedkamalsa/alforaijboard-gh",
+    "host": "DESKTOP-2U21BL4"
+  },
+  {
+    "timestamp_utc": "2026-09-23T16:34:56Z",
+    "docker_running": false,
+    "docker_status": "STOPPED \u2014 restart needed",
+    "ram_free_mb": 2857.1,
+    "ram_total_mb": 16263.4,
+    "ram_status": "OK",
+    "disk_free_pct": 11.2,
+    "disk_status": "OK",
+    "git_dirty": false,
+    "git_status": "clean",
+    "hermes_agents_running": 0,
+    "hermes_agents_status": "NONE DETECTED",
+    "repo": "ahmedkamalsa/alforaijboard-gh",
+    "host": "DESKTOP-2U21BL4"
+  },
+  {
+    "timestamp_utc": "2026-09-23T16:35:51Z",
+    "docker_running": false,
+    "docker_status": "STOPPED \u2014 restart needed",
+    "ram_free_mb": 2857.1,
+    "ram_total_mb": 16263.4,
+    "ram_status": "OK",
+    "disk_free_pct": 11.2,
+    "disk_status": "OK",
+    "git_dirty": false,
+    "git_status": "clean",
+    "hermes_agents_running": 0,
+    "hermes_agents_status": "NONE DETECTED",
+    "repo": "ahmedkamalsa/alforaijboard-gh",
+    "host": "DESKTOP-2U21BL4"
+  },
+  {
+    "timestamp_utc": "2026-09-23T16:36:01Z",
+    "docker_running": false,
+    "docker_status": "STOPPED \u2014 restart needed",
+    "ram_free_mb": 2857.1,
+    "ram_total_mb": 16263.4,
+    "ram_status": "OK",
+    "disk_free_pct": 11.2,
+    "disk_status": "OK",
+    "git_dirty": false,
+    "git_status": "clean",
+    "hermes_agents_running": 0,
+    "hermes_agents_status": "NONE DETECTED",
+    "repo": "ahmedkamalsa/alforaijboard-gh",
+    "host": "DESKTOP-2U21BL4"
+  },
+  {
+    "timestamp_utc": "2026-09-23T16:37:26Z",
+    "docker_running": false,
+    "docker_status": "STOPPED \u2014 restart needed",
+    "ram_free_mb": 2857.1,
+    "ram_total_mb": 16263.4,
+    "ram_status": "OK",
+    "disk_free_pct": 11.2,
+    "disk_status": "OK",
+    "git_dirty": false,
+    "git_status": "clean",
+    "hermes_agents_running": 0,
+    "hermes_agents_status": "NONE DETECTED",
+    "repo": "ahmedkamalsa/alforaijboard-gh",
+    "host": "DESKTOP-2U21BL4"
   }
 ]

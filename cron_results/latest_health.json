@@ -1,0 +1,39 @@
+{
+  "timestamp": "2026-09-22T23:30:30+00:00",
+  "status": "CRITICAL",
+  "checks": {
+    "docker": {
+      "status": "NOT_RUNNING",
+      "detail": "Daemon down: failed to connect to the docker API at npipe:////./pipe/dockerDesktopLinuxEngine; check if the path is correct and if the daemon is running: open //./pipe/dockerDesktopLinuxEngine: The system cannot f | Restart failed: "
+    },
+    "ram": {
+      "status": "OK",
+      "detail": "5949.6 MB free / 16263.4 MB total (36.6% free)"
+    },
+    "agents": {
+      "status": "CRITICAL",
+      "detail": "No hermes.exe process found; 18 related processes (node.exe/supabase/cron): node.exe, node.exe, node.exe, node.exe, node.exe, node.exe, node.exe, node.exe..."
+    },
+    "disk": {
+      "status": "OK",
+      "detail": "C: 21.96 GB free (11.2%) / 195.9 GB total"
+    },
+    "git": {
+      "status": "WARNING",
+      "detail": "43 uncommitted change(s): ['M .gitignore', 'M _cron_health_latest.json', 'M cron_results_local.json', 'M site/last-updated.json', 'M site/static-data/live-db.json', '?? HEALTH_REPORT_20260922_0438.md', '?? HEALTH_REPORT_20260922_0442.md', '?? HEALTH_REPORT_20260922_0642.md']..."
+    }
+  },
+  "alerts": [
+    "DOCKER DOWN — Daemon down: failed to connect to the docker API at npipe:////./pipe/dockerDesktopLinuxEngine; check if the path is correct and if the daemon is running: open //./pipe/dockerDesktopLinuxEngine: The system cannot f | Restart failed: ",
+    "HERMES AGENTS CRITICAL — No hermes.exe process found; 18 related processes (node.exe/supabase/cron): node.exe, node.exe, node.exe, node.exe, node.exe, node.exe, node.exe, node.exe...",
+    "GIT UNCOMMITTED — 43 file(s) changed on main"
+  ],
+  "warnings": [],
+  "counts": {
+    "docker_containers": 0,
+    "hermes_processes": 0,
+    "node_repls": 12,
+    "python_procs": 3,
+    "git_uncommitted": 43
+  }
+}

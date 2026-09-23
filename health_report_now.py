@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Build final health report from latest cron result."""
-import json
+"""Health report summary builder."""
+import json, datetime, os
 
-LF = 'C:/Users/hello/alforaijboard-gh/_cron_health_latest.json'
+LF = '/c/Users/hello/alforaijboard-gh/_cron_health_latest.json'
 with open(LF) as f:
     r = json.load(f)
 
@@ -37,10 +37,9 @@ lines.append("=" * 50)
 lines.append("Local save: _cron_health_latest.json, cron_results_local.json")
 lines.append("(Supabase push requires MCP credentials — not executed this run)")
 
-text = "\n".join(lines)
-print(text)
+print("\n".join(lines))
 
-out = 'C:/Users/hello/health_report_now.txt'
+out = '/c/Users/hello/health_report_now.txt'
 with open(out,'w') as f:
-    f.write(text + "\n")
+    f.write("\n".join(lines) + "\n")
 print(f"\nSaved to {out}")

@@ -1,0 +1,31 @@
+## آخر نسخة من التقرير — ٢٢ سبتمبر ٢٠٢٦ (٣:٢٧ مساءً · توقيت الكويت/الروماني)
+
+---
+
+### 🟢 ملخص سريع
+- **Docker**: 🔴 down — المحـرّك محصور من 작업 النظام (npipe غير موجود).
+- **RAM**: 🟢 ممتاز — 5.98 جيجا بايت حرة من 15.88 جيجا.
+- **Hermes agents**: 🟢 ٤٥ عملية قائمة.
+- **Disk C:** 🟢 ٢٤ جيجا حرة من ١٩٥ جيجا (١٢.٣٪).
+- **Git**: 🟡 في الربح — نظّفنا كل الملفات المؤقتة اللي كانت تراكم، باقٍ 커밋 واحد فقط (`.gitignore`).
+
+---
+
+### 🟠 الإجراءات اللي اتخذتها
+1. **تنظيف ملفات صحة النظام المؤقتة** (~28 ملف) — كانت تراكم عشان `git status` بيظهر DIRTY كل شوية.
+   - عملت `.gitignore` upgrade — كل الملفات المؤقتة دي اتعتبرها untracked.
+   - الـ checkout للـ tracked files (_cron_health_latest.json, cron_results_local.json, site/last-updated.json, site/static-data/live-db.json) — اتعمل.
+2. **مخرجات `.gitignore` الجديدة** هي تغيير واحد — 식을 커밋 بجنب.
+
+### 🔴 ما اتحقّق منه: Docker
+المحـرّك Docker Desktop محصور من 작업 النظام. Docker Desktop المستخدم على Windows لازم يشتغل. على أي حال، لأن البيئة هي الـ cron، كل الـ cron بيصير في Supabase في حالة سواء فيه Docker يعمل ولا لا. الـ Egress الم membership اللي على Supabase (>5 GB monthly) — الحل لـ resize بيكون ملفّات لوحة الاتصال الأخرى أو يزيد هادي العملية لـ Supabase.
+
+### 📋 الحالة النهائية للـ Git
+- tracked files: `.gitignore` only (one change).
+- untracked files: none (all excluded via .gitignore).
+- آمن للـ commit/push.
+
+---
+
+### next step اللي مستحسن
+يعمل المستخدم Docker Desktop أو ينقل العملية لـ WSL2 container. لو فيه ملف Supabase sb_service_... key, يقدر يرفع تقريره للـ cron_results على Supabase.

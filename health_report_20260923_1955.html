@@ -1,0 +1,103 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<title>System Health Report — alforaijboard</title>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 40px; background: #f5f5f5; color: #222; }
+  .card { background: white; border-radius: 12px; padding: 24px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+  .card h2 { margin-top: 0; font-size: 1.2rem; }
+  .ok { color: #2e7d32; }
+  .warn { color: #f57f17; }
+  .crit { color: #c62828; }
+  .badge { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
+  .badge-ok { background: #e8f5e9; color: #2e7d32; }
+  .badge-err { background: #ffebee; color: #c62828; }
+  .badge-warn { background: #fff8e1; color: #f57f17; }
+  table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+  th, td { text-align: left; padding: 6px 12px; border-bottom: 1px solid #eee; font-size: 0.9rem; }
+  th { color: #666; font-weight: 600; }
+  .summary { font-size: 1.1rem; padding: 12px; border-radius: 8px; }
+  .summary-ok { background: #e8f5e9; }
+  .summary-err { background: #ffebee; }
+</style>
+</head>
+<body>
+<h1>🖥️ System Health Report</h1>
+<p>alforaijboard — <span id="ts"></span></p>
+
+<div class="card">
+  <h2>Summary</h2>
+  <div id="summary" class="summary summary-ok"></div>
+</div>
+
+<div class="card">
+  <h2>Checks</h2>
+  <table>
+    <thead><tr><th>Check</th><th>Status</th><th>Detail</th></tr></thead>
+    <tbody id="checks"></tbody>
+  </table>
+</div>
+
+<div class="card" id="alerts-card" style="display:none;">
+  <h2>Alerts</h2>
+  <div id="alerts"></div>
+</div>
+
+<script>
+// Data from health check run
+const data = {
+  timestamp: "20260923_1955",
+  docker: { status: "crit", detail: "DOWN — Docker daemon not reachable (npipe missing)" },
+  ram: { status: "ok", detail: "5629 MB free (34.6%) / 15.88 GB total" },
+  agents: { status: "ok", detail: "21 process(es) found (18 node.exe + 2 python.exe + ? hermes)" },
+  disk: { status: "ok", detail: "21.91 GB free (11.2%) / 195.9 GB total" },
+  git: { status: "crit", detail: "DIRTY — 50 uncommitted changes (5 modified + 45 untracked)" },
+  alerts: [
+    "Docker daemon DOWN — Docker Desktop not running. Restart manually or via Docker Desktop app.",
+    "Git repo has 50 uncommitted change(s) — 5 modified + 45 untracked files including health_check scripts."
+  ],
+  supabase: "SKIPPED — SUPABASE_ANON_KEY not set in environment"
+};
+
+const badge = (s) => s==="ok" ? '<span class="badge badge-ok">OK</span>' :
+                     s==="warn" ? '<span class="badge badge-warn">WARN</span>' :
+                     '<span class="badge badge-err">ALERT</span>';
+
+document.getElementById("ts").textContent = new Date().toLocaleString();
+
+const checksBody = document.getElementById("checks");
+const checks = [
+  ["Docker daemon", data.docker],
+  ["RAM free", data.ram],
+  ["Hermes agents", data.agents],
+  ["Disk C:", data.disk],
+  ["Git repo", data.git]
+];
+checks.forEach(([name, c]) => {
+  const tr = document.createElement("tr");
+  tr.innerHTML = `<td><strong>${name}</strong></td><td>${badge(c.status)}</td><td style="color:#555">${c.detail}</td>`;
+  checksBody.appendChild(tr);
+});
+
+const summaryEl = document.getElementById("summary");
+const alertCount = data.alerts.length;
+if (alertCount === 0) {
+  summaryEl.textContent = "✅ All systems nominal.";
+  summaryEl.className = "summary summary-ok";
+} else {
+  summaryEl.innerHTML = `⚠️ <strong>${alertCount} issue(s)</strong> — see alerts below.`;
+  summaryEl.className = "summary summary-err";
+}
+
+if (data.alerts.length > 0) {
+  document.getElementById("alerts-card").style.display = "block";
+  document.getElementById("alerts").innerHTML = data.alerts.map(a => `<p>• ${a}</p>`).join("");
+}
+
+const sbNote = document.createElement("p");
+sbNote.style.color = "#888";
+sbNote.textContent = "📌 " + data.supabase;
+document.querySelector(".card:last-child").appendChild(sbNote);
+</script>
+</body>
+</html>
