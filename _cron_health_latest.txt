@@ -1,0 +1,65 @@
+تقرير الفحص الصحي - 2026-09-25 02:09:13 (توقيت الكويت)
+
+الحالة العامة: WARN (3 مشاكل)
+
+1) Docker: STOPPED
+   التفاصيل: Docker daemon not reachable (pipe //./pipe/dockerDesktopLinuxEngine missing).
+
+2) الذاكرة (RAM): طبيعي OK
+   حر: 2669 ميجابايت / إجمالي 16263 ميجابايت
+   التفاصيل: 2669 MB free / 16263 MB total (16.4% free) -- threshold: 500 MB
+
+3) عمليات Hermes: يعمل OK
+   التفاصيل: hermes.exe running (PID 9448)
+
+4) ملف C:/Users/hello: تحذير WARN
+   حر: 19.34 جيجابايت / إجمالي 195.9 جيجابايت (90.1% مستخدم)
+   التفاصيل: Only 19.34 GB free (9.9% free) -- below 10% threshold
+
+5) Git (alforaijboard-gh): ملوث
+   التفاصيل: 88 changes (3 modified, 85 untracked)
+
+ملخص سريع:
+  Docker: STOPPED
+  الذاكرة: OK (2669 ميجابايت حر)
+  العمليات: OK
+  القرص: WARN (19.34 جيجابايت حر, 90.1% مستخدم)
+  Git: unclean (88 changes (3 modified, 85 untracked))
+
+3 مشاكل:
+  - Docker daemon متوقف
+  - مساحة القرص C: أقل من عتبة 10%
+  - Git repo فيه تغييرات غير مُ commits
+
+Health check report - 2026-09-25 02:09:13 (Kuwait time)
+
+Overall: WARN (3 issues)
+
+1) Docker: STOPPED
+   Detail: Docker daemon not reachable (pipe //./pipe/dockerDesktopLinuxEngine missing).
+
+2) RAM: OK
+   Free: 2669 MB / Total 16263 MB
+   Detail: 2669 MB free / 16263 MB total (16.4% free) -- threshold: 500 MB
+
+3) Hermes agents: OK
+   Detail: hermes.exe running (PID 9448)
+
+4) Disk C:/Users/hello: WARN
+   Free: 19.34 GB / Total 195.9 GB (90.1% used)
+   Detail: Only 19.34 GB free (9.9% free) -- below 10% threshold
+
+5) Git (alforaijboard-gh): UNCLEAN
+   Detail: 88 changes (3 modified, 85 untracked)
+
+Quick summary:
+  Docker: STOPPED
+  RAM: OK (2669 MB free)
+  Agents: OK
+  Disk: WARN (19.34 GB free, 90.1% used)
+  Git: unclean (88 changes (3 modified, 85 untracked))
+
+3 issues:
+  - Docker daemon stopped
+  - Disk C: free space below 10% threshold
+  - Git repo has uncommitted changes

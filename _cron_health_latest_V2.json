@@ -1,0 +1,14 @@
+{
+  "timestamp": "2026-09-25 09:28:29",
+  "checks": {
+    "docker": {"status": "FAIL", "detail": "Daemon not reachable — pipe //./pipe/dockerDesktopLinuxEngine missing"},
+    "ram": {"status": "OK", "detail": "Free: 2695MB / Total: 16263MB (16.6% free) — threshold: 500MB"},
+    "disk": {"status": "WARN", "detail": "High usage 91% — only 19.35GB free / 196GB total (below 10% free threshold)"},
+    "git": {"status": "WARN", "detail": "93 uncommitted changes (3 modified, 90 untracked temp scripts)"},
+    "agents": {"status": "OK", "detail": "hermes.exe running: PID 9448"}
+  },
+  "overall": "WARN",
+  "supabase_project": "bwspcsiazbwrrxpgoldx",
+  "supabase_push_status": "failed_401_unauthorized",
+  "push_attempted_at": "2026-09-25 09:28:29"
+}

@@ -1,17 +1,48 @@
 {
-  "timestamp": "2026-09-23T17:40:52Z",
-  "checks": {
-    "docker": "STOPPED",
-    "ram_total_mb": 16263,
-    "ram_free_mb": 4173,
-    "ram_ok": "yes",
-    "disk_total_gb": 196,
-    "disk_free_gb": 22,
-    "disk_used_pct": 89,
-    "disk_warn": "no",
-    "hermes_agents": "None detected (cron job runs inside Hermes environment)",
-    "git_uncommitted": unclean,
-    "git_modified_count": 0,
-    "git_untracked_count": 82
-  }
+  "docker": {
+    "status": "DOWN",
+    "error": "failed to connect to the docker API at npipe:////./pipe/dockerDesktopLinuxEngine; check if the path is correct and if the daemon is running: open //./pipe/dockerDesktopLinuxEngine: The system cannot f"
+  },
+  "ram": {
+    "free_mb": 2125.0,
+    "total_gb": 15.88,
+    "pct": 13.1,
+    "status": "OK"
+  },
+  "processes": {
+    "count": 1,
+    "sample": [
+      "477     476     476      11452  ?         197609 10:32:02 /c/Users/hello/AppData/Local/Microsoft/WindowsApps/python3"
+    ],
+    "status": "OK"
+  },
+  "disk_c": {
+    "free_gb": 18.72,
+    "total_gb": 195.9,
+    "free_pct": 9.6
+  },
+  "git": {
+    "status": "DIRTY",
+    "count": 96,
+    "changes": [
+      "M _cron_health_latest.json",
+      " M site/last-updated.json",
+      " M site/static-data/live-db.json",
+      "?? HEALTH_REPORT_20260924_1732.md",
+      "?? HEALTH_REPORT_20260925_1900.txt",
+      "?? _cron_health_latest.txt",
+      "?? _cron_health_latest_V2.json",
+      "?? _cron_health_latest_V2.txt",
+      "?? _health_live_run.py",
+      "?? _run_health_now.py"
+    ]
+  },
+  "timestamp": "2026-09-25T07:32:03.678008+00:00",
+  "alerts": [
+    "DOCKER DOWN: failed to connect to the docker API at npipe:////./pipe/dockerDesktopLinuxEngine; check if the path is correct and if the daemon is running: open //./",
+    "Disk C: 9.6% free — critical (< 10%)",
+    "Git has 96 uncommitted change(s)"
+  ],
+  "warnings": [],
+  "all_ok": false
 }

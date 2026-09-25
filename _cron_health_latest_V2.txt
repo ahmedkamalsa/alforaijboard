@@ -1,0 +1,43 @@
+تقرير الفحص الصحي - 2026-09-25 09:28:29 (توقيت القاهرة UTC+3)
+
+الحالة العامة: WARN
+
+1) الذاكرة (RAM): طبيعي OK
+   حر: 2695 ميجابايت / إجمالي 16263 ميجابايت (16.6% حر)
+   العتبة: 500 ميجابايت → تجاوزتها (OK)
+
+2) Docker: فشل FAIL
+   التفاصيل: Docker daemon غير متاح
+   الأنبوب //./pipe/dockerDesktopLinuxEngine غير موجود
+   → يبدو أن Docker Desktop متوقف / غير يعمل
+
+3) القرص C:/Users/hello: تحذير WARN
+   مستخدم: 91% — فقط 19.35 جيجابايت حر من إجمالي 196 جيجابايت
+   العتبة: 10% حر → أقل من العتبة (9.9% حر)
+   إجراء مقترح: تنظيف ملفات مؤقتة، تحميلات قديمة، آلات افتراضية غير مستخدمة
+
+4) عمليات Hermes: يعمل OK
+   التفاصيل: hermes.exe يعمل (PID 9448)
+
+5) مستودع Git (alforaijboard-gh): تحذير WARN
+   93 تغيير غير مُ commits
+   (3 مُعدَّلة: _cron_health_latest.json، site/last-updated.json، site/static-data/live-db.json)
+   (90 غير مُتابعة: نصوص مؤقتة/اختبارية)
+
+ملخص سريع:
+  2 مشكلة تحتاج اهتمام:
+    • Docker daemon متوقف — أعد تشغيل Docker Desktop
+    • مساحة القرص C: حرجة — أحرر ~2 جيجابايت+ على C:
+  2 تحذيرات (معلوماتية):
+    • مستودع Git فيه تغييرات غير مُ commits (نصوص مؤقتة).
+    •RAM Nearby 16.6% حر فقط (متوقع على Windows 10).
+
+الرصد عبر Supabase:
+  المشروع: bwspcsiazbwrrxpgoldx
+  الجدول: cron_results
+  حالة الدفع: فشل (HTTP 401 — مفتاح المصادقة غير صالح/منتهي)
+  → تحديث SUPABASE_ANON_KEY في البيئة / .env
+
+تقرير محلي محفوظ على:
+  C:/Users/hello/AppData/Local/Temp/report_enriched.json
+  C:/Users/hello/alforaijboard-gh/_cron_health_latest.txt

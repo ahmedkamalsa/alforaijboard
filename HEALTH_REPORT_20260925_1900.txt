@@ -1,0 +1,38 @@
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ HEALTH REPORT — 25 September 2026 / 19:00 EET
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ [DOCKER] ⚠️ DOWN
+     Docker Desktop سيء الشغل — daemon maｇျh no respond.
+     السبب: npipe:////./pipe/dockerDesktopLinuxEngine غير موجودة.
+     الحل: أ 실행할 Docker Desktop يدوياً، أو Servicerestart.
+
+ [RAM] ✅ OK
+     2,847 MB free / 15.88 GB total (17.5% مستخدم) — آمن.
+
+ [AGENTS] ✅ OK — 35 process قيد التشغيل
+     2× hermes.exe, 27× node.exe, 6× python.exe
+
+ [DISK C:] ⚠️ LOW — 10.0% فاضي بالضبط على الحد
+     19.65 GB free / 195.9 GB total
+     proximity warning — لا critical yet بس لازم monitor.
+
+ [GIT] ⚠️ DIRTY — 43 تغيير غير مضبوط
+     2 مُعدَّل (modified): _cron_health_latest.json, cron_results_local.json
+     39 غيرْمُتَّبع (untracked): temporary scripts + health reports
+     repo under /c/Users/hello/alforaijboard-gh
+
+ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ SUMMARY: 3 إشعارات (2 تحذير + 1 إنذار)
+ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ Actions:
+   1. إبدأ Docker Desktop يدوياً عشان يستنى الـ containers
+   2. حط في الحسبان إن الـ Disk وصل للحد — هل تبي حذف ملفات قديمة؟
+   3. ملفّات git الزائدة temp scripts — لو ما في work-in-progress، احذفها وتٌظّف الـ repo
+
+ Report saved to:
+   /c/Users/hello/alforaijboard-gh/_cron_health_latest.json
+
+ [DB] SUPABASE_ANON_KEY not set — skipping push (set env and re-run to persist)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
